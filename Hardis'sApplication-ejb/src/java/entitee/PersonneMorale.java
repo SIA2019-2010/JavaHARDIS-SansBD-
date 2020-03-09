@@ -31,9 +31,9 @@ public class PersonneMorale implements Serializable {
     
     private Long SIRET;
     
-    private char RaisonSociale;
+    private String RaisonSociale;
     
-    private char Adresse;
+    private String Adresse;
     
     @ManyToOne
     private Activite laActivite;
@@ -50,19 +50,19 @@ public class PersonneMorale implements Serializable {
     
     
     
-    public char getAdresse() {
+    public String getAdresse() {
         return Adresse;
     }
 
-    public void setAdresse(char Adresse) {
+    public void setAdresse(String Adresse) {
         this.Adresse = Adresse;
     }
 
-    public char getRaisonSociale() {
+    public String getRaisonSociale() {
         return RaisonSociale;
     }
 
-    public void setRaisonSociale(char RaisonSociale) {
+    public void setRaisonSociale(String RaisonSociale) {
         this.RaisonSociale = RaisonSociale;
     }
 

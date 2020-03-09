@@ -31,13 +31,13 @@ public class Domaine implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char LibelleDomaine;
+    private String LibelleDomaine;
 
-    public char getLibelleDomaine() {
+    public String getLibelleDomaine() {
         return LibelleDomaine;
     }
 
-    public void setLibelleDomaine(char LibelleDomaine) {
+    public void setLibelleDomaine(String LibelleDomaine) {
         this.LibelleDomaine = LibelleDomaine;
     }
 

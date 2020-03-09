@@ -40,17 +40,17 @@ public class PersonnePhysique implements Serializable {
     
     private Long id;
     
-    private char Nom;
+    private String Nom;
 
-    private char Prenom;
+    private String Prenom;
     
     private Date DateNaiss;
     
-    private char NumeroSS;
+    private String NumeroSS;
         
-    private char Adresse;
+    private String Adresse;
         
-    private char Mail;
+    private String Mail;
     
     private Genre Genre;
     
@@ -87,29 +87,29 @@ public class PersonnePhysique implements Serializable {
     }
 
 
-    public char getMail() {
+    public String getMail() {
         return Mail;
     }
 
-    public void setMail(char Mail) {
+    public void setMail(String Mail) {
         this.Mail = Mail;
     }
 
 
-    public char getAdresse() {
+    public String getAdresse() {
         return Adresse;
     }
 
-    public void setAdresse(char Adresse) {
+    public void setAdresse(String Adresse) {
         this.Adresse = Adresse;
     }
     
 
-    public char getNumeroSS() {
+    public String getNumeroSS() {
         return NumeroSS;
     }
 
-    public void setNumeroSS(char NumeroSS) {
+    public void setNumeroSS(String NumeroSS) {
         this.NumeroSS = NumeroSS;
     }
 
@@ -123,19 +123,19 @@ public class PersonnePhysique implements Serializable {
     }
 
 
-    public char getPrenom() {
+    public String getPrenom() {
         return Prenom;
     }
 
-    public void setPrenom(char Prenom) {
+    public void setPrenom(String Prenom) {
         this.Prenom = Prenom;
     }
 
-    public char getNom() {
+    public String getNom() {
         return Nom;
     }
 
-    public void setNom(char Nom) {
+    public void setNom(String Nom) {
         this.Nom = Nom;
     }
 

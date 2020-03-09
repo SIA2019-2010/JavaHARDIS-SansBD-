@@ -27,24 +27,24 @@ public class Affilie extends PersonnePhysique implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char Login;
+    private String Login;
     
-    private char Mdp;
+    private String Mdp;
     
     
-     public char getMdp(){
+     public String getMdp(){
         return Mdp;
     }
     
- public void setMdp(char Mdp) {
+ public void setMdp(String Mdp) {
         this.Mdp = Mdp;
     }
     
-    public char getLogin(){
+    public String getLogin(){
         return Login;
     }
     
- public void setLogin(char Login) {
+ public void setLogin(String Login) {
         this.Login = Login;
     }
     

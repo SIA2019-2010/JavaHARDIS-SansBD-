@@ -28,7 +28,7 @@ public class LibelleActe implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char DesignationActe;
+    private String DesignationActe;
     
     @ManyToOne
     private Garantie laGarantie;
@@ -44,11 +44,11 @@ public class LibelleActe implements Serializable {
     
     
 
-    public char getDesignationActe() {
+    public String getDesignationActe() {
         return DesignationActe;
     }
 
-    public void setDesignationActe(char DesignationActe) {
+    public void setDesignationActe(String DesignationActe) {
         this.DesignationActe = DesignationActe;
     }
 

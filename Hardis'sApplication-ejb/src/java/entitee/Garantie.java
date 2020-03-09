@@ -33,7 +33,7 @@ public class Garantie implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char LibelleGarantie;
+    private String LibelleGarantie;
     
     @ManyToOne
     private BaseRemboursementSecu laBaseRemboursementSeco;
@@ -62,11 +62,11 @@ public class Garantie implements Serializable {
     }
 
 
-    public char getLibelleGarantie() {
+    public String getLibelleGarantie() {
         return LibelleGarantie;
     }
 
-    public void setLibelleGarantie(char LibelleGarantie) {
+    public void setLibelleGarantie(String LibelleGarantie) {
         this.LibelleGarantie = LibelleGarantie;
     }
 

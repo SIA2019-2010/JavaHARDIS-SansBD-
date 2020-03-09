@@ -28,11 +28,11 @@ public class Praticien implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char Nom;
+    private String Nom;
     
-    private char Prenom;
+    private String Prenom;
     
-    private char Adresse;
+    private String Adresse;
     
     private Secteur Secteur;
     
@@ -57,30 +57,30 @@ public class Praticien implements Serializable {
 
     
 
-    public char getAdresse() {
+    public String getAdresse() {
         return Adresse;
     }
 
-    public void setAdresse(char Adresse) {
+    public void setAdresse(String Adresse) {
         this.Adresse = Adresse;
     }
 
 
-    public char getPrenom() {
+    public String getPrenom() {
         return Prenom;
     }
 
-    public void setPrenom(char Prenom) {
+    public void setPrenom(String Prenom) {
         this.Prenom = Prenom;
     }
 
     
 
-    public char getNom() {
+    public String getNom() {
         return Nom;
     }
 
-    public void setNom(char Nom) {
+    public void setNom(String Nom) {
         this.Nom = Nom;
     }
 

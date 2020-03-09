@@ -35,7 +35,7 @@ public class Produit implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char NomProduit;
+    private String NomProduit;
     
     private TypeProduit TypeProduit;
    
@@ -119,11 +119,11 @@ public class Produit implements Serializable {
     }
 
 
-    public char getNomProduit() {
+    public String getNomProduit() {
         return NomProduit;
     }
 
-    public void setNomProduit(char NomProduit) {
+    public void setNomProduit(String NomProduit) {
         this.NomProduit = NomProduit;
     }
 

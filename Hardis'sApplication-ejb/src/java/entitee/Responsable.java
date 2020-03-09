@@ -24,17 +24,17 @@ public class Responsable implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char Nom;
+    private String Nom;
     
-    private char Prenom;
+    private String Prenom;
     
-    private char Telephone;
+    private String Telephone;
     
-    private char Login;
+    private String Login;
     
-    private char Mdp;
+    private String Mdp;
     
-    private char Mail;
+    private String Mail;
     
     @ManyToOne
     private PersonneMorale laPersonneMorale;
@@ -51,51 +51,51 @@ public class Responsable implements Serializable {
     }
 
 
-    public char getMail() {
+    public String getMail() {
         return Mail;
     }
 
-    public void setMail(char Mail) {
+    public void setMail(String Mail) {
         this.Mail = Mail;
     }
     
-    public char getPrenom() {
+    public String getPrenom() {
         return Prenom;
     }
 
-    public void setPrenom(char Prenom) {
+    public void setPrenom(String Prenom) {
         this.Prenom = Prenom;
     }
 
-    public char getNom() {
+    public String getNom() {
         return Nom;
     }
 
-    public void setNom(char Nom) {
+    public void setNom(String Nom) {
         this.Nom = Nom;
     }
 
- public char getMdp(){
+ public String getMdp(){
         return Mdp;
     }
     
- public void setMdp(char Mdp) {
+ public void setMdp(String Mdp) {
         this.Mdp = Mdp;
     }
     
-    public char getLogin(){
+    public String getLogin(){
         return Login;
     }
     
- public void setLogin(char Login) {
+ public void setLogin(String Login) {
         this.Login = Login;
     }
  
-    public char getTelephone(){
+    public String getTelephone(){
         return Telephone;
     }
     
- public void setTelephone(char Telephone) {
+ public void setTelephone(String Telephone) {
         this.Telephone = Telephone;
     }
     public Long getId() {

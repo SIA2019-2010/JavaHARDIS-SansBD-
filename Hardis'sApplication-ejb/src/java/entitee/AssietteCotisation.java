@@ -28,7 +28,7 @@ public class AssietteCotisation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char LibelleAssiette;
+    private String LibelleAssiette;
     
     private double Assiette;
 
@@ -41,11 +41,11 @@ public class AssietteCotisation implements Serializable {
     }
 
 
-    public char getLibelleAssiette() {
+    public String getLibelleAssiette() {
         return LibelleAssiette;
     }
 
-    public void setLibelleAssiette(char LibelleAssiette) {
+    public void setLibelleAssiette(String LibelleAssiette) {
         this.LibelleAssiette = LibelleAssiette;
     }
 

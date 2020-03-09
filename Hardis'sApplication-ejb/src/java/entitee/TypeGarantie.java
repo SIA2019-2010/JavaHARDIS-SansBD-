@@ -34,13 +34,13 @@ public class TypeGarantie implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char TypeGarantie;
+    private String TypeGarantie;
 
-    public char getTypeGarantie() {
+    public String getTypeGarantie() {
         return TypeGarantie;
     }
 
-    public void setTypeGarantie(char TypeGarantie) {
+    public void setTypeGarantie(String TypeGarantie) {
         this.TypeGarantie = TypeGarantie;
     }
 
