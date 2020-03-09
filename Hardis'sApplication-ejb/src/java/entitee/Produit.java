@@ -22,6 +22,12 @@ import javax.persistence.OneToMany;
 public class Produit implements Serializable {
 
     @OneToMany(mappedBy = "leProduit")
+    private List<Devis> lesDevis;
+
+    @OneToMany(mappedBy = "leProduit")
+    private List<Contrat> lesContrats;
+
+    @OneToMany(mappedBy = "leProduit")
     private List<PriseEnCharge> lesPriseEnCharges;
 
     private static final long serialVersionUID = 1L;
@@ -32,9 +38,7 @@ public class Produit implements Serializable {
     private char NomProduit;
     
     private TypeProduit TypeProduit;
-    
-    private int NBBeneficiaire;
-    
+   
     @ManyToMany
     private List<Fiscalite> lesFiscalites;
 
@@ -46,6 +50,28 @@ public class Produit implements Serializable {
     
     @ManyToMany
     private List<StatutBeneficiaire> lesStatutsBeneficiaire;
+    
+    private List<Beneficiaire> Beneficiaires;
+    
+    private List<Population> Populations;
+
+    public List<Population> getPopulations() {
+        return Populations;
+    }
+
+    public void setPopulations(List<Population> Populations) {
+        this.Populations = Populations;
+    }
+
+
+    public List<Beneficiaire> getBeneficiaires() {
+        return Beneficiaires;
+    }
+
+    public void setBeneficiaires(List<Beneficiaire> Beneficiaires) {
+        this.Beneficiaires = Beneficiaires;
+    }
+
 
     public List<StatutBeneficiaire> getLesStatutsBeneficiaire() {
         return lesStatutsBeneficiaire;
@@ -82,18 +108,7 @@ public class Produit implements Serializable {
     public void setLesFiscalites(List<Fiscalite> lesFiscalites) {
         this.lesFiscalites = lesFiscalites;
     }
-
-
-    public int getNBBeneficiaire() {
-        return NBBeneficiaire;
-    }
-
-    public void setNBBeneficiaire(int NBBeneficiaire) {
-        this.NBBeneficiaire = NBBeneficiaire;
-    }
-
-    
-    
+        
 
     public TypeProduit getTypeProduit() {
         return TypeProduit;

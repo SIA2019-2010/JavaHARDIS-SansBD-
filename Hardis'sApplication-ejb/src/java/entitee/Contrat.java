@@ -38,8 +38,45 @@ public class Contrat implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date DateFin;
     
+    private int prixMensuel;
+
+    public int getPrixMensuel() {
+        return prixMensuel;
+    }
+
+    public void setPrixMensuel(int prixMensuel) {
+        this.prixMensuel = prixMensuel;
+    }
+
+    
     @ManyToOne
     private Domaine leDomaine;
+    
+    @ManyToMany
+    private List<TypeGarantie> lesTypesGarantie;
+    
+    @ManyToOne
+    private Produit leProduit;
+    
+    @ManyToOne
+    private PersonneMorale laPersonneMorale;
+
+    public PersonneMorale getLaPersonneMorale() {
+        return laPersonneMorale;
+    }
+
+    public void setLaPersonneMorale(PersonneMorale laPersonneMorale) {
+        this.laPersonneMorale = laPersonneMorale;
+    }
+
+
+    public Produit getLeProduit() {
+        return leProduit;
+    }
+
+    public void setLeProduit(Produit leProduit) {
+        this.leProduit = leProduit;
+    }
 
     public Domaine getLeDomaine() {
         return leDomaine;
@@ -48,10 +85,6 @@ public class Contrat implements Serializable {
     public void setLeDomaine(Domaine leDomaine) {
         this.leDomaine = leDomaine;
     }
-
-    
-    @ManyToMany
-    private List<TypeGarantie> lesTypesGarantie;
 
     public List<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;

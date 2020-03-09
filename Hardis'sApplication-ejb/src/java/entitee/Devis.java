@@ -6,77 +6,58 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-
+/**
+ *
+ * @author alexisbaillieu
+ */
 @Entity
-public class PersonneMorale implements Serializable {
-
-    @OneToMany(mappedBy = "laPersonneMorale")
-    private List<Contrat> lesContrats;
-
-    @OneToMany(mappedBy = "laPersonneMorale")
-    private List<Responsable> lesResponsables;
+public class Devis implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private Long SIRET;
-    
-    private char RaisonSociale;
-    
-    private char Adresse;
+    @ManyToOne
+    private PersonnePhysique laPersonne;
     
     @ManyToOne
-    private Activite laActivite;
-   
-
-    public Activite getLaActivite() {
-        return laActivite;
-    }
-
-    public void setLaActivite(Activite laActivite) {
-        this.laActivite = laActivite;
-    }
-
+    private Produit leProduit;    
     
-    
-    
-    public char getAdresse() {
-        return Adresse;
+    private int prix;
+
+    public int getPrix() {
+        return prix;
     }
 
-    public void setAdresse(char Adresse) {
-        this.Adresse = Adresse;
-    }
-
-    public char getRaisonSociale() {
-        return RaisonSociale;
-    }
-
-    public void setRaisonSociale(char RaisonSociale) {
-        this.RaisonSociale = RaisonSociale;
+    public void setPrix(int prix) {
+        this.prix = prix;
     }
 
 
-    public Long getSIRET() {
-        return SIRET;
+    public Produit getLeProduit() {
+        return leProduit;
     }
 
-    public void setSIRET(Long SIRET) {
-        this.SIRET = SIRET;
+    public void setLeProduit(Produit leProduit) {
+        this.leProduit = leProduit;
     }
 
-    
-    
+
+    public PersonnePhysique getLaPersonne() {
+        return laPersonne;
+    }
+
+    public void setLaPersonne(PersonnePhysique laPersonne) {
+        this.laPersonne = laPersonne;
+    }
+
 
     public Long getId() {
         return id;
@@ -96,10 +77,10 @@ public class PersonneMorale implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PersonneMorale)) {
+        if (!(object instanceof Devis)) {
             return false;
         }
-        PersonneMorale other = (PersonneMorale) object;
+        Devis other = (Devis) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -108,7 +89,7 @@ public class PersonneMorale implements Serializable {
 
     @Override
     public String toString() {
-        return "entitee.PersonneMorale[ id=" + id + " ]";
+        return "entitee.Devis[ id=" + id + " ]";
     }
     
 }
