@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,10 +21,10 @@ import javax.persistence.OneToMany;
 public class Domaine implements Serializable {
 
     @OneToMany(mappedBy = "leDomaine")
-    private List<Contrat> lesContrats;
+    private ArrayList<Contrat> lesContrats;
 
     @OneToMany(mappedBy = "leDomaine")
-    private List<Gestionnaire> lesGestionnaires;
+    private ArrayList<Gestionnaire> lesGestionnaires;
 
     private static final long serialVersionUID = 1L;
     @Id

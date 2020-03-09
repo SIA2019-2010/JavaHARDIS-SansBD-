@@ -6,10 +6,13 @@
 package entitee;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -18,6 +21,12 @@ import javax.persistence.Id;
 @Entity
 public class Population implements Serializable {
 
+    @OneToMany(mappedBy = "laPopulation")
+    private ArrayList<PersonnePhysique> lesPersonnePhysiques;
+
+    @ManyToMany(mappedBy = "lesPopulations")
+    private ArrayList<Produit> lesProduits;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,6 +48,14 @@ public class Population implements Serializable {
 
     public void setLibellePopulation(String LibellePopulation) {
         this.LibellePopulation = LibellePopulation;
+    }
+
+    public ArrayList<PersonnePhysique> getLesPersonnePhysiques() {
+        return lesPersonnePhysiques;
+    }
+
+    public void setLesPersonnePhysiques (ArrayList<PersonnePhysique> lesPersonnePhysiques) {
+        this.lesPersonnePhysiques = lesPersonnePhysiques;
     }
 
     @Override

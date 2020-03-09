@@ -7,13 +7,14 @@ package entitee;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -25,13 +26,13 @@ import javax.persistence.OneToMany;
 public class PersonnePhysique implements Serializable {
 
     @OneToMany(mappedBy = "laPersonne")
-    private List<Devis> lesDevis;
+    private ArrayList<Devis> lesDevis;
 
     @OneToMany(mappedBy = "laPersonnePhysique")
-    private List<StatutBeneficiaire> lesStatutsBeneficiaire;
+    private ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire;
 
     @OneToMany(mappedBy = "laPersonnePhysique")
-    private List<Acte> lesActes;
+    private ArrayList<Acte> lesActes;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,14 +56,39 @@ public class PersonnePhysique implements Serializable {
 
     private boolean AdherentCAS;
 
-    private Population LaPopulation;
+    @ManyToOne
+    private Population laPopulation;
 
-    public Population getPopulation() {
-        return LaPopulation;
+    public Population getLaPopulation() {
+        return laPopulation;
     }
 
-    public void setPopulation(Population LaPopulation) {
-        this.LaPopulation = LaPopulation;
+    public void setLaPopulation(Population laPopulation) {
+        this.laPopulation = laPopulation;
+    }
+
+    public ArrayList<Devis> getLesDevis() {
+        return lesDevis;
+    }
+
+    public void setLesDevis(ArrayList<Devis> lesDevis) {
+        this.lesDevis = lesDevis;
+    }
+
+    public ArrayList<StatutBeneficiaire> getLesStatutsBeneficiaire() {
+        return lesStatutsBeneficiaire;
+    }
+
+    public void setLesStatutsBeneficiaire(ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire) {
+        this.lesStatutsBeneficiaire = lesStatutsBeneficiaire;
+    }
+
+    public ArrayList<Acte> getLesActes() {
+        return lesActes;
+    }
+
+    public void setLesActes(ArrayList<Acte> lesActes) {
+        this.lesActes = lesActes;
     }
 
     public boolean isAdherentCAS() {

@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,10 +23,10 @@ import javax.persistence.OneToMany;
 public class Garantie implements Serializable {
 
     @OneToMany(mappedBy = "laGarantie")
-    private List<LibelleActe> lesLibelleActes;
+    private ArrayList<LibelleActe> lesLibelleActes;
 
     @OneToMany(mappedBy = "laGarantie")
-    private List<PriseEnCharge> lesPriseEnCharges;
+    private ArrayList<PriseEnCharge> lesPriseEnCharges;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,13 +39,13 @@ public class Garantie implements Serializable {
     private BaseRemboursementSecu laBaseRemboursementSeco;
 
     @ManyToMany
-    private List<TypeGarantie> lesTypesGarantie;
+    private ArrayList<TypeGarantie> lesTypesGarantie;
 
-    public List<TypeGarantie> getLesTypesGarantie() {
+    public ArrayList<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;
     }
 
-    public void setLesTypesGarantie(List<TypeGarantie> lesTypesGarantie) {
+    public void setLesTypesGarantie(ArrayList<TypeGarantie> lesTypesGarantie) {
         this.lesTypesGarantie = lesTypesGarantie;
     }
 
@@ -71,6 +71,22 @@ public class Garantie implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ArrayList<LibelleActe> getLesLibelleActes() {
+        return lesLibelleActes;
+    }
+
+    public void setLesLibelleActes(ArrayList<LibelleActe> lesLibelleActes) {
+        this.lesLibelleActes = lesLibelleActes;
+    }
+
+    public ArrayList<PriseEnCharge> getLesPriseEnCharges() {
+        return lesPriseEnCharges;
+    }
+
+    public void setLesPriseEnCharges(ArrayList<PriseEnCharge> lesPriseEnCharges) {
+        this.lesPriseEnCharges = lesPriseEnCharges;
     }
 
     @Override

@@ -6,12 +6,13 @@
 package entitee;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -20,8 +21,8 @@ import javax.persistence.OneToOne;
 @Entity
 public class LibelleActe implements Serializable {
 
-    @OneToOne(mappedBy = "leLibelleActe")
-    private Acte leActe;
+    @OneToMany(mappedBy = "leLibelleActe")
+    private ArrayList<Acte> lesActes;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,6 +56,14 @@ public class LibelleActe implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ArrayList<Acte> getLesActes() {
+        return lesActes;
+    }
+
+    public void setLesActes(ArrayList<Acte> lesActes) {
+        this.lesActes = lesActes;
     }
 
     @Override

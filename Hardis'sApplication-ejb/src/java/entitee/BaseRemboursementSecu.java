@@ -6,6 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import javax.persistence.OneToMany;
 public class BaseRemboursementSecu implements Serializable {
 
     @OneToMany(mappedBy = "laBaseRemboursementSeco")
-    private List<Garantie> lesGaranties;
+    private ArrayList<Garantie> lesGaranties;
 
     private static final long serialVersionUID = 1L;
     @Id

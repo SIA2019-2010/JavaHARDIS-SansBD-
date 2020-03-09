@@ -7,7 +7,7 @@ package entitee;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +24,7 @@ import javax.persistence.Temporal;
 public class StatutBeneficiaire implements Serializable {
 
     @ManyToMany(mappedBy = "lesStatutsBeneficiaire")
-    private List<Produit> lesProduits;
+    private ArrayList<Produit> lesProduits;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -89,6 +89,14 @@ public class StatutBeneficiaire implements Serializable {
 
     public void setStatutBeneficiare(Beneficiaire statutBeneficiare) {
         this.statutBeneficiare = statutBeneficiare;
+    }
+
+    public ArrayList<Produit> getLesProduits() {
+        return lesProduits;
+    }
+
+    public void setLesProduits(ArrayList<Produit> lesProduits) {
+        this.lesProduits = lesProduits;
     }
 
 

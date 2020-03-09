@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,13 +21,13 @@ import javax.persistence.ManyToMany;
 public class TypeGarantie implements Serializable {
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
-    private List<Contrat> lesContrats;
+    private ArrayList<Contrat> lesContrats;
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
-    private List<Produit> lesProduits;
+    private ArrayList<Produit> lesProduits;
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
-    private List<Garantie> lesGaranties;
+    private ArrayList<Garantie> lesGaranties;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,6 +51,30 @@ public class TypeGarantie implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ArrayList<Contrat> getLesContrats() {
+        return lesContrats;
+    }
+
+    public void setLesContrats(ArrayList<Contrat> lesContrats) {
+        this.lesContrats = lesContrats;
+    }
+
+    public ArrayList<Produit> getLesProduits() {
+        return lesProduits;
+    }
+
+    public void setLesProduits(ArrayList<Produit> lesProduits) {
+        this.lesProduits = lesProduits;
+    }
+
+    public ArrayList<Garantie> getLesGaranties() {
+        return lesGaranties;
+    }
+
+    public void setLesGaranties(ArrayList<Garantie> lesGaranties) {
+        this.lesGaranties = lesGaranties;
     }
 
     @Override

@@ -39,7 +39,7 @@ public class Acte implements Serializable {
     @ManyToOne
     private Praticien lePraticien;
 
-    @OneToOne
+    @ManyToOne
     private LibelleActe leLibelleActe;
 
     @OneToOne

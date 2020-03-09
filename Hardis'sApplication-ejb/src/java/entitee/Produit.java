@@ -6,14 +6,14 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -24,13 +24,13 @@ import javax.persistence.OneToMany;
 public class Produit implements Serializable {
 
     @OneToMany(mappedBy = "leProduit")
-    private List<Devis> lesDevis;
+    private ArrayList<Devis> lesDevis;
 
     @OneToMany(mappedBy = "leProduit")
-    private List<Contrat> lesContrats;
+    private ArrayList<Contrat> lesContrats;
 
     @OneToMany(mappedBy = "leProduit")
-    private List<PriseEnCharge> lesPriseEnCharges;
+    private ArrayList<PriseEnCharge> lesPriseEnCharges;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,50 +38,51 @@ public class Produit implements Serializable {
     private Long id;
 
     private String NomProduit;
-
-    private TypeProduit LeTypeProduit;
-
-    @ManyToMany
-    private List<Fiscalite> lesFiscalites;
-
-    @ManyToMany
-    private List<TypeGarantie> lesTypesGarantie;
-
-    @ManyToMany
-    private List<AssietteCotisation> lesAssiettesCotisation;
-
-    @ManyToMany
-    private List<StatutBeneficiaire> lesStatutsBeneficiaire;
-
-    /*private List<Beneficiaire> Beneficiaires;
     
-    private List<Population> Populations;
+    @ManyToOne
+    private TypeProduit leTypeProduit;
 
-    public List<Population> getPopulations() {
-        return Populations;
+    @ManyToMany
+    private ArrayList<Fiscalite> lesFiscalites;
+
+    @ManyToMany
+    private ArrayList<TypeGarantie> lesTypesGarantie;
+
+    @ManyToMany
+    private ArrayList<AssietteCotisation> lesAssiettesCotisation;
+
+    @ManyToMany
+    private ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire;
+
+    /*private ArrayList<Beneficiaire> Beneficiaires;
+    
+    private ArrayList<Population> lesPopulations;
+
+    public ArrayList<Population> getlesPopulations() {
+        return lesPopulations;
     }
 
-    public void setPopulations(List<Population> Populations) {
-        this.Populations = Populations;
+    public void setlesPopulations(ArrayList<Population> lesPopulations) {
+        this.lesPopulations = lesPopulations;
     }
 
 
-    public List<Beneficiaire> getBeneficiaires() {
+    public ArrayList<Beneficiaire> getBeneficiaires() {
         return Beneficiaires;
     }
 
-    public void setBeneficiaires(List<Beneficiaire> Beneficiaires) {
+    public void setBeneficiaires(ArrayList<Beneficiaire> Beneficiaires) {
         this.Beneficiaires = Beneficiaires;
     }*/
-    @OneToMany
-    private ArrayList<Population> Populations;
+    @ManyToMany
+    private ArrayList<Population> lesPopulations;
 
-    public ArrayList<Population> getPopulations() {
-        return Populations;
+    public ArrayList<Population> getLesPopulations() {
+        return lesPopulations;
     }
 
-    public void setPopulations(ArrayList<Population> Populations) {
-        this.Populations = Populations;
+    public void setLesPopulations(ArrayList<Population> lesPopulations) {
+        this.lesPopulations = lesPopulations;
     }
 
     private EnumSet<Beneficiaire> Beneficiaires;
@@ -94,44 +95,44 @@ public class Produit implements Serializable {
         this.Beneficiaires = Beneficiaires;
     }
 
-    public List<StatutBeneficiaire> getLesStatutsBeneficiaire() {
+    public ArrayList<StatutBeneficiaire> getLesStatutsBeneficiaire() {
         return lesStatutsBeneficiaire;
     }
 
-    public void setLesStatutsBeneficiaire(List<StatutBeneficiaire> lesStatutsBeneficiaire) {
+    public void setLesStatutsBeneficiaire(ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire) {
         this.lesStatutsBeneficiaire = lesStatutsBeneficiaire;
     }
 
-    public List<AssietteCotisation> getLesAssiettesCotisation() {
+    public ArrayList<AssietteCotisation> getLesAssiettesCotisation() {
         return lesAssiettesCotisation;
     }
 
-    public void setLesAssiettesCotisation(List<AssietteCotisation> lesAssiettesCotisation) {
+    public void setLesAssiettesCotisation(ArrayList<AssietteCotisation> lesAssiettesCotisation) {
         this.lesAssiettesCotisation = lesAssiettesCotisation;
     }
 
-    public List<TypeGarantie> getLesTypesGarantie() {
+    public ArrayList<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;
     }
 
-    public void setLesTypesGarantie(List<TypeGarantie> lesTypesGarantie) {
+    public void setLesTypesGarantie(ArrayList<TypeGarantie> lesTypesGarantie) {
         this.lesTypesGarantie = lesTypesGarantie;
     }
 
-    public List<Fiscalite> getLesFiscalites() {
+    public ArrayList<Fiscalite> getLesFiscalites() {
         return lesFiscalites;
     }
 
-    public void setLesFiscalites(List<Fiscalite> lesFiscalites) {
+    public void setLesFiscalites(ArrayList<Fiscalite> lesFiscalites) {
         this.lesFiscalites = lesFiscalites;
     }
 
-    public TypeProduit getTypeProduit() {
-        return LeTypeProduit;
+    public TypeProduit getLeTypeProduit() {
+        return leTypeProduit;
     }
 
-    public void setTypeProduit(TypeProduit LeTypeProduit) {
-        this.LeTypeProduit = LeTypeProduit;
+    public void setLeTypeProduit(TypeProduit leTypeProduit) {
+        this.leTypeProduit = leTypeProduit;
     }
 
     public String getNomProduit() {
@@ -148,6 +149,30 @@ public class Produit implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ArrayList<Devis> getLesDevis() {
+        return lesDevis;
+    }
+
+    public void setLesDevis(ArrayList<Devis> lesDevis) {
+        this.lesDevis = lesDevis;
+    }
+
+    public ArrayList<Contrat> getLesContrats() {
+        return lesContrats;
+    }
+
+    public void setLesContrats(ArrayList<Contrat> lesContrats) {
+        this.lesContrats = lesContrats;
+    }
+
+    public ArrayList<PriseEnCharge> getLesPriseEnCharges() {
+        return lesPriseEnCharges;
+    }
+
+    public void setLesPriseEnCharges(ArrayList<PriseEnCharge> lesPriseEnCharges) {
+        this.lesPriseEnCharges = lesPriseEnCharges;
     }
 
     @Override

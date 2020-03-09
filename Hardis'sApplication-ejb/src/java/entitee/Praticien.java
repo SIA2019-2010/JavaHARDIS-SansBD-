@@ -6,11 +6,12 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -21,7 +22,7 @@ import javax.persistence.OneToMany;
 public class Praticien implements Serializable {
 
     @OneToMany(mappedBy = "lePraticien")
-    private List<Acte> lesActes;
+    private ArrayList<Acte> lesActes;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,15 +36,16 @@ public class Praticien implements Serializable {
     private String Adresse;
 
     private Secteur Secteur;
-
-    private Specialite LaSpecialite;
+    
+    @ManyToOne
+    private Specialite laSpecialite;
 
     public Specialite getLaSpecialite() {
-        return LaSpecialite;
+        return laSpecialite;
     }
 
-    public void setLaSpecialite(Specialite LaSpecialite) {
-        this.LaSpecialite = LaSpecialite;
+    public void setLaSpecialite(Specialite laSpecialite) {
+        this.laSpecialite = laSpecialite;
     }
 
     public Secteur getSecteur() {
@@ -86,6 +88,14 @@ public class Praticien implements Serializable {
         this.id = id;
     }
 
+    public ArrayList<Acte> getLesActes() {
+        return lesActes;
+    }
+
+    public void setLesActes(ArrayList<Acte> lesActes) {
+        this.lesActes = lesActes;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

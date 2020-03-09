@@ -65,6 +65,14 @@ public class Remboursement implements Serializable {
         this.id = id;
     }
 
+    public Acte getLeActe() {
+        return leActe;
+    }
+
+    public void setLeActe(Acte leActe) {
+        this.leActe = leActe;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
