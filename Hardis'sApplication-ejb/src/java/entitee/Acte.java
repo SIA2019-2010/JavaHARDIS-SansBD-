@@ -30,11 +30,11 @@ public class Acte implements Serializable {
     
     private Date DateFin;
     
-    private char LibelleActe;
+    private String LibelleActe;
         
     private double Depense;
     
-    private char Lieu;
+    private String Lieu;
     
     
     @ManyToOne
@@ -86,11 +86,11 @@ public class Acte implements Serializable {
 
     
 
-    public char getLieu() {
+    public String getLieu() {
         return Lieu;
     }
 
-    public void setLieu(char Lieu) {
+    public void setLieu(String Lieu) {
         this.Lieu = Lieu;
     }
 
@@ -103,11 +103,11 @@ public class Acte implements Serializable {
     }
 
 
-    public char getLibelleActe() {
+    public String getLibelleActe() {
         return LibelleActe;
     }
 
-    public void setLibelleActe(char LibelleActe) {
+    public void setLibelleActe(String LibelleActe) {
         this.LibelleActe = LibelleActe;
     }
 

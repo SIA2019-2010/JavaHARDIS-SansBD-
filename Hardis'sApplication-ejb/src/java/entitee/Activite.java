@@ -28,24 +28,24 @@ public class Activite implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private char CodeNAF;
+    private String CodeNAF;
     
-    private char Description;
+    private String Description;
 
-    public char getDescription() {
+    public String getDescription() {
         return Description;
     }
 
-    public void setDescription(char Description) {
+    public void setDescription(String Description) {
         this.Description = Description;
     }
 
 
-    public char getCodeNAF() {
+    public String getCodeNAF() {
         return CodeNAF;
     }
 
-    public void setCodeNAF(char CodeNAF) {
+    public void setCodeNAF(String CodeNAF) {
         this.CodeNAF = CodeNAF;
     }
 
