@@ -6,6 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -30,6 +32,30 @@ public class StatutBeneficiaire implements Serializable {
     private Long id;
     
    private Beneficiaire statutBeneficiare;
+   
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateDebutValidite;
+       
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateFinValidite;
+
+    public Date getDateFinValidite() {
+        return dateFinValidite;
+    }
+
+    public void setDateFinValidite(Date dateFinValidite) {
+        this.dateFinValidite = dateFinValidite;
+    }
+
+
+    public Date getDateDebutValidite() {
+        return dateDebutValidite;
+    }
+
+    public void setDateDebutValidite(Date dateDebutValidite) {
+        this.dateDebutValidite = dateDebutValidite;
+    }
+
    
     @ManyToOne
    private PersonnePhysique laPersonnePhysique;
