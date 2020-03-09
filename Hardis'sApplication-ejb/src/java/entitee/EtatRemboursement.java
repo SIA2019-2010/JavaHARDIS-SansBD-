@@ -10,5 +10,5 @@ package entitee;
  * @author alexisbaillieu
  */
 public enum EtatRemboursement {
-    Rembourse,EnCours,NonRembourse
+    Rembourse, EnCours, NonRembourse
 }

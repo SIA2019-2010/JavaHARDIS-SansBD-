@@ -22,25 +22,23 @@ public class Gestionnaire implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
+
     private Long id;
-    
+
     private String Nom;
-    
+
     private String Prenom;
-    
+
     private String Adresse;
-    
+
     private String Telephone;
-    
+
     private String Login;
-    
+
     private String Mdp;
-    
+
     @ManyToOne
     private Domaine leDomaine;
-    
-    
 
     public Domaine getLeDomaine() {
         return leDomaine;
@@ -50,31 +48,30 @@ public class Gestionnaire implements Serializable {
         this.leDomaine = leDomaine;
     }
 
-    
-    public String getMdp(){
+    public String getMdp() {
         return Mdp;
     }
-    
- public void setMdp(String Mdp) {
+
+    public void setMdp(String Mdp) {
         this.Mdp = Mdp;
     }
-    
-    public String getLogin(){
+
+    public String getLogin() {
         return Login;
     }
-    
- public void setLogin(String Login) {
+
+    public void setLogin(String Login) {
         this.Login = Login;
     }
- 
-    public String getTelephone(){
+
+    public String getTelephone() {
         return Telephone;
     }
-    
- public void setTelephone(String Telephone) {
+
+    public void setTelephone(String Telephone) {
         this.Telephone = Telephone;
     }
- 
+
     public String getAdresse() {
         return Adresse;
     }
@@ -131,5 +128,5 @@ public class Gestionnaire implements Serializable {
     public String toString() {
         return "entitee.Gestionnaire[ id=" + id + " ]";
     }
-    
+
 }

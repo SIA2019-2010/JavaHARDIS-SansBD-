@@ -27,25 +27,24 @@ public class Acte implements Serializable {
     private Long id;
 
     private Date DateDebut;
-    
+
     private Date DateFin;
-    
+
     private String LibelleActe;
-        
+
     private double Depense;
-    
+
     private String Lieu;
-    
-    
+
     @ManyToOne
     private Praticien lePraticien;
-    
+
     @OneToOne
     private LibelleActe leLibelleActe;
-    
+
     @OneToOne
     private Remboursement leRemboursement;
-    
+
     @ManyToOne
     private PersonnePhysique laPersonnePhysique;
 
@@ -57,7 +56,6 @@ public class Acte implements Serializable {
         this.laPersonnePhysique = laPersonnePhysique;
     }
 
-
     public Remboursement getLeRemboursement() {
         return leRemboursement;
     }
@@ -65,7 +63,6 @@ public class Acte implements Serializable {
     public void setLeRemboursement(Remboursement leRemboursement) {
         this.leRemboursement = leRemboursement;
     }
-
 
     public LibelleActe getLeLibelleActe() {
         return leLibelleActe;
@@ -75,7 +72,6 @@ public class Acte implements Serializable {
         this.leLibelleActe = leLibelleActe;
     }
 
-
     public Praticien getLePraticien() {
         return lePraticien;
     }
@@ -83,8 +79,6 @@ public class Acte implements Serializable {
     public void setLePraticien(Praticien lePraticien) {
         this.lePraticien = lePraticien;
     }
-
-    
 
     public String getLieu() {
         return Lieu;
@@ -102,7 +96,6 @@ public class Acte implements Serializable {
         this.Depense = Depense;
     }
 
-
     public String getLibelleActe() {
         return LibelleActe;
     }
@@ -110,7 +103,6 @@ public class Acte implements Serializable {
     public void setLibelleActe(String LibelleActe) {
         this.LibelleActe = LibelleActe;
     }
-
 
     public Date getDateFin() {
         return DateFin;
@@ -160,5 +152,5 @@ public class Acte implements Serializable {
     public String toString() {
         return "entitee.Acte[ id=" + id + " ]";
     }
-    
+
 }

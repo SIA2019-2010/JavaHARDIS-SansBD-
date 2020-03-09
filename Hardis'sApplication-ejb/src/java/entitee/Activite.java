@@ -27,9 +27,9 @@ public class Activite implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String CodeNAF;
-    
+
     private String Description;
 
     public String getDescription() {
@@ -40,7 +40,6 @@ public class Activite implements Serializable {
         this.Description = Description;
     }
 
-
     public String getCodeNAF() {
         return CodeNAF;
     }
@@ -48,7 +47,6 @@ public class Activite implements Serializable {
     public void setCodeNAF(String CodeNAF) {
         this.CodeNAF = CodeNAF;
     }
-
 
     public Long getId() {
         return id;
@@ -82,5 +80,5 @@ public class Activite implements Serializable {
     public String toString() {
         return "entitee.Activite[ id=" + id + " ]";
     }
-    
+
 }

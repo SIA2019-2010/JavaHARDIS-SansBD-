@@ -10,5 +10,5 @@ package entitee;
  * @author alexisbaillieu
  */
 public enum Genre {
-    Homme,Femme,Autre
+    Homme, Femme, Autre
 }

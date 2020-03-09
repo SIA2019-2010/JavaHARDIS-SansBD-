@@ -18,36 +18,33 @@ import javax.persistence.InheritanceType;
  * @author alexisbaillieu
  */
 @Entity
-@Inheritance
-(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Affilie extends PersonnePhysique implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String Login;
-    
+
     private String Mdp;
-    
-    
-     public String getMdp(){
+
+    public String getMdp() {
         return Mdp;
     }
-    
- public void setMdp(String Mdp) {
+
+    public void setMdp(String Mdp) {
         this.Mdp = Mdp;
     }
-    
-    public String getLogin(){
+
+    public String getLogin() {
         return Login;
     }
-    
- public void setLogin(String Login) {
+
+    public void setLogin(String Login) {
         this.Login = Login;
     }
-    
 
     public Long getId() {
         return id;
@@ -81,5 +78,5 @@ public class Affilie extends PersonnePhysique implements Serializable {
     public String toString() {
         return "entitee.Affilie[ id=" + id + " ]";
     }
-    
+
 }

@@ -27,11 +27,11 @@ public class Fiscalite implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private double Taxe;
-    
+
     private double CMU;
-    
+
     private double TCA;
 
     public double getTCA() {
@@ -42,7 +42,6 @@ public class Fiscalite implements Serializable {
         this.TCA = TCA;
     }
 
-
     public double getCMU() {
         return CMU;
     }
@@ -51,7 +50,6 @@ public class Fiscalite implements Serializable {
         this.CMU = CMU;
     }
 
-
     public double getTaxe() {
         return Taxe;
     }
@@ -59,7 +57,6 @@ public class Fiscalite implements Serializable {
     public void setTaxe(double Taxe) {
         this.Taxe = Taxe;
     }
-
 
     public Long getId() {
         return id;
@@ -93,5 +90,5 @@ public class Fiscalite implements Serializable {
     public String toString() {
         return "entitee.Fiscalite[ id=" + id + " ]";
     }
-    
+
 }

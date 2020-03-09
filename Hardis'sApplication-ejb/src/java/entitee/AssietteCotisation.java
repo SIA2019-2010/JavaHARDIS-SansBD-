@@ -27,9 +27,9 @@ public class AssietteCotisation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String LibelleAssiette;
-    
+
     private double Assiette;
 
     public double getAssiette() {
@@ -40,7 +40,6 @@ public class AssietteCotisation implements Serializable {
         this.Assiette = Assiette;
     }
 
-
     public String getLibelleAssiette() {
         return LibelleAssiette;
     }
@@ -48,7 +47,6 @@ public class AssietteCotisation implements Serializable {
     public void setLibelleAssiette(String LibelleAssiette) {
         this.LibelleAssiette = LibelleAssiette;
     }
-
 
     public Long getId() {
         return id;
@@ -82,5 +80,5 @@ public class AssietteCotisation implements Serializable {
     public String toString() {
         return "entitee.AssietteCotisation[ id=" + id + " ]";
     }
-    
+
 }

@@ -27,9 +27,9 @@ public class LibelleActe implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String DesignationActe;
-    
+
     @ManyToOne
     private Garantie laGarantie;
 
@@ -41,9 +41,6 @@ public class LibelleActe implements Serializable {
         this.laGarantie = laGarantie;
     }
 
-    
-    
-
     public String getDesignationActe() {
         return DesignationActe;
     }
@@ -51,7 +48,6 @@ public class LibelleActe implements Serializable {
     public void setDesignationActe(String DesignationActe) {
         this.DesignationActe = DesignationActe;
     }
-
 
     public Long getId() {
         return id;
@@ -85,5 +81,5 @@ public class LibelleActe implements Serializable {
     public String toString() {
         return "entitee.LibelleActe[ id=" + id + " ]";
     }
-    
+
 }

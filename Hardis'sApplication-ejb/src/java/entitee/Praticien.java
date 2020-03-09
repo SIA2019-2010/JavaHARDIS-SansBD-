@@ -27,25 +27,24 @@ public class Praticien implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String Nom;
-    
+
     private String Prenom;
-    
+
     private String Adresse;
-    
+
     private Secteur Secteur;
-    
-    private Specialite Specialite;
 
-    public Specialite getSpecialite() {
-        return Specialite;
+    private Specialite LaSpecialite;
+
+    public Specialite getLaSpecialite() {
+        return LaSpecialite;
     }
 
-    public void setSpecialite(Specialite Specialite) {
-        this.Specialite = Specialite;
+    public void setLaSpecialite(Specialite LaSpecialite) {
+        this.LaSpecialite = LaSpecialite;
     }
-
 
     public Secteur getSecteur() {
         return Secteur;
@@ -55,8 +54,6 @@ public class Praticien implements Serializable {
         this.Secteur = Secteur;
     }
 
-    
-
     public String getAdresse() {
         return Adresse;
     }
@@ -64,7 +61,6 @@ public class Praticien implements Serializable {
     public void setAdresse(String Adresse) {
         this.Adresse = Adresse;
     }
-
 
     public String getPrenom() {
         return Prenom;
@@ -74,8 +70,6 @@ public class Praticien implements Serializable {
         this.Prenom = Prenom;
     }
 
-    
-
     public String getNom() {
         return Nom;
     }
@@ -83,7 +77,6 @@ public class Praticien implements Serializable {
     public void setNom(String Nom) {
         this.Nom = Nom;
     }
-
 
     public Long getId() {
         return id;
@@ -117,5 +110,5 @@ public class Praticien implements Serializable {
     public String toString() {
         return "entitee.Practitien[ id=" + id + " ]";
     }
-    
+
 }

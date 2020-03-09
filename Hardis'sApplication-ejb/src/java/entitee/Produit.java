@@ -6,6 +6,8 @@
 package entitee;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,11 +36,11 @@ public class Produit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String NomProduit;
-    
-    private TypeProduit TypeProduit;
-   
+
+    private TypeProduit LeTypeProduit;
+
     @ManyToMany
     private List<Fiscalite> lesFiscalites;
 
@@ -47,11 +49,11 @@ public class Produit implements Serializable {
 
     @ManyToMany
     private List<AssietteCotisation> lesAssiettesCotisation;
-    
+
     @ManyToMany
     private List<StatutBeneficiaire> lesStatutsBeneficiaire;
-    
-    private List<Beneficiaire> Beneficiaires;
+
+    /*private List<Beneficiaire> Beneficiaires;
     
     private List<Population> Populations;
 
@@ -70,8 +72,27 @@ public class Produit implements Serializable {
 
     public void setBeneficiaires(List<Beneficiaire> Beneficiaires) {
         this.Beneficiaires = Beneficiaires;
+    }*/
+    @OneToMany
+    private ArrayList<Population> Populations;
+
+    public ArrayList<Population> getPopulations() {
+        return Populations;
     }
 
+    public void setPopulations(ArrayList<Population> Populations) {
+        this.Populations = Populations;
+    }
+
+    private EnumSet<Beneficiaire> Beneficiaires;
+
+    public EnumSet<Beneficiaire> getBeneficiaires() {
+        return Beneficiaires;
+    }
+
+    public void setBeneficiaires(EnumSet<Beneficiaire> Beneficiaires) {
+        this.Beneficiaires = Beneficiaires;
+    }
 
     public List<StatutBeneficiaire> getLesStatutsBeneficiaire() {
         return lesStatutsBeneficiaire;
@@ -81,7 +102,6 @@ public class Produit implements Serializable {
         this.lesStatutsBeneficiaire = lesStatutsBeneficiaire;
     }
 
-
     public List<AssietteCotisation> getLesAssiettesCotisation() {
         return lesAssiettesCotisation;
     }
@@ -90,7 +110,6 @@ public class Produit implements Serializable {
         this.lesAssiettesCotisation = lesAssiettesCotisation;
     }
 
-    
     public List<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;
     }
@@ -99,8 +118,6 @@ public class Produit implements Serializable {
         this.lesTypesGarantie = lesTypesGarantie;
     }
 
-    
-    
     public List<Fiscalite> getLesFiscalites() {
         return lesFiscalites;
     }
@@ -108,16 +125,14 @@ public class Produit implements Serializable {
     public void setLesFiscalites(List<Fiscalite> lesFiscalites) {
         this.lesFiscalites = lesFiscalites;
     }
-        
 
     public TypeProduit getTypeProduit() {
-        return TypeProduit;
+        return LeTypeProduit;
     }
 
-    public void setTypeProduit(TypeProduit TypeProduit) {
-        this.TypeProduit = TypeProduit;
+    public void setTypeProduit(TypeProduit LeTypeProduit) {
+        this.LeTypeProduit = LeTypeProduit;
     }
-
 
     public String getNomProduit() {
         return NomProduit;
@@ -126,7 +141,6 @@ public class Produit implements Serializable {
     public void setNomProduit(String NomProduit) {
         this.NomProduit = NomProduit;
     }
-
 
     public Long getId() {
         return id;
@@ -160,5 +174,5 @@ public class Produit implements Serializable {
     public String toString() {
         return "entitee.Produit[ id=" + id + " ]";
     }
-    
+
 }

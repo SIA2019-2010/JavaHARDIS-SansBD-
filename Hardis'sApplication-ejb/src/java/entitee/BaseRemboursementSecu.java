@@ -27,7 +27,7 @@ public class BaseRemboursementSecu implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private int BaseRemboursement;
 
     public int getBaseRemboursement() {
@@ -37,7 +37,6 @@ public class BaseRemboursementSecu implements Serializable {
     public void setBaseRemboursement(int BaseRemboursement) {
         this.BaseRemboursement = BaseRemboursement;
     }
-
 
     public Long getId() {
         return id;
@@ -71,5 +70,5 @@ public class BaseRemboursementSecu implements Serializable {
     public String toString() {
         return "entitee.BaseRemboursementSecu[ id=" + id + " ]";
     }
-    
+
 }

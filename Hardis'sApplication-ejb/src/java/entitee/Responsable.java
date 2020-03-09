@@ -23,24 +23,21 @@ public class Responsable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String Nom;
-    
+
     private String Prenom;
-    
+
     private String Telephone;
-    
+
     private String Login;
-    
+
     private String Mdp;
-    
+
     private String Mail;
-    
+
     @ManyToOne
     private PersonneMorale laPersonneMorale;
-    
-    
-    
 
     public PersonneMorale getLaPersonneMorale() {
         return laPersonneMorale;
@@ -50,7 +47,6 @@ public class Responsable implements Serializable {
         this.laPersonneMorale = laPersonneMorale;
     }
 
-
     public String getMail() {
         return Mail;
     }
@@ -58,7 +54,7 @@ public class Responsable implements Serializable {
     public void setMail(String Mail) {
         this.Mail = Mail;
     }
-    
+
     public String getPrenom() {
         return Prenom;
     }
@@ -75,29 +71,30 @@ public class Responsable implements Serializable {
         this.Nom = Nom;
     }
 
- public String getMdp(){
+    public String getMdp() {
         return Mdp;
     }
-    
- public void setMdp(String Mdp) {
+
+    public void setMdp(String Mdp) {
         this.Mdp = Mdp;
     }
-    
-    public String getLogin(){
+
+    public String getLogin() {
         return Login;
     }
-    
- public void setLogin(String Login) {
+
+    public void setLogin(String Login) {
         this.Login = Login;
     }
- 
-    public String getTelephone(){
+
+    public String getTelephone() {
         return Telephone;
     }
-    
- public void setTelephone(String Telephone) {
+
+    public void setTelephone(String Telephone) {
         this.Telephone = Telephone;
     }
+
     public Long getId() {
         return id;
     }
@@ -130,5 +127,5 @@ public class Responsable implements Serializable {
     public String toString() {
         return "entitee.Responsable[ id=" + id + " ]";
     }
-    
+
 }

@@ -24,17 +24,17 @@ public class Devis implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @ManyToOne
     private PersonnePhysique laPersonne;
-    
+
     @ManyToOne
-    private Produit leProduit;    
-    
+    private Produit leProduit;
+
     private int prix;
-    
+
     private int nbAyantDroit;
-    
+
     private Date dateDevis;
 
     public Date getDateDevis() {
@@ -45,7 +45,6 @@ public class Devis implements Serializable {
         this.dateDevis = dateDevis;
     }
 
-
     public int getNbAyantDroit() {
         return nbAyantDroit;
     }
@@ -53,7 +52,6 @@ public class Devis implements Serializable {
     public void setNbAyantDroit(int nbAyantDroit) {
         this.nbAyantDroit = nbAyantDroit;
     }
-
 
     public int getPrix() {
         return prix;
@@ -63,7 +61,6 @@ public class Devis implements Serializable {
         this.prix = prix;
     }
 
-
     public Produit getLeProduit() {
         return leProduit;
     }
@@ -72,7 +69,6 @@ public class Devis implements Serializable {
         this.leProduit = leProduit;
     }
 
-
     public PersonnePhysique getLaPersonne() {
         return laPersonne;
     }
@@ -80,7 +76,6 @@ public class Devis implements Serializable {
     public void setLaPersonne(PersonnePhysique laPersonne) {
         this.laPersonne = laPersonne;
     }
-
 
     public Long getId() {
         return id;
@@ -114,5 +109,5 @@ public class Devis implements Serializable {
     public String toString() {
         return "entitee.Devis[ id=" + id + " ]";
     }
-    
+
 }

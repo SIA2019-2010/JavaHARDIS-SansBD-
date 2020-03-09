@@ -10,5 +10,5 @@ package entitee;
  * @author alexisbaillieu
  */
 public enum Secteur {
-    Secteur1,Secteur2,NonConventionne
+    Secteur1, Secteur2, NonConventionne
 }

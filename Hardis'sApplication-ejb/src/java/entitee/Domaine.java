@@ -30,7 +30,7 @@ public class Domaine implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String LibelleDomaine;
 
     public String getLibelleDomaine() {
@@ -40,7 +40,6 @@ public class Domaine implements Serializable {
     public void setLibelleDomaine(String LibelleDomaine) {
         this.LibelleDomaine = LibelleDomaine;
     }
-
 
     public Long getId() {
         return id;
@@ -74,5 +73,5 @@ public class Domaine implements Serializable {
     public String toString() {
         return "entitee.Domaine[ id=" + id + " ]";
     }
-    
+
 }

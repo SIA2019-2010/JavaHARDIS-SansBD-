@@ -31,13 +31,13 @@ public class Contrat implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date DateDebut;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date DateFin;
-    
+
     private int prixMensuel;
 
     public int getPrixMensuel() {
@@ -48,16 +48,15 @@ public class Contrat implements Serializable {
         this.prixMensuel = prixMensuel;
     }
 
-    
     @ManyToOne
     private Domaine leDomaine;
-    
+
     @ManyToMany
     private List<TypeGarantie> lesTypesGarantie;
-    
+
     @ManyToOne
     private Produit leProduit;
-    
+
     @ManyToOne
     private PersonneMorale laPersonneMorale;
 
@@ -68,7 +67,6 @@ public class Contrat implements Serializable {
     public void setLaPersonneMorale(PersonneMorale laPersonneMorale) {
         this.laPersonneMorale = laPersonneMorale;
     }
-
 
     public Produit getLeProduit() {
         return leProduit;
@@ -94,7 +92,6 @@ public class Contrat implements Serializable {
         this.lesTypesGarantie = lesTypesGarantie;
     }
 
-
     public Date getDateFin() {
         return DateFin;
     }
@@ -103,8 +100,6 @@ public class Contrat implements Serializable {
         this.DateFin = DateFin;
     }
 
-   
-
     public Date getDateDebut() {
         return DateDebut;
     }
@@ -112,7 +107,6 @@ public class Contrat implements Serializable {
     public void setDateDebut(Date DateDebut) {
         this.DateDebut = DateDebut;
     }
-
 
     public Long getId() {
         return id;
@@ -146,5 +140,5 @@ public class Contrat implements Serializable {
     public String toString() {
         return "entitee.Contrat[ id=" + id + " ]";
     }
-    
+
 }

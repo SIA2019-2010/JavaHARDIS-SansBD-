@@ -10,5 +10,5 @@ package entitee;
  * @author alexisbaillieu
  */
 public enum Beneficiaire {
-    Affilie,Conjoint,Concubin,EnfantACharge
+    Affilie, Conjoint, Concubin, EnfantACharge
 }

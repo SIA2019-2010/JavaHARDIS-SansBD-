@@ -32,15 +32,14 @@ public class Garantie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String LibelleGarantie;
-    
+
     @ManyToOne
     private BaseRemboursementSecu laBaseRemboursementSeco;
-    
+
     @ManyToMany
     private List<TypeGarantie> lesTypesGarantie;
-       
 
     public List<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;
@@ -50,9 +49,6 @@ public class Garantie implements Serializable {
         this.lesTypesGarantie = lesTypesGarantie;
     }
 
-    
-    
-
     public BaseRemboursementSecu getLaBaseRemboursementSeco() {
         return laBaseRemboursementSeco;
     }
@@ -61,7 +57,6 @@ public class Garantie implements Serializable {
         this.laBaseRemboursementSeco = laBaseRemboursementSeco;
     }
 
-
     public String getLibelleGarantie() {
         return LibelleGarantie;
     }
@@ -69,7 +64,6 @@ public class Garantie implements Serializable {
     public void setLibelleGarantie(String LibelleGarantie) {
         this.LibelleGarantie = LibelleGarantie;
     }
-
 
     public Long getId() {
         return id;
@@ -103,5 +97,5 @@ public class Garantie implements Serializable {
     public String toString() {
         return "entitee.Garantie[ id=" + id + " ]";
     }
-    
+
 }

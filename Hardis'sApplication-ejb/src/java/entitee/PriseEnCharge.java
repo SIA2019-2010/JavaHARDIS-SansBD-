@@ -23,19 +23,19 @@ public class PriseEnCharge implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private double PrixRemboursement;
-    
+
     private int BaseRemboursement;
-    
+
     private Unite Unite;
-    
+
     @ManyToOne
     private Produit leProduit;
 
     @ManyToOne
     private Garantie laGarantie;
-    
+
     public Produit getLeProduit() {
         return leProduit;
     }
@@ -52,7 +52,6 @@ public class PriseEnCharge implements Serializable {
         this.laGarantie = laGarantie;
     }
 
-
     public Unite getUnite() {
         return Unite;
     }
@@ -60,8 +59,6 @@ public class PriseEnCharge implements Serializable {
     public void setUnite(Unite Unite) {
         this.Unite = Unite;
     }
-
-    
 
     public int getBaseRemboursement() {
         return BaseRemboursement;
@@ -71,7 +68,6 @@ public class PriseEnCharge implements Serializable {
         this.BaseRemboursement = BaseRemboursement;
     }
 
-
     public double getPrixRemboursement() {
         return PrixRemboursement;
     }
@@ -79,7 +75,6 @@ public class PriseEnCharge implements Serializable {
     public void setPrixRemboursement(double PrixRemboursement) {
         this.PrixRemboursement = PrixRemboursement;
     }
-
 
     public Long getId() {
         return id;
@@ -113,5 +108,5 @@ public class PriseEnCharge implements Serializable {
     public String toString() {
         return "entitee.PriseEnCharge[ id=" + id + " ]";
     }
-    
+
 }

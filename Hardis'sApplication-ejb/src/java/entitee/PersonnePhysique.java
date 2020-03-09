@@ -21,8 +21,7 @@ import javax.persistence.OneToMany;
  * @author alexisbaillieu
  */
 @Entity
-@Inheritance
-(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class PersonnePhysique implements Serializable {
 
     @OneToMany(mappedBy = "laPersonne")
@@ -37,37 +36,34 @@ public class PersonnePhysique implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
+
     private Long id;
-    
+
     private String Nom;
 
     private String Prenom;
-    
+
     private Date DateNaiss;
-    
+
     private String NumeroSS;
-        
+
     private String Adresse;
-        
+
     private String Mail;
-    
+
     private Genre Genre;
-    
+
     private boolean AdherentCAS;
-    
-    private Population Population;
-    
-    
+
+    private Population LaPopulation;
 
     public Population getPopulation() {
-        return Population;
+        return LaPopulation;
     }
 
-    public void setPopulation(Population Population) {
-        this.Population = Population;
+    public void setPopulation(Population LaPopulation) {
+        this.LaPopulation = LaPopulation;
     }
-
 
     public boolean isAdherentCAS() {
         return AdherentCAS;
@@ -77,7 +73,6 @@ public class PersonnePhysique implements Serializable {
         this.AdherentCAS = AdherentCAS;
     }
 
-
     public Genre getGenre() {
         return Genre;
     }
@@ -85,7 +80,6 @@ public class PersonnePhysique implements Serializable {
     public void setGenre(Genre Genre) {
         this.Genre = Genre;
     }
-
 
     public String getMail() {
         return Mail;
@@ -95,7 +89,6 @@ public class PersonnePhysique implements Serializable {
         this.Mail = Mail;
     }
 
-
     public String getAdresse() {
         return Adresse;
     }
@@ -103,7 +96,6 @@ public class PersonnePhysique implements Serializable {
     public void setAdresse(String Adresse) {
         this.Adresse = Adresse;
     }
-    
 
     public String getNumeroSS() {
         return NumeroSS;
@@ -113,7 +105,6 @@ public class PersonnePhysique implements Serializable {
         this.NumeroSS = NumeroSS;
     }
 
-
     public Date getDateNaiss() {
         return DateNaiss;
     }
@@ -121,7 +112,6 @@ public class PersonnePhysique implements Serializable {
     public void setDateNaiss(Date DateNaiss) {
         this.DateNaiss = DateNaiss;
     }
-
 
     public String getPrenom() {
         return Prenom;
@@ -138,7 +128,6 @@ public class PersonnePhysique implements Serializable {
     public void setNom(String Nom) {
         this.Nom = Nom;
     }
-
 
     public Long getId() {
         return id;
@@ -172,5 +161,5 @@ public class PersonnePhysique implements Serializable {
     public String toString() {
         return "entitee.PersonnePhysique[ id=" + id + " ]";
     }
-    
+
 }

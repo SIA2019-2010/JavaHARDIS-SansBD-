@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-
 @Entity
 public class PersonneMorale implements Serializable {
 
@@ -28,16 +27,15 @@ public class PersonneMorale implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private Long SIRET;
-    
+
     private String RaisonSociale;
-    
+
     private String Adresse;
-    
+
     @ManyToOne
     private Activite laActivite;
-   
 
     public Activite getLaActivite() {
         return laActivite;
@@ -47,9 +45,6 @@ public class PersonneMorale implements Serializable {
         this.laActivite = laActivite;
     }
 
-    
-    
-    
     public String getAdresse() {
         return Adresse;
     }
@@ -66,7 +61,6 @@ public class PersonneMorale implements Serializable {
         this.RaisonSociale = RaisonSociale;
     }
 
-
     public Long getSIRET() {
         return SIRET;
     }
@@ -74,9 +68,6 @@ public class PersonneMorale implements Serializable {
     public void setSIRET(Long SIRET) {
         this.SIRET = SIRET;
     }
-
-    
-    
 
     public Long getId() {
         return id;
@@ -110,5 +101,5 @@ public class PersonneMorale implements Serializable {
     public String toString() {
         return "entitee.PersonneMorale[ id=" + id + " ]";
     }
-    
+
 }
