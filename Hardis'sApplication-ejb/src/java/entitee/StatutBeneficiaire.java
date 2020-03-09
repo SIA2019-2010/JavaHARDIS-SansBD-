@@ -38,6 +38,13 @@ public class StatutBeneficiaire implements Serializable {
        
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFinValidite;
+    
+       
+    @ManyToOne
+   private PersonnePhysique laPersonnePhysique;
+    
+    @ManyToOne
+   private Contrat leContrat;
 
     public Date getDateFinValidite() {
         return dateFinValidite;
@@ -56,12 +63,7 @@ public class StatutBeneficiaire implements Serializable {
         this.dateDebutValidite = dateDebutValidite;
     }
 
-   
-    @ManyToOne
-   private PersonnePhysique laPersonnePhysique;
-    
-    @ManyToOne
-   private Contrat leContrat;
+
 
     public Contrat getLeContrat() {
         return leContrat;
