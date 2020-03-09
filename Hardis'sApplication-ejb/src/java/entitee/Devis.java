@@ -6,6 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +32,28 @@ public class Devis implements Serializable {
     private Produit leProduit;    
     
     private int prix;
+    
+    private int nbAyantDroit;
+    
+    private Date dateDevis;
+
+    public Date getDateDevis() {
+        return dateDevis;
+    }
+
+    public void setDateDevis(Date dateDevis) {
+        this.dateDevis = dateDevis;
+    }
+
+
+    public int getNbAyantDroit() {
+        return nbAyantDroit;
+    }
+
+    public void setNbAyantDroit(int nbAyantDroit) {
+        this.nbAyantDroit = nbAyantDroit;
+    }
+
 
     public int getPrix() {
         return prix;
