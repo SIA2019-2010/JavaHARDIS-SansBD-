@@ -5,9 +5,11 @@
  */
 package entitee;
 
+import com.sun.istack.Nullable;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +24,6 @@ import javax.persistence.OneToMany;
  * @author alexisbaillieu
  */
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class PersonnePhysique implements Serializable {
 
     @OneToMany(mappedBy = "laPersonnePhysique")
@@ -55,9 +56,34 @@ public class PersonnePhysique implements Serializable {
     private Genre Genre;
 
     private boolean AdherentCAS;
-
+    
     @ManyToOne
     private Population laPopulation;
+    
+    private String Login;
+    
+    private String Mdp;
+    
+
+    public String getMdp() {
+        return Mdp;
+    }
+
+    public void setMdp(String Mdp) {
+        this.Mdp = Mdp;
+    }
+
+
+    public String getLogin() {
+        return Login;
+    }
+
+    public void setLogin(String Login) {
+        this.Login = Login;
+    }
+
+
+   
 
     public Population getLaPopulation() {
         return laPopulation;

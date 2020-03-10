@@ -5,7 +5,10 @@
  */
 package facade;
 
+import entitee.Genre;
 import entitee.PersonnePhysique;
+import entitee.Population;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +32,21 @@ public interface PersonnePhysiqueFacadeLocal {
     List<PersonnePhysique> findRange(int[] range);
 
     int count();
+
+    PersonnePhysique creerPersonnePhysique(String nom, String prenom, Date dateNaiss, String numeroSS, String adresse, String mail, Genre genre, boolean adherentCAS,Population laPopulation);
+
+    PersonnePhysique recherchePersonnePhysique(String nom, String prenom);
+
+    PersonnePhysique modifierAdresse(PersonnePhysique pers, String adresse);
+
+    PersonnePhysique modifierMail(PersonnePhysique pers, String mail);
+
+    PersonnePhysique authentificationAffilie(String login, String mdp);
+
+    PersonnePhysique modifierMdp(String nvMDP, PersonnePhysique pers);
+
+    PersonnePhysique enregistrerCompte(PersonnePhysique pers, String login, String mdp);
+
+    boolean rechercheDispoLogin(String logintest);
     
 }

@@ -6,6 +6,9 @@
 package facade;
 
 import entitee.Devis;
+import entitee.PersonnePhysique;
+import entitee.Produit;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +32,11 @@ public interface DevisFacadeLocal {
     List<Devis> findRange(int[] range);
 
     int count();
+
+    Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,int nbAyantDroit,Date dateDevis);
+
+    List<Devis> rechercherDevisPersonne(PersonnePhysique pers);
+
+    List<Devis> rechercherDevisDate(Date dateDevis);
     
 }
