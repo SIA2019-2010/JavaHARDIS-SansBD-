@@ -26,7 +26,7 @@ public class PriseEnCharge implements Serializable {
 
     private double PrixRemboursement;
 
-    private double BaseRemboursement;
+    private int BaseRemboursement;
 
     private Unite Unite;
 
@@ -60,11 +60,11 @@ public class PriseEnCharge implements Serializable {
         this.Unite = Unite;
     }
 
-    public double getBaseRemboursement() {
+    public int getBaseRemboursement() {
         return BaseRemboursement;
     }
 
-    public void setBaseRemboursement(double BaseRemboursement) {
+    public void setBaseRemboursement(int BaseRemboursement) {
         this.BaseRemboursement = BaseRemboursement;
     }
 

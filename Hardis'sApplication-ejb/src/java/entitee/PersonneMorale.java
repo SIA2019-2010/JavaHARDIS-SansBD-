@@ -28,7 +28,7 @@ public class PersonneMorale implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String SIRET;
+    private Long SIRET;
 
     private String RaisonSociale;
 
@@ -61,11 +61,11 @@ public class PersonneMorale implements Serializable {
         this.RaisonSociale = RaisonSociale;
     }
 
-    public String getSIRET() {
+    public Long getSIRET() {
         return SIRET;
     }
 
-    public void setSIRET(String SIRET) {
+    public void setSIRET(Long SIRET) {
         this.SIRET = SIRET;
     }
 
@@ -75,22 +75,6 @@ public class PersonneMorale implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public ArrayList<Contrat> getLesContrats() {
-        return lesContrats;
-    }
-
-    public void setLesContrats(ArrayList<Contrat> lesContrats) {
-        this.lesContrats = lesContrats;
-    }
-
-    public ArrayList<Responsable> getLesResponsables() {
-        return lesResponsables;
-    }
-
-    public void setLesResponsables(ArrayList<Responsable> lesResponsables) {
-        this.lesResponsables = lesResponsables;
     }
 
     @Override

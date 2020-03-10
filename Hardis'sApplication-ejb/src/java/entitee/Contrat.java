@@ -38,7 +38,15 @@ public class Contrat implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date DateFin;
 
-    private double prixMensuel;
+    private int prixMensuel;
+
+    public int getPrixMensuel() {
+        return prixMensuel;
+    }
+
+    public void setPrixMensuel(int prixMensuel) {
+        this.prixMensuel = prixMensuel;
+    }
 
     @ManyToOne
     private Domaine leDomaine;
@@ -51,14 +59,6 @@ public class Contrat implements Serializable {
 
     @ManyToOne
     private PersonneMorale laPersonneMorale;
-
-    public double getPrixMensuel() {
-        return prixMensuel;
-    }
-
-    public void setPrixMensuel(double prixMensuel) {
-        this.prixMensuel = prixMensuel;
-    }
 
     public PersonneMorale getLaPersonneMorale() {
         return laPersonneMorale;

@@ -58,14 +58,6 @@ public class Population implements Serializable {
         this.lesPersonnePhysiques = lesPersonnePhysiques;
     }
 
-    public ArrayList<Produit> getLesProduits() {
-        return lesProduits;
-    }
-
-    public void setLesProduits(ArrayList<Produit> lesProduits) {
-        this.lesProduits = lesProduits;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;

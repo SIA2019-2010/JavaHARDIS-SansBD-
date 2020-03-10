@@ -25,7 +25,7 @@ import javax.persistence.OneToMany;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class PersonnePhysique implements Serializable {
 
-    @OneToMany(mappedBy = "laPersonnePhysique")
+    @OneToMany(mappedBy = "laPersonne")
     private ArrayList<Devis> lesDevis;
 
     @OneToMany(mappedBy = "laPersonnePhysique")
