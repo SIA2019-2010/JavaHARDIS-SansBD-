@@ -57,6 +57,14 @@ public class Activite implements Serializable {
         this.id = id;
     }
 
+    public ArrayList<PersonneMorale> getLesPersonneMorales() {
+        return lesPersonneMorales;
+    }
+
+    public void setLesPersonneMorales(ArrayList<PersonneMorale> lesPersonneMorales) {
+        this.lesPersonneMorales = lesPersonneMorales;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
