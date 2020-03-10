@@ -47,6 +47,14 @@ public class BaseRemboursementSecu implements Serializable {
         this.id = id;
     }
 
+    public ArrayList<Garantie> getLesGaranties() {
+        return lesGaranties;
+    }
+
+    public void setLesGaranties(ArrayList<Garantie> lesGaranties) {
+        this.lesGaranties = lesGaranties;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

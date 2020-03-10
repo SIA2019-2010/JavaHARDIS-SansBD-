@@ -23,9 +23,6 @@ import javax.persistence.Temporal;
 @Entity
 public class StatutBeneficiaire implements Serializable {
 
-    @ManyToMany(mappedBy = "lesStatutsBeneficiaire")
-    private ArrayList<Produit> lesProduits;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -90,15 +87,6 @@ public class StatutBeneficiaire implements Serializable {
     public void setStatutBeneficiare(Beneficiaire statutBeneficiare) {
         this.statutBeneficiare = statutBeneficiare;
     }
-
-    public ArrayList<Produit> getLesProduits() {
-        return lesProduits;
-    }
-
-    public void setLesProduits(ArrayList<Produit> lesProduits) {
-        this.lesProduits = lesProduits;
-    }
-
 
     public Long getId() {
         return id;

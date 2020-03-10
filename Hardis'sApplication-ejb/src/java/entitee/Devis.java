@@ -26,12 +26,12 @@ public class Devis implements Serializable {
     private Long id;
 
     @ManyToOne
-    private PersonnePhysique laPersonne;
+    private PersonnePhysique laPersonnePhysique;
 
     @ManyToOne
     private Produit leProduit;
 
-    private int prix;
+    private double prix;
 
     private int nbAyantDroit;
 
@@ -53,11 +53,11 @@ public class Devis implements Serializable {
         this.nbAyantDroit = nbAyantDroit;
     }
 
-    public int getPrix() {
+    public double getPrix() {
         return prix;
     }
 
-    public void setPrix(int prix) {
+    public void setPrix(double prix) {
         this.prix = prix;
     }
 
@@ -70,11 +70,11 @@ public class Devis implements Serializable {
     }
 
     public PersonnePhysique getLaPersonne() {
-        return laPersonne;
+        return laPersonnePhysique;
     }
 
-    public void setLaPersonne(PersonnePhysique laPersonne) {
-        this.laPersonne = laPersonne;
+    public void setLaPersonne(PersonnePhysique laPersonnePhysique) {
+        this.laPersonnePhysique = laPersonnePhysique;
     }
 
     public Long getId() {

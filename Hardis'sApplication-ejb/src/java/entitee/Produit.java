@@ -51,8 +51,6 @@ public class Produit implements Serializable {
     @ManyToMany
     private ArrayList<AssietteCotisation> lesAssiettesCotisation;
 
-    @ManyToMany
-    private ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire;
 
     /*private ArrayList<Beneficiaire> Beneficiaires;
     
@@ -77,6 +75,8 @@ public class Produit implements Serializable {
     @ManyToMany
     private ArrayList<Population> lesPopulations;
 
+    private EnumSet<Beneficiaire> Beneficiaires;
+
     public ArrayList<Population> getLesPopulations() {
         return lesPopulations;
     }
@@ -85,22 +85,12 @@ public class Produit implements Serializable {
         this.lesPopulations = lesPopulations;
     }
 
-    private EnumSet<Beneficiaire> Beneficiaires;
-
     public EnumSet<Beneficiaire> getBeneficiaires() {
         return Beneficiaires;
     }
 
     public void setBeneficiaires(EnumSet<Beneficiaire> Beneficiaires) {
         this.Beneficiaires = Beneficiaires;
-    }
-
-    public ArrayList<StatutBeneficiaire> getLesStatutsBeneficiaire() {
-        return lesStatutsBeneficiaire;
-    }
-
-    public void setLesStatutsBeneficiaire(ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire) {
-        this.lesStatutsBeneficiaire = lesStatutsBeneficiaire;
     }
 
     public ArrayList<AssietteCotisation> getLesAssiettesCotisation() {
