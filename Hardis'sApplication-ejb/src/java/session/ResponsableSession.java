@@ -5,6 +5,9 @@
  */
 package session;
 
+import entitee.Responsable;
+import facade.ResponsableFacadeLocal;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -14,6 +17,12 @@ import javax.ejb.Stateless;
 @Stateless
 public class ResponsableSession implements ResponsableSessionLocal {
 
+    @EJB
+    private ResponsableFacadeLocal responsableFacade;
+    
+    public Responsable authentificationResponsable(String login, String mdp) {
+        return responsableFacade.authentificationResponsable(login, mdp);
+    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

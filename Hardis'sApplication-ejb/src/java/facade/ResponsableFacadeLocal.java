@@ -41,4 +41,6 @@ public interface ResponsableFacadeLocal {
     
     Responsable authentificationResponsable(String login, String mdp);
     
+    boolean rechercheDispoLogin(String logintest);
+    
 }

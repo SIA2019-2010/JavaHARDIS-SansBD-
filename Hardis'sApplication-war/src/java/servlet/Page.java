@@ -62,9 +62,6 @@ public class Page extends HttpServlet {
             sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
         }
         
-        if(agentSession.RechercherAgence("AdresseAgence1")==null){
-            agentSession.CreerAgence("AdresseAgence1");
-        }
         if(agentSession.RechercherAgent("login")==null){
             agentSession.CreerAgent("NomAgent1", "PreomAgenT1", "login", "mdp", agentSession.RechercherAgence("AdresseAgence1"));
         }
@@ -108,7 +105,7 @@ public class Page extends HttpServlet {
                 
             case "AgentConnexion" :
             case "ClientConnexion" :
-                if (sessioncompte!=null){
+                if (session!=null){
                     jspClient="/ClientMenu.jsp";
                     message="";
                 }

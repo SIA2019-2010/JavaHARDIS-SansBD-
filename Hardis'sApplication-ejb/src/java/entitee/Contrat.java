@@ -49,23 +49,12 @@ public class Contrat implements Serializable {
     @ManyToOne
     private Produit leProduit;
 
-    @ManyToOne
-    private PersonneMorale laPersonneMorale;
-
     public double getPrixMensuel() {
         return prixMensuel;
     }
 
     public void setPrixMensuel(double prixMensuel) {
         this.prixMensuel = prixMensuel;
-    }
-
-    public PersonneMorale getLaPersonneMorale() {
-        return laPersonneMorale;
-    }
-
-    public void setLaPersonneMorale(PersonneMorale laPersonneMorale) {
-        this.laPersonneMorale = laPersonneMorale;
     }
 
     public Produit getLeProduit() {

@@ -81,4 +81,13 @@ public class ResponsableFacade extends AbstractFacade<Responsable> implements Re
         return pers;
     }
     
+    @Override
+    public boolean rechercheDispoLogin(String logintest) {        
+        String txt="SELECT r FROM Responsable AS r WHERE r.Login=:lo";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("lo",logintest);
+        List <Responsable> result = req.getResultList();
+        return result.isEmpty();
+    }
+    
 }

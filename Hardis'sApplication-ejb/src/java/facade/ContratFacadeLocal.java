@@ -36,7 +36,7 @@ public interface ContratFacadeLocal {
 
     int count();
 
-    Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, ArrayList<TypeGarantie> lesGaranties, Produit leProduit, PersonneMorale laPersonneMorale);
+    Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, ArrayList<TypeGarantie> lesGaranties, Produit leProduit);
 
     List<Contrat> rechercheContratPersonneMorale(PersonneMorale persmo);
 

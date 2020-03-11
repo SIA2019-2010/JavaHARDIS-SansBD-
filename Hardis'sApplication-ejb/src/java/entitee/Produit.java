@@ -54,6 +54,9 @@ public class Produit implements Serializable {
     @ManyToMany
     private ArrayList<Population> lesPopulations;
 
+    @ManyToOne
+    private PersonneMorale laPersonneMorale;
+
     private EnumSet<Beneficiaire> Beneficiaires;
 
     public ArrayList<Population> getLesPopulations() {
@@ -142,6 +145,14 @@ public class Produit implements Serializable {
 
     public void setLesPriseEnCharges(ArrayList<PriseEnCharge> lesPriseEnCharges) {
         this.lesPriseEnCharges = lesPriseEnCharges;
+    }
+
+    public PersonneMorale getLaPersonneMorale() {
+        return laPersonneMorale;
+    }
+
+    public void setLaPersonneMorale(PersonneMorale laPersonneMorale) {
+        this.laPersonneMorale = laPersonneMorale;
     }
 
     @Override
