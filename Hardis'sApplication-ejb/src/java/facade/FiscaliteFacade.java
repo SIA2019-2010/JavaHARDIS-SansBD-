@@ -28,5 +28,18 @@ public class FiscaliteFacade extends AbstractFacade<Fiscalite> implements Fiscal
     public FiscaliteFacade() {
         super(Fiscalite.class);
     }
+
+    @Override
+    public Fiscalite creerFiscalite(double taxe, double CMU, double TCA) {
+        Fiscalite fisca = new Fiscalite();
+        fisca.setCMU(CMU);
+        fisca.setTCA(TCA);
+        fisca.setTaxe(taxe);
+       
+        em.persist(fisca);
+        return fisca;
+    }
+    
+    
     
 }

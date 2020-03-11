@@ -5,6 +5,8 @@
  */
 package facade;
 
+import entitee.Acte;
+import entitee.EtatRemboursement;
 import entitee.Remboursement;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,5 +31,7 @@ public interface RemboursementFacadeLocal {
     List<Remboursement> findRange(int[] range);
 
     int count();
+
+    Remboursement creerRemboursement(double brEffective, double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe);
     
 }

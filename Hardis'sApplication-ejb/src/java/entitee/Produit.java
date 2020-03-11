@@ -51,27 +51,6 @@ public class Produit implements Serializable {
     @ManyToMany
     private ArrayList<AssietteCotisation> lesAssiettesCotisation;
 
-
-    /*private ArrayList<Beneficiaire> Beneficiaires;
-    
-    private ArrayList<Population> lesPopulations;
-
-    public ArrayList<Population> getlesPopulations() {
-        return lesPopulations;
-    }
-
-    public void setlesPopulations(ArrayList<Population> lesPopulations) {
-        this.lesPopulations = lesPopulations;
-    }
-
-
-    public ArrayList<Beneficiaire> getBeneficiaires() {
-        return Beneficiaires;
-    }
-
-    public void setBeneficiaires(ArrayList<Beneficiaire> Beneficiaires) {
-        this.Beneficiaires = Beneficiaires;
-    }*/
     @ManyToMany
     private ArrayList<Population> lesPopulations;
 

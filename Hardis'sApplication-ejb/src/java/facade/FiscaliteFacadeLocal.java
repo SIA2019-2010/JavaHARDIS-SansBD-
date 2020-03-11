@@ -29,5 +29,7 @@ public interface FiscaliteFacadeLocal {
     List<Fiscalite> findRange(int[] range);
 
     int count();
+
+    Fiscalite creerFiscalite(double taxe, double CMU, double TCA);
     
 }

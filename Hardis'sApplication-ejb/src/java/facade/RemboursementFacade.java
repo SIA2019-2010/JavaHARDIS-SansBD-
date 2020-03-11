@@ -5,6 +5,8 @@
  */
 package facade;
 
+import entitee.Acte;
+import entitee.EtatRemboursement;
 import entitee.Remboursement;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,5 +30,20 @@ public class RemboursementFacade extends AbstractFacade<Remboursement> implement
     public RemboursementFacade() {
         super(Remboursement.class);
     }
+
+    @Override
+    public Remboursement creerRemboursement(double brEffective, double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe) {
+        Remboursement rembour = new Remboursement();
+        rembour.setBREffective(brEffective);
+        rembour.setEtatRemboursement(etatRemboursement);
+        rembour.setLeActe(leActe);
+        rembour.setRemboursementEffectif(remboursementEffectif);
+        
+        em.persist(rembour);
+        return rembour;
+    }
+    
+    
+    
     
 }

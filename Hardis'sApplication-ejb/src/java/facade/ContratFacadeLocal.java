@@ -6,6 +6,12 @@
 package facade;
 
 import entitee.Contrat;
+import entitee.Domaine;
+import entitee.PersonneMorale;
+import entitee.Produit;
+import entitee.TypeGarantie;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +35,13 @@ public interface ContratFacadeLocal {
     List<Contrat> findRange(int[] range);
 
     int count();
+
+    Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, ArrayList<TypeGarantie> lesGaranties, Produit leProduit, PersonneMorale laPersonneMorale);
+
+    List<Contrat> rechercheContratPersonneMorale(PersonneMorale persmo);
+
+    List<Contrat> rechercheContratDateFin(Date datef);
+
+    Contrat modifierDateFin(Date datef, Contrat cont);
     
 }
