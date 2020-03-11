@@ -12,7 +12,7 @@ import entitee.Produit;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import entitee.Population;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.EnumSet;
 import java.util.List;
 import javax.ejb.Local;
@@ -38,6 +38,8 @@ public interface ProduitFacadeLocal {
 
     int count();
 
-    Produit creerProduit(String nom, EnumSet lesBeneficiaires, ArrayList<AssietteCotisation> lesAssiettes, ArrayList<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, ArrayList<Fiscalite> lesFiscalites,ArrayList<Population> lesPopulations, PersonneMorale laPersonneMorale);
+    Produit creerProduit(String nom, EnumSet lesBeneficiaires, List<AssietteCotisation> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale);
+    
+    List<Produit> afficherPersonneMoraleProduit(PersonneMorale personne);
     
 }

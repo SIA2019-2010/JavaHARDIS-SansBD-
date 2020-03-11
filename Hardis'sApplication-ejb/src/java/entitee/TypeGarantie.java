@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,13 +21,13 @@ import javax.persistence.ManyToMany;
 public class TypeGarantie implements Serializable {
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
-    private ArrayList<Contrat> lesContrats;
+    private List<Contrat> lesContrats;
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
-    private ArrayList<Produit> lesProduits;
+    private List<Produit> lesProduits;
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
-    private ArrayList<Garantie> lesGaranties;
+    private List<Garantie> lesGaranties;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,27 +53,27 @@ public class TypeGarantie implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<Contrat> getLesContrats() {
+    public List<Contrat> getLesContrats() {
         return lesContrats;
     }
 
-    public void setLesContrats(ArrayList<Contrat> lesContrats) {
+    public void setLesContrats(List<Contrat> lesContrats) {
         this.lesContrats = lesContrats;
     }
 
-    public ArrayList<Produit> getLesProduits() {
+    public List<Produit> getLesProduits() {
         return lesProduits;
     }
 
-    public void setLesProduits(ArrayList<Produit> lesProduits) {
+    public void setLesProduits(List<Produit> lesProduits) {
         this.lesProduits = lesProduits;
     }
 
-    public ArrayList<Garantie> getLesGaranties() {
+    public List<Garantie> getLesGaranties() {
         return lesGaranties;
     }
 
-    public void setLesGaranties(ArrayList<Garantie> lesGaranties) {
+    public void setLesGaranties(List<Garantie> lesGaranties) {
         this.lesGaranties = lesGaranties;
     }
 

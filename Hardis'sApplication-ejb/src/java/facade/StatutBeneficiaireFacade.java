@@ -9,7 +9,7 @@ import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;

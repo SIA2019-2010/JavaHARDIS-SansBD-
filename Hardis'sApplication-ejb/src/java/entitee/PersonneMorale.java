@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,10 +18,10 @@ import javax.persistence.OneToMany;
 public class PersonneMorale implements Serializable {
 
     @OneToMany(mappedBy = "laPersonneMorale")
-    private ArrayList<Contrat> lesContrats;
+    private List<Contrat> lesContrats;
 
     @OneToMany(mappedBy = "laPersonneMorale")
-    private ArrayList<Responsable> lesResponsables;
+    private List<Responsable> lesResponsables;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -77,19 +77,19 @@ public class PersonneMorale implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<Contrat> getLesContrats() {
+    public List<Contrat> getLesContrats() {
         return lesContrats;
     }
 
-    public void setLesContrats(ArrayList<Contrat> lesContrats) {
+    public void setLesContrats(List<Contrat> lesContrats) {
         this.lesContrats = lesContrats;
     }
 
-    public ArrayList<Responsable> getLesResponsables() {
+    public List<Responsable> getLesResponsables() {
         return lesResponsables;
     }
 
-    public void setLesResponsables(ArrayList<Responsable> lesResponsables) {
+    public void setLesResponsables(List<Responsable> lesResponsables) {
         this.lesResponsables = lesResponsables;
     }
 

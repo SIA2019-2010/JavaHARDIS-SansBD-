@@ -10,7 +10,7 @@ import entitee.Domaine;
 import entitee.PersonneMorale;
 import entitee.Produit;
 import entitee.TypeGarantie;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -36,7 +36,7 @@ public interface ContratFacadeLocal {
 
     int count();
 
-    Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, ArrayList<TypeGarantie> lesGaranties, Produit leProduit);
+    Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, List<TypeGarantie> lesGaranties, Produit leProduit);
 
     List<Contrat> rechercheContratDateFin(Date datef);
 

@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +25,7 @@ import javax.persistence.Temporal;
 public class Contrat implements Serializable {
 
     @OneToMany(mappedBy = "leContrat")
-    private ArrayList<StatutBeneficiaire> lesStatutsBeneficiaires;
+    private List<StatutBeneficiaire> lesStatutsBeneficiaires;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,7 +44,7 @@ public class Contrat implements Serializable {
     private Domaine leDomaine;
 
     @ManyToMany
-    private ArrayList<TypeGarantie> lesTypesGarantie;
+    private List<TypeGarantie> lesTypesGarantie;
 
     @ManyToOne
     private Produit leProduit;
@@ -73,11 +73,11 @@ public class Contrat implements Serializable {
         this.leDomaine = leDomaine;
     }
 
-    public ArrayList<TypeGarantie> getLesTypesGarantie() {
+    public List<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;
     }
 
-    public void setLesTypesGarantie (ArrayList<TypeGarantie> lesTypesGarantie) {
+    public void setLesTypesGarantie (List<TypeGarantie> lesTypesGarantie) {
         this.lesTypesGarantie = lesTypesGarantie;
     }
 

@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +22,7 @@ import javax.persistence.ManyToMany;
 public class AssietteCotisation implements Serializable {
 
     @ManyToMany(mappedBy = "lesAssiettesCotisation")
-    private ArrayList<Produit> lesProduits;
+    private List<Produit> lesProduits;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,11 +57,11 @@ public class AssietteCotisation implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<Produit> getLesProduits() {
+    public List<Produit> getLesProduits() {
         return lesProduits;
     }
 
-    public void setLesProduits(ArrayList<Produit> lesProduits) {
+    public void setLesProduits(List<Produit> lesProduits) {
         this.lesProduits = lesProduits;
     }
 

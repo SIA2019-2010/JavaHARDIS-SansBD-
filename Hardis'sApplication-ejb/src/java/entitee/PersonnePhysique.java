@@ -8,7 +8,7 @@ package entitee;
 import com.sun.istack.Nullable;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,13 +29,13 @@ import javax.persistence.Temporal;
 public class PersonnePhysique implements Serializable {
 
     @ManyToMany(mappedBy = "lesPersonnesPhysiques")
-    private ArrayList<Devis> lesDevis;
+    private List<Devis> lesDevis;
 
     @OneToMany(mappedBy = "laPersonnePhysique")
-    private ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire;
+    private List<StatutBeneficiaire> lesStatutsBeneficiaire;
 
     @OneToMany(mappedBy = "laPersonnePhysique")
-    private ArrayList<Acte> lesActes;
+    private List<Acte> lesActes;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -94,27 +94,27 @@ public class PersonnePhysique implements Serializable {
         this.laPopulation = laPopulation;
     }
 
-    public ArrayList<Devis> getLesDevis() {
+    public List<Devis> getLesDevis() {
         return lesDevis;
     }
 
-    public void setLesDevis(ArrayList<Devis> lesDevis) {
+    public void setLesDevis(List<Devis> lesDevis) {
         this.lesDevis = lesDevis;
     }
 
-    public ArrayList<StatutBeneficiaire> getLesStatutsBeneficiaire() {
+    public List<StatutBeneficiaire> getLesStatutsBeneficiaire() {
         return lesStatutsBeneficiaire;
     }
 
-    public void setLesStatutsBeneficiaire(ArrayList<StatutBeneficiaire> lesStatutsBeneficiaire) {
+    public void setLesStatutsBeneficiaire(List<StatutBeneficiaire> lesStatutsBeneficiaire) {
         this.lesStatutsBeneficiaire = lesStatutsBeneficiaire;
     }
 
-    public ArrayList<Acte> getLesActes() {
+    public List<Acte> getLesActes() {
         return lesActes;
     }
 
-    public void setLesActes(ArrayList<Acte> lesActes) {
+    public void setLesActes(List<Acte> lesActes) {
         this.lesActes = lesActes;
     }
 

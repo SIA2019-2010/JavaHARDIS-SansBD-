@@ -12,11 +12,12 @@ import entitee.PersonneMorale;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import entitee.Population;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.EnumSet;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -38,7 +39,7 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     }
 
     @Override
-    public Produit creerProduit(String nom, EnumSet lesBeneficiaires, ArrayList<AssietteCotisation> lesAssiettes, ArrayList<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, ArrayList<Fiscalite> lesFiscalites,ArrayList<Population> lesPopulations, PersonneMorale laPersonneMorale) {
+    public Produit creerProduit(String nom, EnumSet lesBeneficiaires, List<AssietteCotisation> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale) {
         Produit prod = new Produit();
         
         prod.setNomProduit(nom);
@@ -53,6 +54,16 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
         
         em.persist(prod);
         return prod;
+    }
+    
+    @Override
+    public List<Produit> afficherPersonneMoraleProduit(PersonneMorale personne){
+        List<Produit> listesProduits;
+        String tx = "SELECT p FROM Produit AS p where p.laPersonneMorale=:pers"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("pers", personne); 
+        listesProduits= req.getResultList ();
+        return listesProduits;
     }
     
 }

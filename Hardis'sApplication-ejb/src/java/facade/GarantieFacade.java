@@ -8,7 +8,7 @@ package facade;
 import entitee.BaseRemboursementSecu;
 import entitee.Garantie;
 import entitee.TypeGarantie;
-import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,7 +33,7 @@ public class GarantieFacade extends AbstractFacade<Garantie> implements Garantie
     }
     
     @Override
-    public Garantie creerGarantie(String libellegarantie, BaseRemboursementSecu labase, ArrayList<TypeGarantie> lestypes) {
+    public Garantie creerGarantie(String libellegarantie, BaseRemboursementSecu labase, List<TypeGarantie> lestypes) {
         Garantie garantie=new Garantie();
         garantie.setLibelleGarantie(libellegarantie);
         em.persist(garantie);
