@@ -54,16 +54,6 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
     }
 
     @Override
-    public List<Contrat> rechercheContratPersonneMorale(PersonneMorale persmo) {
-        List<Contrat> listcontrats; 
-        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.laPersonneMorale=:pers"; 
-        Query req = getEntityManager().createQuery(tx); 
-        req.setParameter("pers", persmo); 
-        listcontrats= req.getResultList (); 
-        return listcontrats;
-    }
-
-    @Override
     public List<Contrat> rechercheContratDateFin(Date datef) {
         List<Contrat> listcontrats; 
         String tx = "SELECT cnt FROM Contrat AS cnt where cnt.dateFin=:date"; 

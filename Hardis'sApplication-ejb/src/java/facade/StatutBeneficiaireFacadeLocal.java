@@ -41,5 +41,7 @@ public interface StatutBeneficiaireFacadeLocal {
     StatutBeneficiaire modifierDateFinValide(StatutBeneficiaire statutbeneficiaire, Date datefin);
     
     StatutBeneficiaire rechercherStatutBeneficiaire(long id);
+
+    List<Contrat> rechercheContrats(PersonnePhysique pers);
     
 }

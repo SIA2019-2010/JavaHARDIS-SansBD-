@@ -9,6 +9,7 @@ import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -77,6 +78,20 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
         }
         return statut;
     }
+
+    @Override
+    public List<Contrat> rechercheContrats(PersonnePhysique persphy) {
+        List<Contrat> listcontrats; 
+        String tx = "SELECT stb.leContrat FROM StatutBeneficiaire AS stb where stb.laPersonnePhysique=:pers"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("pers", persphy); 
+        listcontrats= req.getResultList (); 
+        return listcontrats;
+        
+
+    }
+    
+    
     
     
     

@@ -19,6 +19,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -46,6 +47,7 @@ public class PersonnePhysique implements Serializable {
 
     private String Prenom;
 
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date DateNaiss;
 
     private String NumeroSS;

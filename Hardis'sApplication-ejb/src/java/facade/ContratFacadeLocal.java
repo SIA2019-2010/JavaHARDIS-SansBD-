@@ -38,8 +38,6 @@ public interface ContratFacadeLocal {
 
     Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, ArrayList<TypeGarantie> lesGaranties, Produit leProduit);
 
-    List<Contrat> rechercheContratPersonneMorale(PersonneMorale persmo);
-
     List<Contrat> rechercheContratDateFin(Date datef);
 
     Contrat modifierDateFin(Date datef, Contrat cont);
