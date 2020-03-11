@@ -5,6 +5,11 @@
  */
 package session;
 
+import entitee.Devis;
+import entitee.PersonnePhysique;
+import entitee.Produit;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +18,15 @@ import javax.ejb.Local;
  */
 @Local
 public interface AffilieSessionLocal {
+
+    PersonnePhysique authentificationAffilie(String login, String mdp);
+
+    PersonnePhysique modifierMDP(String nvMDP,PersonnePhysique pers);
+
+    PersonnePhysique modifierMail(String nvMail, PersonnePhysique pers);
+
+    PersonnePhysique modifierAdresse(String nvAdresse, PersonnePhysique pers);
+
+    Devis creerDevis(double prix, Date dateDevis, ArrayList<PersonnePhysique> pers, Produit prod);
     
 }

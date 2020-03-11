@@ -6,11 +6,13 @@
 package entitee;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -25,15 +27,13 @@ public class Devis implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private PersonnePhysique laPersonnePhysique;
+    @ManyToMany
+    private ArrayList<PersonnePhysique> lesPersonnesPhysiques;;
 
     @ManyToOne
     private Produit leProduit;
 
     private double prix;
-
-    private int nbAyantDroit;
 
     private Date dateDevis;
 
@@ -43,14 +43,6 @@ public class Devis implements Serializable {
 
     public void setDateDevis(Date dateDevis) {
         this.dateDevis = dateDevis;
-    }
-
-    public int getNbAyantDroit() {
-        return nbAyantDroit;
-    }
-
-    public void setNbAyantDroit(int nbAyantDroit) {
-        this.nbAyantDroit = nbAyantDroit;
     }
 
     public double getPrix() {
@@ -69,12 +61,12 @@ public class Devis implements Serializable {
         this.leProduit = leProduit;
     }
 
-    public PersonnePhysique getLaPersonne() {
-        return laPersonnePhysique;
+    public ArrayList<PersonnePhysique> getLaPersonne() {
+        return lesPersonnesPhysiques;
     }
 
-    public void setLaPersonne(PersonnePhysique laPersonnePhysique) {
-        this.laPersonnePhysique = laPersonnePhysique;
+    public void setLaPersonne(ArrayList<PersonnePhysique> lesPersonnesPhysiques) {
+        this.lesPersonnesPhysiques = lesPersonnesPhysiques;
     }
 
     public Long getId() {

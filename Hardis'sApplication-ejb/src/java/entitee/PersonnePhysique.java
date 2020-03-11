@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -26,7 +27,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class PersonnePhysique implements Serializable {
 
-    @OneToMany(mappedBy = "laPersonnePhysique")
+    @ManyToMany(mappedBy = "lesPersonnesPhysiques")
     private ArrayList<Devis> lesDevis;
 
     @OneToMany(mappedBy = "laPersonnePhysique")

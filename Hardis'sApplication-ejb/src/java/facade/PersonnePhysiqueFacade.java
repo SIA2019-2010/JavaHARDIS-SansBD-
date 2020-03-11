@@ -117,17 +117,12 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
 
     @Override
     public boolean rechercheDispoLogin(String logintest) {
-        boolean existant=true;
-        
         String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.Login=:lo";
         Query req=getEntityManager().createQuery(txt);
         req=req.setParameter("lo",logintest);
 
         List <PersonnePhysique> result = req.getResultList();
-        if (result.isEmpty())
-            {existant=false;};
-
-        return existant;
+        return result.isEmpty();
     }
     
     

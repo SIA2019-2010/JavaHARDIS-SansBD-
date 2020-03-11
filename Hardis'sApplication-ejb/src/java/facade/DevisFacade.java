@@ -8,6 +8,7 @@ package facade;
 import entitee.Devis;
 import entitee.PersonnePhysique;
 import entitee.Produit;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -36,12 +37,11 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
     }
 
     @Override
-    public Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,int nbAyantDroit,Date dateDevis) {
+    public Devis creerDevis(ArrayList<PersonnePhysique> listpers,Produit prod,double prix,Date dateDevis) {
         Devis dev=new Devis();
-        dev.setLaPersonne(pers);
+        dev.setLaPersonne(listpers);
         dev.setLeProduit(prod);
         dev.setDateDevis(dateDevis);
-        dev.setNbAyantDroit(nbAyantDroit);
         dev.setPrix(prix);
         
         em.persist(dev);
