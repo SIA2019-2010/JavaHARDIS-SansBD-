@@ -29,14 +29,14 @@ public class BaseRemboursementSecu implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private int BaseRemboursement;
+    private double BaseRemboursementSecu;
 
-    public int getBaseRemboursement() {
-        return BaseRemboursement;
+    public double getBaseRemboursementSecu() {
+        return BaseRemboursementSecu;
     }
 
-    public void setBaseRemboursement(int BaseRemboursement) {
-        this.BaseRemboursement = BaseRemboursement;
+    public void setBaseRemboursementSecu(double BaseRemboursementSecu) {
+        this.BaseRemboursementSecu = BaseRemboursementSecu;
     }
 
     public Long getId() {

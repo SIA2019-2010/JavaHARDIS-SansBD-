@@ -33,7 +33,7 @@ public class PriseEnChargeFacade extends AbstractFacade<PriseEnCharge> implement
     }
     
     @Override
-    public PriseEnCharge creerPriseEnCharge(double tauxremboursement, double baseremboursement, Unite unite, Produit produit, Garantie garantie) {
+    public PriseEnCharge creerPriseEnCharge(double tauxremboursement, String baseremboursement, Unite unite, Produit produit, Garantie garantie) {
         PriseEnCharge prisnenchareg=new PriseEnCharge();
         prisnenchareg.setTauxRempoursement(tauxremboursement);
         prisnenchareg.setBaseRemboursement(baseremboursement);
