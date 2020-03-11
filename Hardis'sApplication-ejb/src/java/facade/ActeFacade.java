@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Acte;
 import entitee.PersonnePhysique;
+import entitee.Remboursement;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -42,6 +43,16 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
         
         return listactes;
 
+    }
+
+    @Override
+    public List<Remboursement> rechercheRemboursementsPersonne(PersonnePhysique persphy) {
+        List<Remboursement> listremboursement; 
+        String tx = "SELECT act.leRemboursement FROM Acte AS act where act.laPersonnePhysique=:pers"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("pers", persphy); 
+        listremboursement= req.getResultList (); 
+        return listremboursement;
     }
     
     

@@ -12,6 +12,7 @@ import entitee.Genre;
 import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
+import entitee.Remboursement;
 import entitee.StatutBeneficiaire;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,4 +45,6 @@ public interface AffilieSessionLocal {
     Contrat modifierDateFinContrat(Contrat contrat, Date datef);
 
     List<Contrat> rechercheContrats(PersonnePhysique pers);
+
+    List<Remboursement> rechercheRemboursements(PersonnePhysique pers);
 }

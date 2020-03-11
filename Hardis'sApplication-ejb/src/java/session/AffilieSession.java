@@ -12,7 +12,9 @@ import entitee.Genre;
 import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
+import entitee.Remboursement;
 import entitee.StatutBeneficiaire;
+import facade.ActeFacadeLocal;
 import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
@@ -31,6 +33,9 @@ import javax.ejb.Stateless;
 public class AffilieSession implements AffilieSessionLocal {
 
     @EJB
+    private ActeFacadeLocal acteFacade;
+
+    @EJB
     private ContratFacadeLocal contratFacade;
 
     @EJB
@@ -41,6 +46,8 @@ public class AffilieSession implements AffilieSessionLocal {
     
     @EJB
     private StatutBeneficiaireFacadeLocal statutBeneficiaireFacade;
+    
+    
     
     
  
@@ -95,6 +102,11 @@ public class AffilieSession implements AffilieSessionLocal {
     @Override
     public List<Contrat> rechercheContrats(PersonnePhysique pers) {
         return statutBeneficiaireFacade.rechercheContrats(pers);
+    }
+
+    @Override
+    public List<Remboursement> rechercheRemboursements(PersonnePhysique pers) {
+        return acteFacade.rechercheRemboursementsPersonne(pers);
     }
     
     

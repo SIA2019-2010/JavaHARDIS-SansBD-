@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Acte;
 import entitee.PersonnePhysique;
+import entitee.Remboursement;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -32,5 +33,7 @@ public interface ActeFacadeLocal {
     int count();
 
     List<Acte> rechercheActesPersonne(PersonnePhysique personnePhy);
+
+    List<Remboursement> rechercheRemboursementsPersonne(PersonnePhysique pers);
     
 }
