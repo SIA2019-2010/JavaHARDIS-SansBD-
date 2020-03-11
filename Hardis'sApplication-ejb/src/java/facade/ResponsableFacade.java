@@ -7,9 +7,11 @@ package facade;
 
 import entitee.PersonneMorale;
 import entitee.Responsable;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -63,6 +65,20 @@ public class ResponsableFacade extends AbstractFacade<Responsable> implements Re
         resp.setMdp(mdp);
         em.merge(resp);
         return resp;
+    }
+    
+    @Override
+    public Responsable authentificationResponsable(String login, String mdp) {
+        Responsable pers;
+        String txt="SELECT r FROM Responsable AS r WHERE r.Login=:lo and r.Mdp=:mdp";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("lo",login);
+        req=req.setParameter("motp",mdp);
+        pers=null;
+        List<Responsable> result = req.getResultList();
+        if (result.size()==1)
+            {pers=(Responsable)result.get(0);};
+        return pers;
     }
     
 }

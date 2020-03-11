@@ -5,7 +5,10 @@
  */
 package facade;
 
+import entitee.Garantie;
 import entitee.PriseEnCharge;
+import entitee.Produit;
+import entitee.Unite;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +30,25 @@ public class PriseEnChargeFacade extends AbstractFacade<PriseEnCharge> implement
 
     public PriseEnChargeFacade() {
         super(PriseEnCharge.class);
+    }
+    
+    @Override
+    public PriseEnCharge creerPriseEnCharge(double tauxremboursement, double baseremboursement, Unite unite, Produit produit, Garantie garantie) {
+        PriseEnCharge prisnenchareg=new PriseEnCharge();
+        prisnenchareg.setTauxRempoursement(tauxremboursement);
+        prisnenchareg.setBaseRemboursement(baseremboursement);
+        prisnenchareg.setLeProduit(produit);
+        prisnenchareg.setLaGarantie(garantie);
+        prisnenchareg.setUnite(unite);
+        em.persist(prisnenchareg);
+        return prisnenchareg;
+    }
+    
+    @Override
+    public PriseEnCharge modifierTauxRempoursement(PriseEnCharge prisnenchareg, double tauxremboursement) {
+        prisnenchareg.setTauxRempoursement(tauxremboursement);
+        em.merge(prisnenchareg);
+        return prisnenchareg;
     }
     
 }

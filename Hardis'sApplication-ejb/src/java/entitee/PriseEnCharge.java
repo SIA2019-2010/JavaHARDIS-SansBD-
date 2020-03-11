@@ -24,7 +24,7 @@ public class PriseEnCharge implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double PrixRemboursement;
+    private double TauxRempoursement;
 
     private double BaseRemboursement;
 
@@ -68,12 +68,12 @@ public class PriseEnCharge implements Serializable {
         this.BaseRemboursement = BaseRemboursement;
     }
 
-    public double getPrixRemboursement() {
-        return PrixRemboursement;
+    public double getTauxRempoursement() {
+        return TauxRempoursement;
     }
 
-    public void setPrixRemboursement(double PrixRemboursement) {
-        this.PrixRemboursement = PrixRemboursement;
+    public void setTauxRempoursement(double TauxRempoursement) {
+        this.TauxRempoursement = TauxRempoursement;
     }
 
     public Long getId() {

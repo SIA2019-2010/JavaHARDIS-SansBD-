@@ -39,4 +39,6 @@ public interface ResponsableFacadeLocal {
     
     Responsable modifierMdp(Responsable resp, String mdp);
     
+    Responsable authentificationResponsable(String login, String mdp);
+    
 }

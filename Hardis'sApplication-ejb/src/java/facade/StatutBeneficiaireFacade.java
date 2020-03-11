@@ -5,10 +5,16 @@
  */
 package facade;
 
+import entitee.Beneficiaire;
+import entitee.Contrat;
+import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +33,37 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
 
     public StatutBeneficiaireFacade() {
         super(StatutBeneficiaire.class);
+    }
+    
+    @Override
+    public StatutBeneficiaire creerStatutBeneficiaire(Date datedubut, Beneficiaire statut, Contrat lecontrat, PersonnePhysique lapersonne) {
+        StatutBeneficiaire statutbeneficiaire = new StatutBeneficiaire();
+        statutbeneficiaire.setDateDebutValidite(datedubut);
+        statutbeneficiaire.setStatutBeneficiare(statut);
+        statutbeneficiaire.setLeContrat(lecontrat);
+        statutbeneficiaire.setLaPersonnePhysique(lapersonne);
+        em.persist(statutbeneficiaire);
+        return statutbeneficiaire;
+    }
+    
+    @Override
+    public StatutBeneficiaire modifierDateFinValide(StatutBeneficiaire statutbeneficiaire, Date datefin) {
+        statutbeneficiaire.setDateFinValidite(datefin);
+        em.persist(statutbeneficiaire);
+        return statutbeneficiaire;
+    }
+    
+    @Override
+    public StatutBeneficiaire rechercherStatutBeneficiaire(long id) {
+        StatutBeneficiaire statut = null;
+        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.id=:ii";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("ii",id);
+        List<StatutBeneficiaire> result = req.getResultList();
+        if(result.size()==1){
+            statut = (StatutBeneficiaire)result.get(0);
+        }
+        return statut;
     }
     
 }

@@ -5,7 +5,10 @@
  */
 package facade;
 
+import entitee.Garantie;
 import entitee.PriseEnCharge;
+import entitee.Produit;
+import entitee.Unite;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +32,9 @@ public interface PriseEnChargeFacadeLocal {
     List<PriseEnCharge> findRange(int[] range);
 
     int count();
+    
+    PriseEnCharge creerPriseEnCharge(double tauxremboursement, double baseremboursement, Unite unite, Produit produit, Garantie garantie);
+    
+    PriseEnCharge modifierTauxRempoursement(PriseEnCharge prisnenchareg, double tauxremboursement);
     
 }

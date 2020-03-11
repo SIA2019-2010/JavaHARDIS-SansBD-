@@ -5,7 +5,10 @@
  */
 package facade;
 
+import entitee.BaseRemboursementSecu;
 import entitee.Garantie;
+import entitee.TypeGarantie;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +32,9 @@ public interface GarantieFacadeLocal {
     List<Garantie> findRange(int[] range);
 
     int count();
+    
+    Garantie creerGarantie(String libellegarantie, BaseRemboursementSecu labase, ArrayList<TypeGarantie> lestypes);
+    
+    Garantie modifierLibelleGarantie(Garantie garantie, String libellegarantie);
     
 }

@@ -5,7 +5,11 @@
  */
 package facade;
 
+import entitee.Beneficiaire;
+import entitee.Contrat;
+import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +33,11 @@ public interface StatutBeneficiaireFacadeLocal {
     List<StatutBeneficiaire> findRange(int[] range);
 
     int count();
+    
+    StatutBeneficiaire creerStatutBeneficiaire(Date datedubut, Beneficiaire statut, Contrat lecontrat, PersonnePhysique lapersonne);
+    
+    StatutBeneficiaire modifierDateFinValide(StatutBeneficiaire statutbeneficiaire, Date datefin);
+    
+    StatutBeneficiaire rechercherStatutBeneficiaire(long id);
     
 }
