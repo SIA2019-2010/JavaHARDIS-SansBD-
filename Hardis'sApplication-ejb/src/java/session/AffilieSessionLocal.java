@@ -13,7 +13,7 @@ import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
 import entitee.StatutBeneficiaire;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -33,7 +33,7 @@ public interface AffilieSessionLocal {
 
     PersonnePhysique modifierAdresse(String nvAdresse, PersonnePhysique pers);
 
-    Devis creerDevis(double prix, Date dateDevis, ArrayList<PersonnePhysique> listpers, Produit prod);
+    Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod);
 
     PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop);
 

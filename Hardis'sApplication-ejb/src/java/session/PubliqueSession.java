@@ -15,7 +15,7 @@ import entitee.StatutBeneficiaire;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.StatutBeneficiaireFacadeLocal;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -40,7 +40,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     
     
         @Override
-    public Devis creerDevis(double prix, Date dateDevis, ArrayList<PersonnePhysique> listpers, Produit prod) {
+    public Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod) {
         return devisFacade.creerDevis(listpers, prod, prix, dateDevis);
     }
 

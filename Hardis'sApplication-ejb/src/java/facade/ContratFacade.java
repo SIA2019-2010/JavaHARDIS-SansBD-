@@ -11,7 +11,7 @@ import entitee.Domaine;
 import entitee.PersonneMorale;
 import entitee.Produit;
 import entitee.TypeGarantie;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -39,7 +39,7 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
     }
 
     @Override
-    public Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, ArrayList<TypeGarantie> lesGaranties, Produit leProduit) {
+    public Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, List<TypeGarantie> lesGaranties, Produit leProduit) {
         
         Contrat con = new Contrat();
         con.setDateDebut(dateDeb);

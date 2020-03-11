@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +22,7 @@ import javax.persistence.OneToMany;
 public class BaseRemboursementSecu implements Serializable {
 
     @OneToMany(mappedBy = "laBaseRemboursementSeco")
-    private ArrayList<Garantie> lesGaranties;
+    private List<Garantie> lesGaranties;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,11 +47,11 @@ public class BaseRemboursementSecu implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<Garantie> getLesGaranties() {
+    public List<Garantie> getLesGaranties() {
         return lesGaranties;
     }
 
-    public void setLesGaranties(ArrayList<Garantie> lesGaranties) {
+    public void setLesGaranties(List<Garantie> lesGaranties) {
         this.lesGaranties = lesGaranties;
     }
 

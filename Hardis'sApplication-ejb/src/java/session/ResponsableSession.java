@@ -20,9 +20,14 @@ public class ResponsableSession implements ResponsableSessionLocal {
     @EJB
     private ResponsableFacadeLocal responsableFacade;
     
+    @Override
     public Responsable authentificationResponsable(String login, String mdp) {
         return responsableFacade.authentificationResponsable(login, mdp);
     }
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    
+    @Override
+    public Responsable modifiermdp(Responsable resp, String mdp){
+        return responsableFacade.modifierMdp(resp, mdp);
+    }
+    
 }

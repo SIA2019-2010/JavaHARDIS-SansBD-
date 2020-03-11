@@ -12,7 +12,7 @@ import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
 import entitee.StatutBeneficiaire;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import javax.ejb.Local;
 
@@ -23,7 +23,7 @@ import javax.ejb.Local;
 @Local
 public interface PubliqueSessionLocal {
     
-        Devis creerDevis(double prix, Date dateDevis, ArrayList<PersonnePhysique> listpers, Produit prod);
+        Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod);
 
         PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop);
 

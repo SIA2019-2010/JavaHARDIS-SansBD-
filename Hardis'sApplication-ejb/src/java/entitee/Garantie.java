@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,10 +23,10 @@ import javax.persistence.OneToMany;
 public class Garantie implements Serializable {
 
     @OneToMany(mappedBy = "laGarantie")
-    private ArrayList<LibelleActe> lesLibelleActes;
+    private List<LibelleActe> lesLibelleActes;
 
     @OneToMany(mappedBy = "laGarantie")
-    private ArrayList<PriseEnCharge> lesPriseEnCharges;
+    private List<PriseEnCharge> lesPriseEnCharges;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,13 +39,13 @@ public class Garantie implements Serializable {
     private BaseRemboursementSecu laBaseRemboursementSeco;
 
     @ManyToMany
-    private ArrayList<TypeGarantie> lesTypesGarantie;
+    private List<TypeGarantie> lesTypesGarantie;
 
-    public ArrayList<TypeGarantie> getLesTypesGarantie() {
+    public List<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;
     }
 
-    public void setLesTypesGarantie(ArrayList<TypeGarantie> lesTypesGarantie) {
+    public void setLesTypesGarantie(List<TypeGarantie> lesTypesGarantie) {
         this.lesTypesGarantie = lesTypesGarantie;
     }
 
@@ -73,19 +73,19 @@ public class Garantie implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<LibelleActe> getLesLibelleActes() {
+    public List<LibelleActe> getLesLibelleActes() {
         return lesLibelleActes;
     }
 
-    public void setLesLibelleActes(ArrayList<LibelleActe> lesLibelleActes) {
+    public void setLesLibelleActes(List<LibelleActe> lesLibelleActes) {
         this.lesLibelleActes = lesLibelleActes;
     }
 
-    public ArrayList<PriseEnCharge> getLesPriseEnCharges() {
+    public List<PriseEnCharge> getLesPriseEnCharges() {
         return lesPriseEnCharges;
     }
 
-    public void setLesPriseEnCharges(ArrayList<PriseEnCharge> lesPriseEnCharges) {
+    public void setLesPriseEnCharges(List<PriseEnCharge> lesPriseEnCharges) {
         this.lesPriseEnCharges = lesPriseEnCharges;
     }
 

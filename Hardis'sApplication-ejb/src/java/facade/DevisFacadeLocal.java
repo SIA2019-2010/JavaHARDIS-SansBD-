@@ -8,7 +8,7 @@ package facade;
 import entitee.Devis;
 import entitee.PersonnePhysique;
 import entitee.Produit;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -34,7 +34,7 @@ public interface DevisFacadeLocal {
 
     int count();
 
-    Devis creerDevis(ArrayList<PersonnePhysique> listpers,Produit prod,double prix,Date dateDevis);
+    Devis creerDevis(List<PersonnePhysique> listpers,Produit prod,double prix,Date dateDevis);
 
     List<Devis> rechercherDevisPersonne(PersonnePhysique pers);
 

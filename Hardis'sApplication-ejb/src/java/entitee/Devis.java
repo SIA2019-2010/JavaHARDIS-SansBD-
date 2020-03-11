@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +28,7 @@ public class Devis implements Serializable {
     private Long id;
 
     @ManyToMany
-    private ArrayList<PersonnePhysique> lesPersonnesPhysiques;;
+    private List<PersonnePhysique> lesPersonnesPhysiques;;
 
     @ManyToOne
     private Produit leProduit;
@@ -61,11 +61,11 @@ public class Devis implements Serializable {
         this.leProduit = leProduit;
     }
 
-    public ArrayList<PersonnePhysique> getLaPersonne() {
+    public List<PersonnePhysique> getLaPersonne() {
         return lesPersonnesPhysiques;
     }
 
-    public void setLaPersonne(ArrayList<PersonnePhysique> lesPersonnesPhysiques) {
+    public void setLaPersonne(List<PersonnePhysique> lesPersonnesPhysiques) {
         this.lesPersonnesPhysiques = lesPersonnesPhysiques;
     }
 

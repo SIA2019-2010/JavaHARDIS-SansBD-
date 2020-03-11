@@ -6,7 +6,7 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +22,7 @@ import javax.persistence.OneToMany;
 public class Praticien implements Serializable {
 
     @OneToMany(mappedBy = "lePraticien")
-    private ArrayList<Acte> lesActes;
+    private List<Acte> lesActes;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -88,11 +88,11 @@ public class Praticien implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<Acte> getLesActes() {
+    public List<Acte> getLesActes() {
         return lesActes;
     }
 
-    public void setLesActes(ArrayList<Acte> lesActes) {
+    public void setLesActes(List<Acte> lesActes) {
         this.lesActes = lesActes;
     }
     
