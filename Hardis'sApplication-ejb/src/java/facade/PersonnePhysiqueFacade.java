@@ -127,7 +127,29 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     
     
     
-    
+     @Override
+    public PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population laPopulation) {
+        PersonnePhysique pers = new PersonnePhysique();
+  
+        pers.setLaPopulation(laPopulation);
+        pers.setMail(mail);
+        pers.setNom(nom);
+        pers.setPrenom(prenom);
+        
+        em.persist(pers);
+        return pers;
+    }
+
+    @Override
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent) {
+        pers.setAdherentCAS(adherent);
+        pers.setAdresse(adresse);
+        pers.setGenre(genre);
+        pers.setNumeroSS(numeroSS);
+        
+        em.merge(pers);
+        return pers;
+    }
     
     
     

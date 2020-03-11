@@ -46,6 +46,18 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
         return statutbeneficiaire;
     }
     
+    
+        @Override
+    public StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedubut, Beneficiaire statut, PersonnePhysique lapersonne) {
+        StatutBeneficiaire statutbeneficiaire = new StatutBeneficiaire();
+        statutbeneficiaire.setDateDebutValidite(datedubut);
+        statutbeneficiaire.setStatutBeneficiare(statut);
+        statutbeneficiaire.setLaPersonnePhysique(lapersonne);
+        em.persist(statutbeneficiaire);
+        return statutbeneficiaire;
+    }
+            
+         
     @Override
     public StatutBeneficiaire modifierDateFinValide(StatutBeneficiaire statutbeneficiaire, Date datefin) {
         statutbeneficiaire.setDateFinValidite(datefin);
@@ -65,5 +77,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
         }
         return statut;
     }
+    
+    
     
 }

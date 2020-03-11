@@ -36,6 +36,8 @@ public interface StatutBeneficiaireFacadeLocal {
     
     StatutBeneficiaire creerStatutBeneficiaire(Date datedubut, Beneficiaire statut, Contrat lecontrat, PersonnePhysique lapersonne);
     
+    StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedubut, Beneficiaire statut, PersonnePhysique lapersonne);
+    
     StatutBeneficiaire modifierDateFinValide(StatutBeneficiaire statutbeneficiaire, Date datefin);
     
     StatutBeneficiaire rechercherStatutBeneficiaire(long id);

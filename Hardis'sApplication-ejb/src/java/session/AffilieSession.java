@@ -10,8 +10,8 @@ import entitee.PersonnePhysique;
 import entitee.Produit;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -57,6 +57,10 @@ public class AffilieSession implements AffilieSessionLocal {
     public Devis creerDevis(double prix, Date dateDevis, ArrayList<PersonnePhysique> listpers, Produit prod) {
         return devisFacade.creerDevis(listpers, prod, prix, dateDevis);
     }
+    
+    
+    
+    
     
     
     

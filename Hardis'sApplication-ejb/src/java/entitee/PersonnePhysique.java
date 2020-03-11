@@ -84,8 +84,6 @@ public class PersonnePhysique implements Serializable {
     }
 
 
-   
-
     public Population getLaPopulation() {
         return laPopulation;
     }

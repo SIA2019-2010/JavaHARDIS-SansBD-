@@ -27,6 +27,6 @@ public interface AffilieSessionLocal {
 
     PersonnePhysique modifierAdresse(String nvAdresse, PersonnePhysique pers);
 
-    Devis creerDevis(double prix, Date dateDevis, ArrayList<PersonnePhysique> pers, Produit prod);
+    Devis creerDevis(double prix, Date dateDevis, ArrayList<PersonnePhysique> listpers, Produit prod);
     
 }
