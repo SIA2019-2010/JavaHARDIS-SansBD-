@@ -5,7 +5,9 @@
  */
 package facade;
 
+import entitee.Activite;
 import entitee.PersonneMorale;
+import entitee.Population;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +31,9 @@ public interface PersonneMoraleFacadeLocal {
     List<PersonneMorale> findRange(int[] range);
 
     int count();
+    
+    PersonneMorale creerPersonneMorale(String siret, String raison, String adresse, Activite activite);
+    
+    PersonneMorale modifierAdresse(PersonneMorale personne, String adresse);
     
 }

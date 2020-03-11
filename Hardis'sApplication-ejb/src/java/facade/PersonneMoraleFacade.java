@@ -5,6 +5,7 @@
  */
 package facade;
 
+import entitee.Activite;
 import entitee.PersonneMorale;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,6 +28,24 @@ public class PersonneMoraleFacade extends AbstractFacade<PersonneMorale> impleme
 
     public PersonneMoraleFacade() {
         super(PersonneMorale.class);
+    }
+    
+    @Override
+    public PersonneMorale creerPersonneMorale(String siret, String raison, String adresse, Activite activite){
+        PersonneMorale personne = new PersonneMorale();
+        personne.setSIRET(siret);
+        personne.setRaisonSociale(raison);
+        personne.setAdresse(adresse);
+        personne.setLaActivite(activite);
+        em.persist(personne);
+        return personne;
+    }
+    
+    @Override
+    public PersonneMorale modifierAdresse(PersonneMorale personne, String adresse){
+        personne.setAdresse(adresse);
+        em.merge(personne);
+        return personne;
     }
     
 }

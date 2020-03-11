@@ -30,4 +30,8 @@ public interface PopulationFacadeLocal {
 
     int count();
     
+    Population creerPopulation(String libelle);
+    
+    Population modifierLibellePopulation(Population popu, String libelle);
+    
 }

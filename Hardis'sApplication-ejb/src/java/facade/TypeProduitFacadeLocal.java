@@ -30,4 +30,8 @@ public interface TypeProduitFacadeLocal {
 
     int count();
     
+    TypeProduit creerTypeProduit(String libelle);
+    
+    TypeProduit modifierLibelleTypeProduit(TypeProduit typeproduit, String libelle);
+    
 }

@@ -30,4 +30,10 @@ public interface AssietteCotisationFacadeLocal {
 
     int count();
     
+    AssietteCotisation creerAssietteCotisation(String libelleassiete, double assiette);
+    
+    AssietteCotisation modifierLibelleAssiette(AssietteCotisation assiettecotisation, String libelleassiete);
+    
+    AssietteCotisation modifierAssiette(AssietteCotisation assiettecotisation, double assiette);
+    
 }

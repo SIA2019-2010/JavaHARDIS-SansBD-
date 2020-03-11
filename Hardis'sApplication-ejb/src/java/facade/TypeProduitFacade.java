@@ -29,4 +29,19 @@ public class TypeProduitFacade extends AbstractFacade<TypeProduit> implements Ty
         super(TypeProduit.class);
     }
     
+    @Override
+    public TypeProduit creerTypeProduit(String libelle) {
+        TypeProduit typeproduit=new TypeProduit();
+        typeproduit.setLibelleTypeProduit(libelle);
+        em.persist(typeproduit);
+        return typeproduit;
+    }
+    
+    @Override
+    public TypeProduit modifierLibelleTypeProduit(TypeProduit typeproduit, String libelle) {
+        typeproduit.setLibelleTypeProduit(libelle);
+        em.merge(typeproduit);
+        return typeproduit;
+    }
+    
 }

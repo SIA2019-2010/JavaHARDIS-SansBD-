@@ -30,4 +30,8 @@ public interface TypeGarantieFacadeLocal {
 
     int count();
     
+    TypeGarantie creerTypeGarantie(String libelle);
+    
+    TypeGarantie modifierTypeGarantie(TypeGarantie typeproduit, String libelle);
+    
 }

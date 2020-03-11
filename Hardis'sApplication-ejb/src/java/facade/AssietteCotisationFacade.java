@@ -29,4 +29,27 @@ public class AssietteCotisationFacade extends AbstractFacade<AssietteCotisation>
         super(AssietteCotisation.class);
     }
     
+    @Override
+    public AssietteCotisation creerAssietteCotisation(String libelleassiete, double assiette) {
+        AssietteCotisation assiettecotisation=new AssietteCotisation();
+        assiettecotisation.setLibelleAssiette(libelleassiete);
+        assiettecotisation.setAssiette(assiette);
+        em.persist(assiettecotisation);
+        return assiettecotisation;
+    }
+    
+    @Override
+    public AssietteCotisation modifierLibelleAssiette(AssietteCotisation assiettecotisation, String libelleassiete) {
+        assiettecotisation.setLibelleAssiette(libelleassiete);
+        em.merge(assiettecotisation);
+        return assiettecotisation;
+    }
+    
+    @Override
+    public AssietteCotisation modifierAssiette(AssietteCotisation assiettecotisation, double assiette) {
+        assiettecotisation.setAssiette(assiette);
+        em.merge(assiettecotisation);
+        return assiettecotisation;
+    }
+    
 }

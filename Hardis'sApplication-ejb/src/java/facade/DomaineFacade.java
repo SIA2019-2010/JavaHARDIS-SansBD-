@@ -29,4 +29,19 @@ public class DomaineFacade extends AbstractFacade<Domaine> implements DomaineFac
         super(Domaine.class);
     }
     
+    @Override
+    public Domaine creerDomaine(String libelleDomaine) {
+        Domaine domaine = new Domaine();
+        domaine.setLibelleDomaine(libelleDomaine);
+        em.persist(domaine);
+        return domaine;
+    }
+    
+    @Override
+    public Domaine modifierLibelleDomaine(Domaine domaine, String libelleDomaine){
+        domaine.setLibelleDomaine(libelleDomaine);
+        em.merge(domaine);
+        return domaine;
+    }
+    
 }

@@ -29,4 +29,19 @@ public class PopulationFacade extends AbstractFacade<Population> implements Popu
         super(Population.class);
     }
     
+    @Override
+    public Population creerPopulation(String libelle) {
+        Population popu=new Population();
+        popu.setLibellePopulation(libelle);
+        em.persist(popu);
+        return popu;
+    }
+    
+    @Override
+    public Population modifierLibellePopulation(Population popu, String libelle) {
+        popu.setLibellePopulation(libelle);
+        em.merge(popu);
+        return popu;
+    }
+    
 }

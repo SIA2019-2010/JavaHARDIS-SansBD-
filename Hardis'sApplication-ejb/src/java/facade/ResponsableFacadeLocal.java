@@ -5,6 +5,7 @@
  */
 package facade;
 
+import entitee.PersonneMorale;
 import entitee.Responsable;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,5 +30,13 @@ public interface ResponsableFacadeLocal {
     List<Responsable> findRange(int[] range);
 
     int count();
+    
+    Responsable creerResponsable(String nom, String prenom, String mail, String telephone, String login, String mdp, PersonneMorale personne);
+    
+    Responsable modifierMail(Responsable resp, String mail);
+    
+    Responsable modifierTelephone(Responsable resp, String telephone);
+    
+    Responsable modifierMdp(Responsable resp, String mdp);
     
 }

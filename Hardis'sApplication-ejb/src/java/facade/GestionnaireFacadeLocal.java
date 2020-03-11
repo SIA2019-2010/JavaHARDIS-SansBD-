@@ -5,6 +5,7 @@
  */
 package facade;
 
+import entitee.Domaine;
 import entitee.Gestionnaire;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,5 +30,15 @@ public interface GestionnaireFacadeLocal {
     List<Gestionnaire> findRange(int[] range);
 
     int count();
+
+    Gestionnaire creerGestionnaire(String nom, String prenom, String adresse, String telephone, String login, String mdp, Domaine domaine);
+    
+    Gestionnaire modifierAdresse(Gestionnaire gest, String adresse);
+    
+    Gestionnaire modifierTelephone(Gestionnaire gest, String telephone);
+    
+    Gestionnaire modifierMdp(Gestionnaire gest, String mdp);
+    
+    Gestionnaire modifierDomaine(Gestionnaire gest, Domaine domaine);
     
 }

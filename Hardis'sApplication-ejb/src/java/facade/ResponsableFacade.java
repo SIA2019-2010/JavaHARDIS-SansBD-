@@ -5,6 +5,7 @@
  */
 package facade;
 
+import entitee.PersonneMorale;
 import entitee.Responsable;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,6 +28,41 @@ public class ResponsableFacade extends AbstractFacade<Responsable> implements Re
 
     public ResponsableFacade() {
         super(Responsable.class);
+    }
+    
+    @Override
+    public Responsable creerResponsable(String nom, String prenom, String mail, String telephone, String login, String mdp, PersonneMorale personne) {
+        Responsable resp = new Responsable();
+        resp.setNom(nom);
+        resp.setPrenom(prenom);
+        resp.setMail(mail);
+        resp.setTelephone(telephone);
+        resp.setLogin(login);
+        resp.setMdp(mdp);
+        resp.setLaPersonneMorale(personne);
+        em.persist(resp);
+        return resp;
+    }
+    
+    @Override
+    public Responsable modifierMail(Responsable resp, String mail) {
+        resp.setMail(mail);
+        em.merge(resp);
+        return resp;
+    }
+    
+    @Override
+    public Responsable modifierTelephone(Responsable resp, String telephone) {
+        resp.setTelephone(telephone);
+        em.merge(resp);
+        return resp;
+    }
+    
+    @Override
+    public Responsable modifierMdp(Responsable resp, String mdp) {
+        resp.setMdp(mdp);
+        em.merge(resp);
+        return resp;
     }
     
 }

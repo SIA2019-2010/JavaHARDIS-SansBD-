@@ -29,4 +29,19 @@ public class TypeGarantieFacade extends AbstractFacade<TypeGarantie> implements 
         super(TypeGarantie.class);
     }
     
+    @Override
+    public TypeGarantie creerTypeGarantie(String libelle) {
+        TypeGarantie typeproduit=new TypeGarantie();
+        typeproduit.setTypeGarantie(libelle);
+        em.persist(typeproduit);
+        return typeproduit;
+    }
+    
+    @Override
+    public TypeGarantie modifierTypeGarantie(TypeGarantie typeproduit, String libelle) {
+        typeproduit.setTypeGarantie(libelle);
+        em.merge(typeproduit);
+        return typeproduit;
+    }
+    
 }

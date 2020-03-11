@@ -30,4 +30,8 @@ public interface DomaineFacadeLocal {
 
     int count();
     
+    Domaine creerDomaine(String libelleDomaine);
+    
+    Domaine modifierLibelleDomaine(Domaine domaine, String libelleDomaine);
+    
 }
