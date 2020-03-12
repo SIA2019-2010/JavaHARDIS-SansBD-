@@ -73,13 +73,15 @@ public class Page extends HttpServlet {
             else request.setAttribute("typeConnexion","ClientConnexion");
         }
         else if(null==act){
-            jspClient="/SIA.jsp";
+            jspClient="/Connexion.jsp";
+            request.setAttribute("typeConnexion","GestionnaireConnexion");
             message="Bienvenue";
         }
         else switch (act) {  
             
             case "vide":
-                jspClient="/SIA.jsp";
+                jspClient="/Connexion.jsp";
+                request.setAttribute("typeConnexion","GestionnaireConnexion");
                 message="Bienvenue";
                 break;
                 
@@ -107,7 +109,6 @@ public class Page extends HttpServlet {
                 Response=responsableSession.authentificationResponsable(ResponsableLogin, ResponsableMdp, request);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
-                
                 break;
                 
             default:
