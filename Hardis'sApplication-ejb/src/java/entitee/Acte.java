@@ -35,6 +35,8 @@ public class Acte implements Serializable {
     private double Depense;
 
     private String Lieu;
+    
+    
 
     @ManyToOne
     private Praticien lePraticien;
@@ -47,6 +49,19 @@ public class Acte implements Serializable {
 
     @ManyToOne
     private PersonnePhysique laPersonnePhysique;
+    
+    @ManyToOne
+    private PlafondMensuelSecuSociale lePlafond;
+
+    public PlafondMensuelSecuSociale getLePlafond() {
+        return lePlafond;
+    }
+
+    public void setLePlafond(PlafondMensuelSecuSociale lePlafond) {
+        this.lePlafond = lePlafond;
+    }
+
+    
 
     public PersonnePhysique getLaPersonnePhysique() {
         return laPersonnePhysique;

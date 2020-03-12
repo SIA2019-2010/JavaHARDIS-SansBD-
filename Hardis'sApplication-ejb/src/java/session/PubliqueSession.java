@@ -88,6 +88,45 @@ public class PubliqueSession implements PubliqueSessionLocal {
         }
         return Response;
     }
+
+    @Override
+    public List<Object> creerDevisComplet() {
+        
+
+       
+        
+        
+        
+        return null;
+    }
+
+    @Override
+    public List<Object> calculPacks(List<String> noms, List<String> prenoms, List<String> mails, List<Population> pops,Date datedeb) {
+       List<Object> Response=new ArrayList();
+       
+        if(login.trim().isEmpty()||mdp.trim().isEmpty()){
+              
+          Response.add("Il manque de champs");
+          Response.add("/Connexion.jsp");
+        
+        
+        } else{
+        List<Devis> lesPacks=new ArrayList();
+        Date dateDevis = new Date();
+        // prix = // algo Claire
+        //produit = //algo CLaire
+        
+        Response.add("Packs calculés");
+        Response.add("/AfficherPacks.jsp"); //Jsp pour afficher les devis
+        //add en 3 : lesPacks
+        }
+        
+        
+        //TESTADRESSEMAIL POUR LA PERSONNE PHYSIQUE
+        
+        
+        return Response;
+    }
     
     
     

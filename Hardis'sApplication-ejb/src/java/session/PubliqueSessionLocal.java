@@ -35,5 +35,9 @@ public interface PubliqueSessionLocal {
     PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent);
     
     List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique);
+
+    List<Object> creerDevisComplet();
+
+    List<Devis> calculPacks();
     
 }

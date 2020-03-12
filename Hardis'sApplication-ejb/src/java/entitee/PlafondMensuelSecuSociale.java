@@ -7,7 +7,6 @@ package entitee;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,36 +18,40 @@ import javax.persistence.OneToMany;
  * @author alexisbaillieu
  */
 @Entity
-public class BaseRemboursementSecu implements Serializable {
+public class PlafondMensuelSecuSociale implements Serializable {
 
-    @OneToMany(mappedBy = "laBaseRemboursementSeco")
-    private List<Garantie> lesGaranties;
+    @OneToMany(mappedBy = "lePlafond")
+    private List<Acte> lesActes;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private double BaseRemboursementSecu;
     
-    private double TauxRemboursementSecu;
+    private double Plafond;
+    
+    private int Annee;
 
-    public double getTauxRemboursementSecu() {
-        return TauxRemboursementSecu;
+    public int getAnnee() {
+        return Annee;
     }
 
-    public void setTauxRemboursementSecu(double TauxRemboursementSecu) {
-        this.TauxRemboursementSecu = TauxRemboursementSecu;
+    public void setAnnee(int Annee) {
+        this.Annee = Annee;
     }
 
 
-    public double getBaseRemboursementSecu() {
-        return BaseRemboursementSecu;
+    public double getPlafond() {
+        return Plafond;
     }
 
-    public void setBaseRemboursementSecu(double BaseRemboursementSecu) {
-        this.BaseRemboursementSecu = BaseRemboursementSecu;
+    public void setPlafond(double Plafond) {
+        this.Plafond = Plafond;
     }
+
+    
+    
+    
 
     public Long getId() {
         return id;
@@ -56,14 +59,6 @@ public class BaseRemboursementSecu implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<Garantie> getLesGaranties() {
-        return lesGaranties;
-    }
-
-    public void setLesGaranties(List<Garantie> lesGaranties) {
-        this.lesGaranties = lesGaranties;
     }
 
     @Override
@@ -76,10 +71,10 @@ public class BaseRemboursementSecu implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BaseRemboursementSecu)) {
+        if (!(object instanceof PlafondMensuelSecuSociale)) {
             return false;
         }
-        BaseRemboursementSecu other = (BaseRemboursementSecu) object;
+        PlafondMensuelSecuSociale other = (PlafondMensuelSecuSociale) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -88,7 +83,7 @@ public class BaseRemboursementSecu implements Serializable {
 
     @Override
     public String toString() {
-        return "entitee.BaseRemboursementSecu[ id=" + id + " ]";
+        return "entitee.PlafondMensuelSecuSociale[ id=" + id + " ]";
     }
-
+    
 }
