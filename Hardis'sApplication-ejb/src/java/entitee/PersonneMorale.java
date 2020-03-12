@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 public class PersonneMorale implements Serializable {
 
     @OneToMany(mappedBy = "laPersonneMorale")
-    private List<Contrat> lesContrats;
+    private List<Produit> lesProduits;
 
     @OneToMany(mappedBy = "laPersonneMorale")
     private List<Responsable> lesResponsables;
@@ -77,12 +77,12 @@ public class PersonneMorale implements Serializable {
         this.id = id;
     }
 
-    public List<Contrat> getLesContrats() {
-        return lesContrats;
+    public List<Produit> getLesProduits() {
+        return lesProduits;
     }
 
-    public void setLesContrats(List<Contrat> lesContrats) {
-        this.lesContrats = lesContrats;
+    public void setLesProduits(List<Produit> lesProduits) {
+        this.lesProduits = lesProduits;
     }
 
     public List<Responsable> getLesResponsables() {

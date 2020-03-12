@@ -62,8 +62,7 @@ public class Page extends HttpServlet {
             sessiongestionnaire=(Gestionnaire)session.getAttribute("sessionresponsable");
             sessionaffilie=(PersonnePhysique)session.getAttribute("sessionphysique");
             sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
-            sessionpublique=(boolean)session.getAttribute("sessionpublique");
-            count=(sessiongestionnaire==null?0:1)+(sessionaffilie==null?0:1)+(sessionresponsable==null?0:1)+(sessionpublique?1:0);
+            count=(sessiongestionnaire==null?0:1)+(sessionaffilie==null?0:1)+(sessionresponsable==null?0:1);
         }
         
         if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("AgentConnexion")&&!act.equals("ClientConnexion")&&!act.equals("AgentAuthen")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AfficherCreerCompte")&&!act.equals("CreerCompteClient"))){
@@ -73,13 +72,16 @@ public class Page extends HttpServlet {
             else request.setAttribute("typeConnexion","ClientConnexion");
         }
         else if(null==act){
-            jspClient="/SIA.jsp";
+            jspClient="/Connexion.jsp";
+            request.setAttribute("typeConnexion","GestionnaireConnexion");
             message="Bienvenue";
+        System.out.println("testttt"+act);
         }
         else switch (act) {  
             
             case "vide":
-                jspClient="/SIA.jsp";
+                jspClient="/Connexion.jsp";
+                request.setAttribute("typeConnexion","GestionnaireConnexion");
                 message="Bienvenue";
                 break;
                 
@@ -107,7 +109,6 @@ public class Page extends HttpServlet {
                 Response=responsableSession.authentificationResponsable(ResponsableLogin, ResponsableMdp, request);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
-                
                 break;
                 
             default:
