@@ -8,13 +8,16 @@ package session;
 import entitee.Beneficiaire;
 import entitee.Devis;
 import entitee.Genre;
+import entitee.Gestionnaire;
 import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
+import entitee.Responsable;
 import entitee.StatutBeneficiaire;
 import java.util.List;
 import java.util.Date;
 import javax.ejb.Local;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,5 +33,7 @@ public interface PubliqueSessionLocal {
         StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers);
 
     PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent);
+    
+    List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique);
     
 }

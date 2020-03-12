@@ -8,17 +8,21 @@ package session;
 import entitee.Beneficiaire;
 import entitee.Devis;
 import entitee.Genre;
+import entitee.Gestionnaire;
 import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
+import entitee.Responsable;
 import entitee.StatutBeneficiaire;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.StatutBeneficiaireFacadeLocal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -57,6 +61,32 @@ public class PubliqueSession implements PubliqueSessionLocal {
     @Override
     public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent) {
         return personnePhysiqueFacade.renseignerInfos(pers, numeroSS, adresse, genre, adherent);
+    }
+    
+    @Override
+    public List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique){
+        List<Object> Response=new ArrayList();
+        if (sessiongestionnaire!=null){
+            Response.add("/GestionnaireMenu.jsp");
+            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+        }
+        else if(sessionaffilie!=null){
+            Response.add("/AffilieMenu.jsp");
+            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+        }
+        else if(sessionresponsable!=null){
+            Response.add("/ResponsableMenu.jsp");
+            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+        }
+        else if(sessionpublique){
+            Response.add("/PubliqueMenu.jsp");
+            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+        }
+        else{
+            Response.add("/Connexion.jsp");
+            Response.add("Affichage page connexion");
+        }
+        return Response;
     }
     
     

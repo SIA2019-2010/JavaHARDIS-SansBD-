@@ -7,8 +7,12 @@ package session;
 
 import entitee.Responsable;
 import facade.ResponsableFacadeLocal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,8 +25,29 @@ public class ResponsableSession implements ResponsableSessionLocal {
     private ResponsableFacadeLocal responsableFacade;
     
     @Override
-    public Responsable authentificationResponsable(String login, String mdp) {
-        return responsableFacade.authentificationResponsable(login, mdp);
+    public List<Object> authentificationResponsable(String login, String mdp, HttpServletRequest request) {
+        List<Object> Response=new ArrayList();
+        if(login.trim().isEmpty()||mdp.trim().isEmpty()){
+            Response.add("Il manque de champs");
+            Response.add("/Connexion.jsp");
+            request.setAttribute("typeConnexion","ResponsableConnexion");
+        }
+        else{
+            Responsable sessionresponsable=responsableFacade.authentificationResponsable(login, mdp);
+            if(sessionresponsable==null){
+                Response.add("Erreur :login ou mdp");
+                Response.add("/Connexion.jsp");
+                request.setAttribute("typeConnexion","ResponsableConnexion");
+            }
+            else{
+                Response.add("Connexion réussie");
+                Response.add("/AgentMenu.jsp");
+                request.setAttribute("typeConnexion","ResponsableConnexion");
+                HttpSession session = request.getSession(true);
+                session.setAttribute("sessionresponsable",sessionresponsable);
+            }
+        }
+        return Response;
     }
     
     @Override

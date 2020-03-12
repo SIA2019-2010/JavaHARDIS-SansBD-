@@ -55,38 +55,18 @@ public class Page extends HttpServlet {
         Gestionnaire sessiongestionnaire=null;
         PersonnePhysique sessionaffilie=null;
         Responsable sessionresponsable=null;
+        boolean sessionpublique=false;
         List<Object> Response;
+        int count=0;
         if(session!=null){
             sessiongestionnaire=(Gestionnaire)session.getAttribute("sessionresponsable");
             sessionaffilie=(PersonnePhysique)session.getAttribute("sessionphysique");
             sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
+            sessionpublique=(boolean)session.getAttribute("sessionpublique");
+            count=(sessiongestionnaire==null?0:1)+(sessionaffilie==null?0:1)+(sessionresponsable==null?0:1)+(sessionpublique?1:0);
         }
         
-        if(agentSession.RechercherAgent("login")==null){
-            agentSession.CreerAgent("NomAgent1", "PreomAgenT1", "login", "mdp", agentSession.RechercherAgence("AdresseAgence1"));
-        }
-        if(agentSession.RechercherTypeVehicule("SUV")==null){
-            agentSession.CreerTypeVehicule("SUV");
-        }
-        if(agentSession.RechercherVehicule("TestVehicul")==null){
-            agentSession.CreerVehicule("TestVehicul", "MarqueTestVehicule", "ModeleTestVehicule", "CouleurTestVehicule", 2000, 40.5, agentSession.RechercherTypeVehicule("SUV"));
-        }
-        Vehicule vtest=agentSession.RechercherVehicule("TestVehicul");
-        if(vtest.getRevisions().isEmpty()){
-            agentSession.CreerRevision(vtest, new Date(System.currentTimeMillis() - (21 * 24 * 60 * 60 * 1000)));
-            agentSession.ModifierRevision(vtest);
-        }
-        //agentSession.CreerAgence("Adresse1");
-        //long idAg=(long)1;
-        //Agence ag = agentSession.RechercherAgence(idAg);
-        //agentSession.CreerAgent("Nom", "Prenom", "login", "mdp", ag);
-        //clientSession.creerClient("Nom1", "Prenom1");
-        //long idCl=(long)3;
-        if(clientSession.RechercherCompte("login")==null){
-            clientSession.CreerCompte("login", "mdp", "NomClient1", "PrenomClient1", "AdresseClient1", "0612345678");
-        }
-        
-        if((sessioncompte!=null&&sessionagent!=null)||(sessioncompte==null&&sessionagent==null&&act!=null&&!act.equals("")&&!act.equals("AgentConnexion")&&!act.equals("ClientConnexion")&&!act.equals("AgentAuthen")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AfficherCreerCompte")&&!act.equals("CreerCompteClient"))){
+        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("AgentConnexion")&&!act.equals("ClientConnexion")&&!act.equals("AgentAuthen")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AfficherCreerCompte")&&!act.equals("CreerCompteClient"))){
             jspClient="/ErreurSession.jsp";
             message="Erreur de session ! Veuillez vous reconnecter !";
             if(act.substring(0, 5).equals("Agent")) request.setAttribute("typeConnexion","AgentConnexion");
@@ -103,21 +83,14 @@ public class Page extends HttpServlet {
                 message="Bienvenue";
                 break;
                 
-            case "AgentConnexion" :
-            case "ClientConnexion" :
-                if (session!=null){
-                    jspClient="/ClientMenu.jsp";
-                    message="";
-                }
-                else if(sessionagent!=null){
-                    jspClient="/AgentMenu.jsp";
-                    message="";
-                }
-                else{
-                    jspClient="/Connexion.jsp";
-                    message="Affichage page connexion";
-                    request.setAttribute("typeConnexion",act);
-                }
+            case "GestionnaireConnexion" :
+            case "AffilieConnexion" :
+            case "ResponsableConnexion" :
+            case "PubliqueConnexion" :
+                Response=publiqueSession.rechercherConnexion(session, sessiongestionnaire, sessionaffilie, sessionresponsable, sessionpublique);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
+                request.setAttribute("typeConnexion",act);
                 break;
             
             case "Deconnexion" :
@@ -128,52 +101,13 @@ public class Page extends HttpServlet {
                 message="Vous êtes déconnecté";
                 break;
                 
-            case "AgentAuthen" :
-                String Agentlogin=request.getParameter("Login");
-                String Agentmdp=request.getParameter("MDP");
-                if(Agentlogin.trim().isEmpty()||Agentmdp.trim().isEmpty()){
-                    message="Il manque de champs";
-                    request.setAttribute("typeConnexion","AgentConnexion");
-                    jspClient="/Connexion.jsp";
-                }
-                else{
-                    sessionagent=agentSession.RechercherAgent(Agentlogin, Agentmdp);
-                    if(sessionagent==null){
-                        request.setAttribute("typeConnexion","AgentConnexion");
-                        message="Erreur :login ou mdp";
-                        jspClient="/Connexion.jsp";
-                    }
-                    else{
-                        jspClient="/AgentMenu.jsp";
-                        message="Connexion réussie";
-                        session = request.getSession(true);
-                        session.setAttribute("sessionagent",sessionagent);
-                    }
-                }
-                break;
+            case "ResponsableAuthen" :
+                String ResponsableLogin=request.getParameter("Login");
+                String ResponsableMdp=request.getParameter("MDP");
+                Response=responsableSession.authentificationResponsable(ResponsableLogin, ResponsableMdp, request);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
                 
-            case "ClientAuthen" :
-                String Clientlogin=request.getParameter("Login");
-                String Clientmdp=request.getParameter("MDP");
-                if(Clientlogin.trim().isEmpty()||Clientmdp.trim().isEmpty()){
-                    message="Vous n'avez pas rempli tous les champs";
-                    request.setAttribute("typeConnexion","ClientConnexion");
-                    jspClient="/Connexion.jsp";
-                }
-                else{
-                    sessioncompte=clientSession.RechercherCompte(Clientlogin, Clientmdp);
-                    if(sessioncompte==null){
-                        request.setAttribute("typeConnexion","ClientConnexion");
-                        message=" Le login ou le mot de passe est incorrect ";
-                        jspClient="/Connexion.jsp";
-                    }
-                    else{
-                        jspClient="/ClientMenu.jsp";
-                        message="Connexion réussie";
-                        session = request.getSession(true);
-                        session.setAttribute("sessioncompte",sessioncompte);
-                    }
-                }
                 break;
                 
             default:

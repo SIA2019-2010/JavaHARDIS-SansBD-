@@ -6,7 +6,9 @@
 package session;
 
 import entitee.Responsable;
+import java.util.List;
 import javax.ejb.Local;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -15,7 +17,7 @@ import javax.ejb.Local;
 @Local
 public interface ResponsableSessionLocal {
     
-    Responsable authentificationResponsable(String login, String mdp);
+    List<Object> authentificationResponsable(String login, String mdp, HttpServletRequest request);
     
     Responsable modifiermdp(Responsable resp, String mdp);
     
