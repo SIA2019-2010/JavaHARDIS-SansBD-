@@ -13,7 +13,7 @@
         <title>111</title>
     </head>
     <body>
-        <h1>Connexion de l'agent</h1>
+        <h1>Connexion de l'affilié</h1>
         <p>
             <%
                 String attribut = (String) request.getAttribute("message");
