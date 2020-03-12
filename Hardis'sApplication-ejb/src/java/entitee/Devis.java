@@ -27,8 +27,11 @@ public class Devis implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne
+    private PersonnePhysique laPersonne;
+
     @ManyToMany
-    private List<PersonnePhysique> lesPersonnesPhysiques;;
+    private List<PersonnePhysique> lesAyantsDroit;
 
     @ManyToOne
     private Produit leProduit;
@@ -36,6 +39,15 @@ public class Devis implements Serializable {
     private double prix;
 
     private Date dateDevis;
+    
+    
+    public PersonnePhysique getLaPersonne() {
+        return laPersonne;
+    }
+
+    public void setLaPersonne(PersonnePhysique laPersonne) {
+        this.laPersonne = laPersonne;
+    }
 
     public Date getDateDevis() {
         return dateDevis;
@@ -61,14 +73,14 @@ public class Devis implements Serializable {
         this.leProduit = leProduit;
     }
 
-    public List<PersonnePhysique> getLaPersonne() {
-        return lesPersonnesPhysiques;
+    public List<PersonnePhysique> getLesAyantsDroit() {
+        return lesAyantsDroit;
     }
 
-    public void setLaPersonne(List<PersonnePhysique> lesPersonnesPhysiques) {
-        this.lesPersonnesPhysiques = lesPersonnesPhysiques;
+    public void setLesAyantsDroit(List<PersonnePhysique> lesAyantsDroit) {
+        this.lesAyantsDroit = lesAyantsDroit;
     }
-
+    
     public Long getId() {
         return id;
     }

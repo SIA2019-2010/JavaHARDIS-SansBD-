@@ -128,13 +128,15 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     
     
      @Override
-    public PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population laPopulation) {
+    public PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, String numeroSS, Date datenaiss, Population laPopulation) {
         PersonnePhysique pers = new PersonnePhysique();
   
         pers.setLaPopulation(laPopulation);
         pers.setMail(mail);
         pers.setNom(nom);
         pers.setPrenom(prenom);
+        pers.setNumeroSS(numeroSS);
+        pers.setDateNaiss(datenaiss);
         
         em.persist(pers);
         return pers;
@@ -150,8 +152,57 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
         em.merge(pers);
         return pers;
     }
+
+    @Override
+    public boolean rechercheBooleanEmail(String email) {
+        String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.Mail=:em";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("em",email);
+
+        List <PersonnePhysique> result = req.getResultList();
+        return result.isEmpty();
+    }
+
+    @Override
+    public PersonnePhysique recherchePersMail(String mail) {
+         PersonnePhysique pers;
+        String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.Mail=:em";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("em",mail);
+        pers=null;
+        List <PersonnePhysique> result = req.getResultList();
+        if (result.size()==1)
+            {pers=(PersonnePhysique)result.get(0);};
+        return pers;
+    }
+
+    @Override
+    public PersonnePhysique recherchePersNumeroSS(String numeroSS) {
+        PersonnePhysique pers;
+        String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.NumeroSS=:numSS";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("numSS",numeroSS);
+        pers=null;
+        List <PersonnePhysique> result = req.getResultList();
+        if (result.size()==1)
+            {pers=(PersonnePhysique)result.get(0);};
+        return pers;
+    }
+
+    @Override
+    public PersonnePhysique creerAyantsDroits(String nom, String prenom, Date datenaiss, String numeroSS) {
+        PersonnePhysique pers = new PersonnePhysique();
+         
+        pers.setNom(nom);
+        pers.setPrenom(prenom);
+        pers.setNumeroSS(numeroSS);
+        pers.setDateNaiss(datenaiss);
+        
+        em.merge(pers);
+        return pers;
+    }
     
-    
+
     
     
     

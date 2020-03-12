@@ -28,8 +28,11 @@ import javax.persistence.Temporal;
 @Entity
 public class PersonnePhysique implements Serializable {
 
-    @ManyToMany(mappedBy = "lesPersonnesPhysiques")
+    @OneToMany(mappedBy = "laPersonne")
     private List<Devis> lesDevis;
+
+    @ManyToMany(mappedBy = "lesAyantsDroit")
+    private List<Devis> lesDevisAyantDroit;
 
     @OneToMany(mappedBy = "laPersonnePhysique")
     private List<StatutBeneficiaire> lesStatutsBeneficiaire;
@@ -54,7 +57,7 @@ public class PersonnePhysique implements Serializable {
 
     private String Adresse;
 
-    private String Mail;
+    private String Mail; //doit etre UNIQUE
 
     private Genre Genre;
 
@@ -93,8 +96,17 @@ public class PersonnePhysique implements Serializable {
     public void setLaPopulation(Population laPopulation) {
         this.laPopulation = laPopulation;
     }
+    
 
-    public List<Devis> getLesDevis() {
+    public void setLesDevisAyantDroit(List<Devis> lesDevisAyantDroit) {
+        this.lesDevisAyantDroit = lesDevisAyantDroit;
+    }
+    
+    public List<Devis> getLesDevisAyantDroit() {
+        return lesDevisAyantDroit;
+    }
+    
+     public List<Devis> getLesDevis() {
         return lesDevis;
     }
 

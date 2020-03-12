@@ -34,10 +34,12 @@ public interface DevisFacadeLocal {
 
     int count();
 
-    Devis creerDevis(List<PersonnePhysique> listpers,Produit prod,double prix,Date dateDevis);
+    Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,Date dateDevis);
 
     List<Devis> rechercherDevisPersonne(PersonnePhysique pers);
 
     List<Devis> rechercherDevisDate(Date dateDevis);
+
+    List<PersonnePhysique> rechercherAyantsDroitPersonne(PersonnePhysique personne);
     
 }

@@ -37,9 +37,9 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
     }
 
     @Override
-    public Devis creerDevis(List<PersonnePhysique> listpers,Produit prod,double prix,Date dateDevis) {
+    public Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,Date dateDevis) {
         Devis dev=new Devis();
-        dev.setLaPersonne(listpers);
+        dev.setLaPersonne(pers);
         dev.setLeProduit(prod);
         dev.setDateDevis(dateDevis);
         dev.setPrix(prix);
@@ -68,6 +68,17 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
         listdev= req.getResultList (); 
         return listdev;
     }
+
+    @Override
+    public List<PersonnePhysique> rechercherAyantsDroitPersonne(PersonnePhysique personne) {
+       List<PersonnePhysique> listAyantsdroit; 
+        String tx = "SELECT dev.lesAyantsDroit FROM Devis AS dev where dev.laPersonnePhysique=:pers"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("pers", personne); 
+        listAyantsdroit= req.getResultList (); 
+        return listAyantsdroit;
+    }
+    
     
     
   

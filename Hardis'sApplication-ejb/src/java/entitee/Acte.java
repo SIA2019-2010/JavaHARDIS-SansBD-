@@ -30,8 +30,6 @@ public class Acte implements Serializable {
 
     private Date DateFin;
 
-    private String LibelleActe;
-
     private double Depense;
 
     private String Lieu;
@@ -109,14 +107,6 @@ public class Acte implements Serializable {
 
     public void setDepense(double Depense) {
         this.Depense = Depense;
-    }
-
-    public String getLibelleActe() {
-        return LibelleActe;
-    }
-
-    public void setLibelleActe(String LibelleActe) {
-        this.LibelleActe = LibelleActe;
     }
 
     public Date getDateFin() {

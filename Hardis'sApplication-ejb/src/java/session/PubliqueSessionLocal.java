@@ -36,8 +36,8 @@ public interface PubliqueSessionLocal {
     
     List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique);
 
-    List<Object> creerDevisComplet();
-
-    List<Devis> calculPacks();
+    List<Object> calculPacks(List<Object>listeinfos,Date datedeb);
+    
+    List<Object> creerDevisComplet(double prix,List<Object>pers);
     
 }
