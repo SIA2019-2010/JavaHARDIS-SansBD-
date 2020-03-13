@@ -34,7 +34,7 @@ public interface DevisFacadeLocal {
 
     int count();
 
-    Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,Date dateDevis);
+    Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,Date dateDevis,List<PersonnePhysique> listeAyantdroits);
 
     List<Devis> rechercherDevisPersonne(PersonnePhysique pers);
 

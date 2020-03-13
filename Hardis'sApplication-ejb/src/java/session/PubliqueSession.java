@@ -96,21 +96,21 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
 
 
-    /*@Override
+    @Override
     public List<Object> calculPacks(Object[] pers,List<Object>listeinfos,Date datedeb) {
        List<Object> Response=new ArrayList();
    
-       //la personne qui crée le devis n'est pas stocké dans la liste d'objet car il n'y a pas les meme informations demandées
-       // simplement faire une liste de personne ? 
+       //la personne qui crée le devis n'est pas stocké dans la liste d'objet
+       //1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
        
-       if(((String)Array.get(pers, 0)).equals("")||pers.getPrenom()==null||pers.getDateNaiss()==null||pers.getMail()==null){ // ajouter numero SS ?
+       if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((Date)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
              Response.add("Il manque de champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
              Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
              Response.add(null); //5 pas de devis
              
-            return Response; //tout ce qu'on a donné
+            return Response; //manque des champs donc renvoi de toutes les informations
        }
        
        //possibilité de changer ce qui est demandé pour les ayants droits
@@ -149,7 +149,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
         Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
         Response.add(pers);//3 la pers
         Response.add(listeinfos); // 4 les ayant droits
-        Response.add(lesPacks); // 5 les devis (avec produit)
+        Response.add(lesPacks); // 5 les "devis" (avec produit) : objet avec prix 1 et 2 produit
+       
 
         
         
@@ -158,11 +159,11 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
     
         return Response;
-    }*/
+    }
     
     
-    /*@Override
-    public List<Object> creerDevisComplet(double prix,PersonnePhysique pers,List<Object>listeinfos) {
+    @Override
+    public List<Object> creerDevisComplet(double prix,Object[] pers,List<Object>listeinfos) {
         List<Object> Response=new ArrayList();
         
  
@@ -172,9 +173,10 @@ public class PubliqueSession implements PubliqueSessionLocal {
       
           
                              //on créée la personne si elle n'existe pas    
-            PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS(pers.getNumeroSS());
+            PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 3));
             if(persencours==null){
-                persencours=personnePhysiqueFacade.creerPersonnePhysiqueDevis(pers.getNom(),pers.getPrenom(), pers.getMail(), pers.getNumeroSS(),pers.getDateNaiss(),pers.getLaPopulation());
+                //1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail, 6 population
+                persencours=personnePhysiqueFacade.creerPersonnePhysiqueDevis((String)Array.get(pers, 0),(String)Array.get(pers, 1), (String)Array.get(pers, 4), (String)Array.get(pers, 3),(Date)Array.get(pers, 2),(String)Array.get(pers, 5));
                 
             }
                                  
@@ -188,18 +190,18 @@ public class PubliqueSession implements PubliqueSessionLocal {
             
             //on recupère les infos des ayant droit pour les créée ou non
             
+            PersonnePhysique ayantdroitencours;
+            ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
             
-                if (personnePhysiqueFacade.recherchePersNumeroSS(numeroSS)){
-                    personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS);
+                if (ayantdroitencours==null){
+                    //si la personne n'existe pas
+                    personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS); 
+                }else {
+                    
+                 
                     
                     
                 }
-            
-            
-            
-            
-            
-            
                                  
             }                           
                                  
@@ -207,7 +209,6 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         return Response;
     }
-    */
     
     
     

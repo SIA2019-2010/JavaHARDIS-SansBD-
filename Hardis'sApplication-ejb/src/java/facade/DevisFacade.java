@@ -37,12 +37,13 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
     }
 
     @Override
-    public Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,Date dateDevis) {
+    public Devis creerDevis(PersonnePhysique pers,Produit prod,double prix,Date dateDevis,List<PersonnePhysique> listeAyantdroits) {
         Devis dev=new Devis();
         dev.setLaPersonne(pers);
         dev.setLeProduit(prod);
         dev.setDateDevis(dateDevis);
         dev.setPrix(prix);
+        dev.setLesAyantsDroit(listeAyantdroits);
         
         em.persist(dev);
         return dev;

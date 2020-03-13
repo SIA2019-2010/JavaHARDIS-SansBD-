@@ -34,9 +34,9 @@ public interface AffilieSessionLocal {
 
     PersonnePhysique modifierAdresse(String nvAdresse, PersonnePhysique pers);
 
-    Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod);
+    Devis creerDevis(PersonnePhysique pers,double prix, Produit prod,Date date, List<PersonnePhysique> listpers );
 
-    PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop);
+    PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail,String numeroSS,Date datenaiss, Population pop);
 
     StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers);
 

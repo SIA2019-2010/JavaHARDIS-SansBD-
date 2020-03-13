@@ -74,14 +74,14 @@ public class AffilieSession implements AffilieSessionLocal {
     }
 
     @Override
-    public Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod) {
-        return devisFacade.creerDevis(listpers, prod, prix, dateDevis);
+    public Devis creerDevis(PersonnePhysique pers,double prix,Produit prod,Date dateDevis,List<PersonnePhysique>listeAyantdroits) {
+        return devisFacade.creerDevis(pers, prod, prix, dateDevis,listeAyantdroits);
     }
    
 
     @Override
-    public PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop) {
-        return personnePhysiqueFacade.creerPersonnePhysiqueDevis(nom, prenom, mail, pop);
+    public PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, String numeroSS, Date datenaiss, Population laPopulation) {
+        return personnePhysiqueFacade.creerPersonnePhysiqueDevis(nom, prenom, mail,numeroSS,datenaiss, laPopulation);
     }
 
     @Override
