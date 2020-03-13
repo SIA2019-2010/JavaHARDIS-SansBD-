@@ -17,7 +17,7 @@
         <h1>Erreur Session</h1>
         <form method="post" action="Page">
             <p><%=message%></p>
-            <input type="button" value="Reconnecter" onclick="location.href='Page?action=<%=typeConnexion%>&&typeConnexion=<%=typeConnexion%>'"/>
+            <input type="button" value="Reconnecter" onclick="location.href='Page?action=<%=typeConnexion%>&typeConnexion=<%=typeConnexion%>'"/>
         </form>
     </body>
 </html>

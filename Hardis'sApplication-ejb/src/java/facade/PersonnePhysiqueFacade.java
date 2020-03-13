@@ -90,7 +90,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
         String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.Login=:lo and pers.Mdp=:mdp";
         Query req=getEntityManager().createQuery(txt);
         req=req.setParameter("lo",login);
-        req=req.setParameter("motp",mdp);
+        req=req.setParameter("mdp",mdp);
         pers=null;
         List <PersonnePhysique> result = req.getResultList();
         if (result.size()==1)

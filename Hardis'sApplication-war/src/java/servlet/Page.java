@@ -69,11 +69,12 @@ public class Page extends HttpServlet {
         }
         System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
         
-        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreerCompteClient"))){
+        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreerCompteClient"))){
             jspClient="/ErreurSession.jsp";
             message="Erreur de session ! Veuillez vous reconnecter !";
-            if(act.substring(0, 5).equals("Agent")) request.setAttribute("typeConnexion","AgentConnexion");
-            else request.setAttribute("typeConnexion","ClientConnexion");
+            if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
+            else if(act.substring(0, 5).equals("Respo")) request.setAttribute("typeConnexion","ResponsableConnexion");
+            else if(act.substring(0, 5).equals("Gesti")) request.setAttribute("typeConnexion","GestionnaireConnexion");
         }
         else if(null==act){
             jspClient="/Acceuil.jsp";

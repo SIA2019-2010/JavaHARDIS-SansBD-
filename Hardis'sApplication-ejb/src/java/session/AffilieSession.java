@@ -64,7 +64,7 @@ public class AffilieSession implements AffilieSessionLocal {
             Response.add("Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
-            request.setAttribute("action","PersonnePhysiqueConnexion");
+            request.setAttribute("typeConnexion","AffilieConnexion");
         }
         else{
             PersonnePhysique sessionpersonnePhysique=personnePhysiqueFacade.authentificationAffilie(login, mdp);
@@ -72,7 +72,7 @@ public class AffilieSession implements AffilieSessionLocal {
                 Response.add("Erreur :login ou mdp");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
-                request.setAttribute("action","PersonnePhysiqueConnexion");
+                request.setAttribute("typeConnexion","AffilieConnexion");
             }
             else{
                 Response.add("Connexion réussie");
@@ -80,7 +80,7 @@ public class AffilieSession implements AffilieSessionLocal {
                 System.out.println("reussie");
                 HttpSession session = request.getSession(true);
                 session.setAttribute("sessionpersonnePhysique",sessionpersonnePhysique);
-                request.setAttribute("typeConnexion","PersonnePhysiqueConnexion");
+                request.setAttribute("typeConnexion","AffilieConnexion");
             }
         }
         return Response;

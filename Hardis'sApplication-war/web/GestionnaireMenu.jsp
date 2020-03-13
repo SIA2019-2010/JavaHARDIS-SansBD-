@@ -157,7 +157,7 @@
                     <div class="section-title  text-center">
                         <h2>Votre espace Agent</h2>
                         <span class="title-line"><i class="fa fa-car"></i></span>
-                        <p>Bienvenue <span style="color: #ffd000; font-weight: bold"><%out.println(sessionaffilie.getPrenom()+" "+sessionaffilie.getNom());%></span> sur votre espace personnel</p>
+                        <p>Bienvenue <span style="color: #ffd000; font-weight: bold"><%out.println(sessiongestionnaire.getPrenom()+" "+sessiongestionnaire.getNom());%></span> sur votre espace personnel</p>
                     </div>
                 </div>
                 <!-- Page Title End -->

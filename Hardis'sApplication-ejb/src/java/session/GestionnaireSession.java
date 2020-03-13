@@ -34,7 +34,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             Response.add("Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
-            request.setAttribute("action","GestionnaireConnexion");
+            request.setAttribute("typeConnexion","GestionnaireConnexion");
         }
         else{
             Gestionnaire sessiongestionnaire=gestionnaireFacade.authentificationGestionnaire(login, mdp);
@@ -42,7 +42,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
                 Response.add("Erreur :login ou mdp");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
-                request.setAttribute("action","GestionnaireConnexion");
+                request.setAttribute("typeConnexion","GestionnaireConnexion");
             }
             else{
                 Response.add("Connexion réussie");

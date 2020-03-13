@@ -32,7 +32,7 @@ public class ResponsableSession implements ResponsableSessionLocal {
             Response.add("Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
-            request.setAttribute("action","ResponsableConnexion");
+            request.setAttribute("typeConnexion","ResponsableConnexion");
         }
         else{
             Responsable sessionresponsable=responsableFacade.authentificationResponsable(login, mdp);
@@ -40,7 +40,7 @@ public class ResponsableSession implements ResponsableSessionLocal {
                 Response.add("Erreur :login ou mdp");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
-                request.setAttribute("action","ResponsableConnexion");
+                request.setAttribute("typeConnexion","ResponsableConnexion");
             }
             else{
                 Response.add("Connexion réussie");
