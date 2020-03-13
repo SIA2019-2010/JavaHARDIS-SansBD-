@@ -58,6 +58,15 @@ public class PopulationFacade extends AbstractFacade<Population> implements Popu
             {popu=(Population)result.get(0);};
         return popu;
     }
+
+    @Override
+    public List<Population> recherchePopulations() {
+        List<Population> result=null;
+        String txt="SELECT p FROM Population AS p";
+        Query req=getEntityManager().createQuery(txt);
+        result = req.getResultList();
+        return result;
+    }
     
     
     

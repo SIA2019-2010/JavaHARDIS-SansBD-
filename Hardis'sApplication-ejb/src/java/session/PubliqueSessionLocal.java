@@ -40,5 +40,7 @@ public interface PubliqueSessionLocal {
     List<Object> calculPacks(Object[] pers,List<Object>listeinfos);
     
     List<Object> creerDevisComplet(Object[] pers,Object[] pack,List<Object>listeinfos);
+
+    List<Population> recherchePopulations();
     
 }

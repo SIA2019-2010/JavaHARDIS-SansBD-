@@ -242,6 +242,11 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         return Response;
     }
+
+    @Override
+    public List<Population> recherchePopulations() {
+        return populationFacade.recherchePopulations();
+    }
     
     
     
