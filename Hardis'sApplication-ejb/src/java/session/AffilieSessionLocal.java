@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -26,7 +27,7 @@ import javax.ejb.Local;
 @Local
 public interface AffilieSessionLocal {
 
-    PersonnePhysique authentificationAffilie(String login, String mdp);
+    List<Object> authentificationAffilie(String login, String mdp, HttpServletRequest request);
 
     PersonnePhysique modifierMDP(String nvMDP,PersonnePhysique pers);
 

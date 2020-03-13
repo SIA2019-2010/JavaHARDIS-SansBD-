@@ -5,7 +5,10 @@
  */
 package session;
 
+import entitee.Gestionnaire;
+import java.util.List;
 import javax.ejb.Local;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -13,5 +16,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionnaireSessionLocal {
+    
+    List<Object> authentificationGestionnaire(String login, String mdp, HttpServletRequest request);
+    
+    Gestionnaire modifiermdp(Gestionnaire resp, String mdp);
     
 }

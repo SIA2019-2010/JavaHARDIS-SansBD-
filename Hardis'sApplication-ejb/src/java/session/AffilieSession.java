@@ -19,11 +19,14 @@ import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.StatutBeneficiaireFacadeLocal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -54,10 +57,35 @@ public class AffilieSession implements AffilieSessionLocal {
     
 
     @Override
-    public PersonnePhysique authentificationAffilie(String login, String mdp) {
-        return personnePhysiqueFacade.authentificationAffilie(login, mdp); 
+    public List<Object> authentificationAffilie(String login, String mdp, HttpServletRequest request) {
+        System.out.println("authenRespon"+login+"   "+mdp);
+        List<Object> Response=new ArrayList();
+        if(login.trim().isEmpty()||mdp.trim().isEmpty()){
+            Response.add("Il manque de champs");
+            Response.add("/Connexion.jsp");
+            System.out.println("champs null");
+            request.setAttribute("action","PersonnePhysiqueConnexion");
+        }
+        else{
+            PersonnePhysique sessionpersonnePhysique=personnePhysiqueFacade.authentificationAffilie(login, mdp);
+            if(sessionpersonnePhysique==null){
+                Response.add("Erreur :login ou mdp");
+                Response.add("/Connexion.jsp");
+                System.out.println("erreur mdp");
+                request.setAttribute("action","PersonnePhysiqueConnexion");
+            }
+            else{
+                Response.add("Connexion réussie");
+                Response.add("/AgentMenu.jsp");
+                System.out.println("reussie");
+                HttpSession session = request.getSession(true);
+                session.setAttribute("sessionpersonnePhysique",sessionpersonnePhysique);
+                request.setAttribute("typeConnexion","PersonnePhysiqueConnexion");
+            }
+        }
+        return Response;
     }
-
+    
     @Override
     public PersonnePhysique modifierMDP(String nvMDP, PersonnePhysique pers) {
         return personnePhysiqueFacade.modifierMdp(nvMDP, pers);

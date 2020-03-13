@@ -41,4 +41,6 @@ public interface GestionnaireFacadeLocal {
     
     Gestionnaire modifierDomaine(Gestionnaire gest, Domaine domaine);
     
+    Gestionnaire authentificationGestionnaire(String login, String mdp);
+    
 }

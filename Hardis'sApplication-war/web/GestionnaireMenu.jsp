@@ -4,7 +4,7 @@
     Author     : lixin
 --%>
 
-<%@page import="entitee.Responsable"%>
+<%@page import="entitee.Gestionnaire"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
@@ -44,7 +44,7 @@
     <![endif]-->
     
     
-        <jsp:useBean id="sessionresponsable" scope="session" class="Responsable"></jsp:useBean>
+        <jsp:useBean id="sessiongestionnaire" scope="session" class="Gestionnaire"></jsp:useBean>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Menu Agent</title>
 </head>
@@ -117,7 +117,7 @@
                         <nav class="mainmenu alignright">
                             <ul>
                                 <li><a class ="ensembleLiens" onclick="location.href='Page'">Accueil</a></li>
-                                <li class="active"><a onclick="location.href='Page?action=ResponsableConnexion'"> Mes actions</a>
+                                <li class="active"><a onclick="location.href='Page?action=GestionnaireConnexion'"> Mes actions</a>
                                     <ul>
                                         <li><a class ="ensembleLiens" onclick="location.href='Page?action=AgentCreerVehiculePage'">Enregistrer véhicule</a></li>
                                         <li><a class ="ensembleLiens" onclick="location.href='Page?action=AgentCreerTypeVehiculePage'">Créer type véhicule</a></li>
@@ -157,7 +157,7 @@
                     <div class="section-title  text-center">
                         <h2>Votre espace Agent</h2>
                         <span class="title-line"><i class="fa fa-car"></i></span>
-                        <p>Bienvenue <span style="color: #ffd000; font-weight: bold"><%out.println(sessionresponsable.getPrenom()+" "+sessionresponsable.getNom());%></span> sur votre espace personnel</p>
+                        <p>Bienvenue <span style="color: #ffd000; font-weight: bold"><%out.println(sessionaffilie.getPrenom()+" "+sessionaffilie.getNom());%></span> sur votre espace personnel</p>
                     </div>
                 </div>
                 <!-- Page Title End -->

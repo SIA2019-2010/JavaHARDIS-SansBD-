@@ -7,9 +7,12 @@ package facade;
 
 import entitee.Domaine;
 import entitee.Gestionnaire;
+import entitee.Gestionnaire;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -70,6 +73,20 @@ public class GestionnaireFacade extends AbstractFacade<Gestionnaire> implements 
         gest.setLeDomaine(domaine);
         em.persist(gest);
         return gest;
+    }
+    
+    @Override
+    public Gestionnaire authentificationGestionnaire(String login, String mdp) {
+        Gestionnaire pers;
+        String txt="SELECT g FROM Gestionnaire AS g WHERE g.Login=:lo and g.Mdp=:mdp";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("lo",login);
+        req=req.setParameter("mdp",mdp);
+        pers=null;
+        List<Gestionnaire> result = req.getResultList();
+        if (result.size()==1)
+            {pers=(Gestionnaire)result.get(0);};
+        return pers;
     }
     
 }

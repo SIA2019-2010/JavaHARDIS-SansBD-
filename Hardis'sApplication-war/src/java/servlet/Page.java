@@ -119,6 +119,28 @@ public class Page extends HttpServlet {
                 jspClient=(String)Response.get(1);
                 break;
                 
+            case "AffilieAuthen" :
+                System.out.println("testttt");
+                System.out.println("jsp   "+jspClient);
+                Login=request.getParameter("Login");
+                MDP=request.getParameter("MDP");
+                System.out.println(Login+"testttt"+MDP);
+                Response=affilieSession.authentificationAffilie(Login, MDP, request);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
+                break;
+                
+            case "GestionnaireAuthen" :
+                System.out.println("testttt");
+                System.out.println("jsp   "+jspClient);
+                Login=request.getParameter("Login");
+                MDP=request.getParameter("MDP");
+                System.out.println(Login+"testttt"+MDP);
+                Response=gestionnaireSession.authentificationGestionnaire(Login, MDP, request);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
+                break;
+                
             default:
                 jspClient="/"+act+".jsp";
                 message="";

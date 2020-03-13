@@ -44,7 +44,7 @@ public class ResponsableSession implements ResponsableSessionLocal {
             }
             else{
                 Response.add("Connexion réussie");
-                Response.add("/AgentMenu.jsp");
+                Response.add("/ResponsableMenu.jsp");
                 System.out.println("reussie");
                 HttpSession session = request.getSession(true);
                 session.setAttribute("sessionresponsable",sessionresponsable);
