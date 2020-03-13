@@ -41,5 +41,7 @@ public interface ProduitFacadeLocal {
     Produit creerProduit(String nom, EnumSet lesBeneficiaires, List<AssietteCotisation> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale);
     
     List<Produit> afficherPersonneMoraleProduit(PersonneMorale personne);
+
+    Produit rechercheProduitID(long parameter);
     
 }

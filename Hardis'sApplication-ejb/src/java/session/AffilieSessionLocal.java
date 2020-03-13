@@ -48,4 +48,8 @@ public interface AffilieSessionLocal {
     List<Contrat> rechercheContrats(PersonnePhysique pers);
 
     List<Remboursement> rechercheRemboursements(PersonnePhysique pers);
+    
+    List<Object> calculPacksAffilie(PersonnePhysique pers,List<Object>listeinfos);
+    
+    List<Object> creerDevisCompletAffilie(PersonnePhysique pers,Object[] pack,List<Object>listeinfos);
 }

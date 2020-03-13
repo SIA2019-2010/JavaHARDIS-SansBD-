@@ -17,6 +17,7 @@ import entitee.StatutBeneficiaire;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.PopulationFacadeLocal;
+import facade.ProduitFacadeLocal;
 import facade.StatutBeneficiaireFacadeLocal;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ import javax.servlet.http.HttpSession;
 public class PubliqueSession implements PubliqueSessionLocal {
 
     @EJB
+    private ProduitFacadeLocal produitFacade;
+
+    @EJB
     private PopulationFacadeLocal populationFacade1;
 
     @EJB
@@ -47,6 +51,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
 
     @EJB
     private PersonnePhysiqueFacadeLocal personnePhysiqueFacade;
+    
+    
             
             
     
@@ -108,11 +114,13 @@ public class PubliqueSession implements PubliqueSessionLocal {
 
 
     @Override
-    public List<Object> calculPacks(Object[] pers,List<Object>listeinfos,Date datedeb) {
+    public List<Object> calculPacks(Object[] pers,List<Object>listeinfos) {
        List<Object> Response=new ArrayList();
-   
        //la personne qui crée le devis n'est pas stocké dans la liste d'objet mais dans un object a part
-       //1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
+       //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
+       
+       //ayants droits  : List Object listeinfos
+       //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ; 5 statut (beneficiaire)
        
        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((Date)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
              Response.add("Il manque des champs");//1
@@ -123,7 +131,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
-       
+       //controle sur la population
        Long idpop=Long.valueOf((String)Array.get(pers, 5));
        Population pop = populationFacade.rechercheExistantPopulationID(idpop);
        if(pop==null){
@@ -136,16 +144,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             return Response; //Population introuvable
        }
        
-       
-       
-       
-       //possibilité de changer ce qui est demandé pour les ayants droits
-       //1 Nom
-       //2Prenom
-       //3datenaiss
-       //4numeroSS
-       //5 statut (beneficiaire)
-       
+       //controle sur les ayants droits
         for(Object infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
@@ -159,51 +158,44 @@ public class PubliqueSession implements PubliqueSessionLocal {
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
              Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
-             Response.add(null); //5 pas de devis
+             Response.add(null); //5 pas de packs (produit+prix)
              
             return Response; //tout ce qu'on a donné
             }
             
         }
         
-         // si tout les champs sont bien remplis :  
+         // si tout les champs sont bien remplis : Algo pour prix+produit dans un objet 
          
-        List<Devis> lesPacks=new ArrayList(); //a mettre en liste d'objetss
+        List<Object> lesPacks=new ArrayList();
         Date dateDevis = new Date();
         
-        // prix = // algo Claire
-        //produit = //algo CLaire
-        //lesPacks = algo Claire
+        // prix +produit = objet 
+        //lesPacks ==== algo CLAIRE
         
         
         Response.add("Packs calculés"); // 1
         Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
         Response.add(pers);//3 la pers
         Response.add(listeinfos); // 4 les ayant droits
-        Response.add(lesPacks); // 5 les "devis" (avec produit) : objet avec prix 1 et 2 produit
-       
-
-        
-        
-        
-       
-        
+        Response.add(lesPacks); // 5 les "pack" (avec produit) : objet avec prix 1 et 2 produit
     
         return Response;
     }
     
     
     @Override
-    public List<Object> creerDevisComplet(double prix,Object[] pers,List<Object>listeinfos) {
+    public List<Object> creerDevisComplet(Object[] pers,Object[] pack,List<Object>listeinfos) {
         List<Object> Response=new ArrayList();
-        
+        List<PersonnePhysique> LesAyantdroit=new ArrayList();
  
        // 1 devis, 1 personne qui crée, 1 liste personne (Ayants droits)
             //---> creation de la personne si existe pas (test sur l'adresse mail)
                                  // ---> creation du devis avec prix, date (newdate)
+        //Object pack : 1 produit , 2 prix                         
       
           
-                             //on créée la personne si elle n'existe pas    
+            //on créée la personne si elle n'existe pas                  
             PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 3));
             if(persencours==null){
                 //1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail, 6 population
@@ -224,23 +216,29 @@ public class PubliqueSession implements PubliqueSessionLocal {
             Beneficiaire statut=(Beneficiaire)Array.get(infos, 4); 
             
             //on recupère les infos des ayant droit pour les créée ou non
-            
             PersonnePhysique ayantdroitencours;
             ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
             
+                //si la personne n'existe pas
                 if (ayantdroitencours==null){
-                    //si la personne n'existe pas
-                    personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS); 
-                }else {
-                    
-                 
-                    
-                    
+                
+                   ayantdroitencours=personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS); 
                 }
-                                 
-            }                           
-                                 
-                                 
+                    
+              LesAyantdroit.add(ayantdroitencours);                                            
+        }       
+           
+         //creation du devis ; pers,produit,prix,datedujour,listayantdroits       
+         Devis devcree; 
+         Date dateDevis = new Date();
+           
+        devcree=devisFacade.creerDevis(persencours,(Produit)Array.get(pack, 0),(Double)Array.get(pack, 1),dateDevis,LesAyantdroit);  
+        
+        
+        Response.add("Devis créée "); // 1
+        Response.add("/Homepage.jsp"); // 2 Jsp pour afficher 
+        Response.add(devcree);//3 la pers
+        
         
         return Response;
     }

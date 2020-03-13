@@ -65,5 +65,22 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
         listesProduits= req.getResultList ();
         return listesProduits;
     }
+
+    @Override
+    public Produit rechercheProduitID(long idp) {
+        Produit prod;
+        String txt="SELECT pr FROM Produit AS pr WHERE pr.Id=:id";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("id",idp);
+        prod=null;
+        List <Produit> result = req.getResultList();
+        if (result.size()==1)
+            {prod=(Produit)result.get(0);};
+        return prod;
+    }
+    
+    
+    
+    
     
 }
