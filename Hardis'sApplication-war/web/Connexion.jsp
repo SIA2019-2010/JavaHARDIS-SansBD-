@@ -14,34 +14,33 @@
         <script type="text/javascript" src="js.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-                $('input[type="radio"]').click(function(){
-                    $(".tout").hide();
-                    $("."+$(this).attr("value")).show();
-                });
-                $(".tout").hide();
-                $("."+"<%=typeConnexion%>").show();
                 $('#<%=typeConnexion%>').prop("checked", true);
             });
         </script>
     </head>
     <body>
         <h1>CreerArticle</h1>
-        <form method="post" typeConnexion="Page">
+        <form method="post" action="Page">
             <fieldset>
                 <legend>Informations Fournisseur</legend>
-                <input name="typeConnexion" type="radio" id="GestionnaireConnexion" value="GestionnaireConnexion">AgentConnexion
-                <input name="typeConnexion" type="radio" id="AffilieConnexion" value="AffilieConnexion">ClientConnexion
-                <input name="typeConnexion" type="radio" id="ResponsableConnexion" value="ResponsableConnexion">Publique<br/>
-                
-                <div class="GestionnaireConnexion tout">
-                    <jsp:include page="GestionnaireConnexion.jsp"/>
+                <div class="ensembleBooutonsRadio">
+                    <div class = "radioButtonStyle">
+                        <input name="action" type="radio" id="GestionnaireConnexion" value="GestionnaireAuthen"/>
+                        <label for="action">Gestionnaire Connexion</label>
+                    </div>
+                    <div class="radioButtonStyle">
+                        <input name="action" type="radio" id="AffilieConnexion" value="AffilieAuthen"/>
+                        <label for="action">Affilie Connexion</label>
+                    </div>
+                    <div class="radioButtonStyle">
+                        <input name="action" type="radio" id="ResponsableConnexion" value="ResponsableAuthen"/>
+                        <label for="action">Responsable Connexion</label><br/>
+                    </div>
                 </div>
-                <div class="AffilieConnexion tout">
-                    <jsp:include page="AffilieConnexion.jsp"/>
-                </div>
-                <div class="ResponsableConnexion tout">
-                    <jsp:include page="ResponsableConnexion.jsp"/>
-                </div>
+                <input type="text" name="Login"/>
+                <input type="password" name="MDP"/>
+                <button type="submit" value="Valider">Connexion</button>
+                <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>
             </fieldset>
         </form>
     </body>

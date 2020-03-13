@@ -26,9 +26,9 @@ import javax.servlet.http.HttpSession;
 @Local
 public interface PubliqueSessionLocal {
     
-        Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod);
+        //Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod);
 
-        PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop);
+        //PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop);
 
         StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers);
 
@@ -36,8 +36,8 @@ public interface PubliqueSessionLocal {
     
     List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique);
 
-    List<Object> calculPacks(List<Object>listeinfos,Date datedeb);
+    //List<Object> calculPacks(List<Object>listeinfos,Date datedeb);
     
-    List<Object> creerDevisComplet(double prix,List<Object>pers);
+    //List<Object> creerDevisComplet(double prix,List<Object>pers);
     
 }

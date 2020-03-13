@@ -51,6 +51,7 @@ public class Page extends HttpServlet {
         String jspClient = null;
         String message = null;
         String act=request.getParameter("action");
+        System.out.println(new Date().toLocaleString()+act+"========");
         HttpSession session=request.getSession(false);
         Gestionnaire sessiongestionnaire=null;
         PersonnePhysique sessionaffilie=null;
@@ -58,30 +59,30 @@ public class Page extends HttpServlet {
         boolean sessionpublique=false;
         List<Object> Response;
         int count=0;
+        if(session==null){System.out.println("Session est null");}
+        else{System.out.println("Session est pas null");}
         if(session!=null){
-            sessiongestionnaire=(Gestionnaire)session.getAttribute("sessionresponsable");
+            sessiongestionnaire=(Gestionnaire)session.getAttribute("sessiongestionnaire");
             sessionaffilie=(PersonnePhysique)session.getAttribute("sessionphysique");
             sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
             count=(sessiongestionnaire==null?0:1)+(sessionaffilie==null?0:1)+(sessionresponsable==null?0:1);
         }
+        System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
         
-        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("AgentConnexion")&&!act.equals("ClientConnexion")&&!act.equals("AgentAuthen")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AfficherCreerCompte")&&!act.equals("CreerCompteClient"))){
+        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreerCompteClient"))){
             jspClient="/ErreurSession.jsp";
             message="Erreur de session ! Veuillez vous reconnecter !";
             if(act.substring(0, 5).equals("Agent")) request.setAttribute("typeConnexion","AgentConnexion");
             else request.setAttribute("typeConnexion","ClientConnexion");
         }
         else if(null==act){
-            jspClient="/Connexion.jsp";
-            request.setAttribute("typeConnexion","GestionnaireConnexion");
+            jspClient="/Acceuil.jsp";
             message="Bienvenue";
-        System.out.println("testttt"+act);
         }
         else switch (act) {  
-            
-            case "vide":
-                jspClient="/Connexion.jsp";
-                request.setAttribute("typeConnexion","GestionnaireConnexion");
+            case "" :
+            case "vide" :
+                jspClient="/Acceuil.jsp";
                 message="Bienvenue";
                 break;
                 
@@ -89,24 +90,31 @@ public class Page extends HttpServlet {
             case "AffilieConnexion" :
             case "ResponsableConnexion" :
             case "PubliqueConnexion" :
+                System.out.println("before");
                 Response=publiqueSession.rechercherConnexion(session, sessiongestionnaire, sessionaffilie, sessionresponsable, sessionpublique);
+                System.out.println("after");
                 message=(String)Response.get(0);
+                System.out.println(message);
                 jspClient=(String)Response.get(1);
-                request.setAttribute("typeConnexion",act);
+                System.out.println(jspClient);
+                request.setAttribute("typeConnexion",(String)Response.get(2));
                 break;
             
             case "Deconnexion" :
                 session = request.getSession(false);
                 session.invalidate();
-                request.setAttribute("typeConnexion",request.getParameter("typeConnexion"));
+                request.setAttribute("action",request.getParameter("typeConnexion"));
                 jspClient="/Connexion.jsp";
                 message="Vous êtes déconnecté";
                 break;
                 
             case "ResponsableAuthen" :
-                String ResponsableLogin=request.getParameter("Login");
-                String ResponsableMdp=request.getParameter("MDP");
-                Response=responsableSession.authentificationResponsable(ResponsableLogin, ResponsableMdp, request);
+                System.out.println("testttt");
+                System.out.println("jsp   "+jspClient);
+                String Login=request.getParameter("Login");
+                String MDP=request.getParameter("MDP");
+                System.out.println(Login+"testttt"+MDP);
+                Response=responsableSession.authentificationResponsable(Login, MDP, request);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
                 break;

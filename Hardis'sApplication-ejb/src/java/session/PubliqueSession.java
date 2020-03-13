@@ -44,7 +44,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     
     
     
-        @Override
+    /*@Override
     public Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod) {
         return devisFacade.creerDevis(listpers, prod, prix, dateDevis);
     }
@@ -52,7 +52,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     @Override
     public PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop) {
         return personnePhysiqueFacade.creerPersonnePhysiqueDevis(nom, prenom, mail, pop);
-    }
+    }*/
 
     @Override
     public StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers) {
@@ -68,30 +68,35 @@ public class PubliqueSession implements PubliqueSessionLocal {
     public List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique){
         List<Object> Response=new ArrayList();
         if (sessiongestionnaire!=null){
-            Response.add("/GestionnaireMenu.jsp");
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+            Response.add("/GestionnaireMenu.jsp");
+            Response.add("GestionnaireConnexion");
         }
         else if(sessionaffilie!=null){
-            Response.add("/AffilieMenu.jsp");
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+            Response.add("/AffilieMenu.jsp");
+            Response.add("AffilieConnexion");
         }
         else if(sessionresponsable!=null){
-            Response.add("/ResponsableMenu.jsp");
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+            Response.add("/ResponsableMenu.jsp");
+            Response.add("ResponsableConnexion");
         }
         else if(sessionpublique){
-            Response.add("/PubliqueMenu.jsp");
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+            Response.add("/PubliqueMenu.jsp");
+            Response.add("PubliqueConnexion");
         }
         else{
-            Response.add("/Connexion.jsp");
             Response.add("Affichage page connexion");
+            Response.add("/Connexion.jsp");
+            Response.add("GestionnaireConnexion");
         }
         return Response;
     }
 
 
-    @Override
+    /*@Override
     public List<Object> calculPacks(Object[] pers,List<Object>listeinfos,Date datedeb) {
        List<Object> Response=new ArrayList();
    
@@ -153,10 +158,10 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
     
         return Response;
-    }
+    }*/
     
     
-        @Override
+    /*@Override
     public List<Object> creerDevisComplet(double prix,PersonnePhysique pers,List<Object>listeinfos) {
         List<Object> Response=new ArrayList();
         
@@ -202,7 +207,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         return Response;
     }
-    
+    */
     
     
     

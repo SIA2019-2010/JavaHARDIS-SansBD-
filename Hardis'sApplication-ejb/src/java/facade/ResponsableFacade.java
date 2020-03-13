@@ -73,7 +73,7 @@ public class ResponsableFacade extends AbstractFacade<Responsable> implements Re
         String txt="SELECT r FROM Responsable AS r WHERE r.Login=:lo and r.Mdp=:mdp";
         Query req=getEntityManager().createQuery(txt);
         req=req.setParameter("lo",login);
-        req=req.setParameter("motp",mdp);
+        req=req.setParameter("mdp",mdp);
         pers=null;
         List<Responsable> result = req.getResultList();
         if (result.size()==1)

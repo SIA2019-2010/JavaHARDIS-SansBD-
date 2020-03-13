@@ -20,7 +20,6 @@
                 out.println(attribut);
             %>
         </p>
-        <form method="post" action="Page">
             <fieldset>
                 <legend>Informations Vetement</legend>
                 <label for="LoginGestionnaire">Login<span class="requis">*</span></label>
@@ -33,6 +32,5 @@
             <input type="reset" value="Remettre à zéro"/>
             <input type="button" value="Revenir au Menu" onclick="location.href='Menu?action=vide'"/>
             <%--input type="button" value="test" onclick="location.href='Page?action=GestionnaireAuthen&LoginGestionnaire=login&MDPGestionnaire=mdp'"/--%>
-        </form>
     </body>
 </html>
