@@ -6,9 +6,11 @@
 package facade;
 
 import entitee.Population;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -43,5 +45,22 @@ public class PopulationFacade extends AbstractFacade<Population> implements Popu
         em.merge(popu);
         return popu;
     }
+
+    @Override
+    public Population rechercheExistantPopulationID(long idd) {
+            Population popu;
+        String txt="SELECT pop FROM Population AS pop WHERE pop.Id=:id";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("id",idd);
+        popu=null;
+        List <Population> result = req.getResultList();
+        if (result.size()==1)
+            {popu=(Population)result.get(0);};
+        return popu;
+    }
+    
+    
+    
     
 }
+

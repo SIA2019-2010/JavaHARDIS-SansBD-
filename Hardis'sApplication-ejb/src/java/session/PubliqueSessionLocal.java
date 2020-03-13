@@ -14,6 +14,7 @@ import entitee.Population;
 import entitee.Produit;
 import entitee.Responsable;
 import entitee.StatutBeneficiaire;
+import entitee.Population;
 import java.util.List;
 import java.util.Date;
 import javax.ejb.Local;
@@ -26,9 +27,9 @@ import javax.servlet.http.HttpSession;
 @Local
 public interface PubliqueSessionLocal {
     
-        //Devis creerDevis(double prix, Date dateDevis, List<PersonnePhysique> listpers, Produit prod);
+        Devis creerDevis(PersonnePhysique pers,Produit prod,double prix, Date dateDevis,List<PersonnePhysique> listeayantdroit);
 
-        //PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, Population pop);
+        PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail,String numeroSS,Date datenaiss, Population pop);
 
         StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers);
 
