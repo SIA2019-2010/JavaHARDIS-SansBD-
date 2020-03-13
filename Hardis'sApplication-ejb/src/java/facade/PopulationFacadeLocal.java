@@ -33,5 +33,7 @@ public interface PopulationFacadeLocal {
     Population creerPopulation(String libelle);
     
     Population modifierLibellePopulation(Population popu, String libelle);
+
+    Population rechercheExistantPopulationID(long id);
     
 }
