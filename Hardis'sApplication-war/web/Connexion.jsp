@@ -41,6 +41,10 @@
                 <input type="password" name="MDP"/>
                 <button type="submit" value="Valider">Connexion</button>
                 <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>
+                
+                
+        
+                                                    
             </fieldset>
         </form>
     </body>

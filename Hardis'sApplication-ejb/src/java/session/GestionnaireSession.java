@@ -34,7 +34,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             Response.add("Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
-            request.setAttribute("typeConnexion","GestionnaireConnexion");
+            request.setAttribute("typeConnexion ","GestionnaireConnexion");
         }
         else{
             Gestionnaire sessiongestionnaire=gestionnaireFacade.authentificationGestionnaire(login, mdp);

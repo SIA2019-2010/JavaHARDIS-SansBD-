@@ -69,7 +69,7 @@ public class Page extends HttpServlet {
         }
         System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
         
-        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreerCompteClient"))){
+        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
             jspClient="/ErreurSession.jsp";
             message="Erreur de session ! Veuillez vous reconnecter !";
             if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
@@ -110,36 +110,33 @@ public class Page extends HttpServlet {
                 break;
                 
             case "ResponsableAuthen" :
-                System.out.println("testttt");
-                System.out.println("jsp   "+jspClient);
                 String Login=request.getParameter("Login");
                 String MDP=request.getParameter("MDP");
-                System.out.println(Login+"testttt"+MDP);
                 Response=responsableSession.authentificationResponsable(Login, MDP, request);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
                 break;
                 
             case "AffilieAuthen" :
-                System.out.println("testttt");
-                System.out.println("jsp   "+jspClient);
                 Login=request.getParameter("Login");
                 MDP=request.getParameter("MDP");
-                System.out.println(Login+"testttt"+MDP);
                 Response=affilieSession.authentificationAffilie(Login, MDP, request);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
                 break;
                 
             case "GestionnaireAuthen" :
-                System.out.println("testttt");
-                System.out.println("jsp   "+jspClient);
                 Login=request.getParameter("Login");
                 MDP=request.getParameter("MDP");
-                System.out.println(Login+"testttt"+MDP);
                 Response=gestionnaireSession.authentificationGestionnaire(Login, MDP, request);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
+                break;
+                
+            case "CreationDevisInformations" :
+                    List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                    request.setAttribute("listepopulation",listpop);
+                    jspClient="/PageCreationDevis.jsp";
                 break;
                 
             default:
