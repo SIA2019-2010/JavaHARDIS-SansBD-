@@ -39,6 +39,17 @@ public class Produit implements Serializable {
 
     private String NomProduit;
     
+    private Double PrixBase;
+
+    public Double getPrixBase() {
+        return PrixBase;
+    }
+
+    public void setPrixBase(Double PrixBase) {
+        this.PrixBase = PrixBase;
+    }
+
+    
     @ManyToOne
     private TypeProduit leTypeProduit;
 
@@ -49,15 +60,25 @@ public class Produit implements Serializable {
     private List<TypeGarantie> lesTypesGarantie;
 
     @ManyToMany
-    private List<AssietteCotisation> lesAssiettesCotisation;
-
-    @ManyToMany
     private List<Population> lesPopulations;
 
     @ManyToOne
     private PersonneMorale laPersonneMorale;
 
     private EnumSet<Beneficiaire> Beneficiaires;
+    
+    private EnumSet<Beneficiaire> AssiettesCotisation;
+    
+    
+
+    public EnumSet getAssiettesCotisation() {
+        return AssiettesCotisation;
+    }
+
+    public void setAssiettesCotisation(EnumSet AssiettesCotisation) {
+        this.AssiettesCotisation = AssiettesCotisation;
+    }
+
 
     public List<Population> getLesPopulations() {
         return lesPopulations;
@@ -73,14 +94,6 @@ public class Produit implements Serializable {
 
     public void setBeneficiaires(EnumSet<Beneficiaire> Beneficiaires) {
         this.Beneficiaires = Beneficiaires;
-    }
-
-    public List<AssietteCotisation> getLesAssiettesCotisation() {
-        return lesAssiettesCotisation;
-    }
-
-    public void setLesAssiettesCotisation(List<AssietteCotisation> lesAssiettesCotisation) {
-        this.lesAssiettesCotisation = lesAssiettesCotisation;
     }
 
     public List<TypeGarantie> getLesTypesGarantie() {

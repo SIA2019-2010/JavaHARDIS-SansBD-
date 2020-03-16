@@ -29,5 +29,7 @@ public interface ActiviteFacadeLocal {
     List<Activite> findRange(int[] range);
 
     int count();
+
+    Activite rechercheActiviteExistantID(long id);
     
 }

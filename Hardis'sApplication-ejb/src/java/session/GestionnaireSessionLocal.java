@@ -5,7 +5,17 @@
  */
 package session;
 
+import entitee.Activite;
+import entitee.Beneficiaire;
+import entitee.Fiscalite;
 import entitee.Gestionnaire;
+import entitee.PersonneMorale;
+import entitee.Population;
+import entitee.Produit;
+import entitee.Responsable;
+import entitee.TypeGarantie;
+import entitee.TypeProduit;
+import java.util.EnumSet;
 import java.util.List;
 import javax.ejb.Local;
 import javax.servlet.http.HttpServletRequest;
@@ -20,5 +30,18 @@ public interface GestionnaireSessionLocal {
     List<Object> authentificationGestionnaire(String login, String mdp, HttpServletRequest request);
     
     Gestionnaire modifiermdp(Gestionnaire resp, String mdp);
+
+    PersonneMorale creerMorale(String siret,String raisonSo,String adresse,Activite acti);
+
+    List<Object> creerMoraleComplet(Object[] pers);
+
+    Responsable creerResponsable(String nom, String prenom, String login, String mdp, String mail, String tel, PersonneMorale personneMorale);
+
+    List<Object> creerResponsableComplet(Object[] pers);
+
+    Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale);
+
+    List<Object> creerProduitComplet(String nom, EnumSet<Beneficiaire> lesbenef, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lestypesgarantie, TypeProduit letype, List<Fiscalite> lesfisca,PersonneMorale lapers);
+    
     
 }

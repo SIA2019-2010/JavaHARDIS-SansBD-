@@ -6,7 +6,7 @@
 package facade;
 
 import entitee.Produit;
-import entitee.AssietteCotisation;
+import entitee.Beneficiaire;
 import entitee.Fiscalite;
 import entitee.PersonneMorale;
 import entitee.TypeGarantie;
@@ -39,13 +39,13 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     }
 
     @Override
-    public Produit creerProduit(String nom, EnumSet lesBeneficiaires, List<AssietteCotisation> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale) {
+    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> assiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale) {
         Produit prod = new Produit();
         
         prod.setNomProduit(nom);
         prod.setBeneficiaires(lesBeneficiaires);
         prod.setLeTypeProduit(leTypeProduit);
-        prod.setLesAssiettesCotisation(lesAssiettes);
+        prod.setAssiettesCotisation(assiettes);
         prod.setLesFiscalites(lesFiscalites);
         prod.setLesPopulations(lesPopulations);
         prod.setLesTypesGarantie(lesTypesGaranties);        

@@ -35,5 +35,7 @@ public interface PersonneMoraleFacadeLocal {
     PersonneMorale creerPersonneMorale(String siret, String raison, String adresse, Activite activite);
     
     PersonneMorale modifierAdresse(PersonneMorale personne, String adresse);
+
+    PersonneMorale rechercheExistantID(long idpers);
     
 }

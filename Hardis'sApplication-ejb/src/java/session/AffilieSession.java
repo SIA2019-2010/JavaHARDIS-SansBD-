@@ -125,8 +125,8 @@ public class AffilieSession implements AffilieSessionLocal {
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent) {
-        return personnePhysiqueFacade.renseignerInfos(pers, numeroSS, adresse, genre, adherent);
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre) {
+        return personnePhysiqueFacade.renseignerInfos(pers, numeroSS, adresse, genre);
     }
 
     @Override

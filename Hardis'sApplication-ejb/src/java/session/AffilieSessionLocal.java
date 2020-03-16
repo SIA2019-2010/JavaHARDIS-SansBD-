@@ -41,7 +41,7 @@ public interface AffilieSessionLocal {
 
     StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers);
 
-    PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent);    
+    PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre);    
 
     Contrat modifierDateFinContrat(Contrat contrat, Date datef);
 

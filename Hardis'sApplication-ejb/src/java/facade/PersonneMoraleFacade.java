@@ -7,9 +7,11 @@ package facade;
 
 import entitee.Activite;
 import entitee.PersonneMorale;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -47,5 +49,20 @@ public class PersonneMoraleFacade extends AbstractFacade<PersonneMorale> impleme
         em.merge(personne);
         return personne;
     }
+
+    @Override
+    public PersonneMorale rechercheExistantID(long idpers) {
+        PersonneMorale persmor;
+        String txt="SELECT persmo FROM PersonneMorale AS persmo WHERE persmo.Id=:id";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("id",idpers);
+        persmor=null;
+        List <PersonneMorale> result = req.getResultList();
+        if (result.size()==1)
+            {persmor=(PersonneMorale)result.get(0);};
+        return persmor;
+    }
+    
+    
     
 }

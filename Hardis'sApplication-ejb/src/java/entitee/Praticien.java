@@ -40,6 +40,17 @@ public class Praticien implements Serializable {
     @ManyToOne
     private Specialite laSpecialite;
 
+    private boolean AdherentCAS;
+
+    public boolean isAdherentCAS() {
+        return AdherentCAS;
+    }
+
+    public void setAdherentCAS(boolean AdherentCAS) {
+        this.AdherentCAS = AdherentCAS;
+    }
+
+    
     public Specialite getLaSpecialite() {
         return laSpecialite;
     }

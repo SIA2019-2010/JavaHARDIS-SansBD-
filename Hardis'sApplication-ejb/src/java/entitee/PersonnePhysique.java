@@ -60,8 +60,6 @@ public class PersonnePhysique implements Serializable {
     private String Mail; //doit etre UNIQUE
 
     private Genre Genre;
-
-    private boolean AdherentCAS;
     
     @ManyToOne
     private Population laPopulation;
@@ -128,14 +126,6 @@ public class PersonnePhysique implements Serializable {
 
     public void setLesActes(List<Acte> lesActes) {
         this.lesActes = lesActes;
-    }
-
-    public boolean isAdherentCAS() {
-        return AdherentCAS;
-    }
-
-    public void setAdherentCAS(boolean AdherentCAS) {
-        this.AdherentCAS = AdherentCAS;
     }
 
     public Genre getGenre() {

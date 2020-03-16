@@ -5,7 +5,7 @@
  */
 package facade;
 
-import entitee.AssietteCotisation;
+import entitee.Beneficiaire;
 import entitee.Fiscalite;
 import entitee.PersonneMorale;
 import entitee.Produit;
@@ -38,7 +38,7 @@ public interface ProduitFacadeLocal {
 
     int count();
 
-    Produit creerProduit(String nom, EnumSet lesBeneficiaires, List<AssietteCotisation> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale);
+    Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale);
     
     List<Produit> afficherPersonneMoraleProduit(PersonneMorale personne);
 

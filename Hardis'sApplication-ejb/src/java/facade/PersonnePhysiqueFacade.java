@@ -36,9 +36,8 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     }
 
     @Override
-    public PersonnePhysique creerPersonnePhysique(String nom, String prenom, Date dateNaiss, String numeroSS, String adresse, String mail, Genre genre, boolean adherentCAS,Population laPopulation) {
+    public PersonnePhysique creerPersonnePhysique(String nom, String prenom, Date dateNaiss, String numeroSS, String adresse, String mail, Genre genre,Population laPopulation) {
         PersonnePhysique pers = new PersonnePhysique();
-        pers.setAdherentCAS(adherentCAS);
         pers.setAdresse(adresse);
         pers.setDateNaiss(dateNaiss);
         pers.setGenre(genre);
@@ -143,8 +142,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent) {
-        pers.setAdherentCAS(adherent);
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre) {
         pers.setAdresse(adresse);
         pers.setGenre(genre);
         pers.setNumeroSS(numeroSS);

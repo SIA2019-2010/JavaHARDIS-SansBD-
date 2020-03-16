@@ -33,7 +33,7 @@ public interface PersonnePhysiqueFacadeLocal {
 
     int count();
 
-    PersonnePhysique creerPersonnePhysique(String nom, String prenom, Date dateNaiss, String numeroSS, String adresse, String mail, Genre genre, boolean adherentCAS,Population laPopulation);
+    PersonnePhysique creerPersonnePhysique(String nom, String prenom, Date dateNaiss, String numeroSS, String adresse, String mail, Genre genre,Population laPopulation);
 
     PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail,String numeroSS,Date datenaiss, Population laPopulation);
             
@@ -51,7 +51,7 @@ public interface PersonnePhysiqueFacadeLocal {
 
     boolean rechercheDispoLogin(String logintest);
 
-    PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre, boolean adherent);
+    PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre);
 
     boolean rechercheBooleanEmail(String email);
 
