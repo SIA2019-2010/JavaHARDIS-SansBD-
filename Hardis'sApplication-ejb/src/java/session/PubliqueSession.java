@@ -80,7 +80,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre) {
         return personnePhysiqueFacade.renseignerInfos(pers, numeroSS, adresse, genre);
     }
-    
+           
     @Override
     public List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique){
         List<Object> Response=new ArrayList();
@@ -114,7 +114,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
 
 
     @Override
-    public List<Object> calculPacks(Object[] pers,List<Object>listeinfos) {
+    public List<Object> calculPacks(Object[] pers,List<Object[]>listeinfos) {
        List<Object> Response=new ArrayList();
        //la personne qui crée le devis n'est pas stocké dans la liste d'objet mais dans un object a part
        //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
@@ -185,7 +185,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     
     
     @Override
-    public List<Object> creerDevisComplet(Object[] pers,Object[] pack,List<Object>listeinfos) {
+    public List<Object> creerDevisComplet(Object[] pers,Object[] pack,List<Object[]>listeinfos) {
         List<Object> Response=new ArrayList();
         List<PersonnePhysique> LesAyantdroit=new ArrayList();
  

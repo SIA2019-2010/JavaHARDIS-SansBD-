@@ -147,7 +147,7 @@ public class AffilieSession implements AffilieSessionLocal {
     
     
     @Override
-    public List<Object> calculPacksAffilie(PersonnePhysique pers,List<Object>listeinfos) {
+    public List<Object> calculPacksAffilie(PersonnePhysique pers,List<Object[]>listeinfos) {
        List<Object> Response=new ArrayList();
        //la personne qui crée le devis est envoyé depuis attribut de session
        //Tout les champs doivent etre non modifiable car pas de test null!=nonnull
@@ -196,7 +196,7 @@ public class AffilieSession implements AffilieSessionLocal {
     
     
     @Override
-    public List<Object> creerDevisCompletAffilie(PersonnePhysique pers,Object[] pack,List<Object>listeinfos) {
+    public List<Object> creerDevisCompletAffilie(PersonnePhysique pers,Object[] pack,List<Object[]>listeinfos) {
         List<Object> Response=new ArrayList();
         List<PersonnePhysique> LesAyantdroit=new ArrayList();
  

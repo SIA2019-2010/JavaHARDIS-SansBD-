@@ -49,7 +49,7 @@ public interface AffilieSessionLocal {
 
     List<Remboursement> rechercheRemboursements(PersonnePhysique pers);
     
-    List<Object> calculPacksAffilie(PersonnePhysique pers,List<Object>listeinfos);
+    List<Object> calculPacksAffilie(PersonnePhysique pers,List<Object[]>listeinfos);
     
-    List<Object> creerDevisCompletAffilie(PersonnePhysique pers,Object[] pack,List<Object>listeinfos);
+    List<Object> creerDevisCompletAffilie(PersonnePhysique pers,Object[] pack,List<Object[]>listeinfos);
 }
