@@ -34,19 +34,19 @@
                 copieligne = document.createElement("TR");
                 copieligne.innerHTML = `<tr>
                                             <td>
-                                                <input type="text" name="Nom"/>
+                                                <input type="text" name="NomAD"/>
                                             </td>
                                             <td>
-                                                <input type="text" name="Prenom"/>
+                                                <input type="text" name="PrenomAD"/>
                                             </td>
                                             <td>
-                                                <input type="text" name="DateN1" class="datepicker" placeholder="Date de naissance" readonly>
+                                                <input type="text" name="DateNaiAD" class="datepicker" placeholder="Date de naissance" readonly>
                                             </td>
                                             <td>
-                                                <input type="text" name="NumeroSS"/>
+                                                <input type="text" name="NumeroSSAD"/>
                                             </td>
                                             <td>
-                                                <select name="idpop" style="width: 100%">
+                                                <select name="idpopAD" style="width: 100%">
                                                     <% for (Population pop:lesPops){%>
                                                         <option value ="<%=pop.getId()%>">
                                                             <%=pop.getLibellePopulation()%>
@@ -73,73 +73,80 @@
         </script>
     </head>
     <body>
-        <h1>Renseigner informations</h1>
-        <h2>Personne créateur</h2>
-        <table width="80%">
-            <tr>
-                <td width="15%">
-                    <label for="Nom">Nom<span class="requis">*</span></label>
-                </td>
-                <td width="15%">
-                    <label for="Prenom">Prénom<span class="requis">*</span></label>
-                </td>
-                <td width="15%">
-                    <label for="DateNaissance">Date de naissance<span class="requis">*</span></label>
-                </td>
-                <td width="15%">
-                    <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
-                </td>
-                <td width="15%">
-                    <label for="Population">Populatgfmmmmmmmm ion<span class="requis">*</span></label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" name="Nom"/>
-                </td>
-                <td>
-                    <input type="text" name="Prenom"/>
-                </td>
-                <td>
-                    <input type="text" name="DateN" class="datepicker" placeholder="Date de naissance" readonly="true">
-                </td>
-                <td>
-                    <input type="text" name="NumeroSS"/>
-                </td>
-                <td>
-                    <select name="idpop" style="width: 100%">
-                        <% for (Population pop:lesPops){%>
-                            <option value ="<%=pop.getId()%>">
-                                <%=pop.getLibellePopulation()%>
-                            </option>
-                        <%}%>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <h2>Ayants droits</h2>
-        <table width="80%" id="b">
-            <tr>
-                <tr>
-                    <td width="15%">
-                        <label for="Nom">Nom<span class="requis">*</span></label>
-                    </td>
-                    <td width="15%">
-                        <label for="Prenom">Prénom<span class="requis">*</span></label>
-                    </td>
-                    <td width="15%">
-                        <label for="DateNaissance">Date de naissance<span class="requis">*</span></label>
-                    </td>
-                    <td width="15%">
-                        <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
-                    </td>
-                    <td width="15%">
-                        <label for="Population">Population<span class="requis">*</span></label>
-                    </td>
-                </tr>
-            </tr>
-        </table>
-        
-        <input type="button" value="add" onclick="add()"/>
+        <form method="post" action="Page">
+            <fieldset>
+                <h1>Renseigner informations</h1>
+                <h2>Personne créateur</h2>
+                <table width="80%">
+                    <tr>
+                        <td width="15%">
+                            <label for="Nom">Nom<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="Prenom">Prénom<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="DateNaissance">Date de naissance<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="Population">Population<span class="requis">*</span></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="Nom"/>
+                        </td>
+                        <td>
+                            <input type="text" name="Prenom"/>
+                        </td>
+                        <td>
+                            <input type="text" name="DateN" class="datepicker" placeholder="Date de naissance" readonly="true">
+                        </td>
+                        <td>
+                            <input type="text" name="NumeroSS"/>
+                        </td>
+                        <td>
+                            <select name="idpop" style="width: 100%">
+                                <% for (Population pop:lesPops){%>
+                                    <option value ="<%=pop.getId()%>">
+                                        <%=pop.getLibellePopulation()%>
+                                    </option>
+                                <%}%>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <h2>Ayants droits</h2>
+                <table width="80%" id="b">
+                    <tr>
+                        <tr>
+                            <td width="15%">
+                                <label for="Nom">Nom<span class="requis">*</span></label>
+                            </td>
+                            <td width="15%">
+                                <label for="Prenom">Prénom<span class="requis">*</span></label>
+                            </td>
+                            <td width="15%">
+                                <label for="DateNaissance">Date de naissance<span class="requis">*</span></label>
+                            </td>
+                            <td width="15%">
+                                <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
+                            </td>
+                            <td width="15%">
+                                <label for="Population">Population<span class="requis">*</span></label>
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+
+                <input type="button" value="add" onclick="add()"/>
+                <input type="hidden" name="action" value="CalculPrixDevis"/>
+                <button type="submit" value="Valider">Envoyer</button>
+                <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>
+            </fieldset>
+        </form>
     </body>
 </html>

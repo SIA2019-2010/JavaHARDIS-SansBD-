@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -49,9 +50,9 @@ public class Page extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String jspClient = null;
-        String message = null;
+        String message = "";
         String act=request.getParameter("action");
-        System.out.println(new Date().toLocaleString()+act+"========");
+        System.out.println(new Date().toLocaleString()+"  "+act+"========");
         HttpSession session=request.getSession(false);
         Gestionnaire sessiongestionnaire=null;
         PersonnePhysique sessionaffilie=null;
@@ -69,7 +70,7 @@ public class Page extends HttpServlet {
         }
         System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
         
-        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("ClientAuthen")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
+        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CalculPrixDevis")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
             jspClient="/ErreurSession.jsp";
             message="Erreur de session ! Veuillez vous reconnecter !";
             if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
@@ -134,10 +135,67 @@ public class Page extends HttpServlet {
                 break;
                 
             case "CreationDevisInformations" :
-                    List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
-                    request.setAttribute("listepopulation",listpop);
-                    jspClient="/PageCreationDevis.jsp";
+                List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("listepopulation",listpop);
+                jspClient="/PageCreationDevis.jsp";
                 break;
+                
+            case "CalculPrixDevis" :
+                Object[] pers = null;
+                List<Object[]> listeinfos=new ArrayList();
+                /*while(paramNames.hasMoreElements()){
+                    paramName=(String)paramNames.nextElement();*/
+
+                    //String param=request.getParameter(paramName);
+
+                    //System.out.println(paramName+"   "+param);
+                    //System.out.println();
+                    String NomCreateur=request.getParameter("Nom");
+                    String PrenomCreateur=request.getParameter("Prenom");
+                    String DateNaiCreateur=request.getParameter("DateN");
+                    String SSCreateur=request.getParameter("NumeroSS");
+                    String Papulation=request.getParameter("idpop");
+                    String NomAD[]=request.getParameterValues("NomAD");
+                    String PrenomAD[]=request.getParameterValues("PrenomAD");
+                    String DateNaiAD[]=request.getParameterValues("DateNaiAD");
+                    String NumeroSSAD[]=request.getParameterValues("NumeroSSAD");
+                    String idpopAD[]=request.getParameterValues("idpopAD");
+                    System.out.print("Nom  ");
+                    System.out.println(NomCreateur);
+                    System.out.print("Prenom  ");
+                    System.out.println(PrenomCreateur);
+                    System.out.print("DateNai  ");
+                    System.out.println(DateNaiCreateur);
+                    System.out.print("NumeroSS  ");
+                    System.out.println(SSCreateur);
+                    System.out.print("idpop  ");
+                    System.out.println(Papulation);
+                    System.out.println();
+                    
+                    for(int i=0; i<NomAD.length; i++){
+                        System.out.print("NomAD  ");
+                        System.out.println(NomAD[i]);
+                        System.out.print("PrenomAD  ");
+                        System.out.println(PrenomAD[i]);
+                        System.out.print("DateNaiAD  ");
+                        System.out.println(DateNaiAD[i]);
+                        System.out.print("NumeroSSAD  ");
+                        System.out.println(NumeroSSAD[i]);
+                        System.out.print("idpopAD  ");
+                        System.out.println(idpopAD[i]);
+                        System.out.println();
+                    }
+
+                //}
+                System.out.println("ok");
+                
+                
+                Response=publiqueSession.calculPacks(pers, listeinfos);
+                
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("listepopulation",listpop);
+                jspClient="/PageCreationDevis.jsp";
+                break;    
                 
             default:
                 jspClient="/"+act+".jsp";
