@@ -5,8 +5,11 @@
  */
 package session;
 
+import entitee.PersonneMorale;
 import entitee.Responsable;
+import entitee.StatutBeneficiaire;
 import facade.ResponsableFacadeLocal;
+import facade.StatutBeneficiaireFacadeLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -23,6 +26,9 @@ public class ResponsableSession implements ResponsableSessionLocal {
 
     @EJB
     private ResponsableFacadeLocal responsableFacade;
+    
+    @EJB
+    private StatutBeneficiaireFacadeLocal statutBeneficiaireFacade;
     
     @Override
     public List<Object> authentificationResponsable(String login, String mdp, HttpServletRequest request) {
@@ -57,6 +63,11 @@ public class ResponsableSession implements ResponsableSessionLocal {
     @Override
     public Responsable modifiermdp(Responsable resp, String mdp){
         return responsableFacade.modifierMdp(resp, mdp);
+    }
+    
+    @Override
+    public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo){
+        return statutBeneficiaireFacade.rechercherStatutBeneficiaire(persmo);
     }
     
 }

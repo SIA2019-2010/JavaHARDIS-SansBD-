@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Beneficiaire;
 import entitee.Contrat;
+import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
 import java.util.Date;
@@ -43,5 +44,7 @@ public interface StatutBeneficiaireFacadeLocal {
     StatutBeneficiaire rechercherStatutBeneficiaire(long id);
 
     List<Contrat> rechercheContrats(PersonnePhysique pers);
+    
+    List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo);
     
 }

@@ -123,21 +123,35 @@ public class PubliqueSession implements PubliqueSessionLocal {
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
+       //Date de naissance
+       Date DateN=Date.valueOf((String)Array.get(pers, 2));
+       double coef;
+       if(DateN==null||DateN.after(new Date())){
+            Response.add("Effeur Date");//1
+            Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+            Response.add(pers);//3 la personne qui crée le devis
+            Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+            Response.add(null); //5 pas de devis
+            return Response; //manque des champs donc renvoi de toutes les informations
+       }
+       else{
+           coef=DateToCoef(DateN);
+       }
        //controle sur la population
        Long idpop=Long.valueOf((String)Array.get(pers, 5));
        Population pop = populationFacade.rechercheExistantPopulationID(idpop);
        if(pop==null){
             Response.add("Probleme sur la population");//1
-             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
-             Response.add(null); //5 pas de devis
+            Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+            Response.add(pers);//3 la personne qui crée le devis
+            Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+            Response.add(null); //5 pas de devis
              
             return Response; //Population introuvable
        }
        
        //controle sur les ayants droits
-        for(Object infos: listeinfos){
+        for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
             Date datenaiss=(Date)Array.get(infos, 2);
@@ -145,20 +159,34 @@ public class PubliqueSession implements PubliqueSessionLocal {
             
             
             if(nom==null||prenom==null||datenaiss==null||numeroSS==null){
-             Response.add("Il manque des champs");//1
-             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
-             Response.add(null); //5 pas de packs (produit+prix)
+                Response.add("Il manque des champs");//1
+                Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                Response.add(pers);//3 la personne qui crée le devis
+                Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+                Response.add(null); //5 pas de packs (produit+prix)
              
-            return Response; //tout ce qu'on a donné
+                return Response; //tout ce qu'on a donné
             }
+            
+            Date DateN=Date.valueOf((String)Array.get(infos, 2));
+            if(DateN==null||DateN.after(new Date())){
+                 Response.add("Effeur Date");//1
+                 Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                 Response.add(pers);//3 la personne qui crée le devis
+                 Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+                 Response.add(null); //5 pas de devis
+                 return Response; //manque des champs donc renvoi de toutes les informations
+            }
+            else{
+                coef+=DateToCoef(DateN);
+            }
+            
             
         }
         
          // si tout les champs sont bien remplis : Algo pour prix+produit dans un objet 
          
-        List<Object> lesPacks=new ArrayList();
+        List<Object[]> lesPacks=new ArrayList();
         Date dateDevis = new Date();
         
         // prix +produit = objet 
@@ -191,7 +219,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             if(persencours==null){
                 //1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail, 6 population
                 
-                 Long idpop=Long.valueOf((String)Array.get(pers, 5));
+                Long idpop=Long.valueOf((String)Array.get(pers, 5));
                 Population pop = populationFacade.rechercheExistantPopulationID(idpop);
                 
                 persencours=personnePhysiqueFacade.creerPersonnePhysiqueDevis((String)Array.get(pers, 0),(String)Array.get(pers, 1), (String)Array.get(pers, 4), (String)Array.get(pers, 3),(Date)Array.get(pers, 2),pop);
@@ -209,13 +237,15 @@ public class PubliqueSession implements PubliqueSessionLocal {
             PersonnePhysique ayantdroitencours;
             ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
             
-                //si la personne n'existe pas
-                if (ayantdroitencours==null){
-                
-                   ayantdroitencours=personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS); 
-                }
+            //si la personne n'existe pas
+            if (ayantdroitencours==null){
+
+               ayantdroitencours=personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS); 
+            }
+            
+            
                     
-              LesAyantdroit.add(ayantdroitencours);                                            
+            LesAyantdroit.add(ayantdroitencours);                                            
         }       
            
          //creation du devis ; pers,produit,prix,datedujour,listayantdroits       
@@ -238,7 +268,20 @@ public class PubliqueSession implements PubliqueSessionLocal {
         return populationFacade.recherchePopulations();
     }
     
-    
+    public double DateToCoef(Date DateN){
+        Date today=new Date();
+        int age=today.getYear()-DateN.getYear();
+        if(today.getMonth()<DateN.getMonth()) age--;
+        else if(today.getDay()<DateN.getDay()&&today.getMonth()=DateN.getMonth()) age--;
+        
+        if(age<10) return 0;
+        else if(age<16) return 1;
+        else if(age<18) return 1.05;
+        else if(age<25) return 1.15;
+        else if(age<40) return 1.6;
+        else if(age<55) return 1.9;
+        else return 2.5;
+    }
     
     
     

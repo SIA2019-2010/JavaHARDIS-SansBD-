@@ -195,7 +195,13 @@ public class Page extends HttpServlet {
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
                 jspClient="/PageCreationDevis.jsp";
-                break;    
+                break;  
+            
+            case "afficherListePersonnePhiqueResponsable" :
+                request.setAttribute("listestatut",responsableSession.rechercherStatutBeneficiaire(sessionresponsable.getLaPersonneMorale()));
+                jspClient="/afficherListePersonnePhiqueResponsable.jsp";
+                message="liste de personnes physiques";
+                break;
                 
             default:
                 jspClient="/"+act+".jsp";

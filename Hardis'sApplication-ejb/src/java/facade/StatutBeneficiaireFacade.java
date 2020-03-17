@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Beneficiaire;
 import entitee.Contrat;
+import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
 import java.util.List;
@@ -91,7 +92,15 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
 
     }
     
-    
+    @Override
+    public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo) {
+        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.leContrat.leProduit.laPersonneMorale=:pm"
+                + "order by s.leContrat.leProduit.laPersonneMorale, s.leContrat.leProduit, s.leContrat, s.statutBeneficiare";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("pm",persmo);
+        List<StatutBeneficiaire> result = req.getResultList();
+        return result;
+    }
     
     
     

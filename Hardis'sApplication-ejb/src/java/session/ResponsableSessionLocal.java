@@ -5,7 +5,9 @@
  */
 package session;
 
+import entitee.PersonneMorale;
 import entitee.Responsable;
+import entitee.StatutBeneficiaire;
 import java.util.List;
 import javax.ejb.Local;
 import javax.servlet.http.HttpServletRequest;
@@ -20,5 +22,7 @@ public interface ResponsableSessionLocal {
     List<Object> authentificationResponsable(String login, String mdp, HttpServletRequest request);
     
     Responsable modifiermdp(Responsable resp, String mdp);
+    
+    List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo);
     
 }
