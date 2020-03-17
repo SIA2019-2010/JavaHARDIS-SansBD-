@@ -54,6 +54,33 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
         listremboursement= req.getResultList (); 
         return listremboursement;
     }
+
+    @Override
+    public List<Acte> rechercheActePersNonRemb(PersonnePhysique pers) {
+        List<Acte> listact; 
+        String tx = "SELECT act FROM Acte AS act where act.leRemboursement IS NULL"; //==null 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("vide", null); 
+        listact= req.getResultList (); 
+        return listact;
+        
+  
+    }
+
+    @Override
+    public Acte rechercheActeID(Long idact) {
+        Acte act;
+       String txt="SELECT actee FROM Acte AS actee WHERE actee.id=:ii";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("ii",idact);
+        act=null;
+        List <Acte> result = req.getResultList();
+        if (result.size()==1)
+            {act=(Acte)result.get(0);};
+        return act;
+    }
+    
+    
     
     
     

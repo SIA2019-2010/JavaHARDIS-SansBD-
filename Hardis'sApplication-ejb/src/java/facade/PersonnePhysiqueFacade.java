@@ -142,10 +142,9 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre) {
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre) {
         pers.setAdresse(adresse);
         pers.setGenre(genre);
-        pers.setNumeroSS(numeroSS);
         
         em.merge(pers);
         return pers;
@@ -199,8 +198,22 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
         em.merge(pers);
         return pers;
     }
+
+    @Override
+    public PersonnePhysique recherchePersonneID(Long idper) {
+        PersonnePhysique pers;
+        String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.id=:ii";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("ii",idper);
+        pers=null;
+        List <PersonnePhysique> result = req.getResultList();
+        if (result.size()==1)
+            {pers=(PersonnePhysique)result.get(0);};
+        return pers;
+    }
     
 
+    
     
     
     

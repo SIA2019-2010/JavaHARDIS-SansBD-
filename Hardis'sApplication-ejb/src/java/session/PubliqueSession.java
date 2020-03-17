@@ -69,8 +69,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre) {
-        return personnePhysiqueFacade.renseignerInfos(pers, numeroSS, adresse, genre);
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre) {
+        return personnePhysiqueFacade.renseignerInfos(pers, adresse, genre);
     }
            
     @Override
@@ -112,13 +112,13 @@ public class PubliqueSession implements PubliqueSessionLocal {
        //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
        
        //ayants droits  : List Object listeinfos
-       //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ; 5 statut (beneficiaire)
+       //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ;
        
        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((Date)Array.get(pers, 2))==null||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
              Response.add("Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
+             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
              Response.add(null); //5 pas de devis
              
             return Response; //manque des champs donc renvoi de toutes les informations
@@ -148,7 +148,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
              Response.add("Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
+             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
              Response.add(null); //5 pas de packs (produit+prix)
              
             return Response; //tout ce qu'on a donné

@@ -125,8 +125,8 @@ public class AffilieSession implements AffilieSessionLocal {
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String numeroSS, String adresse, Genre genre) {
-        return personnePhysiqueFacade.renseignerInfos(pers, numeroSS, adresse, genre);
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers,String adresse, Genre genre) {
+        return personnePhysiqueFacade.renseignerInfos(pers, adresse, genre);
     }
 
     @Override
@@ -161,10 +161,9 @@ public class AffilieSession implements AffilieSessionLocal {
             String prenom=(String)Array.get(infos, 1);
             Date datenaiss=(Date)Array.get(infos, 2);
             String numeroSS = (String)Array.get(infos,3);
-            String statut=(String)Array.get(infos, 4); 
             
             
-            if(nom==null||prenom==null||datenaiss==null||numeroSS==null||statut==null){
+            if(nom==null||prenom==null||datenaiss==null||numeroSS==null){
              Response.add("Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
@@ -212,7 +211,6 @@ public class AffilieSession implements AffilieSessionLocal {
             String prenom=(String)Array.get(infos, 1);
             Date datenaiss =(Date)Array.get(infos, 2);
             String numeroSS=(String)Array.get(infos, 3);
-            Beneficiaire statut=(Beneficiaire)Array.get(infos, 4); 
             
             //on recupère les infos des ayant droit pour les créée ou non
             PersonnePhysique ayantdroitencours;

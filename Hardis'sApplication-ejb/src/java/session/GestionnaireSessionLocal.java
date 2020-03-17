@@ -5,11 +5,13 @@
  */
 package session;
 
+import entitee.Acte;
 import entitee.Activite;
 import entitee.Beneficiaire;
 import entitee.Fiscalite;
 import entitee.Gestionnaire;
 import entitee.PersonneMorale;
+import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
 import entitee.Responsable;
@@ -43,5 +45,15 @@ public interface GestionnaireSessionLocal {
 
     List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lesfiscas,List<Long> lespops);
     
+    List<Object> calculPacksGestionnaireAvecRecherche(PersonnePhysique pers,List<PersonnePhysique>AyantsDroits);
     
+    List<Object> creerDevisCompletGestionnaireAvecRecherche(PersonnePhysique pers,Object[] pack,List<PersonnePhysique>AyantsDroits);
+    
+    List<Object> calculPacksGestionnaire(Object[] pers,List<Object[]>listeinfos);
+    
+    List<Object> creerDevisCompletGestionnaire(Object[] pers,Object[] pack,List<Object[]>listeinfos);
+
+    List<Object> creerRemboursement(Long idpers);
+
+    List<Acte> rechercheActesNonRemboursePersonne(Long idpers);
 }
