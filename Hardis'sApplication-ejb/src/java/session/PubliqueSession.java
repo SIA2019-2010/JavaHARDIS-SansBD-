@@ -38,9 +38,6 @@ public class PubliqueSession implements PubliqueSessionLocal {
     private ProduitFacadeLocal produitFacade;
 
     @EJB
-    private PopulationFacadeLocal populationFacade1;
-
-    @EJB
     private PopulationFacadeLocal populationFacade;
 
     @EJB
@@ -53,12 +50,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     private PersonnePhysiqueFacadeLocal personnePhysiqueFacade;
     
     
-            
-            
-    
-    
-    
-    
+     
     
     
     @Override
@@ -138,7 +130,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             Response.add("Probleme sur la population");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
+             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
              Response.add(null); //5 pas de devis
              
             return Response; //Population introuvable
@@ -150,10 +142,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
             String prenom=(String)Array.get(infos, 1);
             Date datenaiss=(Date)Array.get(infos, 2);
             String numeroSS = (String)Array.get(infos,3);
-            String statut=(String)Array.get(infos, 4); 
             
             
-            if(nom==null||prenom==null||datenaiss==null||numeroSS==null||statut==null){
+            if(nom==null||prenom==null||datenaiss==null||numeroSS==null){
              Response.add("Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
