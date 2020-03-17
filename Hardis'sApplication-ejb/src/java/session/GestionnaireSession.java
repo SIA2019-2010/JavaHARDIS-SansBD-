@@ -8,6 +8,7 @@ package session;
 import entitee.Acte;
 import entitee.Activite;
 import entitee.Beneficiaire;
+import entitee.Contrat;
 import entitee.Devis;
 import entitee.Fiscalite;
 import entitee.Garantie;
@@ -17,8 +18,10 @@ import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.PlafondMensuelSecuSociale;
 import entitee.Population;
+import entitee.PriseEnCharge;
 import entitee.Produit;
 import entitee.Responsable;
+import entitee.StatutBeneficiaire;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import facade.ActeFacadeLocal;
@@ -32,6 +35,7 @@ import facade.PersonnePhysiqueFacadeLocal;
 import facade.PopulationFacadeLocal;
 import facade.ProduitFacadeLocal;
 import facade.ResponsableFacadeLocal;
+import facade.StatutBeneficiaireFacadeLocal;
 import facade.TypeGarantieFacadeLocal;
 import facade.TypeProduitFacadeLocal;
 import java.lang.reflect.Array;
@@ -51,6 +55,9 @@ import javax.servlet.http.HttpSession;
  */
 @Stateless
 public class GestionnaireSession implements GestionnaireSessionLocal {
+
+    @EJB
+    private StatutBeneficiaireFacadeLocal statutBeneficiaireFacade; 
 
     @EJB
     private ActeFacadeLocal acteFacade;
@@ -536,12 +543,101 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
        List<TypeGarantie> typegli=g.getLesTypesGarantie();
        
+       //on recupere le contrat
+       List<Contrat> contrats=statutBeneficiaireFacade.rechercheContratsAffilie(pp);
        
        
-        
-        
-
+       
+       //filtre les contrats sur Domaine de la sante
+       List<Contrat>contratssante=new ArrayList();
+       
+      for (Contrat ct : contrats){
+          if(ct.getLeDomaine().getLibelleDomaine().equalsIgnoreCase("Sante")){
+              contratssante.add(ct);
+          }
+          
+      }
+      //on recuperer contrat individuel ou contrat collectif, si presence de complementaire on recuperer complementaire
+      Contrat lecontrat=null;
+      
+      if(contratssante.size()==1){
+        lecontrat=contratssante.get(0);
+      }
+      else{
+          for (Contrat ct : contratssante){
+          Produit leprod = ct.getLeProduit();
+          TypeProduit letype=leprod.getLeTypeProduit();
+           
+            if(letype.getLibelleTypeProduit().equalsIgnoreCase("Surcomplementaire")){
+                lecontrat=ct;
+            }    
+          }             
+       }
+      
+      List<TypeGarantie>typeglicouverte=lecontrat.getLesTypesGarantie();
+      
+      //typegli list typegarantie 
+        boolean couvert=false;
+       String lenom;
+       
+      
+      for(TypeGarantie typ : typegli){
          
+              lenom=typ.getTypeGarantie();
+              
+              for (TypeGarantie typacheck:typeglicouverte){
+                  if(lenom==typacheck.getTypeGarantie()){
+                      couvert=true;
+                  }
+                  
+              }   
+              
+         }
+    
+      
+      if (couvert==false){
+          //creerRemboursement avec 0
+      }
+      
+      
+      
+      
+       List<PriseEnCharge> lesprisesench=lecontrat.getLeProduit().getLesPriseEnCharges();
+      
+       //si le practitien est adherent on recupere la prise en charge adhérent et inversement
+       PriseEnCharge p=null;
+       for (PriseEnCharge prise : lesprisesench){
+           if (prise.isAdherentCAS()==practiCAS){
+              p=prise;  
+           }
+       }
+       
+       
+       
+       String TypeBaseRemboursement = p.getBaseRemboursement();//TM,FR,BR,BR-RSS,PMSS
+double TauxRemboursement = p.getTauxRempoursement();
+double depense = act.getDepense();//dépense effective pour l'acte
+double TauxRemboursementSecu = g.getLaBaseRemboursementSeco().getTauxRemboursementSecu();
+       
+double BaseRemboursementSecu = g.getLaBaseRemboursementSeco().getBaseRemboursementSecu();
+double RemboursementEffectif = 0;
+double MontantPMSS = pmss.getPlafond();
+
+if (TypeBaseRemboursement='BR')
+{RemboursementEffectif=TauxRemboursement*BaseRemboursementSecu;}
+else if (TypeBaseRemboursement='TM')
+	{RemboursementEffectif=TauxRemboursement*(TauxRemboursementSecu*BaseRemboursementSecu);}
+else if (TypeBaseRemboursement='FR')
+	{RemboursementEffectif=TauxRemboursement*Depense);}
+else if (TypeBaseRemboursement='BR-RSS')
+	{RemboursementEffectif=TauxRemboursement*(BaseRemboursementSecu-(TauxRemboursementSecu*BaseRemboursementSecu));}
+else if (TypeBaseRemboursement='PMSS')
+	{RemboursementEffectif=TauxRemboursement*MontantPMSS;}
+else if (TypeBaseRemboursement=null)
+	{RemboursementEffectif=TauxRemboursement;}
+
+
+//CreationRemboursement();
          
          
          

@@ -35,6 +35,17 @@ public class PriseEnCharge implements Serializable {
 
     @ManyToOne
     private Garantie laGarantie;
+    
+    private boolean AdherentCAS;
+
+    public boolean isAdherentCAS() {
+        return AdherentCAS;
+    }
+
+    public void setAdherentCAS(boolean AdherentCAS) {
+        this.AdherentCAS = AdherentCAS;
+    }
+
 
     public Produit getLeProduit() {
         return leProduit;
