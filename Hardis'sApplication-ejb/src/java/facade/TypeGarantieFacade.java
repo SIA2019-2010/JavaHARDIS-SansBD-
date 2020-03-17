@@ -6,9 +6,11 @@
 package facade;
 
 import entitee.TypeGarantie;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -43,5 +45,21 @@ public class TypeGarantieFacade extends AbstractFacade<TypeGarantie> implements 
         em.merge(typeproduit);
         return typeproduit;
     }
+
+    @Override
+    public TypeGarantie rechercheExistantID(Long idga) {
+        TypeGarantie typegar;
+        String txt="SELECT typep FROM TypeProduit AS typep WHERE typep.id=:ii";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("ii",idga);
+        typegar=null;
+        List <TypeGarantie> result = req.getResultList();
+        if (result.size()==1)
+            {typegar=(TypeGarantie)result.get(0);};
+        return typegar;
+    }
+    
+    
+    
     
 }

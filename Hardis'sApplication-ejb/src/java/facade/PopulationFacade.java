@@ -47,11 +47,11 @@ public class PopulationFacade extends AbstractFacade<Population> implements Popu
     }
 
     @Override
-    public Population rechercheExistantPopulationID(long idd) {
+    public Population rechercheExistantPopulationID(Long idd) {
             Population popu;
-        String txt="SELECT pop FROM Population AS pop WHERE pop.Id=:id";
+        String txt="SELECT pop FROM Population AS pop WHERE pop.id=:ii";
         Query req=getEntityManager().createQuery(txt);
-        req=req.setParameter("id",idd);
+        req=req.setParameter("ii",idd);
         popu=null;
         List <Population> result = req.getResultList();
         if (result.size()==1)

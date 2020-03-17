@@ -114,7 +114,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
        //ayants droits  : List Object listeinfos
        //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ; 5 statut (beneficiaire)
        
-       if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((Date)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
+       if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((Date)Array.get(pers, 2))==null||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
              Response.add("Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
@@ -204,7 +204,6 @@ public class PubliqueSession implements PubliqueSessionLocal {
             String prenom=(String)Array.get(infos, 1);
             Date datenaiss =(Date)Array.get(infos, 2);
             String numeroSS=(String)Array.get(infos, 3);
-            Beneficiaire statut=(Beneficiaire)Array.get(infos, 4); 
             
             //on recupère les infos des ayant droit pour les créée ou non
             PersonnePhysique ayantdroitencours;
@@ -228,7 +227,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         Response.add("Devis créée "); // 1
         Response.add("/Homepage.jsp"); // 2 Jsp pour afficher 
-        Response.add(devcree);//3 la pers
+        Response.add(devcree);//3 le devis
         
         
         return Response;

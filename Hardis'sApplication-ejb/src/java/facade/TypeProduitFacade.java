@@ -6,9 +6,11 @@
 package facade;
 
 import entitee.TypeProduit;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -43,5 +45,22 @@ public class TypeProduitFacade extends AbstractFacade<TypeProduit> implements Ty
         em.merge(typeproduit);
         return typeproduit;
     }
+
+    @Override
+    public TypeProduit rechercheExistantID(Long idtyp) {
+       TypeProduit typeprod;
+        String txt="SELECT typep FROM TypeProduit AS typep WHERE typep.id=:ii";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("ii",idtyp);
+        typeprod=null;
+        List <TypeProduit> result = req.getResultList();
+        if (result.size()==1)
+            {typeprod=(TypeProduit)result.get(0);};
+        return typeprod;
+    }
+   
+    
+    
+    
     
 }

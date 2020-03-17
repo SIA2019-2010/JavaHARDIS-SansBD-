@@ -34,9 +34,9 @@ public class ActiviteFacade extends AbstractFacade<Activite> implements Activite
     @Override
     public Activite rechercheActiviteExistantID(long idct) {
             Activite acti;
-        String txt="SELECT act FROM Activite AS act WHERE act.Id=:id";
+        String txt="SELECT act FROM Activite AS act WHERE act.id=:ii";
         Query req=getEntityManager().createQuery(txt);
-        req=req.setParameter("id",idct);
+        req=req.setParameter("ii",idct);
         acti=null;
         List <Activite> result = req.getResultList();
         if (result.size()==1)

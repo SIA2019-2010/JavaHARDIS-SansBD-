@@ -31,5 +31,7 @@ public interface FiscaliteFacadeLocal {
     int count();
 
     Fiscalite creerFiscalite(double taxe, double CMU, double TCA);
+
+    Fiscalite rechercheExistantID(Long idfi);
     
 }

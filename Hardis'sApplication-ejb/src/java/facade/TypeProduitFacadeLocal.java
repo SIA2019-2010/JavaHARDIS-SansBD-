@@ -33,5 +33,7 @@ public interface TypeProduitFacadeLocal {
     TypeProduit creerTypeProduit(String libelle);
     
     TypeProduit modifierLibelleTypeProduit(TypeProduit typeproduit, String libelle);
+
+    TypeProduit rechercheExistantID(Long idtyp);
     
 }

@@ -10,16 +10,22 @@ import entitee.Beneficiaire;
 import entitee.Fiscalite;
 import entitee.Gestionnaire;
 import entitee.PersonneMorale;
+import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
 import entitee.Responsable;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import facade.ActiviteFacadeLocal;
+import facade.FiscaliteFacadeLocal;
+import facade.GarantieFacadeLocal;
 import facade.GestionnaireFacadeLocal;
 import facade.PersonneMoraleFacadeLocal;
+import facade.PopulationFacadeLocal;
 import facade.ProduitFacadeLocal;
 import facade.ResponsableFacadeLocal;
+import facade.TypeGarantieFacadeLocal;
+import facade.TypeProduitFacadeLocal;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +45,21 @@ import javax.servlet.http.HttpSession;
 public class GestionnaireSession implements GestionnaireSessionLocal {
 
     @EJB
+    private PopulationFacadeLocal populationFacade;
+
+    @EJB
+    private GarantieFacadeLocal garantieFacade;
+
+    @EJB
+    private FiscaliteFacadeLocal fiscaliteFacade;
+
+    @EJB
+    private TypeGarantieFacadeLocal typeGarantieFacade;
+
+    @EJB
+    private TypeProduitFacadeLocal typeProduitFacade;
+
+    @EJB
     private ProduitFacadeLocal produitFacade;
 
     @EJB
@@ -52,10 +73,6 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
 
     @EJB
     private GestionnaireFacadeLocal gestionnaireFacade;
-    
-    
-    
-    
     
     
     
@@ -100,12 +117,12 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public List<Object> creerMoraleComplet(Object[] pers) {
+    public List<Object> creerMoraleComplet(List<String> pers) {
         List<Object> Response=new ArrayList();
        //Objet pers : 1 SIRET, 2 raisonSociale, 3 adresse, 4 activite (String de ID)
    
        
-       if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")){
+       if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()){
              Response.add("Merci de remplir la totalité des champs");//1
              Response.add("/CreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 les infos deja données
@@ -113,7 +130,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             return Response; //manque des champs donc renvoi de toutes les informations
        }
        //controle sur l'activite
-       Long idact=Long.valueOf((String)Array.get(pers, 3));
+       Long idact=Long.valueOf(pers.get(3));
        Activite act = activiteFacade.rechercheActiviteExistantID(idact);
        if(act==null){
              Response.add("Probleme sur la population");//1
@@ -126,7 +143,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //si tout est bien rempli : 
         
         PersonneMorale persmo;
-        persmo=creerMorale(((String)Array.get(pers, 0)),((String)Array.get(pers, 1)),((String)Array.get(pers, 2)),act);
+        persmo=creerMorale(pers.get(0),pers.get(1),pers.get(2),act);
         
         Response.add("Personne Morale créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 
@@ -142,11 +159,11 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public List<Object> creerResponsableComplet(Object[] pers) {
+    public List<Object> creerResponsableComplet(List<String> pers) {
         List<Object> Response=new ArrayList();
        //Objet pers : 1 nom, 2 prenom, 3 mail, 4 tel,5 Login,6 Mdp,7 PersonneMorale (String de ID)
         
-        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")){
+        if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()||pers.get(4).isEmpty()||pers.get(5).isEmpty()||pers.get(6).isEmpty()){
              Response.add("Merci de remplir la totalité des champs");//1
              Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 les infos deja données
@@ -155,7 +172,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        }
         
         //controle sur la personne morale
-       Long idpersmo=Long.valueOf((String)Array.get(pers, 6));
+       Long idpersmo=Long.valueOf(pers.get(6));
        PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
        if(persmo==null){
              Response.add("Probleme sur la personneMorale");//1
@@ -167,7 +184,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        
        
        Responsable resp;
-       resp=creerResponsable(((String)Array.get(pers, 0)),((String)Array.get(pers, 1)),((String)Array.get(pers, 2)),((String)Array.get(pers, 3)),((String)Array.get(pers, 4)),((String)Array.get(pers, 5)),persmo);
+       resp=creerResponsable(pers.get(0),pers.get(1),pers.get(2),pers.get(3),pers.get(4),pers.get(5),persmo);
        
         Response.add("Personne Morale créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 
@@ -182,10 +199,103 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public List<Object> creerProduitComplet(String nom, EnumSet<Beneficiaire> lesbenef, EnumSet<Beneficiaire> lesassiettes, List<TypeGarantie> lestypesgarantie, TypeProduit letype, List<Fiscalite> lesfisca,PersonneMorale lapers) {
+    public List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lesfiscas,List<Long> lespops) {
+        List<Object> Response=new ArrayList();
+        //infos : 1 String nom, 2 ID leTypeProduit, 3 ID laPersonneMorale
+        //liste :  ENUMSET : lesBeneficiaires, 3 ENUMSET : lesAssiettes, 4 LIST lesTypesGaranties,
+        //liste :  6 lesFiscalites, 7 lesPopulations, 
+        EnumSet<Beneficiaire> lesBeneficiaires = null;
+        EnumSet<Beneficiaire> lesAssiettes = null;
+        List<TypeGarantie> lesTypes=new ArrayList();
+        List<Fiscalite> lesFiscalites=new ArrayList();
+        List<Population> lesPopulations=new ArrayList();
         
         
-        return null;
+        //Controle sur les 3 champs individuel : nom, ID Typeprod, ID Personnemorale
+        if(infos.get(0).isEmpty()||infos.get(1).isEmpty()||infos.get(2).isEmpty()){
+             Response.add("Merci de remplir la totalité des champs");//1
+             Response.add("/CreationProduit.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+            
+            //Trop d'info pour renvoyer toute les listes
+             
+            return Response; //manque des champs, pas de renvoi d'informations car trop d'object
+       }
+        
+        
+         //controle sur la personne morale
+       Long idpersmo=Long.valueOf((String)Array.get(infos, 1));
+       PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
+       if(persmo==null){
+             Response.add("Probleme sur la personne Morale");//1
+             Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             
+            return Response; //PersonneMorale introuvable
+       }
+       
+          //controle sur le type produit
+       Long idprod=Long.valueOf((String)Array.get(infos, 2));
+       TypeProduit typep = typeProduitFacade.rechercheExistantID(idprod);
+       if(typep==null){
+             Response.add("Probleme sur le Type de produit");//1
+             Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             
+            return Response; //TypeProduit introuvable
+       }
+       
+       
+       //Transformation des listes en liste d'objet appropriée:
+       
+       //EnumSet beneficiaire
+        for(String beneficiaire: lesbenefs){
+            
+            lesBeneficiaires.add(Beneficiaire.valueOf(beneficiaire));
+                   
+        }
+       //enumSet Assiette
+        for(String assiette: lesassiettes){
+           
+            lesAssiettes.add(Beneficiaire.valueOf(assiette));
+                   
+        }
+        
+       //liste type
+        for(Long type: lestypes){
+          TypeGarantie typegar;
+           typegar= typeGarantieFacade.rechercheExistantID(type);
+            
+          lesTypes.add(typegar);
+          
+        }
+        
+         //liste fisca
+        for(Long fisca: lesfiscas){
+          Fiscalite fiscalite;
+           fiscalite=fiscaliteFacade.rechercheExistantID(fisca);
+     
+           lesFiscalites.add(fiscalite);
+          
+        }
+           
+         //liste fisca
+        for(Long popu: lespops){
+          Population population;
+           population=populationFacade.rechercheExistantPopulationID(popu);
+     
+           lesPopulations.add(population);
+          
+        }
+           
+        //si tout c'est bien passé : (ajouter les controles)
+        
+        Produit prod;
+        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, lesAssiettes, lesTypes, typep, lesFiscalites, lesPopulations, persmo);
+        
+        Response.add("Produit créée");//1
+        Response.add("/MenuGestionnaire.jsp"); //2 
+        Response.add(prod);//3 le produit créé
+        
+        return Response;
+        
     }
     
     

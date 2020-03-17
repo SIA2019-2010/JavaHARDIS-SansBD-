@@ -33,5 +33,7 @@ public interface TypeGarantieFacadeLocal {
     TypeGarantie creerTypeGarantie(String libelle);
     
     TypeGarantie modifierTypeGarantie(TypeGarantie typeproduit, String libelle);
+
+    TypeGarantie rechercheExistantID(Long idga);
     
 }

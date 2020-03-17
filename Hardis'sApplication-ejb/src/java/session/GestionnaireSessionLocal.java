@@ -33,15 +33,15 @@ public interface GestionnaireSessionLocal {
 
     PersonneMorale creerMorale(String siret,String raisonSo,String adresse,Activite acti);
 
-    List<Object> creerMoraleComplet(Object[] pers);
+    List<Object> creerMoraleComplet(List<String> pers);
 
     Responsable creerResponsable(String nom, String prenom, String login, String mdp, String mail, String tel, PersonneMorale personneMorale);
 
-    List<Object> creerResponsableComplet(Object[] pers);
+    List<Object> creerResponsableComplet(List<String> pers);
 
     Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale);
 
-    List<Object> creerProduitComplet(String nom, EnumSet<Beneficiaire> lesbenef, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lestypesgarantie, TypeProduit letype, List<Fiscalite> lesfisca,PersonneMorale lapers);
+    List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lesfiscas,List<Long> lespops);
     
     
 }

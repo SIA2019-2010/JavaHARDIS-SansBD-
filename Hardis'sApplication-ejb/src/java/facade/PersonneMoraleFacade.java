@@ -53,9 +53,9 @@ public class PersonneMoraleFacade extends AbstractFacade<PersonneMorale> impleme
     @Override
     public PersonneMorale rechercheExistantID(long idpers) {
         PersonneMorale persmor;
-        String txt="SELECT persmo FROM PersonneMorale AS persmo WHERE persmo.Id=:id";
+        String txt="SELECT persmo FROM PersonneMorale AS persmo WHERE persmo.id=:ii";
         Query req=getEntityManager().createQuery(txt);
-        req=req.setParameter("id",idpers);
+        req=req.setParameter("ii",idpers);
         persmor=null;
         List <PersonneMorale> result = req.getResultList();
         if (result.size()==1)
