@@ -43,5 +43,7 @@ public interface StatutBeneficiaireFacadeLocal {
     StatutBeneficiaire rechercherStatutBeneficiaire(long id);
 
     List<Contrat> rechercheContrats(PersonnePhysique pers);
+
+    List<Contrat> rechercheContratsAffilie(PersonnePhysique pers);
     
 }
