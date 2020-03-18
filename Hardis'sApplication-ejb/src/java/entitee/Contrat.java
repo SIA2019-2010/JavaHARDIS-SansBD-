@@ -44,6 +44,24 @@ public class Contrat implements Serializable {
     private Produit leProduit;
     
     private Date dateCreation;
+    
+    private StatutContrat leStatut;
+
+    public StatutContrat getLeStatut() {
+        return leStatut;
+    }
+
+    public void setLeStatut(StatutContrat leStatut) {
+        this.leStatut = leStatut;
+    }
+    
+     public List<StatutBeneficiaire> getLesStatutsBeneficiaire() {
+        return lesStatutsBeneficiaires;
+    }
+
+    public void SetLesStatutsBeneficiaires(List<StatutBeneficiaire> lesContrats) {
+        this.lesStatutsBeneficiaires = lesStatutsBeneficiaires;
+    }
 
     public Date getDateCreation() {
         return dateCreation;

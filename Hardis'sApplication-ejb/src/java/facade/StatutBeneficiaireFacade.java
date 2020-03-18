@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Beneficiaire;
 import entitee.Contrat;
+import entitee.Domaine;
 import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
@@ -125,6 +126,22 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
         req = req.setParameter("statut",Beneficiaire.Affilie);//com.myexample.Beneficiaire.Affilie
         List<StatutBeneficiaire> result = req.getResultList();
         return result;
+    }
+
+    @Override
+    public StatutBeneficiaire rechercheAffilieDomaine(PersonnePhysique persph, Domaine domaine) {
+        StatutBeneficiaire statut = null;
+        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp"
+                + "and s.leContrat.leProduit.leDomaine=:dom and s.statutBeneficiare:=statut";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("pp",persph);
+        req = req.setParameter("statut",Beneficiaire.Affilie);
+        req = req.setParameter("dom", domaine);
+        List<StatutBeneficiaire> result = req.getResultList();
+        if(result.size()==1){
+            statut = (StatutBeneficiaire)result.get(0);
+        }
+        return statut;
     }
     
     

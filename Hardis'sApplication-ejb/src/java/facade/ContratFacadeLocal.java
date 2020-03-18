@@ -42,8 +42,12 @@ public interface ContratFacadeLocal {
 
     Contrat modifierDateFin(Date datef, Contrat cont);
     
-    List<Contrat> AfficherContrat(Domaine dom);
+    List<Contrat> AfficherContratGestionnaire(Domaine dom);
     
     Contrat ValiderContrat(Contrat cnt);
+
+    Contrat rechercheExistantID(Long idcnt);
+
+    Contrat cloturerContrat(Contrat cnt);
     
 }

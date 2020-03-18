@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Beneficiaire;
 import entitee.Contrat;
+import entitee.Domaine;
 import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
@@ -50,5 +51,7 @@ public interface StatutBeneficiaireFacadeLocal {
     List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo);
     
     List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph);
+
+    StatutBeneficiaire rechercheAffilieDomaine(PersonnePhysique pers, Domaine domaine);
     
 }

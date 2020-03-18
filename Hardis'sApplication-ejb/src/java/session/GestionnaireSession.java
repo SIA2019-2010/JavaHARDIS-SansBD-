@@ -29,6 +29,7 @@ import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import facade.ActeFacadeLocal;
 import facade.ActiviteFacadeLocal;
+import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
 import facade.DomaineFacadeLocal;
 import facade.FiscaliteFacadeLocal;
@@ -62,8 +63,11 @@ import javax.servlet.http.HttpSession;
 public class GestionnaireSession implements GestionnaireSessionLocal {
 
     @EJB
-    private DomaineFacadeLocal domaineFacade;
+    private ContratFacadeLocal contratFacade;
 
+    @EJB
+    private DomaineFacadeLocal domaineFacade;
+    
     @EJB
     private RemboursementFacadeLocal remboursementFacade;
 
@@ -355,35 +359,19 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
     
     
-        @Override
-    public List<Object> calculPacksGestionnaireAvecRecherche(PersonnePhysique pers,List<PersonnePhysique>AyantsDroits) {
-       List<Object> Response=new ArrayList();
-       //la personne qui crée le devis est envoyé depuis attribut de session
-       //Tout les champs doivent etre non modifiable car pas de test null!=nonnull
-        
-        
-      // Algo pour prix+produit dans un objet 
-         
-        List<Object> lesPacks=new ArrayList();
-        Date dateDevis = new Date();
-        
-        // prix +produit = objet 
-        //lesPacks ==== algo CLAIRE
-        
-        
-        Response.add("Packs calculés"); // 1
-        Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
-        Response.add(pers);//3 la pers
-        Response.add(AyantsDroits); // 4 les ayant droits
-        Response.add(lesPacks); // 5 les "devis" (avec produit) : objet avec prix 1 et 2 produit
     
-        return Response;
-    }
+    
+    
+    
+    //suite de methode pour creation de devis , avec ou sans recherche 
+    
+    
     
     @Override
     public List<Object> calculPacksGestionnaire(Object[] pers,List<Object[]>listeinfos) {
-       List<Object> Response=new ArrayList();
-       //la personne qui crée le devis n'est pas stocké dans la liste d'objet mais dans un object a part
+      List<Object> Response=new ArrayList();
+       
+        //la personne qui crée le devis n'est pas stocké dans la liste d'objet mais dans un object a part
        //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
        
        //ayants droits  : List Object listeinfos
@@ -393,26 +381,39 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
              Response.add("Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
+             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
              Response.add(null); //5 pas de devis
              
             return Response; //manque des champs donc renvoi de toutes les informations
+       }
+       //Date de naissance
+       Date DateN=java.sql.Date.valueOf((String)Array.get(pers, 2));
+       double coef;
+       if(DateN==null||DateN.after(new Date())){
+            Response.add("Effeur Date");//1
+            Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+            Response.add(pers);//3 la personne qui crée le devis
+            Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+            Response.add(null); //5 pas de devis
+            return Response; //manque des champs donc renvoi de toutes les informations
+       }
+       else{
+           coef=DateToCoef(DateN);
        }
        //controle sur la population
        Long idpop=Long.valueOf((String)Array.get(pers, 5));
        Population pop = populationFacade.rechercheExistantPopulationID(idpop);
        if(pop==null){
             Response.add("Probleme sur la population");//1
-             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
-             Response.add(null); //5 pas de devis
+            Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+            Response.add(pers);//3 la personne qui crée le devis
+            Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+            Response.add(null); //5 pas de devis
              
             return Response; //Population introuvable
        }
-       
-       //controle sur les ayants droits
-        for(Object infos: listeinfos){
+        //controle sur les ayants droits
+        for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
             Date datenaiss=(Date)Array.get(infos, 2);
@@ -420,22 +421,41 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             
             
             if(nom==null||prenom==null||datenaiss==null||numeroSS==null){
-             Response.add("Il manque des champs");//1
-             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 la personne qui crée le devis
-             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
-             Response.add(null); //5 pas de packs (produit+prix)
+                Response.add("Il manque des champs");//1
+                Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                Response.add(pers);//3 la personne qui crée le devis
+                Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+                Response.add(null); //5 pas de packs (produit+prix)
              
-            return Response; //tout ce qu'on a donné
+                return Response; //tout ce qu'on a donné
             }
+            
+            DateN=java.sql.Date.valueOf((String)(Array.get(infos, 2)));
+            if(DateN==null||DateN.after(new Date())){
+                 Response.add("Effeur Date");//1
+                 Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                 Response.add(pers);//3 la personne qui crée le devis
+                 Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+                 Response.add(null); //5 pas de devis
+                 return Response; //manque des champs donc renvoi de toutes les informations
+            }
+            else{
+                coef+=DateToCoef(DateN);
+            }
+            
             
         }
         
          // si tout les champs sont bien remplis : Algo pour prix+produit dans un objet 
          
-        List<Object> lesPacks=new ArrayList();
-        Date dateDevis = new Date();
         
+        Date dateDevis = new Date();
+        List<Produit> listproduit=produitFacade.afficherProduit();
+        List<Object[]> lesPacks=new ArrayList();
+        for(Produit pr:listproduit){
+            Object[] packproduit={pr,pr.getPrixBase()*coef};
+            lesPacks.add(packproduit);
+        }
         // prix +produit = objet 
         //lesPacks ==== algo CLAIRE
         
@@ -458,7 +478,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         List<PersonnePhysique> LesAyantdroit=new ArrayList();
  
        // 1 devis, 1 personne qui crée, 1 liste personne (Ayants droits)
-            //---> creation de la personne si existe pas (test sur l'adresse mail)
+            //---> creation de la personne si existe pas (test sur ID)
                                  // ---> creation du devis avec prix, date (newdate)
         //Object pack : 1 produit , 2 prix                         
       
@@ -509,31 +529,102 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         return Response;
     }
+
     
     
-    
-    @Override
-    public List<Object> creerDevisCompletGestionnaireAvecRecherche(PersonnePhysique pers,Object[] pack,List<PersonnePhysique>AyantsDroits) {
+       @Override
+    public List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,Long idpers) {
         List<Object> Response=new ArrayList();
- 
-        //on recupere en parametre la personne et ses ayants droits
-           
-         //creation du devis ; pers,produit,prix,datedujour,listayantdroits       
-         Devis devcree; 
-         Date dateDevis = new Date();
-           
-        devcree=devisFacade.creerDevis(pers,(Produit)Array.get(pack, 0),(Double)Array.get(pack, 1),dateDevis,AyantsDroits);  
+        Object[] pers = null;
+        List<Object[]>listeinfos = new ArrayList();
+        //cette methode consiste a creer les object pour envoyer dans la JSP creation de devis
         
+        //on recuperer la personne
+        PersonnePhysique personne=personnePhysiqueFacade.recherchePersonneID(idpers);
+        List<PersonnePhysique>Ayantsdroit=new ArrayList();
         
-        Response.add("Devis créée "); // 1
-        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
-        Response.add(devcree);//3 la pers
+        Domaine dom = gest.getLeDomaine();
+        
+        //on recupere les ayants droits de son contrat du domaine concerné
+        StatutBeneficiaire lestatutaffilie = statutBeneficiaireFacade.rechercheAffilieDomaine(personne, dom);
+    
+        List<StatutBeneficiaire>lespers = lestatutaffilie.getLeContrat().getLesStatutsBeneficiaire();
+        
+        List<StatutBeneficiaire>statutsayants=new ArrayList();
+        
+        for (StatutBeneficiaire st : lespers){
+            if(st.getStatutBeneficiare().equals(Beneficiaire.Concubin)){
+                statutsayants.add(st);
+            }
+            if(st.getStatutBeneficiare().equals(Beneficiaire.Conjoint)){
+                statutsayants.add(st);
+            }
+            if(st.getStatutBeneficiare().equals(Beneficiaire.EnfantACharge)){
+                statutsayants.add(st);
+            }
+            
+        }
+        
+        for (StatutBeneficiaire stpers : statutsayants){
+            Ayantsdroit.add(stpers.getLaPersonnePhysique());
+        }
+        
+        //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
+        Array.set(pers, 0, personne.getNom());
+        Array.set(pers, 1, personne.getPrenom());
+        Array.set(pers, 2, personne.getDateNaiss());
+        Array.set(pers, 3, personne.getNumeroSS());
+        Array.set(pers, 4, personne.getMail());
+        Array.set(pers, 4, personne.getLaPopulation().getId());
+        
+       //ayants droits  : List Object listeinfos
+       //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ;
+       
+        for (PersonnePhysique ayt : Ayantsdroit) {
+             Object[]Ayantdroitobj=null;
+             Array.set(Ayantdroitobj, 0, ayt.getNom());
+             Array.set(Ayantdroitobj, 1, ayt.getPrenom());
+             Array.set(Ayantdroitobj, 2, ayt.getDateNaiss());
+             Array.set(Ayantdroitobj, 0, ayt.getNumeroSS());
+           
+             listeinfos.add(Ayantdroitobj);
+        }       
+       
+        Response.add("Recherche terminée");//1
+        Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object Ayants droits + infos personne (nom, prenom, mail,numero SS population)
+        Response.add(pers);//3 la personne qui crée le devis
+        Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+        
         
         
         return Response;
     }
-
-
+    
+    
+    
+    
+    
+    
+      public double DateToCoef(Date DateN){
+        Date today=new Date();
+        int age=today.getYear()-DateN.getYear();
+        if(today.getMonth()<DateN.getMonth()) age--;
+        else if(today.getDay()<DateN.getDay()&&today.getMonth()==DateN.getMonth()) age--;
+        
+        if(age<10) return 0;
+        else if(age<16) return 1;
+        else if(age<18) return 1.05;
+        else if(age<25) return 1.15;
+        else if(age<40) return 1.6;
+        else if(age<55) return 1.9;
+        else return 2.5;
+    }
+    
+    
+    
+    
+    
+    
 
     //Suite de methode pour creer un remboursement : 
     //1 jsp choix de personne qui envoi un ID pers a la methode rechercheActesNonRemboursePersonne
@@ -699,6 +790,24 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         return Response;
     }
+
+    @Override
+    public List<Object> cloturerContrat(Long idcontrat) {
+        List<Object> Response=new ArrayList();
+        
+        Contrat ct = contratFacade.rechercheExistantID(idcontrat);
+        
+        ct=contratFacade.cloturerContrat(ct);
+        
+        
+        Response.add("Contrat clos "); // 1
+        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
+        Response.add(ct);
+        
+        return Response;
+    }
+
+ 
     
     
     

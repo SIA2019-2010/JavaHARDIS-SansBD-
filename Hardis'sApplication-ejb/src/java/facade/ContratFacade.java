@@ -10,6 +10,7 @@ import entitee.Devis;
 import entitee.Domaine;
 import entitee.PersonneMorale;
 import entitee.Produit;
+import entitee.StatutContrat;
 import entitee.TypeGarantie;
 import java.util.List;
 import java.util.Date;
@@ -70,19 +71,44 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
     }
     
     @Override
-    public List<Contrat> AfficherContrat(Domaine dom) {
+    public List<Contrat> AfficherContratGestionnaire(Domaine dom) {
         List<Contrat> listcontrats; 
-        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.leDomaine=:dom"; 
+        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.leDomaine=:dom and cnt.DateDebut IS NULL"; 
         Query req = getEntityManager().createQuery(tx); 
         req.setParameter("dom", dom); 
         listcontrats= req.getResultList (); 
         return listcontrats;
     }
     
+    
     @Override
     public Contrat ValiderContrat(Contrat cnt) {
-        cnt.setDateDebut(new Date());
+        cnt.setDateCreation(new Date());
+        cnt.setLeStatut(StatutContrat.Validé);
         em.merge(cnt);
+        return cnt;
+    }
+
+    @Override
+    public Contrat rechercheExistantID(Long idcnt) {
+        Contrat cont = null;
+        String txt = "SELECT c FROM Contrat AS c WHERE c.id=:ii";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("ii",idcnt);
+        List<Contrat> result = req.getResultList();
+        if(result.size()==1){
+            cont = (Contrat)result.get(0);
+        }
+        return cont;
+    }
+
+    @Override
+    public Contrat cloturerContrat(Contrat cnt) {
+        cnt.setDateFin(new Date());
+        cnt.setLeStatut(StatutContrat.Cloturé);
+        
+        em.merge(cnt);
+        
         return cnt;
     }
     

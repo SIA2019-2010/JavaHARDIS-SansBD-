@@ -46,10 +46,6 @@ public interface GestionnaireSessionLocal {
 
     List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lesfiscas,List<Long> lespops);
     
-    List<Object> calculPacksGestionnaireAvecRecherche(PersonnePhysique pers,List<PersonnePhysique>AyantsDroits);
-    
-    List<Object> creerDevisCompletGestionnaireAvecRecherche(PersonnePhysique pers,Object[] pack,List<PersonnePhysique>AyantsDroits);
-    
     List<Object> calculPacksGestionnaire(Object[] pers,List<Object[]>listeinfos);
     
     List<Object> creerDevisCompletGestionnaire(Object[] pers,Object[] pack,List<Object[]>listeinfos);
@@ -61,4 +57,8 @@ public interface GestionnaireSessionLocal {
     List<Object> validerRemboursement(Long idremb);
 
     List<Object> refuserRemboursement(Long idremb);
+
+    List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,Long idpers);
+
+    List<Object> cloturerContrat(Long idcontrat);
 }
