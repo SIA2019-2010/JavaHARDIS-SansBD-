@@ -72,7 +72,22 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
         return cont;
     }
     
+    @Override
+    public List<Contrat> AfficherContrat(Domaine dom) {
+        List<Contrat> listcontrats; 
+        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.leDomaine=:dom"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        listcontrats= req.getResultList (); 
+        return listcontrats;
+    }
     
+    @Override
+    public Contrat ValiderContrat(Contrat cnt) {
+        cnt.setDateDebut(new Date());
+        em.merge(cnt);
+        return cnt;
+    }
     
     
     

@@ -49,4 +49,6 @@ public interface StatutBeneficiaireFacadeLocal {
     
     List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo);
     
+    List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph);
+    
 }

@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Acte;
 import entitee.EtatRemboursement;
+import entitee.PersonnePhysique;
 import entitee.Remboursement;
 import java.util.List;
 import javax.ejb.Local;
@@ -33,5 +34,7 @@ public interface RemboursementFacadeLocal {
     int count();
 
     Remboursement creerRemboursement(double brEffective, double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe);
+    
+    List<Remboursement> afficherRempoursement(PersonnePhysique perso);
     
 }

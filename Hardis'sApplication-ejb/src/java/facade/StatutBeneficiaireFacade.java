@@ -114,6 +114,19 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
         return result;
     }
     
+    @Override
+    public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph) {
+        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp or"
+                + "s.lecontrat in (SELECT s.leContrat from StatutBeneficiaire AS s"
+                + "where s.statutBeneficiare=:pp and s.statutBeneficiare:=statut)"
+                + "order by s.leContrat.leProduit, s.leContrat, s.statutBeneficiare";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("pp",persph);
+        req = req.setParameter("statut",Beneficiaire.Affilie);//com.myexample.Beneficiaire.Affilie
+        List<StatutBeneficiaire> result = req.getResultList();
+        return result;
+    }
+    
     
     
 }

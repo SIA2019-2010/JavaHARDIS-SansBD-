@@ -44,4 +44,6 @@ public interface ProduitFacadeLocal {
 
     Produit rechercheProduitID(long parameter);
     
+    List<Produit> afficherProduit();
+    
 }

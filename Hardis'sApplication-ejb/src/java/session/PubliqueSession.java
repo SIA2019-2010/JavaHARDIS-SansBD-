@@ -107,8 +107,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
 
     @Override
     public List<Object> calculPacks(Object[] pers,List<Object[]>listeinfos) {
-       List<Object> Response=new ArrayList();
-       //la personne qui crée le devis n'est pas stocké dans la liste d'objet mais dans un object a part
+        List<Object> Response=new ArrayList();
+       
+        //la personne qui crée le devis n'est pas stocké dans la liste d'objet mais dans un object a part
        //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
        
        //ayants droits  : List Object listeinfos
@@ -124,7 +125,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             return Response; //manque des champs donc renvoi de toutes les informations
        }
        //Date de naissance
-       Date DateN=Date.valueOf((String)Array.get(pers, 2));
+       Date DateN=java.sql.Date.valueOf((String)Array.get(pers, 2));
        double coef;
        if(DateN==null||DateN.after(new Date())){
             Response.add("Effeur Date");//1
@@ -149,8 +150,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
              
             return Response; //Population introuvable
        }
-       
-       //controle sur les ayants droits
+        //controle sur les ayants droits
         for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
@@ -168,7 +168,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 return Response; //tout ce qu'on a donné
             }
             
-            Date DateN=Date.valueOf((String)Array.get(infos, 2));
+            DateN=java.sql.Date.valueOf((String)(Array.get(infos, 2)));
             if(DateN==null||DateN.after(new Date())){
                  Response.add("Effeur Date");//1
                  Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
@@ -186,9 +186,14 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
          // si tout les champs sont bien remplis : Algo pour prix+produit dans un objet 
          
-        List<Object[]> lesPacks=new ArrayList();
-        Date dateDevis = new Date();
         
+        Date dateDevis = new Date();
+        List<Produit> listproduit=produitFacade.afficherProduit();
+        List<Object[]> lesPacks=new ArrayList();
+        for(Produit pr:listproduit){
+            Object[] packproduit={pr,pr.getPrixBase()*coef};
+            lesPacks.add(packproduit);
+        }
         // prix +produit = objet 
         //lesPacks ==== algo CLAIRE
         
@@ -272,7 +277,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         Date today=new Date();
         int age=today.getYear()-DateN.getYear();
         if(today.getMonth()<DateN.getMonth()) age--;
-        else if(today.getDay()<DateN.getDay()&&today.getMonth()=DateN.getMonth()) age--;
+        else if(today.getDay()<DateN.getDay()&&today.getMonth()==DateN.getMonth()) age--;
         
         if(age<10) return 0;
         else if(age<16) return 1;

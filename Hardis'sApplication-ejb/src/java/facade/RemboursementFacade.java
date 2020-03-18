@@ -7,10 +7,13 @@ package facade;
 
 import entitee.Acte;
 import entitee.EtatRemboursement;
+import entitee.PersonnePhysique;
 import entitee.Remboursement;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -43,7 +46,14 @@ public class RemboursementFacade extends AbstractFacade<Remboursement> implement
         return rembour;
     }
     
-    
+    @Override
+    public List<Remboursement> afficherRempoursement(PersonnePhysique perso) {        
+        String txt="SELECT r FROM Remboursement AS r WHERE r.leActe.laPersonnePhysique:=:persp";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("persp",perso);
+        List <Remboursement> result = req.getResultList();
+        return result;
+    }
     
     
 }
