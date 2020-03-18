@@ -10,6 +10,8 @@ import entitee.Activite;
 import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.Devis;
+import entitee.Domaine;
+import entitee.EtatRemboursement;
 import entitee.Fiscalite;
 import entitee.Garantie;
 import entitee.Gestionnaire;
@@ -20,6 +22,7 @@ import entitee.PlafondMensuelSecuSociale;
 import entitee.Population;
 import entitee.PriseEnCharge;
 import entitee.Produit;
+import entitee.Remboursement;
 import entitee.Responsable;
 import entitee.StatutBeneficiaire;
 import entitee.TypeGarantie;
@@ -27,6 +30,7 @@ import entitee.TypeProduit;
 import facade.ActeFacadeLocal;
 import facade.ActiviteFacadeLocal;
 import facade.DevisFacadeLocal;
+import facade.DomaineFacadeLocal;
 import facade.FiscaliteFacadeLocal;
 import facade.GarantieFacadeLocal;
 import facade.GestionnaireFacadeLocal;
@@ -34,6 +38,7 @@ import facade.PersonneMoraleFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.PopulationFacadeLocal;
 import facade.ProduitFacadeLocal;
+import facade.RemboursementFacadeLocal;
 import facade.ResponsableFacadeLocal;
 import facade.StatutBeneficiaireFacadeLocal;
 import facade.TypeGarantieFacadeLocal;
@@ -55,6 +60,12 @@ import javax.servlet.http.HttpSession;
  */
 @Stateless
 public class GestionnaireSession implements GestionnaireSessionLocal {
+
+    @EJB
+    private DomaineFacadeLocal domaineFacade;
+
+    @EJB
+    private RemboursementFacadeLocal remboursementFacade;
 
     @EJB
     private StatutBeneficiaireFacadeLocal statutBeneficiaireFacade; 
@@ -97,6 +108,10 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
 
     @EJB
     private GestionnaireFacadeLocal gestionnaireFacade;
+    
+    
+    
+    
     
     
     
@@ -222,14 +237,14 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale) {
-        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiettes, lesTypesGaranties, leTypeProduit, lesFiscalites, lesPopulations, laPersonneMorale);
+    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
+        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiettes, lesTypesGaranties, leTypeProduit, lesFiscalites, lesPopulations, laPersonneMorale,leDomaine);
     }
 
     @Override
     public List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lesfiscas,List<Long> lespops) {
         List<Object> Response=new ArrayList();
-        //infos : 1 String nom, 2 ID leTypeProduit, 3 ID laPersonneMorale
+        //infos : 1 String nom, 2 ID leTypeProduit, 3 ID laPersonneMorale,4 ID leDomaine
         //liste :  ENUMSET : lesBeneficiaires, 3 ENUMSET : lesAssiettes, 4 LIST lesTypesGaranties,
         //liste :  6 lesFiscalites, 7 lesPopulations, 
         EnumSet<Beneficiaire> lesBeneficiaires = null;
@@ -240,7 +255,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         
         //Controle sur les 3 champs individuel : nom, ID Typeprod, ID Personnemorale
-        if(infos.get(0).isEmpty()||infos.get(1).isEmpty()||infos.get(2).isEmpty()){
+        if(infos.get(0).isEmpty()||infos.get(1).isEmpty()||infos.get(2).isEmpty()||infos.get(3).isEmpty()){
              Response.add("Merci de remplir la totalité des champs");//1
              Response.add("/CreationProduit.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             
@@ -255,9 +270,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
        if(persmo==null){
              Response.add("Probleme sur la personne Morale");//1
-             Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             Response.add("/CreationResponsable.jsp"); //2 JSP creation 
              
-            return Response; //PersonneMorale introuvable
+            return Response; //PersonneMorale introuvable, pas de renvoi d'informations
        }
        
           //controle sur le type produit
@@ -265,10 +280,23 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        TypeProduit typep = typeProduitFacade.rechercheExistantID(idprod);
        if(typep==null){
              Response.add("Probleme sur le Type de produit");//1
-             Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             Response.add("/CreationResponsable.jsp"); //2 JSP creation
              
-            return Response; //TypeProduit introuvable
+            return Response; //TypeProduit introuvable,pas de renvoi d'informations
        }
+       
+              //controle sur le domaine
+       Long iddom=Long.valueOf((String)Array.get(infos, 3));
+       Domaine dom = domaineFacade.rechercheExistantID(iddom);
+       if(dom==null){
+             Response.add("Probleme sur le Domaine");//1
+             Response.add("/CreationResponsable.jsp"); //2 JSP creation 
+             
+            return Response; //Domaine introuvable,pas de renvoi d'informations
+       }
+       
+       
+       
        
        
        //Transformation des listes en liste d'objet appropriée:
@@ -316,7 +344,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //si tout c'est bien passé : (ajouter les controles)
         
         Produit prod;
-        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, lesAssiettes, lesTypes, typep, lesFiscalites, lesPopulations, persmo);
+        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, lesAssiettes, lesTypes, typep, lesFiscalites, lesPopulations, persmo,dom);
         
         Response.add("Produit créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 
@@ -541,18 +569,16 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         PersonnePhysique pp = act.getLaPersonnePhysique();
         
         
-       List<TypeGarantie> typegli=g.getLesTypesGarantie();
+       List<TypeGarantie> typegli=g.getLesTypesGarantie(); //--> les modules concerné par l'acte en question
        
        //on recupere le contrat
        List<Contrat> contrats=statutBeneficiaireFacade.rechercheContratsAffilie(pp);
-       
-       
        
        //filtre les contrats sur Domaine de la sante
        List<Contrat>contratssante=new ArrayList();
        
       for (Contrat ct : contrats){
-          if(ct.getLeDomaine().getLibelleDomaine().equalsIgnoreCase("Sante")){
+          if(ct.getLeProduit().getLeDomaine().getLibelleDomaine().equalsIgnoreCase("Sante")){
               contratssante.add(ct);
           }
           
@@ -574,13 +600,16 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
           }             
        }
       
-      List<TypeGarantie>typeglicouverte=lecontrat.getLesTypesGarantie();
-      
-      //typegli list typegarantie 
-        boolean couvert=false;
-       String lenom;
+           
+       //on compare les garanties couvertes par le produit, et dans quel module se trouve l'acte pour
+       // savoir si on rembourse ou non 
        
+      List<TypeGarantie>typeglicouverte=lecontrat.getLeProduit().getLesTypesGarantie();
+      //typegli list typegarantie = les garanties couverte par le produit
       
+       boolean couvert=false;
+       String lenom;
+ 
       for(TypeGarantie typ : typegli){
          
               lenom=typ.getTypeGarantie();
@@ -595,16 +624,13 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
          }
     
       
-      if (couvert==false){
-          //creerRemboursement avec 0
+      if (couvert==false){ //garantie pas couverte dans le produit
+                Remboursement rembour=remboursementFacade.creerRemboursement(0,EtatRemboursement.NonRembourse,act);
+                //creerRemboursement avec 0
       }
-      
-      
-      
-      
        List<PriseEnCharge> lesprisesench=lecontrat.getLeProduit().getLesPriseEnCharges();
       
-       //si le practitien est adherent on recupere la prise en charge adhérent et inversement
+       //si le practitien est adherentCAS on recupere la prise en charge adhérent et inversement(qui contient les pourcentages de remboursement)
        PriseEnCharge p=null;
        for (PriseEnCharge prise : lesprisesench){
            if (prise.isAdherentCAS()==practiCAS){
@@ -612,37 +638,36 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
            }
        }
        
-       
-       
        String TypeBaseRemboursement = p.getBaseRemboursement();//TM,FR,BR,BR-RSS,PMSS
-double TauxRemboursement = p.getTauxRempoursement();
-double depense = act.getDepense();//dépense effective pour l'acte
-double TauxRemboursementSecu = g.getLaBaseRemboursementSeco().getTauxRemboursementSecu();
+        double TauxRemboursement = p.getTauxRempoursement();
+        double depense = act.getDepense();//dépense effective pour l'acte
+        double TauxRemboursementSecu = g.getLaBaseRemboursementSeco().getTauxRemboursementSecu();
        
-double BaseRemboursementSecu = g.getLaBaseRemboursementSeco().getBaseRemboursementSecu();
-double RemboursementEffectif = 0;
-double MontantPMSS = pmss.getPlafond();
+        double BaseRemboursementSecu = g.getLaBaseRemboursementSeco().getBaseRemboursementSecu();
+        double RemboursementEffectif = 0;
+        double MontantPMSS = pmss.getPlafond();
 
-if (TypeBaseRemboursement='BR')
-{RemboursementEffectif=TauxRemboursement*BaseRemboursementSecu;}
-else if (TypeBaseRemboursement='TM')
+        if (TypeBaseRemboursement=="BR")
+    {RemboursementEffectif=TauxRemboursement*BaseRemboursementSecu;}
+        else if (TypeBaseRemboursement=="TM")
 	{RemboursementEffectif=TauxRemboursement*(TauxRemboursementSecu*BaseRemboursementSecu);}
-else if (TypeBaseRemboursement='FR')
-	{RemboursementEffectif=TauxRemboursement*Depense);}
-else if (TypeBaseRemboursement='BR-RSS')
+        else if (TypeBaseRemboursement=="FR")
+	{RemboursementEffectif=TauxRemboursement*depense;}
+        else if (TypeBaseRemboursement=="BR-RSS")
 	{RemboursementEffectif=TauxRemboursement*(BaseRemboursementSecu-(TauxRemboursementSecu*BaseRemboursementSecu));}
-else if (TypeBaseRemboursement='PMSS')
+        else if (TypeBaseRemboursement=="PMSS")
 	{RemboursementEffectif=TauxRemboursement*MontantPMSS;}
-else if (TypeBaseRemboursement=null)
+        else if (TypeBaseRemboursement==null)
 	{RemboursementEffectif=TauxRemboursement;}
 
+        Remboursement rembour=remboursementFacade.creerRemboursement(RemboursementEffectif, EtatRemboursement.Rembourse, act);
+                //CreationRemboursement();
+         
+        Response.add("Remboursement créé "); // 1
+        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
+        Response.add(rembour);//3 le remboursement créé
 
-//CreationRemboursement();
-         
-         
-         
-
-        return null;
+        return Response;
     }
     
     

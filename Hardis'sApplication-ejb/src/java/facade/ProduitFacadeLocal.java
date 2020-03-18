@@ -6,6 +6,7 @@
 package facade;
 
 import entitee.Beneficiaire;
+import entitee.Domaine;
 import entitee.Fiscalite;
 import entitee.PersonneMorale;
 import entitee.Produit;
@@ -38,7 +39,7 @@ public interface ProduitFacadeLocal {
 
     int count();
 
-    Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale);
+    Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine);
     
     List<Produit> afficherPersonneMoraleProduit(PersonneMorale personne);
 

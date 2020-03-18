@@ -33,5 +33,7 @@ public interface DomaineFacadeLocal {
     Domaine creerDomaine(String libelleDomaine);
     
     Domaine modifierLibelleDomaine(Domaine domaine, String libelleDomaine);
+
+    Domaine rechercheExistantID(Long iddo);
     
 }

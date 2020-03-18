@@ -69,7 +69,17 @@ public class Produit implements Serializable {
     
     private EnumSet<Beneficiaire> AssiettesCotisation;
     
-    
+    @ManyToOne
+    private Domaine leDomaine;
+
+    public Domaine getLeDomaine() {
+        return leDomaine;
+    }
+
+    public void setLeDomaine(Domaine leDomaine) {
+        this.leDomaine = leDomaine;
+    }
+
 
     public EnumSet getAssiettesCotisation() {
         return AssiettesCotisation;

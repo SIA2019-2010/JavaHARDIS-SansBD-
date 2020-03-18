@@ -39,14 +39,12 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
     }
 
     @Override
-    public Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Domaine leDomaine, List<TypeGarantie> lesGaranties, Produit leProduit) {
+    public Contrat creerContrat(Date dateDeb, Date dateFin, double prixMensuel, Produit leProduit) {
         
         Contrat con = new Contrat();
         con.setDateDebut(dateDeb);
         con.setDateFin(dateFin);
-        con.setLeDomaine(leDomaine);
         con.setLeProduit(leProduit);
-        con.setLesTypesGarantie(lesGaranties);
         con.setPrixMensuel(prixMensuel);
         
         em.persist(con);

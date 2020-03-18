@@ -35,9 +35,8 @@ public class RemboursementFacade extends AbstractFacade<Remboursement> implement
     }
 
     @Override
-    public Remboursement creerRemboursement(double brEffective, double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe) {
+    public Remboursement creerRemboursement(double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe) {
         Remboursement rembour = new Remboursement();
-        rembour.setBREffective(brEffective);
         rembour.setEtatRemboursement(etatRemboursement);
         rembour.setLeActe(leActe);
         rembour.setRemboursementEffectif(remboursementEffectif);

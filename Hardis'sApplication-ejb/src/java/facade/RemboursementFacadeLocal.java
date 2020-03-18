@@ -33,7 +33,7 @@ public interface RemboursementFacadeLocal {
 
     int count();
 
-    Remboursement creerRemboursement(double brEffective, double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe);
+    Remboursement creerRemboursement(double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe);
     
     List<Remboursement> afficherRempoursement(PersonnePhysique perso);
     

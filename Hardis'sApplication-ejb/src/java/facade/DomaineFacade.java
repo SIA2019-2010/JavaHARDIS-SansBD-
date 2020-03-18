@@ -6,9 +6,11 @@
 package facade;
 
 import entitee.Domaine;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -43,5 +45,23 @@ public class DomaineFacade extends AbstractFacade<Domaine> implements DomaineFac
         em.merge(domaine);
         return domaine;
     }
+
+    @Override
+    public Domaine rechercheExistantID(Long iddo) {
+        Domaine dom = null;
+        String txt = "SELECT d FROM Domaine AS d WHERE d.id=:ii";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("ii",iddo);
+        List<Domaine> result = req.getResultList();
+        if(result.size()==1){
+            dom = (Domaine)result.get(0);
+        }
+        return dom;
+    }
+  
+    
+    
+    
+    
     
 }

@@ -21,7 +21,7 @@ import javax.persistence.OneToMany;
 public class Domaine implements Serializable {
 
     @OneToMany(mappedBy = "leDomaine")
-    private List<Contrat> lesContrats;
+    private List<Produit> lesProduits;
 
     @OneToMany(mappedBy = "leDomaine")
     private List<Gestionnaire> lesGestionnaires;

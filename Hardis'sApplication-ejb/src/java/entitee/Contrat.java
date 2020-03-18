@@ -41,12 +41,6 @@ public class Contrat implements Serializable {
     private double prixMensuel;
 
     @ManyToOne
-    private Domaine leDomaine;
-
-    @ManyToMany
-    private List<TypeGarantie> lesTypesGarantie;
-
-    @ManyToOne
     private Produit leProduit;
 
     public double getPrixMensuel() {
@@ -63,22 +57,6 @@ public class Contrat implements Serializable {
 
     public void setLeProduit(Produit leProduit) {
         this.leProduit = leProduit;
-    }
-
-    public Domaine getLeDomaine() {
-        return leDomaine;
-    }
-
-    public void setLeDomaine(Domaine leDomaine) {
-        this.leDomaine = leDomaine;
-    }
-
-    public List<TypeGarantie> getLesTypesGarantie() {
-        return lesTypesGarantie;
-    }
-
-    public void setLesTypesGarantie (List<TypeGarantie> lesTypesGarantie) {
-        this.lesTypesGarantie = lesTypesGarantie;
     }
 
     public Date getDateFin() {

@@ -27,8 +27,6 @@ public class Remboursement implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double BREffective;
-
     private double RemboursementEffectif;
 
     private EtatRemboursement EtatRemboursement;
@@ -47,14 +45,6 @@ public class Remboursement implements Serializable {
 
     public void setRemboursementEffectif(double RemboursementEffectif) {
         this.RemboursementEffectif = RemboursementEffectif;
-    }
-
-    public double getBREffective() {
-        return BREffective;
-    }
-
-    public void setBREffective(double BREffective) {
-        this.BREffective = BREffective;
     }
 
     public Long getId() {
