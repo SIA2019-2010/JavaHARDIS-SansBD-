@@ -42,6 +42,17 @@ public class Contrat implements Serializable {
 
     @ManyToOne
     private Produit leProduit;
+    
+    private Date dateCreation;
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
 
     public double getPrixMensuel() {
         return prixMensuel;

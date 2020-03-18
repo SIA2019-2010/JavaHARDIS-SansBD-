@@ -35,6 +35,12 @@ public interface RemboursementFacadeLocal {
 
     Remboursement creerRemboursement(double remboursementEffectif, EtatRemboursement etatRemboursement,Acte leActe);
     
-    List<Remboursement> afficherRempoursement(PersonnePhysique perso);
+    List<Remboursement> afficherRempoursementPers(PersonnePhysique perso);
+
+    Remboursement rechercheExistantID(Long idremb);
+
+    Remboursement validerRemboursement(Remboursement remb);
+
+    Remboursement refuserRemboursement(Remboursement remb);
     
 }

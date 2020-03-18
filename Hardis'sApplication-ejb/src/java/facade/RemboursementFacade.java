@@ -46,13 +46,45 @@ public class RemboursementFacade extends AbstractFacade<Remboursement> implement
     }
     
     @Override
-    public List<Remboursement> afficherRempoursement(PersonnePhysique perso) {        
+    public List<Remboursement> afficherRempoursementPers(PersonnePhysique perso) {        
         String txt="SELECT r FROM Remboursement AS r WHERE r.leActe.laPersonnePhysique:=:persp";
         Query req=getEntityManager().createQuery(txt);
         req=req.setParameter("persp",perso);
         List <Remboursement> result = req.getResultList();
         return result;
     }
+
+    @Override
+    public Remboursement rechercheExistantID(Long idremb) {
+        Remboursement rembour = null;
+        String txt = "SELECT r FROM Remboursement AS r WHERE r.id=:ii";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("ii",idremb);
+        List<Remboursement> result = req.getResultList();
+        if(result.size()==1){
+            rembour = (Remboursement)result.get(0);
+        }
+        return rembour;
+    }
+
+    @Override
+    public Remboursement validerRemboursement(Remboursement remb) {
+        remb.setEtatRemboursement(EtatRemboursement.Rembourse);
+        em.merge(remb);
+        
+        return remb;
+    }
+
+    @Override
+    public Remboursement refuserRemboursement(Remboursement remb) {
+        remb.setEtatRemboursement(EtatRemboursement.NonRembourse);
+        em.merge(remb);
+        
+        return remb;
+    }
+    
+    
+    
     
     
 }

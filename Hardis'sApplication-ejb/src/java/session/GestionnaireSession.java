@@ -231,7 +231,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        
         Response.add("Personne Morale créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 
-        Response.add(persmo);//3 la personne morale créée
+        Response.add(resp);//3 le gestionnaire créé
         
         return Response;
     }
@@ -660,13 +660,43 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         else if (TypeBaseRemboursement==null)
 	{RemboursementEffectif=TauxRemboursement;}
 
-        Remboursement rembour=remboursementFacade.creerRemboursement(RemboursementEffectif, EtatRemboursement.Rembourse, act);
+        Remboursement rembour=remboursementFacade.creerRemboursement(RemboursementEffectif, EtatRemboursement.EnCours, act);
                 //CreationRemboursement();
          
         Response.add("Remboursement créé "); // 1
         Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
         Response.add(rembour);//3 le remboursement créé
 
+        return Response;
+    }
+
+    @Override
+    public List<Object> validerRemboursement(Long idremb) {
+        List<Object> Response=new ArrayList();
+        
+        Remboursement remb = remboursementFacade.rechercheExistantID(idremb);
+        
+        remb = remboursementFacade.validerRemboursement(remb);
+        
+        Response.add("Remboursement créé "); // 1
+        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
+        Response.add(remb);//le remboursement validé
+        
+        return Response;
+    }
+
+    @Override
+    public List<Object> refuserRemboursement(Long idremb) {
+        List<Object> Response=new ArrayList();
+        
+        Remboursement remb = remboursementFacade.rechercheExistantID(idremb);
+        
+        remb = remboursementFacade.refuserRemboursement(remb);
+        
+        Response.add("Remboursement créé "); // 1
+        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
+        Response.add(remb);//le remboursement refusé
+        
         return Response;
     }
     

@@ -57,4 +57,8 @@ public interface GestionnaireSessionLocal {
     List<Object> creerRemboursement(Long idpers);
 
     List<Acte> rechercheActesNonRemboursePersonne(Long idpers);
+
+    List<Object> validerRemboursement(Long idremb);
+
+    List<Object> refuserRemboursement(Long idremb);
 }
