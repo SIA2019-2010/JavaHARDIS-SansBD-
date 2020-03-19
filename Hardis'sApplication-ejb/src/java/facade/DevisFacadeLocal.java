@@ -41,5 +41,7 @@ public interface DevisFacadeLocal {
     List<Devis> rechercherDevisDate(Date dateDevis);
 
     List<PersonnePhysique> rechercherAyantsDroitPersonne(PersonnePhysique personne);
+
+    Devis rechercheExistantID(Long iddev);
     
 }

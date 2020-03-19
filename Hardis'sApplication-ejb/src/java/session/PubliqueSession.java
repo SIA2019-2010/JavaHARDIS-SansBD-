@@ -234,7 +234,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 
             }
                                  
-      
+            // Ayant droit : juste nom prenom date numeroSS
            for(Object infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
@@ -290,6 +290,175 @@ public class PubliqueSession implements PubliqueSessionLocal {
         else if(age<55) return 1.9;
         else return 2.5;
     }
+
+    @Override
+    public PersonnePhysique renseignerLoginMDP(PersonnePhysique pers, String login, String mdp) {
+        return personnePhysiqueFacade.renseignerLoginMdp(pers, login, mdp);
+    }
+
+    @Override
+    public List<Object> validerDevis(Long iddevis,Object[] pers,List<Object[]>listeinfos) {
+        List<Object> Response=new ArrayList();   
+        //dans cette methode : on recupere : 
+                        // pers : nom,prenom,numero SS,adresse,genre,login,mdp
+                        // pour chaque ayant droit : nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)
+                        //potentiellement des fichiers ?
+          
+         //controle sur le devis               
+         Devis dev=devisFacade.rechercheExistantID(iddevis); 
+         if (dev==null){
+             Response.add("Probleme sur le devis, contacter une agence");//1
+             Response.add("/homepage.jsp"); 
+             Response.add(null);
+             Response.add(null);
+             //Response.add(null); 
+             
+            return Response; //probleme transition ID DEVIS
+         }
+         
+         //controle sur les champs remplis : personnephy               
+        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")){
+             Response.add("Merci de remplir les champs obligatoires");//1
+             Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
+             Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
+             Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)) ne pas re remplir les RADIO (ID POP)
+             //Response.add(null); //5 effectuer la connexion avec login et mdp ?
+             
+            return Response; //manque des champs donc renvoi de toutes les informations
+       }
+        
+        //controle les champs remplis : ayants droits
+        for(Object[] infos: listeinfos){
+            String nom=(String)Array.get(infos, 0);
+            String prenom=(String)Array.get(infos, 1);
+            String numeroSS = (String)Array.get(infos,2);
+            String adresse = (String)Array.get(infos,3);
+            String genre = (String)Array.get(infos,4);
+            String idpopst = (String)Array.get(infos,5);
+            
+            if(nom==null||prenom==null||adresse==null||numeroSS==null||genre==null||idpopst==null){
+                 Response.add("Merci de remplir les champs obligatoires");//1
+                 Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
+                 Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
+                 Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)) ne pas re remplir les RADIO (ID POP)
+                 //Response.add(null); //5 effectuer la connexion avec login et mdp ?
+             
+            return Response; //manque des champs donc renvoi de toutes les informations
+            
+            } else{ // on rempli les renseignements
+                Genre genreayt=null;
+            if(genre.equalsIgnoreCase("Homme")){
+                genreayt=Genre.Homme;
+            }else if(genre.equalsIgnoreCase("Femme")){
+                genreayt=Genre.Femme;
+            }else if(genre.equalsIgnoreCase("Autre")){
+                genreayt=Genre.Autre;
+            }
+            
+            PersonnePhysique ayantdroitencours;
+            ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
+                  
+            Long idpop=Long.valueOf(idpopst);
+            Population pop = populationFacade.rechercheExistantPopulationID(idpop);  
+            
+            ayantdroitencours=personnePhysiqueFacade.renseignerInfosAyantsDroit(ayantdroitencours, adresse, genreayt, pop);
+           
+           
+            
+            }
+        }    
+          
+                        
+                        
+        PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 2));
+        if (persencours==null){
+             Response.add("Probleme sur le devis, contacter une agence");//1
+             Response.add("/homepage.jsp"); 
+             Response.add(null);
+             Response.add(null);
+             //Response.add(null); 
+             
+            return Response; //probleme numeroSS de la personne
+         }else{ //on renseigne les infos car pas de probleme
+            Genre genrepers=null;
+            String genrestr=(String)Array.get(pers, 4);
+            if(genrestr.equalsIgnoreCase("Homme")){
+                genrepers=Genre.Homme;
+            }else if(genrestr.equalsIgnoreCase("Femme")){
+                genrepers=Genre.Femme;
+            }else if(genrestr.equalsIgnoreCase("Autre")){
+                genrepers=Genre.Autre;
+            }
+            persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers);
+            persencours=personnePhysiqueFacade.renseignerLoginMdp(persencours, (String)Array.get(pers, 5), (String)Array.get(pers, 6));
+        }
+             
+        
+        //creer contrat (devis.prix,devis.produit,list<StatutBeneficiaire>)
+        //creer statutbeneficiaire pour chaque personne // ajouter a une liste
+        //ajouter liste statut dans contrat
+        
+         StatutBeneficiaire statut=null;
+        
+        
+        Response.add("Contrat créé");//1
+        Response.add("/homepage.jsp"); 
+        
+        return Response;
+    }
+        
+
+    @Override
+    public List<Object> recupererInfosDevis(Long iddev) {        
+        List<Object> Response=new ArrayList();
+        
+         Devis dev=devisFacade.rechercheExistantID(iddev);
+         
+        if(dev==null){
+             
+        Response.add("Devis introuvable "); // 1
+        Response.add("/Homepage.jsp"); // 2 Jsp pour afficher 
+        //Response.add(devcree);//3 le devis   
+        
+        return Response;
+        }
+        
+        
+        List<PersonnePhysique>AyantsDroits=dev.getLesAyantsDroit();
+        PersonnePhysique personne=dev.getLaPersonne();
+        
+        
+        //on va envoyer des informations sur les personnes (nom prenom numeroSS) pour ajouter des infos sur les bonnes personnesPhysique
+        Object[] pers = null;
+        List<Object[]>listeinfos = new ArrayList();
+        
+        //object pers composé de : nom prenom numeroSS (pour ajouter adresse,genre,login et mdp)
+        Array.set(pers, 0, personne.getNom());
+        Array.set(pers, 1, personne.getPrenom());
+        Array.set(pers, 3, personne.getNumeroSS());
+        
+        
+          for (PersonnePhysique ayt : AyantsDroits) {
+             Object[]Ayantdroitobj=null;
+             Array.set(Ayantdroitobj, 0, ayt.getNom());
+             Array.set(Ayantdroitobj, 1, ayt.getPrenom());
+             Array.set(Ayantdroitobj, 0, ayt.getNumeroSS());
+           
+             listeinfos.add(Ayantdroitobj);
+        }       
+        
+        Response.add("Recuperation des infos OK");//1
+        Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP creation de devis avec liste object Ayants droits + infos personne (nom, prenom, mail,numero SS population)
+        Response.add(pers);//3 la personne qui crée le devis
+        Response.add(listeinfos);//4 les ayant drois (nom, prenom, numeroSS)
+          
+        return Response;
+    }
+    
+    
+    
+    
+    
     
     
     

@@ -42,5 +42,11 @@ public interface PubliqueSessionLocal {
     List<Object> creerDevisComplet(Object[] pers,Object[] pack,List<Object[]>listeinfos);
 
     List<Population> recherchePopulations();
+
+    PersonnePhysique renseignerLoginMDP(PersonnePhysique pers, String login, String mdp);
+
+    List<Object> validerDevis(Long iddevis,Object[] pack,List<Object[]>listeinfos);
+
+    List<Object> recupererInfosDevis(Long iddev);
     
 }

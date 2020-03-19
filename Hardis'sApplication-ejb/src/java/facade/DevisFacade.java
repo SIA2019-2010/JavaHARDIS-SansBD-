@@ -79,6 +79,19 @@ public class DevisFacade extends AbstractFacade<Devis> implements DevisFacadeLoc
         listAyantsdroit= req.getResultList (); 
         return listAyantsdroit;
     }
+
+    @Override
+    public Devis rechercheExistantID(Long iddev) {
+        Devis dev=null;
+        String txt = "SELECT d FROM Devis AS d WHERE d.id=:ii";
+        Query req = getEntityManager().createQuery(txt); 
+        req = req.setParameter("ii",iddev);
+        List<Devis> result = req.getResultList();
+        if(result.size()==1){
+            dev = (Devis)result.get(0);
+        }
+        return dev;
+    }
     
     
     

@@ -43,6 +43,7 @@ public class Contrat implements Serializable {
     @ManyToOne
     private Produit leProduit;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateCreation;
     
     private StatutContrat leStatut;

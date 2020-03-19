@@ -62,5 +62,9 @@ public interface PersonnePhysiqueFacadeLocal {
     PersonnePhysique creerAyantsDroits(String nom, String prenom, Date datenaiss, String numeroSS);
 
     PersonnePhysique recherchePersonneID(Long idper);
+
+    PersonnePhysique renseignerLoginMdp(PersonnePhysique pers, String login, String mdp);
+
+    PersonnePhysique renseignerInfosAyantsDroit(PersonnePhysique pers, String adresse, Genre genre, Population population);
     
 }

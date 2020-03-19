@@ -151,6 +151,15 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     }
 
     @Override
+    public PersonnePhysique renseignerLoginMdp(PersonnePhysique pers, String login, String mdp) {
+        pers.setLogin(login);
+        pers.setMdp(mdp); //voir pour Hash le mdp
+        
+        em.merge(pers);
+        return pers;
+    }    
+    
+    @Override
     public boolean rechercheBooleanEmail(String email) {
         String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.Mail=:em";
         Query req=getEntityManager().createQuery(txt);
@@ -211,6 +220,18 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
             {pers=(PersonnePhysique)result.get(0);};
         return pers;
     }
+
+    @Override
+    public PersonnePhysique renseignerInfosAyantsDroit(PersonnePhysique pers, String adresse, Genre genre, Population population) {
+        pers.setAdresse(adresse);
+        pers.setGenre(genre);
+        pers.setLaPopulation(population);
+        
+        em.merge(pers);
+        return pers;
+    }
+
+
     
 
     
