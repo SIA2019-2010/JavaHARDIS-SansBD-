@@ -8,6 +8,7 @@ package facade;
 import entitee.Contrat;
 import entitee.Devis;
 import entitee.Domaine;
+import entitee.Garantie;
 import entitee.PersonneMorale;
 import entitee.Produit;
 import entitee.StatutContrat;
@@ -110,6 +111,16 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
         em.merge(cnt);
         
         return cnt;
+    }
+
+    @Override
+    public List<TypeGarantie> recupererTypeGaranties(Long idct) {
+        List<TypeGarantie> listtypegar; 
+        String tx = "SELECT ct.leProduit.lesTypesGarantie FROM Contrat AS ct where ct.id=:idcont"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("idcont", idct);
+        listtypegar= req.getResultList (); 
+        return listtypegar;
     }
     
     

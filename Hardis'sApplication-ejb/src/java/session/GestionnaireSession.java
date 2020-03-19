@@ -241,25 +241,24 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
-        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiettes, lesTypesGaranties, leTypeProduit, lesFiscalites, lesPopulations, laPersonneMorale,leDomaine);
+    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
+        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiettes, lesTypesGaranties, leTypeProduit, laFiscalite, lesPopulations, laPersonneMorale,leDomaine);
     }
 
     @Override
-    public List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lesfiscas,List<Long> lespops) {
+    public List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lespops) {
         List<Object> Response=new ArrayList();
-        //infos : 1 String nom, 2 ID leTypeProduit, 3 ID laPersonneMorale,4 ID leDomaine
+        //infos : 1 String nom, 2 ID leTypeProduit, 3 ID laPersonneMorale,4 ID leDomaine,5 ID laFiscalite
         //liste :  ENUMSET : lesBeneficiaires, 3 ENUMSET : lesAssiettes, 4 LIST lesTypesGaranties,
         //liste :  6 lesFiscalites, 7 lesPopulations, 
         EnumSet<Beneficiaire> lesBeneficiaires = null;
         EnumSet<Beneficiaire> lesAssiettes = null;
         List<TypeGarantie> lesTypes=new ArrayList();
-        List<Fiscalite> lesFiscalites=new ArrayList();
         List<Population> lesPopulations=new ArrayList();
         
         
-        //Controle sur les 3 champs individuel : nom, ID Typeprod, ID Personnemorale
-        if(infos.get(0).isEmpty()||infos.get(1).isEmpty()||infos.get(2).isEmpty()||infos.get(3).isEmpty()){
+        //Controle sur les 4 champs individuel : nom, ID Typeprod, ID Personnemorale, ID fisca
+        if(infos.get(0).isEmpty()||infos.get(1).isEmpty()||infos.get(2).isEmpty()||infos.get(3).isEmpty()||infos.get(4).isEmpty()){
              Response.add("Merci de remplir la totalité des champs");//1
              Response.add("/CreationProduit.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             
@@ -300,7 +299,11 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        }
        
        
-       
+             //controle sur la fisca
+         Long idficsa=Long.valueOf((String)Array.get(infos, 4));
+          Fiscalite fisca=fiscaliteFacade.rechercheExistantID(idficsa);
+          
+        
        
        
        //Transformation des listes en liste d'objet appropriée:
@@ -326,17 +329,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
           lesTypes.add(typegar);
           
         }
-        
-         //liste fisca
-        for(Long fisca: lesfiscas){
-          Fiscalite fiscalite;
-           fiscalite=fiscaliteFacade.rechercheExistantID(fisca);
-     
-           lesFiscalites.add(fiscalite);
-          
-        }
            
-         //liste fisca
+         //liste popo
         for(Long popu: lespops){
           Population population;
            population=populationFacade.rechercheExistantPopulationID(popu);
@@ -348,7 +342,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //si tout c'est bien passé : (ajouter les controles)
         
         Produit prod;
-        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, lesAssiettes, lesTypes, typep, lesFiscalites, lesPopulations, persmo,dom);
+        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, lesAssiettes, lesTypes, typep, fisca, lesPopulations, persmo,dom);
         
         Response.add("Produit créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 

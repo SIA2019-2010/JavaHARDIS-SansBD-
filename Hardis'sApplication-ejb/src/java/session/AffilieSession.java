@@ -8,12 +8,14 @@ package session;
 import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.Devis;
+import entitee.Domaine;
 import entitee.Genre;
 import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
 import entitee.Remboursement;
 import entitee.StatutBeneficiaire;
+import entitee.TypeGarantie;
 import facade.ActeFacadeLocal;
 import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
@@ -252,6 +254,20 @@ public class AffilieSession implements AffilieSessionLocal {
     @Override
     public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph) {
         return statutBeneficiaireFacade.rechercherStatutBeneficiaire(persph);
+    }
+
+    @Override
+    public List<Object> afficherGarantie(PersonnePhysique pers,Long idcont) {
+        List<Object> Response=new ArrayList();
+        
+        List<TypeGarantie> typgar=contratFacade.recupererTypeGaranties(idcont);
+        
+         
+        Response.add("Liste des module du contrat selectionné"); // 1
+        Response.add("/AfficherTypeGarantie.jsp"); // 2 Jsp pour afficher 
+        Response.add(typgar);//3 les types garanties
+        
+        return Response;
     }
     
 

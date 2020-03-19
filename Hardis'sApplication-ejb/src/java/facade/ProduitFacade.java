@@ -40,14 +40,14 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     }
 
     @Override
-    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> assiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, List<Fiscalite> lesFiscalites,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
+    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> assiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
         Produit prod = new Produit();
         
         prod.setNomProduit(nom);
         prod.setBeneficiaires(lesBeneficiaires);
         prod.setLeTypeProduit(leTypeProduit);
         prod.setAssiettesCotisation(assiettes);
-        prod.setLesFiscalites(lesFiscalites);
+        prod.setLaFiscalite(laFiscalite);
         prod.setLesPopulations(lesPopulations);
         prod.setLesTypesGarantie(lesTypesGaranties);        
         prod.setLaPersonneMorale(laPersonneMorale);

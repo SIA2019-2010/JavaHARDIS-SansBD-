@@ -54,9 +54,6 @@ public class Produit implements Serializable {
     private TypeProduit leTypeProduit;
 
     @ManyToMany
-    private List<Fiscalite> lesFiscalites;
-
-    @ManyToMany
     private List<TypeGarantie> lesTypesGarantie;
 
     @ManyToMany
@@ -71,6 +68,18 @@ public class Produit implements Serializable {
     
     @ManyToOne
     private Domaine leDomaine;
+    
+    @ManyToOne
+    private Fiscalite laFiscalite;
+
+    public Fiscalite getLaFiscalite() {
+        return laFiscalite;
+    }
+
+    public void setLaFiscalite(Fiscalite laFiscalite) {
+        this.laFiscalite = laFiscalite;
+    }
+
 
     public Domaine getLeDomaine() {
         return leDomaine;
@@ -112,14 +121,6 @@ public class Produit implements Serializable {
 
     public void setLesTypesGarantie(List<TypeGarantie> lesTypesGarantie) {
         this.lesTypesGarantie = lesTypesGarantie;
-    }
-
-    public List<Fiscalite> getLesFiscalites() {
-        return lesFiscalites;
-    }
-
-    public void setLesFiscalites(List<Fiscalite> lesFiscalites) {
-        this.lesFiscalites = lesFiscalites;
     }
 
     public TypeProduit getLeTypeProduit() {

@@ -8,6 +8,7 @@ package session;
 import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.Devis;
+import entitee.Domaine;
 import entitee.Genre;
 import entitee.PersonnePhysique;
 import entitee.Population;
@@ -56,5 +57,9 @@ public interface AffilieSessionLocal {
     List<Remboursement> afficherRempoursementPers(PersonnePhysique perso);
     
     List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph);
+
+    List<Object> afficherGarantie(PersonnePhysique pers,Long idcont);
+    
+    
     
 }

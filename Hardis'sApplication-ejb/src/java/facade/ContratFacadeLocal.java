@@ -7,6 +7,7 @@ package facade;
 
 import entitee.Contrat;
 import entitee.Domaine;
+import entitee.Garantie;
 import entitee.PersonneMorale;
 import entitee.Produit;
 import entitee.TypeGarantie;
@@ -49,5 +50,7 @@ public interface ContratFacadeLocal {
     Contrat rechercheExistantID(Long idcnt);
 
     Contrat cloturerContrat(Contrat cnt);
+
+    List<TypeGarantie> recupererTypeGaranties(Long idct);
     
 }

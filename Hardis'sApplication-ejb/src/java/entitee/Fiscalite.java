@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -20,7 +21,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Fiscalite implements Serializable {
 
-    @ManyToMany(mappedBy = "lesFiscalites")
+    @OneToMany(mappedBy = "laFiscalite")
     private List<Produit> lesProduits;
 
     private static final long serialVersionUID = 1L;
@@ -73,13 +74,6 @@ public class Fiscalite implements Serializable {
         return hash;
     }
 
-    public List<Produit> getLesProduits() {
-        return lesProduits;
-    }
-
-    public void setLesProduits(List<Produit> lesProduits) {
-        this.lesProduits = lesProduits;
-    }
 
     @Override
     public boolean equals(Object object) {
