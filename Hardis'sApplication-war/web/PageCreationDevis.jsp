@@ -3,6 +3,7 @@
     Created on : 13 mars 2020, 15:27:07
     Author     : lixin
 --%>
+<%@page import="java.lang.reflect.Array"%>
 <%@page import="java.util.List"%>
 <%@page import="entitee.Population"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,9 +13,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Renseigner informations</title>
+        <title>Renseigner listepopulation</title>
         <jsp:useBean id="listepopulation" scope="request" class="java.util.List"></jsp:useBean>
-        <%List<Population>lesPops=listepopulation;%>
+        <jsp:useBean id="listeinfos" scope="request" class="java.util.List"></jsp:useBean>
+        <%
+            List<Population>lesPops=listepopulation;
+            List<Object[]>listep=listeinfos;
+            Object[] pers=(Object[])request.getAttribute("pers");
+        %>
         <link rel="stylesheet" href="jqueryui/jqueryui.css">
         <script type="text/javascript" src="jqueryui/external/jquery/jquery.js"></script>
         <script type="text/javascript" src="jqueryui/jqueryui.js"></script>
@@ -46,6 +52,9 @@
                                                 <input type="text" name="NumeroSSAD"/>
                                             </td>
                                             <td>
+                                                <input type="text" name="MailAD"/>
+                                            </td>
+                                            <td>
                                                 <select name="idpopAD" style="width: 100%">
                                                     <% for (Population pop:lesPops){%>
                                                         <option value ="<%=pop.getId()%>">
@@ -56,7 +65,7 @@
                                             </td>
                                         </tr>`
     
-                ayantdrois.appendChild(copieligne);
+                ayantdrois.tBodies[0].appendChild(copieligne);
                 $(".datepicker").datepicker({
                     dateFormat: 'yy-mm-dd',
                     maxDate: 0
@@ -92,54 +101,143 @@
                             <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
                         </td>
                         <td width="15%">
+                            <label for="Mail">Mail<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
                             <label for="Population">Population<span class="requis">*</span></label>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="text" name="Nom"/>
-                        </td>
-                        <td>
-                            <input type="text" name="Prenom"/>
-                        </td>
-                        <td>
-                            <input type="text" name="DateN" class="datepicker" placeholder="Date de naissance" readonly="true">
-                        </td>
-                        <td>
-                            <input type="text" name="NumeroSS"/>
-                        </td>
-                        <td>
-                            <select name="idpop" style="width: 100%">
-                                <% for (Population pop:lesPops){%>
-                                    <option value ="<%=pop.getId()%>">
-                                        <%=pop.getLibellePopulation()%>
-                                    </option>
-                                <%}%>
-                            </select>
-                        </td>
-                    </tr>
+                    <%if(pers==null){%>
+                        <tr>
+                            <td>
+                                <input type="text" name="Nom"/>
+                            </td>
+                            <td>
+                                <input type="text" name="Prenom"/>
+                            </td>
+                            <td>
+                                <input type="text" name="DateN" class="datepicker" placeholder="Date de naissance" readonly="true">
+                            </td>
+                            <td>
+                                <input type="text" name="NumeroSS"/>
+                            </td>
+                            <td>
+                                <input type="text" name="Mail"/>
+                            </td>
+                            <td>
+                                <select name="idpop" style="width: 100%">
+                                    <% for (Population pop:lesPops){%>
+                                        <option value ="<%=pop.getId()%>">
+                                            <%=pop.getLibellePopulation()%>
+                                        </option>
+                                    <%}%>
+                                </select>
+                            </td>
+                        </tr>
+                    <%}else{%>
+                        <tr>
+                            <td>
+                                <input type="text" name="Nom" value="<%=Array.get(pers,0)%>"/>
+                            </td>
+                            <td>
+                                <input type="text" name="Prenom" value="<%=Array.get(pers,1)%>"/>
+                            </td>
+                            <%if(Array.get(pers,2).equals("")){%>
+                                <td>
+                                    <input type="text" name="DateN" class="datepicker" placeholder="Date de naissance" readonly="true">
+                                </td>
+                            <%}else{%>
+                                <td>
+                                    <input type="text" name="DateN" class="datepicker"  value="<%=Array.get(pers,2)%>" readonly="true">
+                                </td>
+                            <%}%>
+                            <td>
+                                <input type="text" name="NumeroSS" value="<%=Array.get(pers,3)%>"/>
+                            </td>
+                            <td>
+                                <input type="text" name="Mail" value="<%=Array.get(pers,4)%>"/>
+                            </td>
+                            <td>
+                                <select name="idpop" style="width: 100%">
+                                    <% for (Population pop:lesPops){
+                                        if(pop.getId().toString().equals(Array.get(pers,5))){%>
+                                            <option value ="<%=pop.getId()%>" selected="true">
+                                                <%=pop.getLibellePopulation()%>
+                                            </option>
+                                        <%}else{%>
+                                            <option value ="<%=pop.getId()%>">
+                                                <%=pop.getLibellePopulation()%>
+                                            </option>
+                                        <%}%>
+                                    <%}%>
+                                </select>
+                            </td>
+                        </tr>
+                    <%}%>
+                        
                 </table>
                 <h2>Ayants droits</h2>
                 <table width="80%" id="b">
                     <tr>
+                        <td width="15%">
+                            <label for="Nom">Nom<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="Prenom">Prénom<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="DateNaissance">Date de naissance<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="NumeroSS">Mail<span class="requis">*</span></label>
+                        </td>
+                        <td width="15%">
+                            <label for="Population">Population<span class="requis">*</span></label>
+                        </td>
+                    </tr>
+                    <%for(Object[] infos:listep){%>
                         <tr>
-                            <td width="15%">
-                                <label for="Nom">Nom<span class="requis">*</span></label>
+                            <td>
+                                <input type="text" name="NomAD" value="<%=Array.get(infos,0)%>"/>
                             </td>
-                            <td width="15%">
-                                <label for="Prenom">Prénom<span class="requis">*</span></label>
+                            <td>
+                                <input type="text" name="PrenomAD" value="<%=Array.get(infos,1)%>"/>
                             </td>
-                            <td width="15%">
-                                <label for="DateNaissance">Date de naissance<span class="requis">*</span></label>
+                            <%if(Array.get(infos,2).equals("")){%>
+                                <td>
+                                    <input type="text" name="DateNaiAD" class="datepicker" placeholder="Date de naissance" readonly="true">
+                                </td>
+                            <%}else{%>
+                                <td>
+                                    <input type="text" name="DateNaiAD" class="datepicker"  value="<%=Array.get(infos,2)%>" readonly="true">
+                                </td>
+                            <%}%>
+                            <td>
+                                <input type="text" name="NumeroSSAD" value="<%=Array.get(infos,3)%>"/>
                             </td>
-                            <td width="15%">
-                                <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
+                            <td>
+                                <input type="text" name="MailAD" value="<%=Array.get(infos,4)%>"/>
                             </td>
-                            <td width="15%">
-                                <label for="Population">Population<span class="requis">*</span></label>
+                            <td>
+                                <select name="idpopAD" style="width: 100%">
+                                    <% for (Population pop:lesPops){
+                                        if(pop.getId().toString().equals(Array.get(infos,5))){%>
+                                            <option value ="<%=pop.getId()%>" selected="true">
+                                                <%=pop.getLibellePopulation()%>
+                                            </option>
+                                        <%}else{%>
+                                            <option value ="<%=pop.getId()%>">
+                                                <%=pop.getLibellePopulation()%>
+                                            </option>
+                                        <%}%>
+                                    <%}%>
+                                </select>
                             </td>
                         </tr>
-                    </tr>
+                    <%}%>
                 </table>
 
                 <input type="button" value="add" onclick="add()"/>

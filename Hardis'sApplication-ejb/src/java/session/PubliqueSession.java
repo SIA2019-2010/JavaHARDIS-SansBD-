@@ -115,41 +115,44 @@ public class PubliqueSession implements PubliqueSessionLocal {
        //ayants droits  : List Object listeinfos
        //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ;
        
-       if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((Date)Array.get(pers, 2))==null||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
+       if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
              Response.add("Il manque des champs");//1
-             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
              Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
              Response.add(null); //5 pas de devis
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
-       //Date de naissance
-       Date DateN=java.sql.Date.valueOf((String)Array.get(pers, 2));
-       double coef;
-       if(DateN==null||DateN.after(new Date())){
+        //Date de naissance
+        Date DateN=null;
+        try{
+            DateN=java.sql.Date.valueOf((String)Array.get(pers, 2));
+        }catch(ArrayIndexOutOfBoundsException | IllegalArgumentException e){}
+        double coef;
+        if(DateN==null||DateN.after(new Date())){
             Response.add("Effeur Date");//1
-            Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+            Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             Response.add(pers);//3 la personne qui crée le devis
             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
             Response.add(null); //5 pas de devis
             return Response; //manque des champs donc renvoi de toutes les informations
-       }
-       else{
-           coef=DateToCoef(DateN);
-       }
-       //controle sur la population
-       Long idpop=Long.valueOf((String)Array.get(pers, 5));
-       Population pop = populationFacade.rechercheExistantPopulationID(idpop);
-       if(pop==null){
-            Response.add("Probleme sur la population");//1
-            Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-            Response.add(pers);//3 la personne qui crée le devis
-            Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
-            Response.add(null); //5 pas de devis
+        }
+        else{
+            coef=DateToCoef(DateN);
+        }
+        //controle sur la population
+        Long idpop=Long.valueOf((String)Array.get(pers, 5));
+        Population pop = populationFacade.rechercheExistantPopulationID(idpop);
+        if(pop==null){
+             Response.add("Probleme sur la population");//1
+             Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             Response.add(pers);//3 la personne qui crée le devis
+             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
+             Response.add(null); //5 pas de devis
              
-            return Response; //Population introuvable
-       }
+             return Response; //Population introuvable
+        }
         //controle sur les ayants droits
         for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
@@ -160,7 +163,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             
             if(nom==null||prenom==null||datenaiss==null||numeroSS==null){
                 Response.add("Il manque des champs");//1
-                Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                 Response.add(pers);//3 la personne qui crée le devis
                 Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
                 Response.add(null); //5 pas de packs (produit+prix)
@@ -171,7 +174,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             DateN=java.sql.Date.valueOf((String)(Array.get(infos, 2)));
             if(DateN==null||DateN.after(new Date())){
                  Response.add("Effeur Date");//1
-                 Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                 Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                  Response.add(pers);//3 la personne qui crée le devis
                  Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
                  Response.add(null); //5 pas de devis

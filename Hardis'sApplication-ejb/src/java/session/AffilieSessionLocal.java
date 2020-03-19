@@ -52,4 +52,9 @@ public interface AffilieSessionLocal {
     List<Object> calculPacksAffilie(PersonnePhysique pers,List<Object[]>listeinfos);
     
     List<Object> creerDevisCompletAffilie(PersonnePhysique pers,Object[] pack,List<Object[]>listeinfos);
+    
+    List<Remboursement> afficherRempoursementPers(PersonnePhysique perso);
+    
+    List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph);
+    
 }

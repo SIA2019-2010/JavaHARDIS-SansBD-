@@ -19,6 +19,7 @@ import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.ProduitFacadeLocal;
+import facade.RemboursementFacadeLocal;
 import facade.StatutBeneficiaireFacadeLocal;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -54,6 +55,9 @@ public class AffilieSession implements AffilieSessionLocal {
     
     @EJB
     private StatutBeneficiaireFacadeLocal statutBeneficiaireFacade;
+    
+    @EJB
+    private RemboursementFacadeLocal remboursementFacade;
     
     
     
@@ -240,9 +244,15 @@ public class AffilieSession implements AffilieSessionLocal {
         return Response;
     }
     
+    @Override
+    public List<Remboursement> afficherRempoursementPers(PersonnePhysique perso) {
+        return remboursementFacade.afficherRempoursementPers(perso);
+    }
     
-    
-    
+    @Override
+    public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph) {
+        return statutBeneficiaireFacade.rechercherStatutBeneficiaire(persph);
+    }
     
 
     

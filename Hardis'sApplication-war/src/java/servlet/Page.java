@@ -59,6 +59,7 @@ public class Page extends HttpServlet {
         Responsable sessionresponsable=null;
         boolean sessionpublique=false;
         List<Object> Response;
+        List<Object[]> listeinfos;
         int count=0;
         if(session==null){System.out.println("Session est null");}
         else{System.out.println("Session est pas null");}
@@ -136,65 +137,46 @@ public class Page extends HttpServlet {
                 
             case "CreationDevisInformations" :
                 List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                listeinfos=(List<Object[]>)request.getAttribute("listeinfos");
+                if(listeinfos==null) listeinfos=new ArrayList();
                 request.setAttribute("listepopulation",listpop);
+                request.setAttribute("pers",(Object)request.getAttribute("pers"));
+                request.setAttribute("listeinfos",listeinfos);
                 jspClient="/PageCreationDevis.jsp";
                 break;
                 
             case "CalculPrixDevis" :
-                Object[] pers = null;
-                List<Object[]> listeinfos=new ArrayList();
-                /*while(paramNames.hasMoreElements()){
-                    paramName=(String)paramNames.nextElement();*/
-
-                    //String param=request.getParameter(paramName);
-
-                    //System.out.println(paramName+"   "+param);
-                    //System.out.println();
-                    String NomCreateur=request.getParameter("Nom");
-                    String PrenomCreateur=request.getParameter("Prenom");
-                    String DateNaiCreateur=request.getParameter("DateN");
-                    String SSCreateur=request.getParameter("NumeroSS");
-                    String Papulation=request.getParameter("idpop");
-                    String NomAD[]=request.getParameterValues("NomAD");
-                    String PrenomAD[]=request.getParameterValues("PrenomAD");
-                    String DateNaiAD[]=request.getParameterValues("DateNaiAD");
-                    String NumeroSSAD[]=request.getParameterValues("NumeroSSAD");
-                    String idpopAD[]=request.getParameterValues("idpopAD");
-                    System.out.print("Nom  ");
-                    System.out.println(NomCreateur);
-                    System.out.print("Prenom  ");
-                    System.out.println(PrenomCreateur);
-                    System.out.print("DateNai  ");
-                    System.out.println(DateNaiCreateur);
-                    System.out.print("NumeroSS  ");
-                    System.out.println(SSCreateur);
-                    System.out.print("idpop  ");
-                    System.out.println(Papulation);
-                    System.out.println();
-                    
+                listeinfos=new ArrayList();
+                String NomCreateur=request.getParameter("Nom");
+                String PrenomCreateur=request.getParameter("Prenom");
+                String DateNaiCreateur=request.getParameter("DateN");
+                String SSCreateur=request.getParameter("NumeroSS");
+                String MailCreateur=request.getParameter("Mail");
+                String Papulation=request.getParameter("idpop");
+                Object[] pers={NomCreateur,PrenomCreateur,DateNaiCreateur,SSCreateur,MailCreateur,Papulation};
+                String[] NomAD=request.getParameterValues("NomAD");
+                String[] PrenomAD=request.getParameterValues("PrenomAD");
+                String[] DateNaiAD=request.getParameterValues("DateNaiAD");
+                String[] NumeroSSAD=request.getParameterValues("NumeroSSAD");
+                String[] MailAD=request.getParameterValues("MailAD");
+                String[] idpopAD=request.getParameterValues("idpopAD");
+                if(NomAD!=null)
                     for(int i=0; i<NomAD.length; i++){
-                        System.out.print("NomAD  ");
-                        System.out.println(NomAD[i]);
-                        System.out.print("PrenomAD  ");
-                        System.out.println(PrenomAD[i]);
-                        System.out.print("DateNaiAD  ");
-                        System.out.println(DateNaiAD[i]);
-                        System.out.print("NumeroSSAD  ");
-                        System.out.println(NumeroSSAD[i]);
-                        System.out.print("idpopAD  ");
-                        System.out.println(idpopAD[i]);
-                        System.out.println();
+                        Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i],MailAD[i],idpopAD[i]};
+                        listeinfos.add(infos);
                     }
 
-                //}
-                System.out.println("ok");
                 
                 
                 Response=publiqueSession.calculPacks(pers, listeinfos);
                 
+                request.setAttribute("pers",pers);//supri
+                request.setAttribute("listeinfos",listeinfos);//supri
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
-                jspClient="/PageCreationDevis.jsp";
+                request.setAttribute("lesPacks",(List<Object[]>)Response.get(4));
+                jspClient=(String)Response.get(1);
+                message=(String)Response.get(0);
                 break;  
             
             case "afficherListePersonnePhiqueResponsable" :

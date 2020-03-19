@@ -21,9 +21,6 @@ import javax.persistence.ManyToMany;
 public class TypeGarantie implements Serializable {
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
-    private List<Contrat> lesContrats;
-
-    @ManyToMany(mappedBy = "lesTypesGarantie")
     private List<Produit> lesProduits;
 
     @ManyToMany(mappedBy = "lesTypesGarantie")
@@ -51,14 +48,6 @@ public class TypeGarantie implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<Contrat> getLesContrats() {
-        return lesContrats;
-    }
-
-    public void setLesContrats(List<Contrat> lesContrats) {
-        this.lesContrats = lesContrats;
     }
 
     public List<Produit> getLesProduits() {
