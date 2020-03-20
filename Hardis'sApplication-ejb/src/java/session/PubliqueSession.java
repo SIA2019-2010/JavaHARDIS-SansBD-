@@ -6,6 +6,7 @@
 package session;
 
 import entitee.Beneficiaire;
+import entitee.Contrat;
 import entitee.Devis;
 import entitee.Genre;
 import entitee.Gestionnaire;
@@ -14,6 +15,7 @@ import entitee.Population;
 import entitee.Produit;
 import entitee.Responsable;
 import entitee.StatutBeneficiaire;
+import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.PopulationFacadeLocal;
@@ -35,6 +37,9 @@ import javax.servlet.http.HttpSession;
 public class PubliqueSession implements PubliqueSessionLocal {
 
     @EJB
+    private ContratFacadeLocal contratFacade;
+
+    @EJB
     private ProduitFacadeLocal produitFacade;
 
     @EJB
@@ -48,6 +53,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
 
     @EJB
     private PersonnePhysiqueFacadeLocal personnePhysiqueFacade;
+    
+    
     
     
      
@@ -296,7 +303,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         List<Object> Response=new ArrayList();   
         //dans cette methode : on recupere : 
                         // pers : nom,prenom,numero SS,adresse,genre,login,mdp
-                        // pour chaque ayant droit : nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)
+                        // pour chaque ayant droit : nom,prenom,numeross,adresse,genre,population, STRING (Conjoint, Concubin, Enfant à charge)
                         //potentiellement des fichiers ?
           
          //controle sur le devis               
@@ -316,7 +323,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
              Response.add("Merci de remplir les champs obligatoires");//1
              Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
              Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
-             Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)) ne pas re remplir les RADIO (ID POP)
+             Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population, STRING (Conjoint, Concubin, Enfant à charge), 
              //Response.add(null); //5 effectuer la connexion avec login et mdp ?
              
             return Response; //manque des champs donc renvoi de toutes les informations
@@ -330,8 +337,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
             String adresse = (String)Array.get(infos,3);
             String genre = (String)Array.get(infos,4);
             String idpopst = (String)Array.get(infos,5);
+            String statutayt=(String)Array.get(infos,6);
             
-            if(nom==null||prenom==null||adresse==null||numeroSS==null||genre==null||idpopst==null){
+            if(nom==null||prenom==null||adresse==null||numeroSS==null||genre==null||idpopst==null||statutayt==null){
                  Response.add("Merci de remplir les champs obligatoires");//1
                  Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
                  Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
@@ -387,17 +395,52 @@ public class PubliqueSession implements PubliqueSessionLocal {
             persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers);
             persencours=personnePhysiqueFacade.renseignerLoginMdp(persencours, (String)Array.get(pers, 5), (String)Array.get(pers, 6));
         }
+         
+        //on crée le contrat sans les beneficiaires
+        Contrat ct=contratFacade.creerContrat(null,dev.getPrix() ,dev.getLeProduit());
+        List<StatutBeneficiaire> liststatutct=new ArrayList();
+        
+        //on creer le statutBeneficiaire pour toutes les personnes concernées
+        StatutBeneficiaire statutaffi=null;
+        statutaffi=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), Beneficiaire.Affilie, ct, persencours);
+        
+        //on rassemble tout les statuts dans une liste
+        liststatutct.add(statutaffi);
+        
+        
+        for(Object[] infos: listeinfos){
+          
+             String numeroSS = (String)Array.get(infos,2);
              
+            PersonnePhysique ayantdroitencours;
+            ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);  
+            
+            String statutayd=(String)Array.get(infos,6);
+            Beneficiaire benefayd=null;
+            if(statutayd.equalsIgnoreCase("Concubin")){
+                benefayd=Beneficiaire.Concubin;
+            }else if(statutayd.equalsIgnoreCase("Conjoint")){
+                benefayd=Beneficiaire.Conjoint;
+            }else if(statutayd.equalsIgnoreCase("EnfantACharge")){
+                benefayd=Beneficiaire.EnfantACharge;
+            }
+            
+             StatutBeneficiaire statutAyant=null;
+             statutAyant=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), benefayd, ct, ayantdroitencours);
+             
+             liststatutct.add(statutAyant);
+             
+        }
+       
+        //on enregistre toute les personnes au contrat (set la liste)
+       ct.SetLesStatutsBeneficiaires(liststatutct);
         
-        //creer contrat (devis.prix,devis.produit,list<StatutBeneficiaire>)
-        //creer statutbeneficiaire pour chaque personne // ajouter a une liste
-        //ajouter liste statut dans contrat
         
-         StatutBeneficiaire statut=null;
         
         
         Response.add("Contrat créé");//1
         Response.add("/homepage.jsp"); 
+        //Response.add(ct);       On envoit le contrat ?
         
         return Response;
     }
