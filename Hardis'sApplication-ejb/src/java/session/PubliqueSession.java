@@ -159,7 +159,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
-            Date datenaiss=(Date)Array.get(infos, 2);
+            Date datenaiss=java.sql.Date.valueOf((String)Array.get(infos, 2));
             String numeroSS = (String)Array.get(infos,3);
             
             
@@ -240,8 +240,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
            for(Object infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
-            Date datenaiss =(Date)Array.get(infos, 2);
+            Date datenaiss =java.sql.Date.valueOf((String)Array.get(infos, 2));
             String numeroSS=(String)Array.get(infos, 3);
+            
             
             //on recupère les infos des ayant droit pour les créée ou non
             PersonnePhysique ayantdroitencours;
@@ -400,7 +401,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         Contrat ct=contratFacade.creerContrat(null,dev.getPrix() ,dev.getLeProduit());
         List<StatutBeneficiaire> liststatutct=new ArrayList();
         
-        //on creer le statutBeneficiaire pour toutes les personnes concernées
+        //on creer le statutBeneficiaire pour toutes les personnes concernées, ici afiilie
         StatutBeneficiaire statutaffi=null;
         statutaffi=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), Beneficiaire.Affilie, ct, persencours);
         

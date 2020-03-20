@@ -66,5 +66,7 @@ public interface PersonnePhysiqueFacadeLocal {
     PersonnePhysique renseignerLoginMdp(PersonnePhysique pers, String login, String mdp);
 
     PersonnePhysique renseignerInfosAyantsDroit(PersonnePhysique pers, String adresse, Genre genre, Population population);
+
+    PersonnePhysique creerPersonneComplete(String nom, String prenom, Genre genre, Date datenaiss, String numeroSS, String mail, Population popu, String adresse);
     
 }

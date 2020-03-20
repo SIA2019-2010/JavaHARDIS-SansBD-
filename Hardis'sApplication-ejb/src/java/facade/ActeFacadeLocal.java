@@ -39,5 +39,7 @@ public interface ActeFacadeLocal {
     List<Acte> rechercheActePersNonRemb(PersonnePhysique pers);
 
     Acte rechercheActeID(Long idact);
+
+    List<Acte> rechercheActesNonRembourse();
     
 }

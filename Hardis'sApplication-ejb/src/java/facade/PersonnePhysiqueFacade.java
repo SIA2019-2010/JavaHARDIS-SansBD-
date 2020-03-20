@@ -231,6 +231,23 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
         return pers;
     }
 
+    @Override
+    public PersonnePhysique creerPersonneComplete(String nom, String prenom, Genre genre, Date datenaiss, String numeroSS, String mail, Population popu, String adresse) {
+        PersonnePhysique pers = new PersonnePhysique();
+         
+        pers.setNom(nom);
+        pers.setPrenom(prenom);
+        pers.setNumeroSS(numeroSS);
+        pers.setDateNaiss(datenaiss);
+        pers.setAdresse(adresse);
+        pers.setMail(mail);
+        pers.setGenre(genre);
+        pers.setLaPopulation(popu);
+        
+        em.merge(pers);
+        return pers;
+    }
+
 
     
 

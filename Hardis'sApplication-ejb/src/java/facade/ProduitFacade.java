@@ -90,6 +90,16 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
         List <Produit> result = req.getResultList();
         return result;
     }
+
+    @Override
+    public List<Produit> afficherProduitCollectif() {
+        Produit prod;
+        String txt="SELECT pr FROM Produit AS pr where pr.laPersonneMorale IS NOT NULL";
+        Query req=getEntityManager().createQuery(txt);
+        prod=null;
+        List <Produit> result = req.getResultList();
+        return result;
+    }
     
     
     

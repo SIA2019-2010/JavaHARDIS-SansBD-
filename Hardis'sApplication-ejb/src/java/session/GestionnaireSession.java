@@ -14,6 +14,7 @@ import entitee.Domaine;
 import entitee.EtatRemboursement;
 import entitee.Fiscalite;
 import entitee.Garantie;
+import entitee.Genre;
 import entitee.Gestionnaire;
 import entitee.LibelleActe;
 import entitee.PersonneMorale;
@@ -45,10 +46,13 @@ import facade.StatutBeneficiaireFacadeLocal;
 import facade.TypeGarantieFacadeLocal;
 import facade.TypeProduitFacadeLocal;
 import java.lang.reflect.Array;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
@@ -361,8 +365,6 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
     //suite de methode pour creation de devis , avec ou sans recherche 
     
-    
-    
     @Override
     public List<Object> calculPacksGestionnaire(Object[] pers,List<Object[]>listeinfos) {
       List<Object> Response=new ArrayList();
@@ -412,7 +414,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
-            Date datenaiss=(Date)Array.get(infos, 2);
+            Date datenaiss=java.sql.Date.valueOf((String)Array.get(infos, 2));
             String numeroSS = (String)Array.get(infos,3);
             
             
@@ -495,7 +497,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
            for(Object infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
-            Date datenaiss =(Date)Array.get(infos, 2);
+            Date datenaiss =java.sql.Date.valueOf((String)Array.get(infos, 2));
             String numeroSS=(String)Array.get(infos, 3);
             
             //on recupère les infos des ayant droit pour les créée ou non
@@ -568,7 +570,11 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
         Array.set(pers, 0, personne.getNom());
         Array.set(pers, 1, personne.getPrenom());
-        Array.set(pers, 2, personne.getDateNaiss());
+        
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //j'ai trouver que ca pour Date To String
+        String datenaiss  = formatter.format(personne.getDateNaiss());
+
+        Array.set(pers, 2, datenaiss); 
         Array.set(pers, 3, personne.getNumeroSS());
         Array.set(pers, 4, personne.getMail());
         Array.set(pers, 4, personne.getLaPopulation().getId());
@@ -622,13 +628,12 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
     
 
-    //Suite de methode pour creer un remboursement : 
-    //1 jsp choix de personne qui envoi un ID pers a la methode rechercheActesNonRemboursePersonne
-    //2 affichage des actes de cette personne dans une jsp, choix du gestionnaire sur un acte en particulier,
+    //Suite de methode pour creer un remboursement :
+    //1 affichage de tout les actes non remboursé(rechercheListeActesNonRembourse) dans une jsp, choix du gestionnaire sur un acte en particulier,
     //appel de la methode creerRemboursement avec l'ID de l'acte choisi
     //3 jsp 3 affichage du remboursement
     
-    
+                //methode utile que sur une recherche de personne 
     @Override
     public List<Acte> rechercheActesNonRemboursePersonne(Long idpers) {
         
@@ -636,11 +641,21 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
          PersonnePhysique pers = personnePhysiqueFacade.recherchePersonneID(idpers);
          
          List<Acte> listact = acteFacade.rechercheActePersNonRemb(pers);
-         
-         
         
         return listact;
     }
+    
+    
+                    //on affiche la liste des actes non remboursé et le gestionnaire en choisi un
+       @Override
+    public List<Acte> rechercheListeActesNonRembourse() {
+        List<Acte> listact = acteFacade.rechercheActesNonRembourse();
+         
+        return listact;
+    }
+    
+    
+    
     
         @Override
     public List<Object> creerRemboursement(Long idact) {
@@ -748,7 +763,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
 	{RemboursementEffectif=TauxRemboursement;}
 
         Remboursement rembour=remboursementFacade.creerRemboursement(RemboursementEffectif, EtatRemboursement.EnCours, act);
-                //CreationRemboursement();
+                //CreationRemboursement;
          
         Response.add("Remboursement créé "); // 1
         Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
@@ -803,12 +818,195 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         return Response;
     }
 
+    
+    //Suite de methode pour ajouter des personnes a un produit et ainsi creer son contrat
+    
+    
+        @Override
+    public List<Produit> rechercheProduitsCollectif() {
+        return produitFacade.afficherProduitCollectif();
+    }
+    
+    
+    
+    @Override
+    public List<Object> ajouterPersonneProduit(Long idproduit,Object[] pers,List<Object[]>listeinfos) {
+        List<Object> Response=new ArrayList();
+        
+        //dans cette methode : on recupere : 
+        //l'id du produit (collectif) auquel on veux ajouter une personne et creer un contrat
+        //Objet pers : 0genre (String) 1 nom, 2 prenom, 3 datenaiss, 4 numero SS , 5adresse, 6 mail,7 Population (String de ID)
+                        //login,mdp generés ?
+                        
+                        // pour chaque ayant droit : 0 genre,1 nom,2 prenom,3 datenaiss,4 numeross,5 adresse
+                        //7 population, 8 STRING (Conjoint, Concubin, Enfant à charge)
+        
+        Produit prod=produitFacade.rechercheProduitID(idproduit);
+        
+         if (prod==null){
+             Response.add("Probleme sur la creation (choix du produit)");//1
+             Response.add("/menuGestionnaire.jsp"); 
+             Response.add(null);
+             Response.add(null);
+             
+            return Response; //probleme transition ID Produit
+         }
+        
+        //controle sur les champs remplis : personnephy    
+       // 0 genre (String) 1 nom, 2 prenom, 3 datenaiss, 4 numero SS , 5adresse, 6 mail,7 Population (String de ID)
+        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")||((String)Array.get(pers, 7)).equals("")){
+             Response.add("Merci de remplir les champs obligatoires");//1
+             Response.add("/AjouterPersonneProduit.jsp"); //2 JSP AjouterPersonneProduit
+             Response.add(pers);//3 la personne qui crée le devis (0genre (String) 1 nom, 2 prenom, 3 datenaiss, 4 numero SS , 5adresse, 6 mail,7 Population (String de ID))
+             Response.add(listeinfos);//4 les ayant droits
+             
+            return Response; //manque des champs donc renvoi de toutes les informations
+       }
+       
+        
+         //controle les champs remplis : ayants droits
+         // pour chaque ayant droit : 0 genre,1 nom,2 prenom,3 datenaiss,4 numeross,5 adresse
+          //6 population, 7 STRING (Conjoint, Concubin, Enfant à charge)
+           List<PersonnePhysique> LesAyantdroit=new ArrayList();
+        for(Object[] infos: listeinfos){
+            String genre=(String)Array.get(infos, 0);
+            String nom=(String)Array.get(infos, 1);
+            String prenom=(String)Array.get(infos, 2);
+            Date datenaiss=java.sql.Date.valueOf((String)Array.get(infos, 3));
+            String numeroSS = (String)Array.get(infos,4);
+            String adresse = (String)Array.get(infos,5);
+            String idpopst = (String)Array.get(infos,6);
+            String statutayt=(String)Array.get(infos,7);
+            
+            if(genre==null||nom==null||prenom==null||adresse==null||numeroSS==null||datenaiss==null||idpopst==null||statutayt==null){
+                 Response.add("Merci de remplir les champs obligatoires");//1
+                 Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
+                 Response.add(pers);
+                 Response.add(listeinfos);
+             
+            return Response; //manque des champs donc renvoi de toutes les informations
+        
+           } else{ //on créer les ayants droits si ils existent
+                
+                     PersonnePhysique ayantdroitencours;
+                     ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
+
+                    if (ayantdroitencours==null){
+                            Long idpop=Long.valueOf(idpopst);
+                            Population pop = populationFacade.rechercheExistantPopulationID(idpop);  
+                        
+                            Genre genreayt=null;
+                             if(genre.equalsIgnoreCase("Homme")){
+                             genreayt=Genre.Homme;
+                             }else if(genre.equalsIgnoreCase("Femme")){
+                            genreayt=Genre.Femme;
+                             }else if(genre.equalsIgnoreCase("Autre")){
+                            genreayt=Genre.Autre;
+                              }
+                            ayantdroitencours=personnePhysiqueFacade.creerPersonneComplete(nom, prenom, genreayt, java.sql.Date.valueOf((String)Array.get(pers, 3)), numeroSS, null, pop, adresse); 
+                       }
+                    
+        
+            LesAyantdroit.add(ayantdroitencours);  
+                
+            }
+        }
+
  
+        //on créer la personne
+      // 0 genre (String) 1 nom, 2 prenom, 3 datenaiss, 4 numero SS , 5adresse, 6 mail,7 Population (String de ID)
+        
+        PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 4));
+            if(persencours==null){
+                
+                Long idpop=Long.valueOf((String)Array.get(pers, 7));
+                Population pop = populationFacade.rechercheExistantPopulationID(idpop);
+                Date datenaisspers=java.sql.Date.valueOf((String)Array.get(pers, 3));
+                
+                 Genre genrepers=null;
+                 if(((String)Array.get(pers, 0)).equalsIgnoreCase("Homme")){
+                 genrepers=Genre.Homme;
+                 }else if(((String)Array.get(pers, 0)).equalsIgnoreCase("Femme")){
+                 genrepers=Genre.Femme;
+                 }else if(((String)Array.get(pers, 0)).equalsIgnoreCase("Autre")){
+                 genrepers=Genre.Autre;
+                 }
+                
+                persencours=personnePhysiqueFacade.creerPersonneComplete(((String)Array.get(pers, 1)), ((String)Array.get(pers, 2)), genrepers,datenaisspers , ((String)Array.get(pers, 4)), ((String)Array.get(pers, 6)), pop, ((String)Array.get(pers, 5)));
+                
+                //generation login + mdp
+                //login = Nom+2lettres du prenom, si pas disponible ajout d'un chiffre en 1 et 9 aléatoire et check a nouveau la dispo
+                boolean dispologin=false;
+                String login=((String)Array.get(pers, 1))+(((String)Array.get(pers, 1)).substring(0, 2));
+                
+                
+                while(dispologin==false){
+               
+                  if(personnePhysiqueFacade.rechercheDispoLogin(login)==false){
+                      Random rand = new Random(); int nombreAleatoire = rand.nextInt(9 - 1 + 1) + 1;
+                    login=login+String.valueOf(nombreAleatoire);                   
+                   } else {
+                      dispologin=true;
+                  }
+                }    
+                    
+                    
+                String mdp=(String.valueOf(datenaisspers.hashCode())+String.valueOf((((String)Array.get(pers, 4)).substring(5, 7)).hashCode()));
+                persencours=personnePhysiqueFacade.enregistrerCompte(persencours, login, mdp);
+                
+            }
+        
+        
+        //on crée le contrat sans les beneficiaires
+        Contrat ct=contratFacade.creerContrat(null,prod.getPrixBase() ,prod);
+        List<StatutBeneficiaire> liststatutct=new ArrayList();
+        
+        //on creer le statutBeneficiaire pour toutes les personnes concernées, ici afiilie
+        StatutBeneficiaire statutaffi=null;
+        statutaffi=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), Beneficiaire.Affilie, ct, persencours);
+        
+        //on rassemble tout les statuts dans une liste
+        liststatutct.add(statutaffi);
+        
+        
+        for(Object[] infos: listeinfos){
+          
+            String numeroSS = (String)Array.get(infos,4);
+             
+            PersonnePhysique ayantdroitencours;
+            ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);  
+            
+            String statutayd=(String)Array.get(infos,7);
+            Beneficiaire benefayd=null;
+            if(statutayd.equalsIgnoreCase("Concubin")){
+                benefayd=Beneficiaire.Concubin;
+            }else if(statutayd.equalsIgnoreCase("Conjoint")){
+                benefayd=Beneficiaire.Conjoint;
+            }else if(statutayd.equalsIgnoreCase("EnfantACharge")){
+                benefayd=Beneficiaire.EnfantACharge;
+            }
+            
+             StatutBeneficiaire statutAyant=null;
+             statutAyant=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), benefayd, ct, ayantdroitencours);
+             
+             liststatutct.add(statutAyant);
+             
+        }
+        
+        //on a toutes les personnes et tout les statuts
+       //on enregistre toute les personnes au contrat (set la liste)
+       ct.SetLesStatutsBeneficiaires(liststatutct);
+        
+   
+     Response.add("Personne ajoutée,contrat créé");//1
+     Response.add("MenuGestionnaire.jsp"); //2 JSP 
+     return Response;
     
     
     
-    
-    
-    
-    
+    }
+
+
+
+ 
 }

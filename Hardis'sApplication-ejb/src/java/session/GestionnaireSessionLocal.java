@@ -61,4 +61,10 @@ public interface GestionnaireSessionLocal {
     List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,Long idpers);
 
     List<Object> cloturerContrat(Long idcontrat);
+
+    List<Object> ajouterPersonneProduit(Long idproduit,Object[] pers,List<Object[]>listeinfos);
+
+    List<Acte> rechercheListeActesNonRembourse();
+
+    List<Produit> rechercheProduitsCollectif();
 }
