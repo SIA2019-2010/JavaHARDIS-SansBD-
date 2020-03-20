@@ -74,7 +74,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
            
     @Override
-    public List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable, boolean sessionpublique){
+    public List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable){
         List<Object> Response=new ArrayList();
         if (sessiongestionnaire!=null){
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
@@ -90,11 +90,6 @@ public class PubliqueSession implements PubliqueSessionLocal {
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
             Response.add("/ResponsableMenu.jsp");
             Response.add("ResponsableConnexion");
-        }
-        else if(sessionpublique){
-            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
-            Response.add("/PubliqueMenu.jsp");
-            Response.add("PubliqueConnexion");
         }
         else{
             Response.add("Affichage page connexion");

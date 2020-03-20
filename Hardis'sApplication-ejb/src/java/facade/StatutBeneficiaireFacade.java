@@ -107,7 +107,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     
     @Override
     public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo) {
-        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.leContrat.leProduit.laPersonneMorale=:pm"
+        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.leContrat.leProduit.laPersonneMorale=:pm "
                 + "order by s.leContrat.leProduit.laPersonneMorale, s.leContrat.leProduit, s.leContrat, s.statutBeneficiare";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pm",persmo);
@@ -117,9 +117,9 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     
     @Override
     public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph) {
-        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp or"
-                + "s.lecontrat in (SELECT s.leContrat from StatutBeneficiaire AS s"
-                + "where s.statutBeneficiare=:pp and s.statutBeneficiare:=statut)"
+        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp or "
+                + "s.leContrat in (SELECT s.leContrat from StatutBeneficiaire AS s "
+                + "where s.laPersonnePhysique=:pp and s.statutBeneficiare=:statut) "
                 + "order by s.leContrat.leProduit, s.leContrat, s.statutBeneficiare";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pp",persph);
@@ -131,8 +131,8 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     @Override
     public StatutBeneficiaire rechercheAffilieDomaine(PersonnePhysique persph, Domaine domaine) {
         StatutBeneficiaire statut = null;
-        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp"
-                + "and s.leContrat.leProduit.leDomaine=:dom and s.statutBeneficiare:=statut";
+        String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp "
+                + "and s.leContrat.leProduit.leDomaine=:dom and s.statutBeneficiare=:statut";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pp",persph);
         req = req.setParameter("statut",Beneficiaire.Affilie);

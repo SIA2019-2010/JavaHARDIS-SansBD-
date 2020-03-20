@@ -3,6 +3,7 @@ import entitee.*;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -49,40 +50,34 @@ public class Page extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String jspClient = null;
-        String message = "";
+        
+        String jspClient;
+        String message="";
         String act=request.getParameter("action");
-        System.out.println(new Date().toLocaleString()+"  "+act+"========");
-        HttpSession session=request.getSession(false);
-        Gestionnaire sessiongestionnaire=null;
-        PersonnePhysique sessionaffilie=null;
-        Responsable sessionresponsable=null;
-        boolean sessionpublique=false;
+        System.out.print(act==null);
+        System.out.println(new Date().toLocaleString()+"  "+act+"========");//Supp
         List<Object> Response;
         List<Object[]> listeinfos;
-        int count=0;
-        if(session==null){System.out.println("Session est null");}
-        else{System.out.println("Session est pas null");}
-        if(session!=null){
-            sessiongestionnaire=(Gestionnaire)session.getAttribute("sessiongestionnaire");
-            sessionaffilie=(PersonnePhysique)session.getAttribute("sessionphysique");
-            sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
-            count=(sessiongestionnaire==null?0:1)+(sessionaffilie==null?0:1)+(sessionresponsable==null?0:1);
-        }
-        System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
         
-        if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CalculPrixDevis")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
+        //Session
+        List<Object> ResultatSession=TraiterSession(request,act);
+        HttpSession session=(HttpSession)ResultatSession.get(0);
+        Gestionnaire sessiongestionnaire=(Gestionnaire)ResultatSession.get(1);
+        PersonnePhysique sessionaffilie=(PersonnePhysique)ResultatSession.get(2);;
+        Responsable sessionresponsable=(Responsable)ResultatSession.get(3);
+        
+        if(!(boolean)ResultatSession.get(4)){
+            System.out.println("Erreur Session");
             jspClient="/ErreurSession.jsp";
             message="Erreur de session ! Veuillez vous reconnecter !";
-            if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
-            else if(act.substring(0, 5).equals("Respo")) request.setAttribute("typeConnexion","ResponsableConnexion");
-            else if(act.substring(0, 5).equals("Gesti")) request.setAttribute("typeConnexion","GestionnaireConnexion");
         }
         else if(null==act){
+            System.out.println("new act null");
             jspClient="/Acceuil.jsp";
             message="Bienvenue";
         }
-        else switch (act) {  
+        else {System.out.println("new act "+act);
+            switch (act) {  
             case "" :
             case "vide" :
                 jspClient="/Acceuil.jsp";
@@ -92,9 +87,8 @@ public class Page extends HttpServlet {
             case "GestionnaireConnexion" :
             case "AffilieConnexion" :
             case "ResponsableConnexion" :
-            case "PubliqueConnexion" :
                 System.out.println("before");
-                Response=publiqueSession.rechercherConnexion(session, sessiongestionnaire, sessionaffilie, sessionresponsable, sessionpublique);
+                Response=publiqueSession.rechercherConnexion(session, sessiongestionnaire, sessionaffilie, sessionresponsable);
                 System.out.println("after");
                 message=(String)Response.get(0);
                 System.out.println(message);
@@ -106,7 +100,7 @@ public class Page extends HttpServlet {
             case "Deconnexion" :
                 session = request.getSession(false);
                 session.invalidate();
-                request.setAttribute("action",request.getParameter("typeConnexion"));
+                request.setAttribute("typeConnexion",request.getParameter("typeConnexion"));
                 jspClient="/Connexion.jsp";
                 message="Vous êtes déconnecté";
                 break;
@@ -179,15 +173,30 @@ public class Page extends HttpServlet {
                 message=(String)Response.get(0);
                 break;  
             
-            case "afficherListePersonnePhiqueResponsable" :
+            case "ResponsableAfficherListePersonnePhique" :
+                System.out.println(sessionresponsable==null);
+                System.out.println(sessionresponsable.toString());
                 request.setAttribute("listestatut",responsableSession.rechercherStatutBeneficiaire(sessionresponsable.getLaPersonneMorale()));
-                jspClient="/afficherListePersonnePhiqueResponsable.jsp";
+                jspClient="/ResponsableAfficherListePersonnePhique.jsp";
                 message="liste de personnes physiques";
                 break;
+                
+            case "AffilieAfficherRempoursementPers" :
+                request.setAttribute("listeremboursement",affilieSession.afficherRempoursementPers(sessionaffilie));
+                jspClient="/AffilieAfficherRempoursementPers.jsp";
+                message="liste de remboursements";
+                break;
+                
+            case "AffilieAfficherContrat" :
+                request.setAttribute("listecontrat",affilieSession.rechercherStatutBeneficiaire(sessionaffilie));
+                jspClient="/AffilieAfficherContrat.jsp";
+                message="liste de contrats";
+                break;    
                 
             default:
                 jspClient="/"+act+".jsp";
                 message="";
+        }
         }
             
             
@@ -196,7 +205,94 @@ public class Page extends HttpServlet {
         request.setAttribute("message",message);
         Rd.forward(request,response);
     }
-
+    
+    protected List<Object> TraiterSession(HttpServletRequest request, String act)
+            throws ServletException, IOException {
+        List<Object> Response=new ArrayList();
+        if(act==null) act="";
+        HttpSession session=request.getSession(false);        
+        boolean valide=true;
+        String[] MenuGestionnaire={
+        };
+        String[] MenuAffilier={
+            "AffilieAfficherRempoursementPers",
+            "AffilieAfficherContrat"
+        };
+        String[] MenuResponsable={
+            "ResponsableAfficherListePersonnePhique"
+        };
+        String[] MenuPublique={
+            "",
+            "null",
+            "vide",
+            "ResponsableAuthen", 
+            "ResponsableConnexion", 
+            "AffilieAuthen", 
+            "AffilieConnexion", 
+            "GestionnaireAuthen", 
+            "GestionnaireConnexion", 
+            "Deconnexion", 
+            "CalculPrixDevis", 
+            "CreationDevisInformations"
+        };
+        if(session!=null){
+            System.out.println("Session est pas null");
+            Gestionnaire sessiongestionnaire=(Gestionnaire)session.getAttribute("sessiongestionnaire");
+            PersonnePhysique sessionaffilie=(PersonnePhysique)session.getAttribute("sessionaffilie");
+            Responsable sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
+            System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
+            Response.add(session);
+            Response.add(sessiongestionnaire);
+            Response.add(sessionaffilie);
+            Response.add(sessionresponsable);
+            if(sessiongestionnaire!=null){
+                if ((Arrays.asList(MenuGestionnaire).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionaffilie==null&&sessionresponsable==null){
+                    System.out.println("Mission Gestionnaire");
+                    Response.add(true);
+                    return Response;
+                }
+                else valide=false;
+            }
+            else if(sessionaffilie!=null){
+                if ((Arrays.asList(MenuAffilier).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionresponsable==null){
+                    System.out.println("Mission Affilié");
+                    Response.add(true);
+                    return Response;
+                }
+                else valide=false;
+            }
+            else if(sessionresponsable!=null){
+                if (Arrays.asList(MenuResponsable).contains(act)||Arrays.asList(MenuPublique).contains(act)){
+                    System.out.println("Mission Responsable");
+                    Response.add(true);
+                    return Response;
+                }
+                else valide=false;
+            }
+        }
+        if(valide){
+            if (Arrays.asList(MenuPublique).contains(act)){
+                System.out.println("Mission Publique");
+                if(session==null){
+                    Response.add(null);
+                    Response.add(null);
+                    Response.add(null);
+                    Response.add(null);
+                }
+                Response.add(true);
+                return Response;
+            }
+        }
+        
+        //if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CalculPrixDevis")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
+            
+        if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
+        else if(act.substring(0, 5).equals("Respo")) request.setAttribute("typeConnexion","ResponsableConnexion");
+        else request.setAttribute("typeConnexion","GestionnaireConnexion");
+        System.out.println("Session erreur");
+        Response.add(false);
+        return Response;
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

@@ -47,7 +47,7 @@ public class RemboursementFacade extends AbstractFacade<Remboursement> implement
     
     @Override
     public List<Remboursement> afficherRempoursementPers(PersonnePhysique perso) {        
-        String txt="SELECT r FROM Remboursement AS r WHERE r.leActe.laPersonnePhysique:=:persp";
+        String txt="SELECT r FROM Remboursement AS r WHERE r.leActe.laPersonnePhysique=:persp";
         Query req=getEntityManager().createQuery(txt);
         req=req.setParameter("persp",perso);
         List <Remboursement> result = req.getResultList();

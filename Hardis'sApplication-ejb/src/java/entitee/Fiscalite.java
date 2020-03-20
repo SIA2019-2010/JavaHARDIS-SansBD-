@@ -67,6 +67,14 @@ public class Fiscalite implements Serializable {
         this.id = id;
     }
 
+    public List<Produit> getLesProduits() {
+        return lesProduits;
+    }
+
+    public void setLesProduits(List<Produit> lesProduits) {
+        this.lesProduits = lesProduits;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

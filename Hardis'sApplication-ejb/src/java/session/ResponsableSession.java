@@ -33,8 +33,13 @@ public class ResponsableSession implements ResponsableSessionLocal {
     @Override
     public List<Object> authentificationResponsable(String login, String mdp, HttpServletRequest request) {
         System.out.println("authenRespon"+login+"   "+mdp);
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        System.out.println("0000");
         List<Object> Response=new ArrayList();
+        System.out.println("1111");
         if(login.trim().isEmpty()||mdp.trim().isEmpty()){
+            System.out.println("aaaa");
             Response.add("Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
@@ -43,16 +48,18 @@ public class ResponsableSession implements ResponsableSessionLocal {
         else{
             Responsable sessionresponsable=responsableFacade.authentificationResponsable(login, mdp);
             if(sessionresponsable==null){
+                System.out.println("bbbb");
                 Response.add("Erreur :login ou mdp");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
                 request.setAttribute("typeConnexion","ResponsableConnexion");
             }
             else{
+                System.out.println("cccc");
                 Response.add("Connexion réussie");
                 Response.add("/ResponsableMenu.jsp");
                 System.out.println("reussie");
-                HttpSession session = request.getSession(true);
+                session = request.getSession(true);
                 session.setAttribute("sessionresponsable",sessionresponsable);
                 request.setAttribute("typeConnexion","ResponsableConnexion");
             }

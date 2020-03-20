@@ -127,6 +127,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     public List<Object> authentificationGestionnaire(String login, String mdp, HttpServletRequest request) {
         System.out.println("authenRespon"+login+"   "+mdp);
         List<Object> Response=new ArrayList();
+        HttpSession session = request.getSession(false);
+        session.invalidate();
         if(login.trim().isEmpty()||mdp.trim().isEmpty()){
             Response.add("Il manque de champs");
             Response.add("/Connexion.jsp");
@@ -145,7 +147,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
                 Response.add("Connexion réussie");
                 Response.add("/GestionnaireMenu.jsp");
                 System.out.println("reussie");
-                HttpSession session = request.getSession(true);
+                session = request.getSession(true);
                 session.setAttribute("sessiongestionnaire",sessiongestionnaire);
                 request.setAttribute("typeConnexion","GestionnaireConnexion");
             }

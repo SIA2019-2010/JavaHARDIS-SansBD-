@@ -72,6 +72,8 @@ public class AffilieSession implements AffilieSessionLocal {
     @Override
     public List<Object> authentificationAffilie(String login, String mdp, HttpServletRequest request) {
         System.out.println("authenRespon"+login+"   "+mdp);
+        HttpSession session = request.getSession(false);
+        session.invalidate();
         List<Object> Response=new ArrayList();
         if(login.trim().isEmpty()||mdp.trim().isEmpty()){
             Response.add("Il manque de champs");
@@ -80,8 +82,8 @@ public class AffilieSession implements AffilieSessionLocal {
             request.setAttribute("typeConnexion","AffilieConnexion");
         }
         else{
-            PersonnePhysique sessionpersonnePhysique=personnePhysiqueFacade.authentificationAffilie(login, mdp);
-            if(sessionpersonnePhysique==null){
+            PersonnePhysique sessionaffilie=personnePhysiqueFacade.authentificationAffilie(login, mdp);
+            if(sessionaffilie==null){
                 Response.add("Erreur :login ou mdp");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
@@ -89,10 +91,10 @@ public class AffilieSession implements AffilieSessionLocal {
             }
             else{
                 Response.add("Connexion réussie");
-                Response.add("/AgentMenu.jsp");
+                Response.add("/AffilieMenu.jsp");
                 System.out.println("reussie");
-                HttpSession session = request.getSession(true);
-                session.setAttribute("sessionpersonnePhysique",sessionpersonnePhysique);
+                session = request.getSession(true);
+                session.setAttribute("sessionaffilie",sessionaffilie);
                 request.setAttribute("typeConnexion","AffilieConnexion");
             }
         }
