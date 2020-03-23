@@ -51,18 +51,6 @@
                                             <td>
                                                 <input type="text" name="NumeroSSAD"/>
                                             </td>
-                                            <td>
-                                                <input type="text" name="MailAD"/>
-                                            </td>
-                                            <td>
-                                                <select name="idpopAD" style="width: 100%">
-                                                    <% for (Population pop:lesPops){%>
-                                                        <option value ="<%=pop.getId()%>">
-                                                            <%=pop.getLibellePopulation()%>
-                                                        </option>
-                                                    <%}%>
-                                                </select>
-                                            </td>
                                         </tr>`
     
                 ayantdrois.tBodies[0].appendChild(copieligne);
@@ -217,24 +205,6 @@
                             <%}%>
                             <td>
                                 <input type="text" name="NumeroSSAD" value="<%=Array.get(infos,3)%>"/>
-                            </td>
-                            <td>
-                                <input type="text" name="MailAD" value="<%=Array.get(infos,4)%>"/>
-                            </td>
-                            <td>
-                                <select name="idpopAD" style="width: 100%">
-                                    <% for (Population pop:lesPops){
-                                        if(pop.getId().toString().equals(Array.get(infos,5))){%>
-                                            <option value ="<%=pop.getId()%>" selected="true">
-                                                <%=pop.getLibellePopulation()%>
-                                            </option>
-                                        <%}else{%>
-                                            <option value ="<%=pop.getId()%>">
-                                                <%=pop.getLibellePopulation()%>
-                                            </option>
-                                        <%}%>
-                                    <%}%>
-                                </select>
                             </td>
                         </tr>
                     <%}%>

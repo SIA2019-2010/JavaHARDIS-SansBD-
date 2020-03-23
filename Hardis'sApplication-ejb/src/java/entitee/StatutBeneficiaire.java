@@ -25,18 +25,26 @@ public class StatutBeneficiaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-   private Beneficiaire statutBeneficiare;
-   
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateDebutValidite;
        
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFinValidite;
     
-       
+    @ManyToOne
+    private Beneficiaire laBeneficiaire;
+
+    public Beneficiaire getLaBeneficiaire() {
+        return laBeneficiaire;
+    }
+
+    public void setLaBeneficiaire(Beneficiaire laBeneficiaire) {
+        this.laBeneficiaire = laBeneficiaire;
+    }
+    
     @ManyToOne
    private PersonnePhysique laPersonnePhysique;
     
@@ -77,15 +85,6 @@ public class StatutBeneficiaire implements Serializable {
 
     public void setLaPersonnePhysique(PersonnePhysique laPersonnePhysique) {
         this.laPersonnePhysique = laPersonnePhysique;
-    }
-
-
-    public Beneficiaire getStatutBeneficiare() {
-        return statutBeneficiare;
-    }
-
-    public void setStatutBeneficiare(Beneficiaire statutBeneficiare) {
-        this.statutBeneficiare = statutBeneficiare;
     }
 
     public Long getId() {

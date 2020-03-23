@@ -42,9 +42,9 @@ public interface GestionnaireSessionLocal {
 
     List<Object> creerResponsableComplet(List<String> pers);
 
-    Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine);
+    Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire lesAssiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine);
 
-    List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lespops);
+    List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,String leassiette,List<Long> lestypes,List<Long> lespops);
     
     List<Object> calculPacksGestionnaire(Object[] pers,List<Object[]>listeinfos);
     
@@ -67,4 +67,7 @@ public interface GestionnaireSessionLocal {
     List<Acte> rechercheListeActesNonRembourse();
 
     List<Produit> rechercheProduitsCollectif();
+    
+    void creerActivite(String n);
+    
 }

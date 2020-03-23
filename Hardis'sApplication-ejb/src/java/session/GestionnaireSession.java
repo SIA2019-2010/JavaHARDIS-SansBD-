@@ -30,6 +30,7 @@ import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import facade.ActeFacadeLocal;
 import facade.ActiviteFacadeLocal;
+import facade.BeneficiaireFacadeLocal;
 import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
 import facade.DomaineFacadeLocal;
@@ -116,6 +117,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
 
     @EJB
     private GestionnaireFacadeLocal gestionnaireFacade;
+    
+    @EJB
+    private BeneficiaireFacadeLocal beneficiaireFacade;
     
     
     
@@ -247,18 +251,18 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public Produit creerProduit(String nom, EnumSet<Beneficiaire> lesBeneficiaires, EnumSet<Beneficiaire> lesAssiettes, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
-        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiettes, lesTypesGaranties, leTypeProduit, laFiscalite, lesPopulations, laPersonneMorale,leDomaine);
+    public Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire lesAssiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
+        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiette, lesTypesGaranties, leTypeProduit, laFiscalite, lesPopulations, laPersonneMorale,leDomaine);
     }
 
     @Override
-    public List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,List<String> lesassiettes,List<Long> lestypes,List<Long> lespops) {
+    public List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,String leassiette,List<Long> lestypes,List<Long> lespops) {
         List<Object> Response=new ArrayList();
         //infos : 1 String nom, 2 ID leTypeProduit, 3 ID laPersonneMorale,4 ID leDomaine,5 ID laFiscalite
         //liste :  ENUMSET : lesBeneficiaires, 3 ENUMSET : lesAssiettes, 4 LIST lesTypesGaranties,
         //liste :  6 lesFiscalites, 7 lesPopulations, 
-        EnumSet<Beneficiaire> lesBeneficiaires = null;
-        EnumSet<Beneficiaire> lesAssiettes = null;
+        List<Beneficiaire> lesBeneficiaires = new ArrayList();
+        Beneficiaire leAssiette;
         List<TypeGarantie> lesTypes=new ArrayList();
         List<Population> lesPopulations=new ArrayList();
         
@@ -317,15 +321,15 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        //EnumSet beneficiaire
         for(String beneficiaire: lesbenefs){
             
-            lesBeneficiaires.add(Beneficiaire.valueOf(beneficiaire));
+            lesBeneficiaires.add(beneficiaireFacade.rechercheExistantBeneficiaireLibelle(beneficiaire));
                    
         }
        //enumSet Assiette
-        for(String assiette: lesassiettes){
+        //for(String assiette: lesassiettes){
            
-            lesAssiettes.add(Beneficiaire.valueOf(assiette));
+            leAssiette=beneficiaireFacade.rechercheExistantBeneficiaireLibelle(leassiette);
                    
-        }
+        //}
         
        //liste type
         for(Long type: lestypes){
@@ -348,7 +352,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //si tout c'est bien passé : (ajouter les controles)
         
         Produit prod;
-        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, lesAssiettes, lesTypes, typep, fisca, lesPopulations, persmo,dom);
+        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, leAssiette, lesTypes, typep, fisca, lesPopulations, persmo,dom);
         
         Response.add("Produit créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 
@@ -551,13 +555,13 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         List<StatutBeneficiaire>statutsayants=new ArrayList();
         
         for (StatutBeneficiaire st : lespers){
-            if(st.getStatutBeneficiare().equals(Beneficiaire.Concubin)){
+            if(st.getLaBeneficiaire().getLibelleBeneficiaire().equals("Concubin")){
                 statutsayants.add(st);
             }
-            if(st.getStatutBeneficiare().equals(Beneficiaire.Conjoint)){
+            if(st.getLaBeneficiaire().getLibelleBeneficiaire().equals("Conjoint")){
                 statutsayants.add(st);
             }
-            if(st.getStatutBeneficiare().equals(Beneficiaire.EnfantACharge)){
+            if(st.getLaBeneficiaire().getLibelleBeneficiaire().equals("EnfantACharge")){
                 statutsayants.add(st);
             }
             
@@ -819,6 +823,15 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     
+        @Override
+    public void creerActivite(String n){
+        System.out.println("creation session");
+        activiteFacade.creerActivite(n);
+        System.out.println("creation session sort");
+    }
+    
+    
+    
     //Suite de methode pour ajouter des personnes a un produit et ainsi creer son contrat
     
     
@@ -911,6 +924,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
                 
             }
         }
+
 
  
         //on créer la personne
@@ -1005,8 +1019,6 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
     
     }
-
-
 
  
 }

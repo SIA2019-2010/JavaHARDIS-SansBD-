@@ -29,7 +29,7 @@ public class Contrat implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -60,7 +60,7 @@ public class Contrat implements Serializable {
         return lesStatutsBeneficiaires;
     }
 
-    public void SetLesStatutsBeneficiaires(List<StatutBeneficiaire> lesContrats) {
+    public void SetLesStatutsBeneficiaires(List<StatutBeneficiaire> lesStatutsBeneficiaires) {
         this.lesStatutsBeneficiaires = lesStatutsBeneficiaires;
     }
 

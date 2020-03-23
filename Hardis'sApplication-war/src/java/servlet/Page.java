@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.List;
 import javax.ejb.EJB;
@@ -58,13 +59,23 @@ public class Page extends HttpServlet {
         System.out.println(new Date().toLocaleString()+"  "+act+"========");//Supp
         List<Object> Response;
         List<Object[]> listeinfos;
-        
+        System.out.println("creation begins");
+        //gestionnaireSession.creerActivite("act");
+        //List<Beneficiaire> lb=new ArrayList();
+        //lb.add(Beneficiaire.Affilie);
+        //lb.add(Beneficiaire.Concubin);
+        //gestionnaireSession.creerProduit("1",lb , Beneficiaire.Affilie, null, null, null, null, null, null);
+        //System.out.println("creation bon");
         //Session
         List<Object> ResultatSession=TraiterSession(request,act);
-        HttpSession session=(HttpSession)ResultatSession.get(0);
-        Gestionnaire sessiongestionnaire=(Gestionnaire)ResultatSession.get(1);
-        PersonnePhysique sessionaffilie=(PersonnePhysique)ResultatSession.get(2);;
-        Responsable sessionresponsable=(Responsable)ResultatSession.get(3);
+        HttpSession session=(HttpSession)(ResultatSession.get(0));
+        Gestionnaire sessiongestionnaire=(Gestionnaire)(ResultatSession.get(1));
+        PersonnePhysique sessionaffilie=(PersonnePhysique)(ResultatSession.get(2));
+        Responsable sessionresponsable=(Responsable)(ResultatSession.get(3));
+        System.out.println(session==null);
+        System.out.println(sessiongestionnaire==null);
+        System.out.println(sessionaffilie==null);
+        System.out.println(sessionresponsable==null);
         
         if(!(boolean)ResultatSession.get(4)){
             System.out.println("Erreur Session");
@@ -152,11 +163,9 @@ public class Page extends HttpServlet {
                 String[] PrenomAD=request.getParameterValues("PrenomAD");
                 String[] DateNaiAD=request.getParameterValues("DateNaiAD");
                 String[] NumeroSSAD=request.getParameterValues("NumeroSSAD");
-                String[] MailAD=request.getParameterValues("MailAD");
-                String[] idpopAD=request.getParameterValues("idpopAD");
                 if(NomAD!=null)
                     for(int i=0; i<NomAD.length; i++){
-                        Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i],MailAD[i],idpopAD[i]};
+                        Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i]};
                         listeinfos.add(infos);
                     }
 
@@ -209,9 +218,10 @@ public class Page extends HttpServlet {
     protected List<Object> TraiterSession(HttpServletRequest request, String act)
             throws ServletException, IOException {
         List<Object> Response=new ArrayList();
-        if(act==null) act="";
-        HttpSession session=request.getSession(false);        
+        HttpSession session=request.getSession(false);   
+        System.out.println("A");
         boolean valide=true;
+        if(act==null)act="null";
         String[] MenuGestionnaire={
         };
         String[] MenuAffilier={
@@ -235,7 +245,10 @@ public class Page extends HttpServlet {
             "CalculPrixDevis", 
             "CreationDevisInformations"
         };
+        System.out.println("B");
         if(session!=null){
+                    System.out.println("C");
+
             System.out.println("Session est pas null");
             Gestionnaire sessiongestionnaire=(Gestionnaire)session.getAttribute("sessiongestionnaire");
             PersonnePhysique sessionaffilie=(PersonnePhysique)session.getAttribute("sessionaffilie");
@@ -283,7 +296,7 @@ public class Page extends HttpServlet {
                 return Response;
             }
         }
-        
+        System.out.println("Fin traitement");
         //if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CalculPrixDevis")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
             
         if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");

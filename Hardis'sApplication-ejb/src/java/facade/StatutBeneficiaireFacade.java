@@ -42,7 +42,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     public StatutBeneficiaire creerStatutBeneficiaire(Date datedubut, Beneficiaire statut, Contrat lecontrat, PersonnePhysique lapersonne) {
         StatutBeneficiaire statutbeneficiaire = new StatutBeneficiaire();
         statutbeneficiaire.setDateDebutValidite(datedubut);
-        statutbeneficiaire.setStatutBeneficiare(statut);
+        statutbeneficiaire.setLaBeneficiaire(statut);
         statutbeneficiaire.setLeContrat(lecontrat);
         statutbeneficiaire.setLaPersonnePhysique(lapersonne);
         em.persist(statutbeneficiaire);
@@ -54,7 +54,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     public StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedubut, Beneficiaire statut, PersonnePhysique lapersonne) {
         StatutBeneficiaire statutbeneficiaire = new StatutBeneficiaire();
         statutbeneficiaire.setDateDebutValidite(datedubut);
-        statutbeneficiaire.setStatutBeneficiare(statut);
+        statutbeneficiaire.setLaBeneficiaire(statut);
         statutbeneficiaire.setLaPersonnePhysique(lapersonne);
         em.persist(statutbeneficiaire);
         return statutbeneficiaire;
@@ -96,11 +96,9 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     @Override
     public List<Contrat> rechercheContratsAffilie(PersonnePhysique persphy) {
         List<Contrat> listcontrats; 
-        Beneficiaire benef=Beneficiaire.Affilie;
-        String tx = "SELECT stb.leContrat FROM StatutBeneficiaire AS stb where stb.laPersonnePhysique=:pers and stb.statutBeneficiare=:aff"; 
+        String tx = "SELECT stb.leContrat FROM StatutBeneficiaire AS stb where stb.laPersonnePhysique=:pers and stb.statutBeneficiare.LibelleBeneficiaire='Affilie'"; 
         Query req = getEntityManager().createQuery(tx); 
         req.setParameter("pers", persphy);
-        req.setParameter("aff", benef); 
         listcontrats= req.getResultList (); 
         return listcontrats;
     }
@@ -119,11 +117,10 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph) {
         String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp or "
                 + "s.leContrat in (SELECT s.leContrat from StatutBeneficiaire AS s "
-                + "where s.laPersonnePhysique=:pp and s.statutBeneficiare=:statut) "
+                + "where s.laPersonnePhysique=:pp and s.statutBeneficiare.LibelleBeneficiaire='Affilie') "
                 + "order by s.leContrat.leProduit, s.leContrat, s.statutBeneficiare";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pp",persph);
-        req = req.setParameter("statut",Beneficiaire.Affilie);//com.myexample.Beneficiaire.Affilie
         List<StatutBeneficiaire> result = req.getResultList();
         return result;
     }
@@ -132,10 +129,9 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     public StatutBeneficiaire rechercheAffilieDomaine(PersonnePhysique persph, Domaine domaine) {
         StatutBeneficiaire statut = null;
         String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp "
-                + "and s.leContrat.leProduit.leDomaine=:dom and s.statutBeneficiare=:statut";
+                + "and s.leContrat.leProduit.leDomaine=:dom and s.statutBeneficiare.LibelleBeneficiaire='Affilie'";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pp",persph);
-        req = req.setParameter("statut",Beneficiaire.Affilie);
         req = req.setParameter("dom", domaine);
         List<StatutBeneficiaire> result = req.getResultList();
         if(result.size()==1){

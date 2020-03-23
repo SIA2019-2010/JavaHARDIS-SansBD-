@@ -15,6 +15,7 @@ import entitee.Population;
 import entitee.Produit;
 import entitee.Responsable;
 import entitee.StatutBeneficiaire;
+import facade.BeneficiaireFacadeLocal;
 import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
@@ -53,6 +54,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
 
     @EJB
     private PersonnePhysiqueFacadeLocal personnePhysiqueFacade;
+    
+    @EJB
+    private BeneficiaireFacadeLocal beneficiaireFacade;
     
     
     
@@ -403,7 +407,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         //on creer le statutBeneficiaire pour toutes les personnes concernées, ici afiilie
         StatutBeneficiaire statutaffi=null;
-        statutaffi=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), Beneficiaire.Affilie, ct, persencours);
+        statutaffi=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), beneficiaireFacade.rechercheExistantBeneficiaireLibelle("Affilie"), ct, persencours);
         
         //on rassemble tout les statuts dans une liste
         liststatutct.add(statutaffi);
@@ -419,11 +423,11 @@ public class PubliqueSession implements PubliqueSessionLocal {
             String statutayd=(String)Array.get(infos,6);
             Beneficiaire benefayd=null;
             if(statutayd.equalsIgnoreCase("Concubin")){
-                benefayd=Beneficiaire.Concubin;
+                benefayd=beneficiaireFacade.rechercheExistantBeneficiaireLibelle("Concubin");
             }else if(statutayd.equalsIgnoreCase("Conjoint")){
-                benefayd=Beneficiaire.Conjoint;
+                benefayd=beneficiaireFacade.rechercheExistantBeneficiaireLibelle("Conjoint");
             }else if(statutayd.equalsIgnoreCase("EnfantACharge")){
-                benefayd=Beneficiaire.EnfantACharge;
+                benefayd=beneficiaireFacade.rechercheExistantBeneficiaireLibelle("EnfantACharge");
             }
             
              StatutBeneficiaire statutAyant=null;
