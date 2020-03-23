@@ -34,7 +34,7 @@ public class Produit implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String NomProduit;
@@ -61,10 +61,12 @@ public class Produit implements Serializable {
 
     @ManyToOne
     private PersonneMorale laPersonneMorale;
-
-    private EnumSet<Beneficiaire> Beneficiaires;
     
-    private EnumSet<Beneficiaire> AssiettesCotisation;
+    @ManyToMany
+    private List<Beneficiaire> lesBeneficiaires;
+    
+    @ManyToOne
+    private Beneficiaire laBeneficiaire;
     
     @ManyToOne
     private Domaine leDomaine;
@@ -90,15 +92,6 @@ public class Produit implements Serializable {
     }
 
 
-    public EnumSet getAssiettesCotisation() {
-        return AssiettesCotisation;
-    }
-
-    public void setAssiettesCotisation(EnumSet AssiettesCotisation) {
-        this.AssiettesCotisation = AssiettesCotisation;
-    }
-
-
     public List<Population> getLesPopulations() {
         return lesPopulations;
     }
@@ -107,13 +100,23 @@ public class Produit implements Serializable {
         this.lesPopulations = lesPopulations;
     }
 
-    public EnumSet<Beneficiaire> getBeneficiaires() {
-        return Beneficiaires;
+    public List<Beneficiaire> getLesBeneficiaires() {
+        return lesBeneficiaires;
     }
 
-    public void setBeneficiaires(EnumSet<Beneficiaire> Beneficiaires) {
-        this.Beneficiaires = Beneficiaires;
+    public void setLesBeneficiaires(List<Beneficiaire> lesBeneficiaires) {
+        this.lesBeneficiaires = lesBeneficiaires;
     }
+
+    public Beneficiaire getLaBeneficiaire() {
+        return laBeneficiaire;
+    }
+
+    public void setLaBeneficiaire(Beneficiaire laBeneficiaire) {
+        this.laBeneficiaire = laBeneficiaire;
+    }
+    
+    
 
     public List<TypeGarantie> getLesTypesGarantie() {
         return lesTypesGarantie;

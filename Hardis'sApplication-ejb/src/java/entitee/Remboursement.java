@@ -19,12 +19,12 @@ import javax.persistence.OneToOne;
 @Entity
 public class Remboursement implements Serializable {
 
-    @OneToOne(mappedBy = "leRemboursement")
+    @OneToOne
     private Acte leActe;
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private double RemboursementEffectif;

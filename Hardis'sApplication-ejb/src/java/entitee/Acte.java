@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -23,11 +24,13 @@ public class Acte implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date DateDebut;
 
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date DateFin;
 
     private double Depense;
@@ -42,7 +45,7 @@ public class Acte implements Serializable {
     @ManyToOne
     private LibelleActe leLibelleActe;
 
-    @OneToOne
+    @OneToOne(mappedBy = "leActe")
     private Remboursement leRemboursement;
 
     @ManyToOne
