@@ -19,10 +19,10 @@
         </script>
     </head>
     <body>
-        <h1>CreerArticle</h1>
+        <h1>Connexion</h1>
         <form method="post" action="Page">
             <fieldset>
-                <legend>Informations Fournisseur</legend>
+                <legend>Informations </legend>
                 <div class="ensembleBooutonsRadio">
                     <div class = "radioButtonStyle">
                         <input name="action" type="radio" id="GestionnaireConnexion" value="GestionnaireAuthen"/>

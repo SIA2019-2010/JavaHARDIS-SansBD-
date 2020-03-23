@@ -5,7 +5,6 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.List;
 import javax.ejb.EJB;
@@ -201,6 +200,43 @@ public class Page extends HttpServlet {
                 jspClient="/AffilieAfficherContrat.jsp";
                 message="liste de contrats";
                 break;    
+            
+                case "ChangementMDP" :
+                //PersonnePhysique affi= (PersonnePhysique) session.getAttribute("sessionaffilie");
+                String NvMDP=request.getParameter("NvMDP");
+                affilieSession.modifierMDP(NvMDP, sessionaffilie);
+                jspClient="/AffilieMenu.jsp";
+                message="Mot de passe modifié";
+                
+                /*
+                String typeco = request.getParameter("TypeConnexion");
+                
+                if(typeco.substring(0, 5).equals("Affil"))  affilieSession.modifierMDP(NvMDP, sessionaffilie);
+                else if(typeco.substring(0, 5).equals("Respo")) responsableSession.modifiermdp(sessionresponsable, NvMDP);
+                else gestionnaireSession.modifiermdp(sessiongestionnaire, NvMDP);
+               
+                */
+                
+                break;
+                
+                
+                
+                 case "ChangementAdresse" :
+                //PersonnePhysique affi= (PersonnePhysique) session.getAttribute("sessionaffilie");
+                String NvAdresse=request.getParameter("NvAdresseAffilie");
+                affilieSession.modifierAdresse(NvAdresse, sessionaffilie);
+                jspClient="/AffilieMenu.jsp";
+                message="Adresse modifiée";
+                break;  
+                
+                 case "ChangementMail" :
+               // PersonnePhysique affi= (PersonnePhysique) session.getAttribute("sessionaffilie");
+                String NvMail=request.getParameter("NvMailffilie");
+                affilieSession.modifierMDP(NvMail, sessionaffilie);
+                jspClient="/AffilieMenu.jsp";
+                message="eMail modifié";
+                break;   
+                
                 
             default:
                 jspClient="/"+act+".jsp";
@@ -226,7 +262,11 @@ public class Page extends HttpServlet {
         };
         String[] MenuAffilier={
             "AffilieAfficherRempoursementPers",
-            "AffilieAfficherContrat"
+            "AffilieAfficherContrat",
+            "ChangementMail",
+            "ChangementAdresse",
+            "ChangementMDP"
+        
         };
         String[] MenuResponsable={
             "ResponsableAfficherListePersonnePhique"

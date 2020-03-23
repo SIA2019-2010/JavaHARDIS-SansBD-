@@ -62,7 +62,7 @@ public interface GestionnaireSessionLocal {
 
     List<Object> cloturerContrat(Long idcontrat);
 
-    List<Object> ajouterPersonneProduit(Long idproduit,Object[] pers,List<Object[]>listeinfos);
+    List<Object> ajouterPersonneProduitCollectif(Long idproduit,Object[] pers,List<Object[]>listeinfos);
 
     List<Acte> rechercheListeActesNonRembourse();
 
