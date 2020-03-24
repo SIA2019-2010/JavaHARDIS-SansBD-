@@ -37,5 +37,9 @@ public interface PersonneMoraleFacadeLocal {
     PersonneMorale modifierAdresse(PersonneMorale personne, String adresse);
 
     PersonneMorale rechercheExistantID(long idpers);
+
+    boolean rechercheDispoLogin(String login);
+
+    List<PersonneMorale> recherchePersmo();
     
 }

@@ -51,6 +51,16 @@ public class ActiviteFacade extends AbstractFacade<Activite> implements Activite
         a.setDescription(n);
         em.persist(a);
     }
+
+    @Override
+    public List<Activite> rechercheActivite() {
+        List<Activite> result=null;
+        String txt="SELECT a FROM Activite AS a";
+        Query req=getEntityManager().createQuery(txt);
+        result = req.getResultList();
+        return result;
+    }
+
     
     
 }

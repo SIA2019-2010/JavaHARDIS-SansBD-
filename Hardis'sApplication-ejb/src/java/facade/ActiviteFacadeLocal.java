@@ -33,5 +33,7 @@ public interface ActiviteFacadeLocal {
     Activite rechercheActiviteExistantID(long id);
     
     void creerActivite(String n);
+
+    List<Activite> rechercheActivite();
     
 }

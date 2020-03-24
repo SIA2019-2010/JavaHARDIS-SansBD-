@@ -273,6 +273,66 @@ public class Page extends HttpServlet {
                 break;   
                 
                 
+                case"CreationMoraleInformations" : 
+                List<Activite> listacti = gestionnaireSession.recupererActivites(); 
+                
+                request.setAttribute("listeact",listacti);
+                    
+                jspClient="/GestionnaireCreationMorale.jsp";
+                break;
+                
+                case "InsererMorale" :
+                //Objet pers : 1 SIRET, 2 raisonSociale, 3 adresse, 4 activite (String de ID)
+                String siret=request.getParameter("Siret");
+                String raiso=request.getParameter("RaisonSociale");
+                String ad=request.getParameter("Adresse");
+                String idactivi=request.getParameter("idact");
+                
+                List<String>listeinfosmorale=new ArrayList();
+                Array.set(listeinfosmorale, 0, siret);
+                Array.set(listeinfosmorale, 1, raiso);
+                Array.set(listeinfosmorale, 2, ad);
+                Array.set(listeinfosmorale, 3, idactivi);
+                
+                
+                Response=gestionnaireSession.creerMoraleComplet(listeinfosmorale);
+                message=(String)(Response.get(0));
+                jspClient=(String)(Response.get(1));
+                break;
+                
+                //listepersmo;
+                case"CreationResponsableInformations" : 
+                List<PersonneMorale> listepersmo = gestionnaireSession.recupererPersonneMorale(); 
+                
+                request.setAttribute("listepersmo",listepersmo);
+                    
+                jspClient="/GestionnaireCreationResponsable.jsp";
+                break;
+                
+                case "InsererResponsable" :
+                // List<String> pers 1 nom, 2 prenom, 3 mail, 4 tel,5 PersonneMorale (String de ID)
+                String nom=request.getParameter("Nom");
+                String prenom=request.getParameter("Prenom");
+                String mail=request.getParameter("Mail");
+                String tel=request.getParameter("Telephone");
+                String idpersmo=request.getParameter("idpers");
+                
+                List<String>listeinfosresp=new ArrayList();
+                Array.set(listeinfosresp, 0, nom);
+                Array.set(listeinfosresp, 1, prenom);
+                Array.set(listeinfosresp, 2, mail);
+                Array.set(listeinfosresp, 3, tel);
+                Array.set(listeinfosresp, 4, idpersmo);
+                
+                
+                
+                Response=gestionnaireSession.creerResponsableComplet(listeinfosresp);
+                message=(String)(Response.get(0));
+                jspClient=(String)(Response.get(1));
+                break;
+                
+                
+                
             default:
                 jspClient="/"+act+".jsp";
                 message="";

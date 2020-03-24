@@ -69,5 +69,9 @@ public interface GestionnaireSessionLocal {
     List<Produit> rechercheProduitsCollectif();
     
     void creerActivite(String n);
+
+    List<Activite> recupererActivites();
+
+    List<PersonneMorale> recupererPersonneMorale();
     
 }
