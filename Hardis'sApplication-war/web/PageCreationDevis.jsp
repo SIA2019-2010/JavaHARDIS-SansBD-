@@ -179,12 +179,6 @@
                         <td width="15%">
                             <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
                         </td>
-                        <td width="15%">
-                            <label for="NumeroSS">Mail<span class="requis">*</span></label>
-                        </td>
-                        <td width="15%">
-                            <label for="Population">Population<span class="requis">*</span></label>
-                        </td>
                     </tr>
                     <%for(Object[] infos:listep){%>
                         <tr>
@@ -209,12 +203,11 @@
                         </tr>
                     <%}%>
                 </table>
-
-                <input type="button" value="add" onclick="add()"/>
-                <input type="hidden" name="action" value="CalculPrixDevis"/>
-                <button type="submit" value="Valider">Envoyer</button>
-                <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>
             </fieldset>
+            <input type="button" value="add" onclick="add()"/>
+            <input type="hidden" name="action" value="CalculPrixDevis"/>
+            <button type="submit" value="Valider">Envoyer</button>
+            <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>
         </form>
     </body>
 </html>

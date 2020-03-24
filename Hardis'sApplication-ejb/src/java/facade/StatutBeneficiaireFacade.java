@@ -106,7 +106,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     @Override
     public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo) {
         String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.leContrat.leProduit.laPersonneMorale=:pm "
-                + "order by s.leContrat.leProduit.laPersonneMorale, s.leContrat.leProduit, s.leContrat, s.statutBeneficiare";
+                + "order by s.leContrat.leProduit.laPersonneMorale, s.leContrat.leProduit, s.leContrat, s.laBeneficiaire";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pm",persmo);
         List<StatutBeneficiaire> result = req.getResultList();
@@ -117,8 +117,8 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     public List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph) {
         String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp or "
                 + "s.leContrat in (SELECT s.leContrat from StatutBeneficiaire AS s "
-                + "where s.laPersonnePhysique=:pp and s.statutBeneficiare.LibelleBeneficiaire='Affilie') "
-                + "order by s.leContrat.leProduit, s.leContrat, s.statutBeneficiare";
+                + "where s.laPersonnePhysique=:pp and s.laBeneficiaire.LibelleBeneficiaire='Affilie') "
+                + "order by s.leContrat.leProduit, s.leContrat, s.laBeneficiaire";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pp",persph);
         List<StatutBeneficiaire> result = req.getResultList();
