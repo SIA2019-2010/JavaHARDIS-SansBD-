@@ -68,8 +68,35 @@ public class ResponsableSession implements ResponsableSessionLocal {
     }
     
     @Override
-    public Responsable modifiermdp(Responsable resp, String mdp){
-        return responsableFacade.modifierMdp(resp, mdp);
+    public List<Object> modifiermdp(Responsable resp, String OMDP, String NMDP, String RMDP){
+        List<Object> Response=new ArrayList();
+        if(resp==null||OMDP==null||NMDP==null||RMDP==null){
+            Response.add("Erreur Session");
+            Response.add("/ErreurSession.jsp");
+        }
+        else if(OMDP.equals("")||NMDP.equals("")||RMDP.equals("")){
+            Response.add("Remplisez tous les champs");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else if(!NMDP.equals(RMDP)){
+            Response.add("répéter mot de pas incorrecte");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else if(!resp.getMdp().equals(OMDP)){
+            Response.add("Ancien mot de passe incorrecte");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else if(OMDP.equals(NMDP)){
+            Response.add("faur choisir un mot de pas différent");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else{
+            responsableFacade.modifierMdp(resp, RMDP);
+            Response.add("Mot de passe modifié");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        
+        return Response;
     }
     
     @Override

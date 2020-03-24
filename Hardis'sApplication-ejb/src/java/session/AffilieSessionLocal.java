@@ -30,7 +30,7 @@ public interface AffilieSessionLocal {
 
     List<Object> authentificationAffilie(String login, String mdp, HttpServletRequest request);
 
-    PersonnePhysique modifierMDP(String nvMDP,PersonnePhysique pers);
+    List<Object> modifiermdp(PersonnePhysique affilie, String OMDP, String NMDP, String RMDP);
 
     PersonnePhysique modifierMail(String nvMail, PersonnePhysique pers);
 

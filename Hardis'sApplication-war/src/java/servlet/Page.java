@@ -61,6 +61,7 @@ public class Page extends HttpServlet {
         List<Object[]> listeinfos;
         System.out.println("creation begins");
         //gestionnaireSession.creerActivite("act");
+        //publiqueSession.creerDevis(null, null, 0, null, null);
         //List<Beneficiaire> lb=new ArrayList();
         //lb.add(Beneficiaire.Affilie);
         //lb.add(Beneficiaire.Concubin);
@@ -72,6 +73,7 @@ public class Page extends HttpServlet {
         Gestionnaire sessiongestionnaire=(Gestionnaire)(ResultatSession.get(1));
         PersonnePhysique sessionaffilie=(PersonnePhysique)(ResultatSession.get(2));
         Responsable sessionresponsable=(Responsable)(ResultatSession.get(3));
+        request.setAttribute("typeConnexion", (String)(ResultatSession.get(5)));
         System.out.println(session==null);
         System.out.println(sessiongestionnaire==null);
         System.out.println(sessionaffilie==null);
@@ -83,11 +85,11 @@ public class Page extends HttpServlet {
             message="Erreur de session ! Veuillez vous reconnecter !";
         }
         else if(null==act){
-            System.out.println("new act null");
+            System.out.println("new act null "+(new Date()).toLocaleString());
             jspClient="/Acceuil.jsp";
             message="Bienvenue";
         }
-        else {System.out.println("new act "+act);
+        else {System.out.println("new act "+act+" "+(new Date()).toLocaleString());
             switch (act) {  
             case "" :
             case "vide" :
@@ -200,7 +202,40 @@ public class Page extends HttpServlet {
                 request.setAttribute("listecontrat",affilieSession.rechercherStatutBeneficiaire(sessionaffilie));
                 jspClient="/AffilieAfficherContrat.jsp";
                 message="liste de contrats";
-                break;    
+                break;  
+                
+            case "GestionnairePageModifierMdp" :
+            case "AffiliePageModifierMdp" :
+            case "ResponsablePageModifierMdp" :
+                jspClient="/PageModifierMdp.jsp";
+                message="Modification de mot de passe";
+                break; 
+            case "GestionnaireModifierMdp" :
+                System.out.println(act+"@@@@@@");
+                String OMDP=request.getParameter("OMDP");
+                String NMDP=request.getParameter("NMDP");
+                String RMDP=request.getParameter("RMDP");
+                Response=gestionnaireSession.modifiermdp(sessiongestionnaire,OMDP,NMDP,RMDP);
+                message=(String)(Response.get(0));
+                jspClient=(String)(Response.get(1));
+                break;
+            case "AffilieModifierMdp" :
+                System.out.println(act+"@@@@@@");
+                OMDP=request.getParameter("OMDP");
+                NMDP=request.getParameter("NMDP");
+                RMDP=request.getParameter("RMDP");
+                Response=affilieSession.modifiermdp(sessionaffilie,OMDP,NMDP,RMDP);
+                message=(String)(Response.get(0));
+                jspClient=(String)(Response.get(1));
+                break;
+            case "ResponsableModifierMdp" :
+                OMDP=request.getParameter("OMDP");
+                NMDP=request.getParameter("NMDP");
+                RMDP=request.getParameter("RMDP");
+                Response=responsableSession.modifiermdp(sessionresponsable,OMDP,NMDP,RMDP);
+                message=(String)(Response.get(0));
+                jspClient=(String)(Response.get(1));
+                break;
                 
             default:
                 jspClient="/"+act+".jsp";
@@ -223,13 +258,19 @@ public class Page extends HttpServlet {
         boolean valide=true;
         if(act==null)act="null";
         String[] MenuGestionnaire={
+            "GestionnairePageModifierMdp",
+            "GestionnaireModifierMdp"
         };
-        String[] MenuAffilier={
+        String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",
-            "AffilieAfficherContrat"
+            "AffilieAfficherContrat",
+            "AffiliePageModifierMdp",
+            "AffilieModifierMdp"
         };
         String[] MenuResponsable={
-            "ResponsableAfficherListePersonnePhique"
+            "ResponsableAfficherListePersonnePhique",
+            "ResponsablePageModifierMdp",
+            "ResponsableModifierMdp"
         };
         String[] MenuPublique={
             "",
@@ -262,14 +303,16 @@ public class Page extends HttpServlet {
                 if ((Arrays.asList(MenuGestionnaire).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionaffilie==null&&sessionresponsable==null){
                     System.out.println("Mission Gestionnaire");
                     Response.add(true);
+                    Response.add("GestionnaireConnexion");
                     return Response;
                 }
                 else valide=false;
             }
             else if(sessionaffilie!=null){
-                if ((Arrays.asList(MenuAffilier).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionresponsable==null){
+                if ((Arrays.asList(MenuAffilie).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionresponsable==null){
                     System.out.println("Mission Affilié");
                     Response.add(true);
+                    Response.add("AffilieConnexion");
                     return Response;
                 }
                 else valide=false;
@@ -278,6 +321,7 @@ public class Page extends HttpServlet {
                 if (Arrays.asList(MenuResponsable).contains(act)||Arrays.asList(MenuPublique).contains(act)){
                     System.out.println("Mission Responsable");
                     Response.add(true);
+                    Response.add("ResponsableConnexion");
                     return Response;
                 }
                 else valide=false;
@@ -293,17 +337,21 @@ public class Page extends HttpServlet {
                     Response.add(null);
                 }
                 Response.add(true);
+                Response.add("SansConnexion");
                 return Response;
             }
         }
         System.out.println("Fin traitement");
         //if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CalculPrixDevis")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
             
-        if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
+        /*if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
         else if(act.substring(0, 5).equals("Respo")) request.setAttribute("typeConnexion","ResponsableConnexion");
-        else request.setAttribute("typeConnexion","GestionnaireConnexion");
+        else request.setAttribute("typeConnexion","GestionnaireConnexion");*/
         System.out.println("Session erreur");
         Response.add(false);
+        String t=(String)request.getAttribute("typeConnexion");
+        if(t.equals("ResponsableAuthen")||t.equals("AffilieConnexion")||t.equals("ResponsableConnexion")) Response.add(t);
+        else Response.add("GestionnaireConnexion");
         return Response;
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

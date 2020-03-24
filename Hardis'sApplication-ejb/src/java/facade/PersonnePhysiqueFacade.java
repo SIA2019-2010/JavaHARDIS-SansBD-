@@ -98,7 +98,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     }
 
     @Override
-    public PersonnePhysique modifierMdp(String nvMDP, PersonnePhysique pers) {
+    public PersonnePhysique modifierMdp(PersonnePhysique pers,String nvMDP) {
         pers.setMdp(nvMDP);
         
         em.merge(pers);

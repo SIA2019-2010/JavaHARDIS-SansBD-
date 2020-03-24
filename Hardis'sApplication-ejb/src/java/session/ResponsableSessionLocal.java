@@ -21,7 +21,7 @@ public interface ResponsableSessionLocal {
     
     List<Object> authentificationResponsable(String login, String mdp, HttpServletRequest request);
     
-    Responsable modifiermdp(Responsable resp, String mdp);
+    List<Object> modifiermdp(Responsable resp, String OMDP, String NMDP, String RMDP);
     
     List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonneMorale persmo);
     

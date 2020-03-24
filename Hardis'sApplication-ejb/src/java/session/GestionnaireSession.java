@@ -164,8 +164,35 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
     
     @Override
-    public Gestionnaire modifiermdp(Gestionnaire resp, String mdp){
-        return gestionnaireFacade.modifierMdp(resp, mdp);
+    public List<Object> modifiermdp(Gestionnaire gest, String OMDP, String NMDP, String RMDP){
+        List<Object> Response=new ArrayList();
+        if(gest==null||OMDP==null||NMDP==null||RMDP==null){
+            Response.add("Erreur Session");
+            Response.add("/ErreurSession.jsp");
+        }
+        else if(OMDP.equals("")||NMDP.equals("")||RMDP.equals("")){
+            Response.add("Remplisez tous les champs");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else if(!NMDP.equals(RMDP)){
+            Response.add("répéter mot de pas incorrecte");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else if(!gest.getMdp().equals(OMDP)){
+            Response.add("Ancien mot de passe incorrecte");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else if(OMDP.equals(NMDP)){
+            Response.add("faur choisir un mot de pas différent");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        else{
+            gestionnaireFacade.modifierMdp(gest, RMDP);
+            Response.add("Mot de passe modifié");
+            Response.add("/PageModifierMdp.jsp");
+        }
+        
+        return Response;
     }
 
     @Override
@@ -823,7 +850,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     
-        @Override
+    @Override
     public void creerActivite(String n){
         System.out.println("creation session");
         activiteFacade.creerActivite(n);

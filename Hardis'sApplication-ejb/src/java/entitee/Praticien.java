@@ -7,6 +7,7 @@ package entitee;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +41,7 @@ public class Praticien implements Serializable {
     @ManyToOne
     private Specialite laSpecialite;
 
-    private boolean AdherentCAS;
+    private Boolean AdherentCAS;
 
     public boolean isAdherentCAS() {
         return AdherentCAS;

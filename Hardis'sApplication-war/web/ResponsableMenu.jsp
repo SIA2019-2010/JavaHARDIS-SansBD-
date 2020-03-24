@@ -41,7 +41,7 @@
         <p>
             Bienvenue <%out.println(sessionresponsable.getPrenom()+" "+sessionresponsable.getNom());%> sur votre espace personnel</p>
     
-        <input type="button" value="Change le mot de passe" onclick="location.href='Page?action=ResponsableModifierMDPPage'">
+        <input type="button" value="Change le mot de passe" onclick="location.href='Page?action=ResponsablePageModifierMdp'">
         <input type="button" value="ResponsableAfficherListePersonnePhique" onclick="location.href='Page?action=ResponsableAfficherListePersonnePhique'">
         <input type="button" value="Déconnexion" onclick="location.href='Page?action=Deconnexion&typeConnexion=ResponsableConnexion'">
     </body>

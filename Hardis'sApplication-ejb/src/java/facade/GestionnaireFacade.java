@@ -50,28 +50,28 @@ public class GestionnaireFacade extends AbstractFacade<Gestionnaire> implements 
     @Override
     public Gestionnaire modifierAdresse(Gestionnaire gest, String adresse) {
         gest.setAdresse(adresse);
-        em.persist(gest);
+        em.merge(gest);
         return gest;
     }
     
     @Override
     public Gestionnaire modifierTelephone(Gestionnaire gest, String telephone) {
         gest.setTelephone(telephone);
-        em.persist(gest);
+        em.merge(gest);
         return gest;
     }
     
     @Override
     public Gestionnaire modifierMdp(Gestionnaire gest, String mdp) {
         gest.setMdp(mdp);
-        em.persist(gest);
+        em.merge(gest);
         return gest;
     }
     
     @Override
     public Gestionnaire modifierDomaine(Gestionnaire gest, Domaine domaine) {
         gest.setLeDomaine(domaine);
-        em.persist(gest);
+        em.merge(gest);
         return gest;
     }
     

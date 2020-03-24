@@ -32,7 +32,7 @@ public interface GestionnaireSessionLocal {
     
     List<Object> authentificationGestionnaire(String login, String mdp, HttpServletRequest request);
     
-    Gestionnaire modifiermdp(Gestionnaire resp, String mdp);
+    List<Object> modifiermdp(Gestionnaire gest, String OMDP, String NMDP, String RMDP);
 
     PersonneMorale creerMorale(String siret,String raisonSo,String adresse,Activite acti);
 

@@ -45,7 +45,7 @@ public interface PersonnePhysiqueFacadeLocal {
 
     PersonnePhysique authentificationAffilie(String login, String mdp);
 
-    PersonnePhysique modifierMdp(String nvMDP, PersonnePhysique pers);
+    PersonnePhysique modifierMdp(PersonnePhysique pers,String nvMDP);
 
     PersonnePhysique enregistrerCompte(PersonnePhysique pers, String login, String mdp);
 
