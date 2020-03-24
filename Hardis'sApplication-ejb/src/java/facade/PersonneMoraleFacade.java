@@ -62,6 +62,25 @@ public class PersonneMoraleFacade extends AbstractFacade<PersonneMorale> impleme
             {persmor=(PersonneMorale)result.get(0);};
         return persmor;
     }
+
+    @Override
+    public boolean rechercheDispoLogin(String logintest) {
+        String txt="SELECT pers FROM PersonneMorale AS pers WHERE pers.Login=:lo";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("lo",logintest);
+
+        List <PersonneMorale> result = req.getResultList();
+        return result.isEmpty();
+    }
+
+    @Override
+    public List<PersonneMorale> recherchePersmo() {
+        List<PersonneMorale> result=null;
+        String txt="SELECT per FROM PersonneMorale AS per";
+        Query req=getEntityManager().createQuery(txt);
+        result = req.getResultList();
+        return result;
+    }
     
     
     

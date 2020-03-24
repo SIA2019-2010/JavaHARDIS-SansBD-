@@ -8,6 +8,7 @@ package session;
 import entitee.Acte;
 import entitee.Activite;
 import entitee.Beneficiaire;
+import entitee.Contrat;
 import entitee.Domaine;
 import entitee.Fiscalite;
 import entitee.Gestionnaire;
@@ -69,5 +70,11 @@ public interface GestionnaireSessionLocal {
     List<Produit> rechercheProduitsCollectif();
     
     void creerActivite(String n);
+
+    List<Activite> recupererActivites();
+
+    List<PersonneMorale> recupererPersonneMorale();
+    
+    List<Contrat> AfficherContratGestionnaire(Domaine dom);
     
 }

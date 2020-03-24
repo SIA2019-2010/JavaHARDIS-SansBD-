@@ -209,7 +209,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()){
              Response.add("Merci de remplir la totalité des champs");//1
              Response.add("/CreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 les infos deja données
+             //Response.add(pers);//3 les infos deja données
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
@@ -217,9 +217,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Long idact=Long.valueOf(pers.get(3));
        Activite act = activiteFacade.rechercheActiviteExistantID(idact);
        if(act==null){
-             Response.add("Probleme sur la population");//1
-             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 les infos deja données
+             Response.add("Probleme sur l'activite");//1
+             Response.add("/CreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             //Response.add(pers);//3 les infos deja données
              
             return Response; //Population introuvable
        }
@@ -245,36 +245,57 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     @Override
     public List<Object> creerResponsableComplet(List<String> pers) {
         List<Object> Response=new ArrayList();
-       //Objet pers : 1 nom, 2 prenom, 3 mail, 4 tel,5 Login,6 Mdp,7 PersonneMorale (String de ID)
+       //Objet pers : 1 nom, 2 prenom, 3 mail, 4 tel,5 PersonneMorale (String de ID)
         
-        if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()||pers.get(4).isEmpty()||pers.get(5).isEmpty()||pers.get(6).isEmpty()){
+        if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()||pers.get(4).isEmpty()){
              Response.add("Merci de remplir la totalité des champs");//1
              Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 les infos deja données
+            // Response.add(pers);//3 les infos deja données
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
         
         //controle sur la personne morale
-       Long idpersmo=Long.valueOf(pers.get(6));
+       Long idpersmo=Long.valueOf(pers.get(4));
        PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
        if(persmo==null){
              Response.add("Probleme sur la personneMorale");//1
              Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(pers);//3 les infos deja données
+             //Response.add(pers);//3 les infos deja données
              
             return Response; //PersonneMorale introuvable
        }
        
+       //generation login + mdp
+                //login = Nom+2lettres du prenom, si pas disponible ajout d'un chiffre en 1 et 9 aléatoire et check a nouveau la dispo
+                boolean dispologin=false;
+                String login=((String)Array.get(pers, 0))+(((String)Array.get(pers, 1)).substring(0, 2));
+                
+                
+                while(dispologin==false){
+               
+                  if(personneMoraleFacade.rechercheDispoLogin(login)==false){
+                      Random rand = new Random(); int nombreAleatoire = rand.nextInt(9 - 1 + 1) + 1;
+                    login=login+String.valueOf(nombreAleatoire);                   
+                   } else {
+                      dispologin=true;
+                  }
+                }    
+                    
+                //hash nom+prenom     
+                String mdp=(String.valueOf(pers.get(0).hashCode())+String.valueOf((pers.get(1).hashCode())));
        
+                
        Responsable resp;
-       resp=creerResponsable(pers.get(0),pers.get(1),pers.get(2),pers.get(3),pers.get(4),pers.get(5),persmo);
+       resp=creerResponsable(pers.get(0),pers.get(1),pers.get(2),pers.get(3),login,mdp,persmo);
        
         Response.add("Personne Morale créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 
         Response.add(resp);//3 le gestionnaire créé
         
         return Response;
+        
+        //envoyer login+mdp
     }
 
     @Override
@@ -1040,8 +1061,24 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
      Response.add("MenuGestionnaire.jsp"); //2 JSP 
      return Response;
     
-    
+    //envoyé login mdp au mail
     }
 
- 
+    
+    //suite de methode pour listeJSP
+
+    @Override
+    public List<Activite> recupererActivites() {
+        return activiteFacade.rechercheActivite();
+    }
+
+    @Override
+    public List<PersonneMorale> recupererPersonneMorale() {
+        return personneMoraleFacade.recherchePersmo();
+    }
+    
+    public List<Contrat> AfficherContratGestionnaire(Domaine dom){
+        return contratFacade.AfficherContratGestionnaire(dom);
+    }
+    
 }

@@ -210,7 +210,6 @@ public class ServletXin extends HttpServlet {
                 message="Modification de mot de passe";
                 break; 
             case "GestionnaireModifierMdp" :
-                System.out.println(act+"@@@@@@");
                 String OMDP=request.getParameter("OMDP");
                 String NMDP=request.getParameter("NMDP");
                 String RMDP=request.getParameter("RMDP");
@@ -219,7 +218,6 @@ public class ServletXin extends HttpServlet {
                 jspClient=(String)(Response.get(1));
                 break;
             case "AffilieModifierMdp" :
-                System.out.println(act+"@@@@@@");
                 OMDP=request.getParameter("OMDP");
                 NMDP=request.getParameter("NMDP");
                 RMDP=request.getParameter("RMDP");
@@ -256,7 +254,7 @@ public class ServletXin extends HttpServlet {
                 break;*/
                 
                 
-                 case "ChangementAdresse" :
+            case "ChangementAdresse" :
                 //PersonnePhysique affi= (PersonnePhysique) session.getAttribute("sessionaffilie");
                 String NvAdresse=request.getParameter("NvAdresseAffilie");
                 affilieSession.modifierAdresse(NvAdresse, sessionaffilie);
@@ -264,7 +262,7 @@ public class ServletXin extends HttpServlet {
                 message="Adresse modifiée";
                 break;  
                 
-                 case "ChangementMail" :
+            case "ChangementMail" :
                // PersonnePhysique affi= (PersonnePhysique) session.getAttribute("sessionaffilie");
                 String NvMail=request.getParameter("NvMailffilie");
                 affilieSession.modifierMail(NvMail, sessionaffilie);
@@ -387,8 +385,9 @@ public class ServletXin extends HttpServlet {
         /*if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
         else if(act.substring(0, 5).equals("Respo")) request.setAttribute("typeConnexion","ResponsableConnexion");
         else request.setAttribute("typeConnexion","GestionnaireConnexion");*/
-        System.out.println("Session erreur");
+        System.out.println("Session erreursss");
         Response.add(false);
+        System.out.println("test");
         String t=(String)request.getAttribute("typeConnexion");
         if(t.equals("ResponsableAuthen")||t.equals("AffilieConnexion")||t.equals("ResponsableConnexion")) Response.add(t);
         else Response.add("GestionnaireConnexion");
