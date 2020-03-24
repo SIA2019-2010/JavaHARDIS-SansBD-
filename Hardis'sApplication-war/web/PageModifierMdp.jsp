@@ -18,7 +18,7 @@
         <h1><%=message%><h1>
         <form method="post" action="Page">
             <fieldset>
-                <legend>Informations Fournisseur</legend>
+                <legend>Nouveau mot de passe</legend>
                 <%
                     if(typeConnexion.equals("GestionnaireConnexion")){
                 %>
