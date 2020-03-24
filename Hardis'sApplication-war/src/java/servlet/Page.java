@@ -235,10 +235,8 @@ public class Page extends HttpServlet {
                 message=(String)(Response.get(0));
                 jspClient=(String)(Response.get(1));
                 break;
-                
-                
-                break;    
-            
+                 
+             /*
                 case "ChangementMDP" :
                 //PersonnePhysique affi= (PersonnePhysique) session.getAttribute("sessionaffilie");
                 String NvMDP=request.getParameter("NvMDP");
@@ -246,17 +244,16 @@ public class Page extends HttpServlet {
                 jspClient="/AffilieMenu.jsp";
                 message="Mot de passe modifié";
                 
-                /*
+               
                 String typeco = request.getParameter("TypeConnexion");
                 
                 if(typeco.substring(0, 5).equals("Affil"))  affilieSession.modifierMDP(NvMDP, sessionaffilie);
                 else if(typeco.substring(0, 5).equals("Respo")) responsableSession.modifiermdp(sessionresponsable, NvMDP);
                 else gestionnaireSession.modifiermdp(sessiongestionnaire, NvMDP);
                
-                */
                 
-                break;
                 
+                break;*/
                 
                 
                  case "ChangementAdresse" :
@@ -270,7 +267,7 @@ public class Page extends HttpServlet {
                  case "ChangementMail" :
                // PersonnePhysique affi= (PersonnePhysique) session.getAttribute("sessionaffilie");
                 String NvMail=request.getParameter("NvMailffilie");
-                affilieSession.modifierMDP(NvMail, sessionaffilie);
+                affilieSession.modifierMail(NvMail, sessionaffilie);
                 jspClient="/AffilieMenu.jsp";
                 message="eMail modifié";
                 break;   
@@ -304,7 +301,7 @@ public class Page extends HttpServlet {
             "AffilieAfficherRempoursementPers",
             "AffilieAfficherContrat",
             "AffiliePageModifierMdp",
-            "AffilieModifierMdp"
+            "AffilieModifierMdp",
             "ChangementMail",
             "ChangementAdresse",
             "ChangementMDP"
