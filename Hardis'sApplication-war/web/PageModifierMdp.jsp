@@ -14,7 +14,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Changement de mot de passe</h1>
         <h1><%=message%><h1>
         <form method="post" action="Page">
             <fieldset>
@@ -37,11 +37,15 @@
                 <%
                     }
                 %>
+                <label for="OMDP">Ancien mot de passe<span class="requis">*</span></label>
                 <input type="password" name="OMDP"/>
+                <label for="NMDP">Nouveau mot de passe<span class="requis">*</span></label>
                 <input type="password" name="NMDP"/>
+                <label for="RMDP">Répétition mot de passe<span class="requis">*</span></label>
                 <input type="password" name="RMDP"/>
             </fieldset>
-            <button type="submit" value="Valider">Valider</button>
+            <input type="submit" value="Valider"/>
+            <input type="reset" value="Remettre à zéro"/>
             <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>                         
         </form>
     </body>

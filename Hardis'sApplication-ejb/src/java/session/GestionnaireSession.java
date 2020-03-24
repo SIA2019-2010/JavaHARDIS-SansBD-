@@ -870,7 +870,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
     
     @Override
-    public List<Object> ajouterPersonneProduit(Long idproduit,Object[] pers,List<Object[]>listeinfos) {
+    public List<Object> ajouterPersonneProduitCollectif(Long idproduit,Object[] pers,List<Object[]>listeinfos) {
         List<Object> Response=new ArrayList();
         
         //dans cette methode : on recupere : 
@@ -879,7 +879,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
                         //login,mdp generés ?
                         
                         // pour chaque ayant droit : 0 genre,1 nom,2 prenom,3 datenaiss,4 numeross,5 adresse
-                        //7 population, 8 STRING (Conjoint, Concubin, Enfant à charge)
+                        //7 population, 8 ID (Conjoint, Concubin, Enfant à charge)
         
         Produit prod=produitFacade.rechercheProduitID(idproduit);
         
@@ -1004,7 +1004,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         //on creer le statutBeneficiaire pour toutes les personnes concernées, ici afiilie
         StatutBeneficiaire statutaffi=null;
-        statutaffi=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), Beneficiaire.Affilie, ct, persencours);
+        String strbenef="Affilie";
+        Beneficiaire benef=beneficiaireFacade.rechercheExistantBeneficiaireLibelle(strbenef);
+        statutaffi=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(),benef, ct, persencours);
         
         //on rassemble tout les statuts dans une liste
         liststatutct.add(statutaffi);
@@ -1018,14 +1020,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);  
             
             String statutayd=(String)Array.get(infos,7);
-            Beneficiaire benefayd=null;
-            if(statutayd.equalsIgnoreCase("Concubin")){
-                benefayd=Beneficiaire.Concubin;
-            }else if(statutayd.equalsIgnoreCase("Conjoint")){
-                benefayd=Beneficiaire.Conjoint;
-            }else if(statutayd.equalsIgnoreCase("EnfantACharge")){
-                benefayd=Beneficiaire.EnfantACharge;
-            }
+            Long idbenef = Long.valueOf(statutayd);
+            
+            Beneficiaire benefayd=beneficiaireFacade.rechercheExistantBeneficiaireID(idbenef);
             
              StatutBeneficiaire statutAyant=null;
              statutAyant=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), benefayd, ct, ayantdroitencours);
@@ -1042,7 +1039,6 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
      Response.add("Personne ajoutée,contrat créé");//1
      Response.add("MenuGestionnaire.jsp"); //2 JSP 
      return Response;
-    
     
     
     }

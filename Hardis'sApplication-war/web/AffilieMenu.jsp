@@ -43,7 +43,9 @@
         
         <input type="button" value="AffilieAfficherRempoursementPers" onclick="location.href='Page?action=AffilieAfficherRempoursementPers'">
         <input type="button" value="AffilieAfficherContrat" onclick="location.href='Page?action=AffilieAfficherContrat'">
-        <input type="button" value="Change le mot de passe" onclick="location.href='Page?action=AffiliePageModifierMdp'">
+        <input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=AffilieModifierMDPPage'">
+        <input type="button" value="Changer le mail" onclick="location.href='Page?action=AffilieModifierMailPage'">
+        <input type="button" value="Changer l'adresse" onclick="location.href='Page?action=AffilieModifierAdressePage'">
         <input type="button" value="Déconnexion" onclick="location.href='Page?action=Deconnexion&typeConnexion=AffilieConnexion'">
     </body>
 </html>
