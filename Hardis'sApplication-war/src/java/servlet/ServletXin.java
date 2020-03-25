@@ -84,11 +84,11 @@ public class ServletXin extends HttpServlet {
             message="Erreur de session ! Veuillez vous reconnecter !";
         }
         else if(null==act){
-            System.out.println("new act null "+(new Date()).toLocaleString());
+            System.out.println("new missioncase null "+(new Date()).toLocaleString());
             jspClient="/Acceuil.jsp";
             message="Bienvenue";
         }
-        else {System.out.println("new act "+act+" "+(new Date()).toLocaleString());
+        else {System.out.println("new missioncase "+act+" "+(new Date()).toLocaleString());
             switch (act) {  
             case "" :
             case "vide" :
@@ -152,6 +152,7 @@ public class ServletXin extends HttpServlet {
                 break;
                 
             case "CalculPrixDevis" :
+                System.out.println("s");
                 listeinfos=new ArrayList();
                 String NomCreateur=request.getParameter("Nom");
                 String PrenomCreateur=request.getParameter("Prenom");
@@ -159,33 +160,34 @@ public class ServletXin extends HttpServlet {
                 String SSCreateur=request.getParameter("NumeroSS");
                 String MailCreateur=request.getParameter("Mail");
                 String Papulation=request.getParameter("idpop");
+                System.out.println("p");
                 Object[] pers={NomCreateur,PrenomCreateur,DateNaiCreateur,SSCreateur,MailCreateur,Papulation};
                 String[] NomAD=request.getParameterValues("NomAD");
                 String[] PrenomAD=request.getParameterValues("PrenomAD");
                 String[] DateNaiAD=request.getParameterValues("DateNaiAD");
                 String[] NumeroSSAD=request.getParameterValues("NumeroSSAD");
+                
                 if(NomAD!=null)
                     for(int i=0; i<NomAD.length; i++){
                         Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i]};
                         listeinfos.add(infos);
+                        System.out.println("null");
                     }
-
+                System.out.println("bp");
                 
                 
                 Response=publiqueSession.calculPacks(pers, listeinfos);
-                
+                System.out.println("ap");
                 request.setAttribute("pers",pers);//supri
                 request.setAttribute("listeinfos",listeinfos);//supri
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
-                request.setAttribute("lesPacks",(List<Object[]>)Response.get(4));
+                request.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
                 jspClient=(String)Response.get(1);
                 message=(String)Response.get(0);
                 break;  
             
             case "ResponsableAfficherListePersonnePhique" :
-                System.out.println(sessionresponsable==null);
-                System.out.println(sessionresponsable.toString());
                 request.setAttribute("listestatut",responsableSession.rechercherStatutBeneficiaire(sessionresponsable.getLaPersonneMorale()));
                 jspClient="/ResponsableAfficherListePersonnePhique.jsp";
                 message="liste de personnes physiques";
@@ -195,6 +197,20 @@ public class ServletXin extends HttpServlet {
                 request.setAttribute("listeremboursement",affilieSession.afficherRempoursementPers(sessionaffilie));
                 jspClient="/AffilieAfficherRempoursementPers.jsp";
                 message="liste de remboursements";
+                break;
+                
+            case "GestionnaireValiderContrat" :
+                request.setAttribute("listecontrat",gestionnaireSession.AfficherContratCree(sessiongestionnaire.getLeDomaine()));
+                System.out.println(sessiongestionnaire.getLeDomaine().getId());
+                jspClient="/GestionnaireValiderContrat.jsp";
+                message="liste de contrats à valider";
+                break;
+                
+            case "GestionnaireCloturerContrat" :
+                request.setAttribute("listecontrat",gestionnaireSession.AfficherContratValide(sessiongestionnaire.getLeDomaine()));
+                System.out.println(sessiongestionnaire.getLeDomaine().getId());
+                jspClient="/GestionnaireCloturerContrat.jsp";
+                message="liste de contrats à cloturer";
                 break;
                 
             case "AffilieAfficherContrat" :
@@ -271,6 +287,66 @@ public class ServletXin extends HttpServlet {
                 break;   
                 
                 
+            case"CreationMoraleInformations" : 
+                List<Activite> listacti = gestionnaireSession.recupererActivites(); 
+                
+                request.setAttribute("listeact",listacti);
+                    
+                jspClient="/GestionnaireCreationMorale.jsp";
+                break;
+                
+            case "InsererMorale" :
+                //Objet pers : 1 SIRET, 2 raisonSociale, 3 adresse, 4 activite (String de ID)
+                String siret=request.getParameter("Siret");
+                String raiso=request.getParameter("RaisonSociale");
+                String ad=request.getParameter("Adresse");
+                String idactivi=request.getParameter("idact");
+                
+                List<String>listeinfosmorale=new ArrayList();
+                Array.set(listeinfosmorale, 0, siret);
+                Array.set(listeinfosmorale, 1, raiso);
+                Array.set(listeinfosmorale, 2, ad);
+                Array.set(listeinfosmorale, 3, idactivi);
+                
+                
+                Response=gestionnaireSession.creerMoraleComplet(listeinfosmorale);
+                message=(String)(Response.get(0));
+                jspClient=(String)(Response.get(1));
+                break;
+                
+                //listepersmo;
+            case"CreationResponsableInformations" : 
+                List<PersonneMorale> listepersmo = gestionnaireSession.recupererPersonneMorale(); 
+                
+                request.setAttribute("listepersmo",listepersmo);
+                    
+                jspClient="/GestionnaireCreationResponsable.jsp";
+                break;
+                
+            case "InsererResponsable" :
+                // List<String> pers 1 nom, 2 prenom, 3 mail, 4 tel,5 PersonneMorale (String de ID)
+                String nom=request.getParameter("Nom");
+                String prenom=request.getParameter("Prenom");
+                String mail=request.getParameter("Mail");
+                String tel=request.getParameter("Telephone");
+                String idpersmo=request.getParameter("idpers");
+                
+                List<String>listeinfosresp=new ArrayList();
+                Array.set(listeinfosresp, 0, nom);
+                Array.set(listeinfosresp, 1, prenom);
+                Array.set(listeinfosresp, 2, mail);
+                Array.set(listeinfosresp, 3, tel);
+                Array.set(listeinfosresp, 4, idpersmo);
+                
+                
+                
+                Response=gestionnaireSession.creerResponsableComplet(listeinfosresp);
+                message=(String)(Response.get(0));
+                jspClient=(String)(Response.get(1));
+                break;
+                
+                
+                
             default:
                 jspClient="/"+act+".jsp";
                 message="";
@@ -293,7 +369,9 @@ public class ServletXin extends HttpServlet {
         if(act==null)act="null";
         String[] MenuGestionnaire={
             "GestionnairePageModifierMdp",
-            "GestionnaireModifierMdp"
+            "GestionnaireModifierMdp",
+            "GestionnaireValiderContrat",
+            "GestionnaireCloturerContrat"
         };
         String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",
@@ -326,7 +404,7 @@ public class ServletXin extends HttpServlet {
         };
         System.out.println("B");
         if(session!=null){
-                    System.out.println("C");
+            System.out.println("C");
 
             System.out.println("Session est pas null");
             Gestionnaire sessiongestionnaire=(Gestionnaire)session.getAttribute("sessiongestionnaire");
@@ -385,9 +463,8 @@ public class ServletXin extends HttpServlet {
         /*if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
         else if(act.substring(0, 5).equals("Respo")) request.setAttribute("typeConnexion","ResponsableConnexion");
         else request.setAttribute("typeConnexion","GestionnaireConnexion");*/
-        System.out.println("Session erreursss");
+        System.out.println("Session erreur");
         Response.add(false);
-        System.out.println("test");
         String t=(String)request.getAttribute("typeConnexion");
         if(t.equals("ResponsableAuthen")||t.equals("AffilieConnexion")||t.equals("ResponsableConnexion")) Response.add(t);
         else Response.add("GestionnaireConnexion");

@@ -1077,8 +1077,19 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         return personneMoraleFacade.recherchePersmo();
     }
     
+    @Override
     public List<Contrat> AfficherContratGestionnaire(Domaine dom){
         return contratFacade.AfficherContratGestionnaire(dom);
+    }
+    
+    @Override
+    public List<Contrat> AfficherContratCree(Domaine dom){
+        return contratFacade.AfficherContratCree(dom);
+    }
+    
+    @Override
+    public List<Contrat> AfficherContratValide(Domaine dom){
+        return contratFacade.AfficherContratCree(dom);
     }
     
 }

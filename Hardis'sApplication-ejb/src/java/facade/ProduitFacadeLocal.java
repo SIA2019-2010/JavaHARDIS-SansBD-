@@ -49,4 +49,6 @@ public interface ProduitFacadeLocal {
 
     List<Produit> afficherProduitCollectif();
     
+    List<Produit> afficherProduitIndividuel();
+    
 }

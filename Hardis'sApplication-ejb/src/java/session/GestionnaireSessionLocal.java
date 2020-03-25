@@ -77,4 +77,8 @@ public interface GestionnaireSessionLocal {
     
     List<Contrat> AfficherContratGestionnaire(Domaine dom);
     
+    List<Contrat> AfficherContratCree(Domaine dom);
+    
+    List<Contrat> AfficherContratValide(Domaine dom);
+    
 }

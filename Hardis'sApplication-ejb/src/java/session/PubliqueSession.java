@@ -22,6 +22,7 @@ import facade.PersonnePhysiqueFacadeLocal;
 import facade.PopulationFacadeLocal;
 import facade.ProduitFacadeLocal;
 import facade.StatutBeneficiaireFacadeLocal;
+import static java.lang.Math.round;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,20 +129,20 @@ public class PubliqueSession implements PubliqueSessionLocal {
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }else {
-           PersonnePhysique persencours= personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 3));
+            PersonnePhysique persencours= personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 3));
+            if (persencours!=null){
                 List<StatutBeneficiaire> statutbenefs=persencours.getLesStatutsBeneficiaire();
                 
                 for (StatutBeneficiaire statut : statutbenefs){
                     if (statut.getLaBeneficiaire().getLibelleBeneficiaire().equalsIgnoreCase("Affilie")){
                         Response.add("Vous avez deja un contrat merci de contacter votre gestionnaire");//1
                         Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-                        Response.add(null);//3 la personne qui crée le devis
-                        Response.add(null);//4 les ayant drois (nom, prenom, datenaiss, population)
                         Response.add(null); //5 pas de devis
              
                         return Response; //Population introuvable 
                     }                  
                 }  
+            }
         }
         //Date de naissance
         Date DateN=null;
@@ -201,11 +202,10 @@ public class PubliqueSession implements PubliqueSessionLocal {
          // si tout les champs sont bien remplis : Algo pour prix+produit dans un objet 
          
         
-        Date dateDevis = new Date();
-        List<Produit> listproduit=produitFacade.afficherProduit();
+        List<Produit> listproduit=produitFacade.afficherProduitIndividuel();
         List<Object[]> lesPacks=new ArrayList();
         for(Produit pr:listproduit){
-            Object[] packproduit={pr,pr.getPrixBase()*coef};
+            Object[] packproduit={pr,(double)(round(pr.getPrixBase()*coef*100)/100)};
             lesPacks.add(packproduit);
         }
         // prix +produit = objet 
@@ -214,8 +214,6 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         Response.add("Packs calculés"); // 1
         Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
-        Response.add(pers);//3 la pers
-        Response.add(listeinfos); // 4 les ayant droits
         Response.add(lesPacks); // 5 les "pack" (avec produit) : objet avec prix 1 et 2 produit
     
         return Response;

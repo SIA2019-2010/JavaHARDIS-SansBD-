@@ -14,6 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Renseigner listepopulation</title>
+        <jsp:useBean id="message" scope="request" class="String"></jsp:useBean>
         <jsp:useBean id="listepopulation" scope="request" class="java.util.List"></jsp:useBean>
         <jsp:useBean id="listeinfos" scope="request" class="java.util.List"></jsp:useBean>
         <%
@@ -28,7 +29,10 @@
             $(function() { 
                 $(".datepicker").datepicker({
                     dateFormat: 'yy-mm-dd',
-                    maxDate: 0
+                    maxDate: 0,
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange:'c-100:c'
                 });
             });
             function add(){
@@ -56,7 +60,10 @@
                 ayantdrois.tBodies[0].appendChild(copieligne);
                 $(".datepicker").datepicker({
                     dateFormat: 'yy-mm-dd',
-                    maxDate: 0
+                    maxDate: 0,
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange:'c-100:c'
                 });
             }
             /*$(document).ready(function(){        
@@ -74,6 +81,7 @@
             <fieldset>
                 <h1>Renseigner informations</h1>
                 <h2>Personne créateur</h2>
+                <p><%=message%></p>
                 <table width="80%">
                     <tr>
                         <td width="15%">

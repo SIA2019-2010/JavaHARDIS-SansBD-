@@ -74,13 +74,34 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
     @Override
     public List<Contrat> AfficherContratGestionnaire(Domaine dom) {
         List<Contrat> listcontrats; 
-        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.leDomaine=:dom and cnt.DateDebut IS NULL"; 
+        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.leProduit.leDomaine=:dom and cnt.DateDebut IS NULL"; 
         Query req = getEntityManager().createQuery(tx); 
         req.setParameter("dom", dom); 
         listcontrats= req.getResultList (); 
         return listcontrats;
     }
     
+    @Override
+    public List<Contrat> AfficherContratCree(Domaine dom) {
+        List<Contrat> listcontrats; 
+        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.leProduit.leDomaine=:dom and cnt.leStatut=:cr"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("cr", StatutContrat.Créé); 
+        listcontrats= req.getResultList (); 
+        return listcontrats;
+    }
+    
+    @Override
+    public List<Contrat> AfficherContratValide(Domaine dom) {
+        List<Contrat> listcontrats; 
+        String tx = "SELECT cnt FROM Contrat AS cnt where cnt.leProduit.leDomaine=:dom and cnt.leStatut=:va"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("va", StatutContrat.Validé); 
+        listcontrats= req.getResultList (); 
+        return listcontrats;
+    }
     
     @Override
     public Contrat ValiderContrat(Contrat cnt) {

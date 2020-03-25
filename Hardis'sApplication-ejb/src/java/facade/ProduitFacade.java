@@ -101,7 +101,15 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
         return result;
     }
     
-    
+    @Override
+    public List<Produit> afficherProduitIndividuel() {
+        Produit prod;
+        String txt="SELECT pr FROM Produit AS pr where pr.laPersonneMorale IS NULL";
+        Query req=getEntityManager().createQuery(txt);
+        prod=null;
+        List <Produit> result = req.getResultList();
+        return result;
+    }
     
     
     

@@ -53,4 +53,8 @@ public interface ContratFacadeLocal {
 
     List<TypeGarantie> recupererTypeGaranties(Long idct);
     
+    List<Contrat> AfficherContratCree(Domaine dom);
+    
+    List<Contrat> AfficherContratValide(Domaine dom);
+    
 }

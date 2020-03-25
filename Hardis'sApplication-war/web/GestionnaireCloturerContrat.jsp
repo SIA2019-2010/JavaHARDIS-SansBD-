@@ -25,14 +25,15 @@
             <tr>
                 <td>Nom Produit</td>
                 <td>Prix Mensuel</td>
-                <td>Valider</td>
+                <td>Cloturer</td>
             </tr>
         <%for(Contrat cont : liste){%>
             <tr>
                 <td><%=cont.getLeProduit().getNomProduit()%></td>
                 <td><%=cont.getPrixMensuel()%></td>
-                <td><input type="button" value="Valider" onclick="location.href='Page?action=GestionnaireValiderContrat'"></td>
+                <td><input type="button" value="Cloturer" onclick="location.href='Page?action=GestionnaireCloturerContrat'"></td>
             </tr>
         <%}%>
+        </table>
     </body>
 </html>

@@ -84,11 +84,11 @@ public class Page extends HttpServlet {
             message="Erreur de session ! Veuillez vous reconnecter !";
         }
         else if(null==act){
-            System.out.println("new act null "+(new Date()).toLocaleString());
+            System.out.println("new missioncase null "+(new Date()).toLocaleString());
             jspClient="/Acceuil.jsp";
             message="Bienvenue";
         }
-        else {System.out.println("new act "+act+" "+(new Date()).toLocaleString());
+        else {System.out.println("new missioncase "+act+" "+(new Date()).toLocaleString());
             switch (act) {  
             case "" :
             case "vide" :
@@ -152,6 +152,7 @@ public class Page extends HttpServlet {
                 break;
                 
             case "CalculPrixDevis" :
+                System.out.println("s");
                 listeinfos=new ArrayList();
                 String NomCreateur=request.getParameter("Nom");
                 String PrenomCreateur=request.getParameter("Prenom");
@@ -159,33 +160,34 @@ public class Page extends HttpServlet {
                 String SSCreateur=request.getParameter("NumeroSS");
                 String MailCreateur=request.getParameter("Mail");
                 String Papulation=request.getParameter("idpop");
+                System.out.println("p");
                 Object[] pers={NomCreateur,PrenomCreateur,DateNaiCreateur,SSCreateur,MailCreateur,Papulation};
                 String[] NomAD=request.getParameterValues("NomAD");
                 String[] PrenomAD=request.getParameterValues("PrenomAD");
                 String[] DateNaiAD=request.getParameterValues("DateNaiAD");
                 String[] NumeroSSAD=request.getParameterValues("NumeroSSAD");
+                
                 if(NomAD!=null)
                     for(int i=0; i<NomAD.length; i++){
                         Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i]};
                         listeinfos.add(infos);
+                        System.out.println("null");
                     }
-
+                System.out.println("bp");
                 
                 
                 Response=publiqueSession.calculPacks(pers, listeinfos);
-                
+                System.out.println("ap");
                 request.setAttribute("pers",pers);//supri
                 request.setAttribute("listeinfos",listeinfos);//supri
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
-                request.setAttribute("lesPacks",(List<Object[]>)Response.get(4));
+                request.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
                 jspClient=(String)Response.get(1);
                 message=(String)Response.get(0);
                 break;  
             
             case "ResponsableAfficherListePersonnePhique" :
-                System.out.println(sessionresponsable==null);
-                System.out.println(sessionresponsable.toString());
                 request.setAttribute("listestatut",responsableSession.rechercherStatutBeneficiaire(sessionresponsable.getLaPersonneMorale()));
                 jspClient="/ResponsableAfficherListePersonnePhique.jsp";
                 message="liste de personnes physiques";
@@ -198,9 +200,17 @@ public class Page extends HttpServlet {
                 break;
                 
             case "GestionnaireValiderContrat" :
-                request.setAttribute("listecontrat",gestionnaireSession.AfficherContratGestionnaire(sessiongestionnaire.getLeDomaine()));
+                request.setAttribute("listecontrat",gestionnaireSession.AfficherContratCree(sessiongestionnaire.getLeDomaine()));
+                System.out.println(sessiongestionnaire.getLeDomaine().getId());
                 jspClient="/GestionnaireValiderContrat.jsp";
-                message="liste de remboursements";
+                message="liste de contrats à valider";
+                break;
+                
+            case "GestionnaireCloturerContrat" :
+                request.setAttribute("listecontrat",gestionnaireSession.AfficherContratValide(sessiongestionnaire.getLeDomaine()));
+                System.out.println(sessiongestionnaire.getLeDomaine().getId());
+                jspClient="/GestionnaireCloturerContrat.jsp";
+                message="liste de contrats à cloturer";
                 break;
                 
             case "AffilieAfficherContrat" :
@@ -359,7 +369,9 @@ public class Page extends HttpServlet {
         if(act==null)act="null";
         String[] MenuGestionnaire={
             "GestionnairePageModifierMdp",
-            "GestionnaireModifierMdp"
+            "GestionnaireModifierMdp",
+            "GestionnaireValiderContrat",
+            "GestionnaireCloturerContrat"
         };
         String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",
