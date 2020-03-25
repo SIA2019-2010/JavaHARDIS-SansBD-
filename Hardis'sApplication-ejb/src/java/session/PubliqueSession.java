@@ -127,7 +127,22 @@ public class PubliqueSession implements PubliqueSessionLocal {
              Response.add(null); //5 pas de devis
              
             return Response; //manque des champs donc renvoi de toutes les informations
-       }
+       }else {
+           PersonnePhysique persencours= personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 3));
+                List<StatutBeneficiaire> statutbenefs=persencours.getLesStatutsBeneficiaire();
+                
+                for (StatutBeneficiaire statut : statutbenefs){
+                    if (statut.getLaBeneficiaire().getLibelleBeneficiaire().equalsIgnoreCase("Affilie")){
+                        Response.add("Vous avez deja un contrat merci de contacter votre gestionnaire");//1
+                        Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                        Response.add(null);//3 la personne qui crée le devis
+                        Response.add(null);//4 les ayant drois (nom, prenom, datenaiss, population)
+                        Response.add(null); //5 pas de devis
+             
+                        return Response; //Population introuvable 
+                    }                  
+                }  
+        }
         //Date de naissance
         Date DateN=null;
         try{
