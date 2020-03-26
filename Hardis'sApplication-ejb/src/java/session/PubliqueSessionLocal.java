@@ -49,4 +49,6 @@ public interface PubliqueSessionLocal {
 
     List<Object> recupererInfosDevis(Long iddev);
     
+    List<Object> VerifierDevisID(String iddevis);
+    
 }

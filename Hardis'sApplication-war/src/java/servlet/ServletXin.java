@@ -23,7 +23,7 @@ import session.AffilieSessionLocal;
  *
  * @author lixin
  */
-@WebServlet(name = "Page", urlPatterns = {"/Page"})
+@WebServlet(name = "ServletXin", urlPatterns = {"/ServletXin"})
 public class ServletXin extends HttpServlet {
 
     @EJB

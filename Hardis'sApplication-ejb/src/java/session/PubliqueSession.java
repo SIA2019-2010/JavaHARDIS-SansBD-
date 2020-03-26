@@ -502,7 +502,32 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
     
     
-    
+    @Override
+    public List<Object> VerifierDevisID(String iddevis){
+        List<Object> Response=new ArrayList();
+        long idd;
+        try{
+            idd=Integer.parseInt(iddevis);
+        }catch(NumberFormatException e){
+            Response.add("Erreur ID Devis");
+            Response.add("/Message.jsp");
+            Response.add(null);
+            return Response;
+        }
+        Devis d=devisFacade.rechercheExistantID(idd);
+        if(d==null){
+            Response.add("Erreur ID Devis");
+            Response.add("/Message.jsp");
+            Response.add(null);
+            return Response;
+        }
+        else{
+            Response.add("Erreur ID Devis");
+            Response.add("/PageDevisInformationsSupplementaire.jsp");
+            Response.add(d);
+            return Response;
+        }
+    }
     
     
     

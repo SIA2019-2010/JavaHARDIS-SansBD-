@@ -345,7 +345,14 @@ public class Page extends HttpServlet {
                 jspClient=(String)(Response.get(1));
                 break;
                 
-                
+            case "PageDevisInformationsSupplementaire" :
+                String iddebis=request.getParameter("iddevis");
+                Response=publiqueSession.VerifierDevisID(iddebis);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
+                System.out.println((Devis)(Response.get(2))==null);
+                request.setAttribute("devis", (Devis)(Response.get(2)));
+                break;
                 
             default:
                 jspClient="/"+act+".jsp";
@@ -400,7 +407,9 @@ public class Page extends HttpServlet {
             "GestionnaireConnexion", 
             "Deconnexion", 
             "CalculPrixDevis", 
-            "CreationDevisInformations"
+            "CreationDevisInformations",
+            "ValiderDevis",
+            "PageDevisInformationsSupplementaire"
         };
         System.out.println("B");
         if(session!=null){
@@ -466,8 +475,10 @@ public class Page extends HttpServlet {
         System.out.println("Session erreur");
         Response.add(false);
         String t=(String)request.getAttribute("typeConnexion");
-        if(t.equals("ResponsableAuthen")||t.equals("AffilieConnexion")||t.equals("ResponsableConnexion")) Response.add(t);
+        if (t==null) Response.add("GestionnaireConnexion");
+        else if(t.equals("ResponsableAuthen")||t.equals("AffilieConnexion")||t.equals("ResponsableConnexion")) Response.add(t);
         else Response.add("GestionnaireConnexion");
+        System.out.println("avant return case");
         return Response;
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
