@@ -883,9 +883,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     public List<Object> validerContrat(Long idcontrat) {
         List<Object> Response=new ArrayList();
         
-        Contrat ct = contratFacade.ValiderContrat(idcontrat);
+        Contrat ct = contratFacade.rechercheExistantID(idcontrat);
         
-        ct=contratFacade.cloturerContrat(ct);
+        ct = contratFacade.ValiderContrat(ct);
         
         
         Response.add("Contrat validé "); // 1
