@@ -10,5 +10,5 @@ package entitee;
  * @author alexisbaillieu
  */
 public enum StatutContrat {
-    Créé,Validé,Cloturé
+    Créé,Validé,Cloturé,Refusé
 }

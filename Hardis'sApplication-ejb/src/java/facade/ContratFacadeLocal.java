@@ -56,5 +56,7 @@ public interface ContratFacadeLocal {
     List<Contrat> AfficherContratCree(Domaine dom);
     
     List<Contrat> AfficherContratValide(Domaine dom);
+
+    Contrat RefuserContrat(Contrat cnt);
     
 }

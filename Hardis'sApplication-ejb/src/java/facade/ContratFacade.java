@@ -110,6 +110,17 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
         em.merge(cnt);
         return cnt;
     }
+    
+
+    @Override
+    public Contrat RefuserContrat(Contrat cnt) {
+        cnt.setLeStatut(StatutContrat.Refusé);
+        em.merge(cnt);
+        return cnt;
+    }
+    
+   
+       
 
     @Override
     public Contrat rechercheExistantID(Long idcnt) {
@@ -143,7 +154,5 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
         listtypegar= req.getResultList (); 
         return listtypegar;
     }
-    
-    
-    
+ 
 }

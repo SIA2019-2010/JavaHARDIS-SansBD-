@@ -880,6 +880,46 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
 
     
     @Override
+    public List<Object> validerContrat(Long idcontrat) {
+        List<Object> Response=new ArrayList();
+        
+        Contrat ct = contratFacade.ValiderContrat(idcontrat);
+        
+        ct=contratFacade.cloturerContrat(ct);
+        
+        
+        Response.add("Contrat validé "); // 1
+        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
+        Response.add(ct);
+        
+        return Response;
+    }
+
+    @Override
+    public List<Object> refuserContrat(Long idcontrat) {
+        List<Object> Response=new ArrayList();
+        
+        Contrat ct = contratFacade.rechercheExistantID(idcontrat);
+        
+        ct=contratFacade.RefuserContrat(ct);
+        
+        
+        Response.add("Contrat refusé "); // 1
+        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
+        Response.add(ct);
+        
+        return Response;
+    }
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    @Override
     public void creerActivite(String n){
         System.out.println("creation session");
         activiteFacade.creerActivite(n);
@@ -1139,9 +1179,6 @@ Transport transport = null;
             e.printStackTrace();
         }
     }
-}
-    
-    
-    
+}    
     
 }

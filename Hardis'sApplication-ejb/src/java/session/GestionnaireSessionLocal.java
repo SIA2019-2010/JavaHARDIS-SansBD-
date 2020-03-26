@@ -80,5 +80,9 @@ public interface GestionnaireSessionLocal {
     List<Contrat> AfficherContratCree(Domaine dom);
     
     List<Contrat> AfficherContratValide(Domaine dom);
+
+    List<Object> validerContrat(Long idcontrat);
+
+    List<Object> refuserContrat(Long idcontrat);
     
 }
