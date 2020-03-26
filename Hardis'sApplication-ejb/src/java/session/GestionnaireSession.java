@@ -53,9 +53,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -1091,5 +1099,49 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     public List<Contrat> AfficherContratValide(Domaine dom){
         return contratFacade.AfficherContratCree(dom);
     }
+    
+    
+    public static void sendMessage(/*String subject, String text, String destinataire, String copyDest*/) {
+    // 1 -> Création de la session
+    String destinataireee="alexis.baillieu@icloud.com";
+    
+    Properties properties = new Properties();
+    properties.setProperty("mail.transport.protocol", "smtp");
+    properties.setProperty("mail.smtp.host", "gmail.com");
+    properties.setProperty("mail.smtp.user", "raxathmallyx");
+    properties.setProperty("mail.from", "raxathmallyx@gmail.com");
+    //Session session = Session.getInstance(properties);
+    Session session = Session.getInstance(properties);
+MimeMessage message = new MimeMessage(session);
+    try {
+        message.setText("Test d'envoie de mail");
+        message.setSubject("Test d'envoie de mail");
+        message.addRecipients(Message.RecipientType.TO, destinataireee);
+        //message.addRecipients(Message.RecipientType.CC, copyDest);
+    } catch (MessagingException e) {
+        e.printStackTrace();
+    }
+
+Transport transport = null;
+    try {
+        transport = session.getTransport("smtp");
+        transport.connect("raxathmallyx", "testnetbeans2020");
+        transport.sendMessage(message, new Address[] { new InternetAddress(destinataireee),
+                                                        /*new InternetAddress(copyDest)*/ });
+    } catch (MessagingException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (transport != null) {
+                transport.close();
+            }
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+}
+    
+    
+    
     
 }
