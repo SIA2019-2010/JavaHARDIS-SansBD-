@@ -151,10 +151,10 @@ public class Page extends HttpServlet {
                 break;
                 
             case "CreationDevisInformations" :
-                List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                List<Beneficiaire> listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
                 listeinfos=(List<Object[]>)request.getAttribute("listeinfos");
                 if(listeinfos==null) listeinfos=new ArrayList();
-                request.setAttribute("listepopulation",listpop);
+                request.setAttribute("listben",listben);
                 request.setAttribute("pers",(Object)request.getAttribute("pers"));
                 request.setAttribute("listeinfos",listeinfos);
                 jspClient="/PageCreationDevis.jsp";
@@ -189,8 +189,8 @@ public class Page extends HttpServlet {
                 System.out.println("ap");
                 request.setAttribute("pers",pers);//supri
                 request.setAttribute("listeinfos",listeinfos);//supri
-                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
-                request.setAttribute("listepopulation",listpop);
+                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
+                request.setAttribute("listepopulation",listben);
                 request.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
                 jspClient=(String)Response.get(1);
                 message=(String)Response.get(0);
@@ -324,12 +324,20 @@ public class Page extends HttpServlet {
                 break;
                 
                 //listepersmo;
-            case"CreationResponsableInformations" : 
+            case "CreationResponsableInformations" : 
                 List<PersonneMorale> listepersmo = gestionnaireSession.recupererPersonneMorale(); 
                 
                 request.setAttribute("listepersmo",listepersmo);
                     
                 jspClient="/GestionnaireCreationResponsable.jsp";
+                break;
+                
+            case "GestionnaireCreationRemboursement" :
+                System.out.println("entrer");
+                List<Acte> listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
+                request.setAttribute("listeacte",listeacte);
+                request.setAttribute("message",listeacte);
+                jspClient="/GestionnaireCreationRemboursement.jsp";
                 break;
                 
             case "InsererResponsable" :
@@ -356,11 +364,13 @@ public class Page extends HttpServlet {
                 
             case "PageDevisInformationsSupplementaire" :
                 String iddebis=request.getParameter("iddevis");
+                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
                 Response=publiqueSession.VerifierDevisID(iddebis);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
                 System.out.println((Devis)(Response.get(2))==null);
                 request.setAttribute("devis", (Devis)(Response.get(2)));
+                request.setAttribute("listben",listben);
                 break;
                 
             default:
@@ -387,7 +397,8 @@ public class Page extends HttpServlet {
             "GestionnairePageModifierMdp",
             "GestionnaireModifierMdp",
             "GestionnaireValiderContrat",
-            "GestionnaireCloturerContrat"
+            "GestionnaireCloturerContrat",
+            "GestionnaireCreationRemboursement"
         };
         String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",

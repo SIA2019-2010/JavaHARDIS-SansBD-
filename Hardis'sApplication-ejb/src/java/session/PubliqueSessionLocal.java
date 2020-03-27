@@ -51,4 +51,6 @@ public interface PubliqueSessionLocal {
     
     List<Object> VerifierDevisID(String iddevis);
     
+    List<Beneficiaire> rechercheBeneficiaires();
+    
 }

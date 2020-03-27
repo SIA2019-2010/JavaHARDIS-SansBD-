@@ -286,6 +286,11 @@ public class PubliqueSession implements PubliqueSessionLocal {
         return populationFacade.recherchePopulations();
     }
     
+    @Override
+    public List<Beneficiaire> rechercheBeneficiaires() {
+        return beneficiaireFacade.rechercheBeneficiaires();
+    }
+    
     public double DateToCoef(Date DateN){
         Date today=new Date();
         int age=today.getYear()-DateN.getYear();
@@ -522,7 +527,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             return Response;
         }
         else{
-            Response.add("Erreur ID Devis");
+            Response.add("PageDevisInformationsSupplementaire");
             Response.add("/PageDevisInformationsSupplementaire.jsp");
             Response.add(d);
             return Response;

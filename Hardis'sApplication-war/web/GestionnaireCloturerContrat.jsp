@@ -27,13 +27,13 @@
                 <td>Prix Mensuel</td>
                 <td>Cloturer</td>
             </tr>
-        <%for(Contrat cont : liste){%>
-            <tr>
-                <td><%=cont.getLeProduit().getNomProduit()%></td>
-                <td><%=cont.getPrixMensuel()%></td>
-                <td><input type="button" value="Cloturer" onclick="location.href='Page?action=GestionnaireCloturerContrat'"></td>
-            </tr>
-        <%}%>
+            <%for(Contrat cont : liste){%>
+                <tr>
+                    <td><%=cont.getLeProduit().getNomProduit()%></td>
+                    <td><%=cont.getPrixMensuel()%></td>
+                    <td><input type="button" value="Cloturer" onclick="location.href='Page?action=GestionnaireCloturerContrat'"></td>
+                </tr>
+            <%}%>
         </table>
     </body>
 </html>

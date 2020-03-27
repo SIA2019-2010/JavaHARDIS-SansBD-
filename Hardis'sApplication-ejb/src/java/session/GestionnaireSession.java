@@ -697,10 +697,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     @Override
     public List<Acte> rechercheActesNonRemboursePersonne(Long idpers) {
         
-         //on recupere la personne choisie
-         PersonnePhysique pers = personnePhysiqueFacade.recherchePersonneID(idpers);
-         
-         List<Acte> listact = acteFacade.rechercheActePersNonRemb(pers);
+        //on recupere la personne choisie
+        PersonnePhysique pers = personnePhysiqueFacade.recherchePersonneID(idpers);
+        List<Acte> listact = acteFacade.rechercheActePersNonRemb(pers);
         
         return listact;
     }
