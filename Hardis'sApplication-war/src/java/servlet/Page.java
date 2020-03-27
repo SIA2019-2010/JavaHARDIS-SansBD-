@@ -151,12 +151,14 @@ public class Page extends HttpServlet {
                 break;
                 
             case "CreationDevisInformations" :
+                List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 List<Beneficiaire> listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
                 listeinfos=(List<Object[]>)request.getAttribute("listeinfos");
                 if(listeinfos==null) listeinfos=new ArrayList();
                 request.setAttribute("listben",listben);
-                request.setAttribute("pers",(Object)request.getAttribute("pers"));
-                request.setAttribute("listeinfos",listeinfos);
+                request.setAttribute("listepopulation",listpop);
+                session.setAttribute("pers",(Object)request.getAttribute("pers"));
+                session.setAttribute("listeinfos",listeinfos);
                 jspClient="/PageCreationDevis.jsp";
                 break;
                 
@@ -186,15 +188,16 @@ public class Page extends HttpServlet {
                 
                 
                 Response=publiqueSession.calculPacks(pers, listeinfos);
+                session.setAttribute("pers",pers);//supri
+                session.setAttribute("listeinfos",listeinfos);//supri
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("listepopulation",listpop);
                 System.out.println("ap");
-                request.setAttribute("pers",pers);//supri
-                request.setAttribute("listeinfos",listeinfos);//supri
-                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
-                request.setAttribute("listepopulation",listben);
-                request.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
+                session.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
                 jspClient=(String)Response.get(1);
+                System.out.println(jspClient+"jspCalculPacks");
                 message=(String)Response.get(0);
-                break;  
+                break;   
             
             case "ResponsableAfficherListePersonnePhique" :
                 request.setAttribute("listestatut",responsableSession.rechercherStatutBeneficiaire(sessionresponsable.getLaPersonneMorale()));
@@ -332,9 +335,17 @@ public class Page extends HttpServlet {
                 jspClient="/GestionnaireCreationResponsable.jsp";
                 break;
                 
-            case "GestionnaireCreationRemboursement" :
+            case "GestionnaireActesNonRembourse" :
                 System.out.println("entrer");
                 List<Acte> listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
+                request.setAttribute("listeacte",listeacte);
+                request.setAttribute("message",listeacte);
+                jspClient="/GestionnaireActesNonRembourse.jsp";
+                break;
+                
+            case "GestionnaireCreationRemboursement" :
+                System.out.println("entrer");
+                listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
                 request.setAttribute("listeacte",listeacte);
                 request.setAttribute("message",listeacte);
                 jspClient="/GestionnaireCreationRemboursement.jsp";
@@ -387,8 +398,33 @@ public class Page extends HttpServlet {
                 
                 break;
                 
-                   
-                        
+            case "GestionnaireCreerRemboursement" :
+                String idacte=request.getParameter("idacte");
+                System.out.println(act+"~~~~"+idacte);
+                Response=gestionnaireSession.creerRemboursement(idacte);
+                listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
+                request.setAttribute("listeacte",listeacte);
+                request.setAttribute("message",(String)Response.get(0));
+                System.out.println((String)Response.get(0)+"123123123");
+                jspClient="/GestionnaireActesNonRembourse.jsp";
+                break;
+                
+            case "ChoixPack" :
+                pers=(Object[])session.getAttribute("pers");
+                System.out.println(pers==null);
+                listeinfos=(List<Object[]>)session.getAttribute("listeinfos");
+                if(listeinfos==null) listeinfos=new ArrayList();
+                List<Object[]> lesPacks=(List<Object[]>)session.getAttribute("lesPacks");
+                int numpack=Integer.parseInt(request.getParameter("numpack"));
+                System.out.println(numpack+"numpack");
+                Object[] pack=lesPacks.get(numpack);
+                Response=publiqueSession.creerDevisComplet(pers, pack, listeinfos);
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("listepopulation",listpop);
+                jspClient=(String)Response.get(1);
+                message=(String)Response.get(0);
+                break;
+                
             default:
                 jspClient="/"+act+".jsp";
                 message="";
@@ -414,7 +450,8 @@ public class Page extends HttpServlet {
             "GestionnaireModifierMdp",
             "GestionnaireValiderContrat",
             "GestionnaireCloturerContrat",
-            "GestionnaireCreationRemboursement"
+            "GestionnaireCreerRemboursement",
+            "GestionnaireActesNonRembourse"
         };
         String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",
@@ -446,6 +483,7 @@ public class Page extends HttpServlet {
             "CreationDevisInformations",
             "ValiderDevis",
             "PageDevisInformationsSupplementaire",
+            "ChoixPack",
             "genererPDFDevis",
             "genererPDFPriseEnCharge"
         };

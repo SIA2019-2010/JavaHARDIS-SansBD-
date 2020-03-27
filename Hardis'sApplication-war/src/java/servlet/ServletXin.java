@@ -1,4 +1,13 @@
 package servlet;
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import entitee.*;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -143,11 +152,13 @@ public class ServletXin extends HttpServlet {
                 
             case "CreationDevisInformations" :
                 List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                List<Beneficiaire> listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
                 listeinfos=(List<Object[]>)request.getAttribute("listeinfos");
                 if(listeinfos==null) listeinfos=new ArrayList();
+                request.setAttribute("listben",listben);
                 request.setAttribute("listepopulation",listpop);
-                request.setAttribute("pers",(Object)request.getAttribute("pers"));
-                request.setAttribute("listeinfos",listeinfos);
+                session.setAttribute("pers",(Object)request.getAttribute("pers"));
+                session.setAttribute("listeinfos",listeinfos);
                 jspClient="/PageCreationDevis.jsp";
                 break;
                 
@@ -177,13 +188,14 @@ public class ServletXin extends HttpServlet {
                 
                 
                 Response=publiqueSession.calculPacks(pers, listeinfos);
-                System.out.println("ap");
-                request.setAttribute("pers",pers);//supri
-                request.setAttribute("listeinfos",listeinfos);//supri
+                session.setAttribute("pers",pers);//supri
+                session.setAttribute("listeinfos",listeinfos);//supri
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
-                request.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
+                System.out.println("ap");
+                session.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
                 jspClient=(String)Response.get(1);
+                System.out.println(jspClient+"jspCalculPacks");
                 message=(String)Response.get(0);
                 break;  
             
@@ -315,12 +327,20 @@ public class ServletXin extends HttpServlet {
                 break;
                 
                 //listepersmo;
-            case"CreationResponsableInformations" : 
+            case "CreationResponsableInformations" : 
                 List<PersonneMorale> listepersmo = gestionnaireSession.recupererPersonneMorale(); 
                 
                 request.setAttribute("listepersmo",listepersmo);
                     
                 jspClient="/GestionnaireCreationResponsable.jsp";
+                break;
+                
+            case "GestionnaireActesNonRembourse" :
+                System.out.println("entrer");
+                List<Acte> listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
+                request.setAttribute("listeacte",listeacte);
+                request.setAttribute("message",listeacte);
+                jspClient="/GestionnaireActesNonRembourse.jsp";
                 break;
                 
             case "InsererResponsable" :
@@ -345,7 +365,43 @@ public class ServletXin extends HttpServlet {
                 jspClient=(String)(Response.get(1));
                 break;
                 
+            case "PageDevisInformationsSupplementaire" :
+                String iddebis=request.getParameter("iddevis");
+                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
+                Response=publiqueSession.VerifierDevisID(iddebis);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
+                System.out.println((Devis)(Response.get(2))==null);
+                request.setAttribute("devis", (Devis)(Response.get(2)));
+                request.setAttribute("listben",listben);
+                break;
                 
+            case "GestionnaireCreerRemboursement" :
+                String idacte=request.getParameter("idacte");
+                System.out.println(act+"~~~~"+idacte);
+                Response=gestionnaireSession.creerRemboursement(idacte);
+                listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
+                request.setAttribute("listeacte",listeacte);
+                request.setAttribute("message",(String)Response.get(0));
+                System.out.println((String)Response.get(0)+"123123123");
+                jspClient="/GestionnaireActesNonRembourse.jsp";
+                break;
+                
+            case "ChoixPack" :
+                pers=(Object[])session.getAttribute("pers");
+                System.out.println(pers==null);
+                listeinfos=(List<Object[]>)session.getAttribute("listeinfos");
+                if(listeinfos==null) listeinfos=new ArrayList();
+                List<Object[]> lesPacks=(List<Object[]>)session.getAttribute("lesPacks");
+                int numpack=Integer.parseInt(request.getParameter("numpack"));
+                System.out.println(numpack+"numpack");
+                Object[] pack=lesPacks.get(numpack);
+                Response=publiqueSession.creerDevisComplet(pers, pack, listeinfos);
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("listepopulation",listpop);
+                jspClient=(String)Response.get(1);
+                message=(String)Response.get(0);
+                break;
                 
             default:
                 jspClient="/"+act+".jsp";
@@ -371,7 +427,9 @@ public class ServletXin extends HttpServlet {
             "GestionnairePageModifierMdp",
             "GestionnaireModifierMdp",
             "GestionnaireValiderContrat",
-            "GestionnaireCloturerContrat"
+            "GestionnaireCloturerContrat",
+            "GestionnaireCreerRemboursement",
+            "GestionnaireActesNonRembourse"
         };
         String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",
@@ -400,10 +458,14 @@ public class ServletXin extends HttpServlet {
             "GestionnaireConnexion", 
             "Deconnexion", 
             "CalculPrixDevis", 
-            "CreationDevisInformations"
+            "CreationDevisInformations",
+            "ValiderDevis",
+            "PageDevisInformationsSupplementaire",
+            "ChoixPack"
         };
         System.out.println("B");
         if(session!=null){
+            System.out.println("if1");
             System.out.println("C");
 
             System.out.println("Session est pas null");
@@ -416,46 +478,55 @@ public class ServletXin extends HttpServlet {
             Response.add(sessionaffilie);
             Response.add(sessionresponsable);
             if(sessiongestionnaire!=null){
+                System.out.println("if2");
                 if ((Arrays.asList(MenuGestionnaire).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionaffilie==null&&sessionresponsable==null){
+                    System.out.println("if3");
                     System.out.println("Mission Gestionnaire");
                     Response.add(true);
                     Response.add("GestionnaireConnexion");
+                    System.out.println("chemain1");
                     return Response;
                 }
                 else valide=false;
             }
             else if(sessionaffilie!=null){
+                System.out.println("if4");
                 if ((Arrays.asList(MenuAffilie).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionresponsable==null){
+                    System.out.println("if5");
                     System.out.println("Mission Affilié");
                     Response.add(true);
                     Response.add("AffilieConnexion");
+                    System.out.println("chemain2");
                     return Response;
                 }
                 else valide=false;
             }
             else if(sessionresponsable!=null){
+                System.out.println("if6");
                 if (Arrays.asList(MenuResponsable).contains(act)||Arrays.asList(MenuPublique).contains(act)){
+                    System.out.println("if7");
                     System.out.println("Mission Responsable");
                     Response.add(true);
                     Response.add("ResponsableConnexion");
+                    System.out.println("chemain3");
                     return Response;
                 }
                 else valide=false;
             }
         }
-        if(valide){
-            if (Arrays.asList(MenuPublique).contains(act)){
-                System.out.println("Mission Publique");
-                if(session==null){
-                    Response.add(null);
-                    Response.add(null);
-                    Response.add(null);
-                    Response.add(null);
-                }
-                Response.add(true);
-                Response.add("SansConnexion");
-                return Response;
-            }
+        else{
+            Response.add(null);
+            Response.add(null);
+            Response.add(null);
+            Response.add(null);
+        }
+        if(valide&&Arrays.asList(MenuPublique).contains(act)){
+            System.out.println("if8");
+            System.out.println("Mission Publique");
+            Response.add(true);
+            Response.add("SansConnexion");
+            System.out.println("chemain4");
+            return Response;
         }
         System.out.println("Fin traitement");
         //if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CalculPrixDevis")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
@@ -466,10 +537,60 @@ public class ServletXin extends HttpServlet {
         System.out.println("Session erreur");
         Response.add(false);
         String t=(String)request.getAttribute("typeConnexion");
-        if(t.equals("ResponsableAuthen")||t.equals("AffilieConnexion")||t.equals("ResponsableConnexion")) Response.add(t);
-        else Response.add("GestionnaireConnexion");
+        if (null==t) Response.add("GestionnaireConnexion");
+        else switch (t) {
+            case "ResponsableAuthen":
+            case "AffilieConnexion":
+            case "ResponsableConnexion":
+                Response.add(t);
+                break;
+            default:
+                Response.add("GestionnaireConnexion");
+                break;
+        }
+        System.out.println("avant return case");
+        System.out.println("chemain5;");
         return Response;
     }
+    /*
+    
+    protected void doActionCreerPDFDevis(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       
+        doGet(request,response);
+    
+}
+    
+     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String masterPath= request.getServletContext().getRealPath("/WEB-INF/DevisMaster.pdf");
+        response.setContentType("application/pdf");
+        
+        try( PdfReader reader = new PdfReader(masterPath);
+             PdfWriter writer = new PdfWriter(response.getOutputStream());
+             PdfDocument document = new PdfDocument(reader, writer)) {
+            
+            PdfPage page = document.getPage(1);
+            
+            PdfCanvas canvas = new PdfCanvas(page);
+            
+            FontProgram fontProgram = FontProgramFactory.createFont();
+            PdfFont font = PdfFontFactory.createFont(fontProgram, "utf-8", true);
+            canvas.setFontAndSize(font, 12);
+            
+            canvas.beginText();
+            
+            canvas.setTextMatrix(0, 0);
+            canvas.showText("Origine");
+            
+            
+            canvas.endText();
+            
+            
+        }
+    }
+    */
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
