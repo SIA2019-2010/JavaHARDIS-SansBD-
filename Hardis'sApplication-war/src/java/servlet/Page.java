@@ -373,6 +373,22 @@ public class Page extends HttpServlet {
                 request.setAttribute("listben",listben);
                 break;
                 
+                
+            case "genererPDFDevis" : 
+                jspClient="/Acceuil";
+                doActionCreerPdfDevis(request,response);
+                
+                break;
+                
+            
+              case "genererPDFPriseEnCharge" : 
+                jspClient="/Acceuil";
+                doActionCreerPdfPriseEnCharge(request,response);
+                
+                break;
+                
+                   
+                        
             default:
                 jspClient="/"+act+".jsp";
                 message="";
@@ -429,7 +445,9 @@ public class Page extends HttpServlet {
             "CalculPrixDevis", 
             "CreationDevisInformations",
             "ValiderDevis",
-            "PageDevisInformationsSupplementaire"
+            "PageDevisInformationsSupplementaire",
+            "genererPDFDevis",
+            "genererPDFPriseEnCharge"
         };
         System.out.println("B");
         if(session!=null){
@@ -501,17 +519,9 @@ public class Page extends HttpServlet {
         System.out.println("avant return case");
         return Response;
     }
-    /*
     
-    protected void doActionCreerPDFDevis(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
-        doGet(request,response);
-    
-}
-    
-     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ 
+    protected void doActionCreerPdfDevis(HttpServletRequest request, HttpServletResponse response/*,Devis dev*/) throws ServletException, IOException {
         String masterPath= request.getServletContext().getRealPath("/WEB-INF/DevisMaster.pdf");
         response.setContentType("application/pdf");
         
@@ -538,7 +548,34 @@ public class Page extends HttpServlet {
             
         }
     }
-    */
+    
+        protected void doActionCreerPdfPriseEnCharge(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String masterPath= request.getServletContext().getRealPath("/WEB-INF/PriseEnChargeMaster.pdf");
+        response.setContentType("application/pdf");
+        
+        try( PdfReader reader = new PdfReader(masterPath);
+             PdfWriter writer = new PdfWriter(response.getOutputStream());
+             PdfDocument document = new PdfDocument(reader, writer)) {
+            
+            PdfPage page = document.getPage(1);
+            
+            PdfCanvas canvas = new PdfCanvas(page);
+            
+            FontProgram fontProgram = FontProgramFactory.createFont();
+            PdfFont font = PdfFontFactory.createFont(fontProgram, "utf-8", true);
+            canvas.setFontAndSize(font, 12);
+            
+            canvas.beginText();
+            
+            canvas.setTextMatrix(0, 0);
+            canvas.showText("Origine");
+            
+            
+            canvas.endText();
+            
+            
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

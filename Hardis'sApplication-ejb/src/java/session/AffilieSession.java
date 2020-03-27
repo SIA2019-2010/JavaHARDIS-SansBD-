@@ -9,6 +9,7 @@ import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.Devis;
 import entitee.Domaine;
+import entitee.Garantie;
 import entitee.Genre;
 import entitee.PersonnePhysique;
 import entitee.Population;
@@ -292,9 +293,18 @@ public class AffilieSession implements AffilieSessionLocal {
         List<TypeGarantie> typgar=contratFacade.recupererTypeGaranties(idcont);
         
          
+        List<Garantie> gar =new ArrayList();
+        
+        for (TypeGarantie typ : typgar){
+                for (Garantie garty : typ.getLesGaranties()){
+                     gar.add(garty);
+                }
+           
+        }
+        
         Response.add("Liste des module du contrat selectionné"); // 1
-        Response.add("/AfficherTypeGarantie.jsp"); // 2 Jsp pour afficher 
-        Response.add(typgar);//3 les types garanties
+        Response.add("/AfficherGaranties.jsp"); // 2 Jsp pour afficher 
+        Response.add(gar);//3 les garanties du contrat
         
         return Response;
     }

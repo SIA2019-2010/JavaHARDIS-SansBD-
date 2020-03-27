@@ -14,6 +14,7 @@ import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import entitee.Devis;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +30,13 @@ public class PdfExportDevis extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String masterPath= request.getServletContext().getRealPath("/WEB-INF/DevisMaster.pdf");
         response.setContentType("application/pdf");
+        
+        //test creation devis a la main;
+        Devis dev ;
+        
+        
+        
+        
         
         try( PdfReader reader = new PdfReader(masterPath);
              PdfWriter writer = new PdfWriter(response.getOutputStream());
