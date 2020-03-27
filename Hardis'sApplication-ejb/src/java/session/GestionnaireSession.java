@@ -717,11 +717,20 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
     
         @Override
-    public List<Object> creerRemboursement(Long idact) {
-         List<Object> Response=new ArrayList();
-        
+    public List<Object> creerRemboursement(String ida) {
+        List<Object> Response=new ArrayList();
+        long idact;
+        try{
+            idact=(long)Integer.parseInt(ida);
+        }catch(NumberFormatException e){
+            Response.add("Erreur : Echeque à créer un remboursement !!!2");
+            return Response;
+        }
         Acte act=acteFacade.rechercheActeID(idact);
-         
+        if(act==null){
+            Response.add("Erreur : Echeque à créer un remboursement !!!3");
+            return Response;
+        }
         Boolean practiCAS =act.getLePraticien().isAdherentCAS();
         
         PlafondMensuelSecuSociale pmss=act.getLePlafond();
@@ -771,35 +780,39 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        boolean couvert=false;
        String lenom;
  
-      for(TypeGarantie typ : typegli){
+        for(TypeGarantie typ : typegli){
          
-              lenom=typ.getTypeGarantie();
+            lenom=typ.getTypeGarantie();
               
-              for (TypeGarantie typacheck:typeglicouverte){
-                  if(lenom==typacheck.getTypeGarantie()){
-                      couvert=true;
-                  }
+            for (TypeGarantie typacheck:typeglicouverte){
+                if(lenom==typacheck.getTypeGarantie()){
+                    couvert=true;
+                }
                   
-              }   
+            }   
               
-         }
+        }
     
       
-      if (couvert==false){ //garantie pas couverte dans le produit
-                Remboursement rembour=remboursementFacade.creerRemboursement(0,EtatRemboursement.NonRembourse,act);
-                //creerRemboursement avec 0
-      }
-       List<PriseEnCharge> lesprisesench=lecontrat.getLeProduit().getLesPriseEnCharges();
+        if (couvert==false){ //garantie pas couverte dans le produit
+            Remboursement rembour=remboursementFacade.creerRemboursement(0,EtatRemboursement.NonRembourse,act);
+            //creerRemboursement avec 0
+        }
+        List<PriseEnCharge> lesprisesench=lecontrat.getLeProduit().getLesPriseEnCharges();
       
-       //si le practitien est adherentCAS on recupere la prise en charge adhérent et inversement(qui contient les pourcentages de remboursement)
-       PriseEnCharge p=null;
-       for (PriseEnCharge prise : lesprisesench){
-           if (prise.isAdherentCAS()==practiCAS){
-              p=prise;  
-           }
-       }
-       
-       String TypeBaseRemboursement = p.getBaseRemboursement();//TM,FR,BR,BR-RSS,PMSS
+        //si le practitien est adherentCAS on recupere la prise en charge adhérent et inversement(qui contient les pourcentages de remboursement)
+        PriseEnCharge p=null;
+        for (PriseEnCharge prise : lesprisesench){
+            if (prise.isAdherentCAS()==practiCAS){
+                p=prise;  
+            }
+        }
+        if(p==null){
+            Response.add("Erreur : Echeque à créer un remboursement !!!1"); // 1
+            return Response;
+        }
+        
+        String TypeBaseRemboursement = p.getBaseRemboursement();//TM,FR,BR,BR-RSS,PMSS
         double TauxRemboursement = p.getTauxRempoursement();
         double depense = act.getDepense();//dépense effective pour l'acte
         double TauxRemboursementSecu = g.getLaBaseRemboursementSeco().getTauxRemboursementSecu();
@@ -809,7 +822,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         double MontantPMSS = pmss.getPlafond();
 
         if (TypeBaseRemboursement=="BR")
-    {RemboursementEffectif=TauxRemboursement*BaseRemboursementSecu;}
+        {RemboursementEffectif=TauxRemboursement*BaseRemboursementSecu;}
         else if (TypeBaseRemboursement=="TM")
 	{RemboursementEffectif=TauxRemboursement*(TauxRemboursementSecu*BaseRemboursementSecu);}
         else if (TypeBaseRemboursement=="FR")
@@ -825,7 +838,6 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
                 //CreationRemboursement;
          
         Response.add("Remboursement créé "); // 1
-        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
         Response.add(rembour);//3 le remboursement créé
 
         return Response;
@@ -840,7 +852,6 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         remb = remboursementFacade.validerRemboursement(remb);
         
         Response.add("Remboursement créé "); // 1
-        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
         Response.add(remb);//le remboursement validé
         
         return Response;
@@ -1100,13 +1111,13 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         }
         
         //on a toutes les personnes et tout les statuts
-       //on enregistre toute les personnes au contrat (set la liste)
-       ct.SetLesStatutsBeneficiaires(liststatutct);
+        //on enregistre toute les personnes au contrat (set la liste)
+        ct.SetLesStatutsBeneficiaires(liststatutct);
         
    
-     Response.add("Personne ajoutée,contrat créé");//1
-     Response.add("MenuGestionnaire.jsp"); //2 JSP 
-     return Response;
+        Response.add("Personne ajoutée,contrat créé");//1
+        Response.add("MenuGestionnaire.jsp"); //2 JSP 
+        return Response;
     
     //envoyé login mdp au mail
     }

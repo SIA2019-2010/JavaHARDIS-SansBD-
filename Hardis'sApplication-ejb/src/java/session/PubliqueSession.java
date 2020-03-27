@@ -230,7 +230,6 @@ public class PubliqueSession implements PubliqueSessionLocal {
                                  // ---> creation du devis avec prix, date (newdate)
         //Object pack : 1 produit , 2 prix                         
       
-          
             //on créée la personne si elle n'existe pas                  
             PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 3));
             if(persencours==null){
@@ -238,13 +237,15 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 
                 Long idpop=Long.valueOf((String)Array.get(pers, 5));
                 Population pop = populationFacade.rechercheExistantPopulationID(idpop);
-                
-                persencours=personnePhysiqueFacade.creerPersonnePhysiqueDevis((String)Array.get(pers, 0),(String)Array.get(pers, 1), (String)Array.get(pers, 4), (String)Array.get(pers, 3),(Date)Array.get(pers, 2),pop);
+                Date datenais=java.sql.Date.valueOf((String)Array.get(pers, 2));
+                persencours=personnePhysiqueFacade.creerPersonnePhysiqueDevis((String)Array.get(pers, 0),(String)Array.get(pers, 1), (String)Array.get(pers, 4), (String)Array.get(pers, 3),datenais,pop);
+                System.out.println(idpop+"idpop");
                 
             }
-                                 
+            System.out.println(listeinfos.size());
             // Ayant droit : juste nom prenom date numeroSS
-           for(Object infos: listeinfos){
+           for(Object[] infos: listeinfos){
+           
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
             Date datenaiss =java.sql.Date.valueOf((String)Array.get(infos, 2));
@@ -265,6 +266,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
                     
             LesAyantdroit.add(ayantdroitencours);                                            
         }       
+            System.out.println("complet"); 
            
          //creation du devis ; pers,produit,prix,datedujour,listayantdroits       
          Devis devcree; 
@@ -274,7 +276,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         
         Response.add("Devis créée "); // 1
-        Response.add("/Homepage.jsp"); // 2 Jsp pour afficher 
+        Response.add("/PageCreationDevis.jsp"); // 2 Jsp pour afficher 
         Response.add(devcree);//3 le devis
         
         

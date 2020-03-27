@@ -22,6 +22,7 @@
         %>
     </head>
     <body>
+        <h1><%=message%></h1>
         <h1>Liste actes</h1>
         <table>
             <tr>
@@ -32,11 +33,14 @@
             </tr>
             <%for(Acte acte : liste){%>
                 <tr>
-                    <td><%=formatter.format(acte.getDateDebut())%></td>
-                    <td><%=formatter.format(acte.getDateFin())%></td>
-                    <td><%=acte.getDepense()%></td>
-                    <td><%=(acte.getLeRemboursement()==null)%></td>
-                    <td><input type="button" value="Cloturer" onclick="location.href='Page?action=GestionnaireCloturerContrat'"></td>
+                    <form method="post" action="Page">
+                        <td><%=formatter.format(acte.getDateDebut())%></td>
+                        <td><%=formatter.format(acte.getDateFin())%></td>
+                        <td><%=acte.getDepense()%></td>
+                        <input type="hidden" value="<%=acte.getId().toString()%>" name="idacte"/>
+                        <input type="hidden" value="GestionnaireCreerRemboursement" name="action"/>
+                        <td><input type="submit" value="Valider"/></td>
+                    </form>
                 </tr>
             <%}%>
         </table>

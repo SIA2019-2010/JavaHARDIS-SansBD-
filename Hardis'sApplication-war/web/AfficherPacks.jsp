@@ -14,24 +14,33 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:useBean id="message" scope="request" class="String"></jsp:useBean>
-        <jsp:useBean id="lesPacks" scope="request" class="java.util.List"></jsp:useBean>
-        <jsp:useBean id="listepopulation" scope="request" class="java.util.List"></jsp:useBean>
-        <jsp:useBean id="listeinfos" scope="request" class="java.util.List"></jsp:useBean>
+        <jsp:useBean id="lesPacks" scope="session" class="java.util.List"></jsp:useBean>
+        <%--<jsp:useBean id="listeinfos" scope="request" class="java.util.List"></jsp:useBean>--%>
         <title>JSP Page</title>
         <%
             List<Object[]>listepacks=lesPacks;
-            List<Population>lesPops=listepopulation;
-            List<Object[]>listep=listeinfos;
-            Object[] pers=(Object[])request.getAttribute("pers");
+            //List<Object[]>listep=listeinfos;
+            //Object[] pers=(Object[])request.getAttribute("pers");
+            //session.setAttribute("pers", pers);
+            //session.setAttribute("listeinfos", listeinfos);
+            //session.setAttribute("lesPacks", lesPacks);
         %>
     </head>
     <body>
         <h1>Hello World!</h1>
         <p><%=message%></p>
-        <p><%=listepacks.size()%></p>
-        <%for(Object[] pack : listepacks){%>
-            <p><%=((Produit)(Array.get(pack,0))).getNomProduit()%></p>
-            <p><%=((Array.get(pack,1)))%></p>
-        <%}%>
+        <table>
+            <%for(Object[] pack : listepacks){%>
+                <tr>
+                    <form method="post" action="Page">
+                        <td><%=((Produit)(Array.get(pack,0))).getNomProduit()%></td>
+                        <td><%=((Array.get(pack,1)))%></td>
+                        <input type="hidden" value="<%=listepacks.indexOf(pack)%>" name="numpack"/>
+                        <input type="hidden" value="ChoixPack" name="action"/>
+                        <td><input type="submit" value="Valider"/></td>
+                    </form>
+                </tr>
+            <%}%>
+        </table>
     </body>
 </html>

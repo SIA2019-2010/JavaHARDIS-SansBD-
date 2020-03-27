@@ -3,6 +3,7 @@
     Created on : 13 mars 2020, 15:27:07
     Author     : lixin
 --%>
+<%@page import="entitee.Population"%>
 <%@page import="entitee.Beneficiaire"%>
 <%@page import="java.lang.reflect.Array"%>
 <%@page import="java.util.List"%>
@@ -15,12 +16,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Renseigner Devis</title>
         <jsp:useBean id="message" scope="request" class="String"></jsp:useBean>
-        <jsp:useBean id="listben" scope="request" class="java.util.List"></jsp:useBean>
-        <jsp:useBean id="listeinfos" scope="request" class="java.util.List"></jsp:useBean>
+        <jsp:useBean id="listeinfos" scope="session" class="java.util.List"></jsp:useBean>
+        <jsp:useBean id="listepopulation" scope="request" class="java.util.List"></jsp:useBean>
         <%
-            List<Beneficiaire>lesPops=listben;
+            List<Population>lesPops=listepopulation;
             List<Object[]>listep=listeinfos;
-            Object[] pers=(Object[])request.getAttribute("pers");
+            Object[] pers=(Object[])session.getAttribute("pers");
         %>
         <link rel="stylesheet" href="jqueryui/jqueryui.css">
         <script type="text/javascript" src="jqueryui/external/jquery/jquery.js"></script>
@@ -99,9 +100,9 @@
                         <td width="15%">
                             <label for="Mail">Mail<span class="requis">*</span></label>
                         </td>
-                        <%--<td width="15%">
+                        <td width="15%">
                             <label for="Population">Population<span class="requis">*</span></label>
-                        </td>--%>
+                        </td>
                     </tr>
                     <%if(pers==null){%>
                         <tr>
@@ -120,7 +121,7 @@
                             <td>
                                 <input type="text" name="Mail"/>
                             </td>
-                            <%--<td>
+                            <td>
                                 <select name="idpop" style="width: 100%">
                                     <% for (Population pop:lesPops){%>
                                         <option value ="<%=pop.getId()%>">
@@ -128,7 +129,7 @@
                                         </option>
                                     <%}%>
                                 </select>
-                            </td>--%>
+                            </td>
                         </tr>
                     <%}else{%>
                         <tr>
@@ -153,7 +154,7 @@
                             <td>
                                 <input type="text" name="Mail" value="<%=Array.get(pers,4)%>"/>
                             </td>
-                            <%--<td>
+                            <td>
                                 <select name="idpop" style="width: 100%">
                                     <% for (Population pop:lesPops){
                                         if(pop.getId().toString().equals(Array.get(pers,5))){%>
@@ -167,7 +168,7 @@
                                         <%}%>
                                     <%}%>
                                 </select>
-                            </td>--%>
+                            </td>
                         </tr>
                     <%}%>
                         

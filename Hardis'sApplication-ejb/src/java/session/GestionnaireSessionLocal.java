@@ -51,7 +51,7 @@ public interface GestionnaireSessionLocal {
     
     List<Object> creerDevisCompletGestionnaire(Object[] pers,Object[] pack,List<Object[]>listeinfos);
 
-    List<Object> creerRemboursement(Long idpers);
+    List<Object> creerRemboursement(String ida);
 
     List<Acte> rechercheActesNonRemboursePersonne(Long idpers);
 
@@ -84,5 +84,5 @@ public interface GestionnaireSessionLocal {
     List<Object> validerContrat(Long idcontrat);
 
     List<Object> refuserContrat(Long idcontrat);
-    
+        
 }
