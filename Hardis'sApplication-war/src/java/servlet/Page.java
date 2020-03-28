@@ -384,13 +384,13 @@ public class Page extends HttpServlet {
                 request.setAttribute("listben",listben);
                 break;
                 
-                
+             /*   
             case "genererPDFDevis" : 
                 jspClient="/Acceuil";
                 doActionCreerPdfDevis(request,response);
                 
                 break;
-                
+             */   
             
               case "genererPDFPriseEnCharge" : 
                 jspClient="/Acceuil";
@@ -419,10 +419,16 @@ public class Page extends HttpServlet {
                 System.out.println(numpack+"numpack");
                 Object[] pack=lesPacks.get(numpack);
                 Response=publiqueSession.creerDevisComplet(pers, pack, listeinfos);
+                if((Devis)Response.get(3)==null){
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
                 jspClient=(String)Response.get(1);
-                message=(String)Response.get(0);
+                message=(String)Response.get(0); 
+                } else {
+                    doActionCreerPdfDevis(request,response,(Devis)Response.get(3));
+                    jspClient=(String)Response.get(1);
+                }
+                
                 break;
                 
             default:
@@ -559,7 +565,7 @@ public class Page extends HttpServlet {
     }
     
  
-    protected void doActionCreerPdfDevis(HttpServletRequest request, HttpServletResponse response/*,Devis dev*/) throws ServletException, IOException {
+    protected void doActionCreerPdfDevis(HttpServletRequest request, HttpServletResponse response,Devis dev) throws ServletException, IOException {
         String masterPath= request.getServletContext().getRealPath("/WEB-INF/DevisMaster.pdf");
         response.setContentType("application/pdf");
         
@@ -579,6 +585,48 @@ public class Page extends HttpServlet {
             
             canvas.setTextMatrix(0, 0);
             canvas.showText("Origine");
+            
+            //iddevis
+            canvas.setTextMatrix(470, 760);
+            canvas.showText(""+dev.getId());
+            
+            //info client
+            PersonnePhysique pers = dev.getLaPersonne();
+             
+            canvas.setTextMatrix(0, 750);
+            canvas.showText(""+pers.getNom());
+            
+            canvas.setTextMatrix(0, 730);
+            canvas.showText(""+pers.getPrenom());
+            
+            canvas.setTextMatrix(0, 700);
+            canvas.showText(""+pers.getNumeroSS());
+            
+            //info produit
+            Produit pro = dev.getLeProduit();
+            
+            canvas.setTextMatrix(0, 400);
+            canvas.showText(""+pro.getNomProduit());
+            
+            //liste garantie choisies dans le produit
+            int top=350;
+            
+            for(TypeGarantie choisie : pro.getLesTypesGarantie()){
+                canvas.setTextMatrix(0, top);
+                canvas.showText(""+choisie.getTypeGarantie());
+                 
+                top-=20;
+            }
+            
+            //le prix
+            canvas.setTextMatrix(300, 200);
+            canvas.showText(""+Double.toString(dev.getPrix()));
+            
+            
+            //Le lien : 
+            canvas.setTextMatrix(300, 200);
+            canvas.showText("localhost:8080/Hardis_sApplication-war/Page?action=PageDevisInformationsSupplementaire&iddevis="+dev.getId());
+            
             
             
             canvas.endText();
