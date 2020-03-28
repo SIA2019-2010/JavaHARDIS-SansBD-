@@ -367,7 +367,7 @@ public class Page extends HttpServlet {
                 Array.set(listeinfosresp, 4, idpersmo);
                 
                 
-                
+                 
                 Response=gestionnaireSession.creerResponsableComplet(listeinfosresp);
                 message=(String)(Response.get(0));
                 jspClient=(String)(Response.get(1));
