@@ -287,7 +287,7 @@ public class AffilieSession implements AffilieSessionLocal {
     }
 
     @Override
-    public List<Object> afficherGarantie(PersonnePhysique pers,Long idcont) {
+    public List<Object> afficherGarantie(Long idcont) {
         List<Object> Response=new ArrayList();
         
         List<TypeGarantie> typgar=contratFacade.recupererTypeGaranties(idcont);

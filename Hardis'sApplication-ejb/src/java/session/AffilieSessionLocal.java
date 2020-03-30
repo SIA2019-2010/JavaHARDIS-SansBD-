@@ -58,7 +58,7 @@ public interface AffilieSessionLocal {
     
     List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph);
 
-    List<Object> afficherGarantie(PersonnePhysique pers,Long idcont);
+    List<Object> afficherGarantie(Long idcont);
     
     
     

@@ -21,6 +21,7 @@
     <body>
         <h1>Hello World!</h1>
         <p><%=liste.size()%></p>
+        <p><%=message%></p>
         <table>
             <tr>
                 <td>Nom Produit</td>
@@ -28,11 +29,15 @@
                 <td>Cloturer</td>
             </tr>
             <%for(Contrat cont : liste){%>
-                <tr>
-                    <td><%=cont.getLeProduit().getNomProduit()%></td>
-                    <td><%=cont.getPrixMensuel()%></td>
-                    <td><input type="button" value="Cloturer" onclick="location.href='Page?action=GestionnaireCloturerContrat'"></td>
-                </tr>
+                <form method="post" action="Page">
+                    <tr>
+                        <td><%=cont.getLeProduit().getNomProduit()%></td>
+                        <td><%=cont.getPrixMensuel()%></td>
+                        <input type="hidden" name="idc" value="<%=cont.getId().toString()%>"/>
+                        <input type="hidden" name="action" value="CloturerContrat"/>
+                        <td><input type ="submit" value="Cloturer" /></td>
+                    </tr>
+                </form>
             <%}%>
         </table>
     </body>

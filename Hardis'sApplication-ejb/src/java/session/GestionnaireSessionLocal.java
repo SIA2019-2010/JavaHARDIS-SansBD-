@@ -59,9 +59,9 @@ public interface GestionnaireSessionLocal {
 
     List<Object> refuserRemboursement(Long idremb);
 
-    List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,Long idpers);
+    List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,String idp);
 
-    List<Object> cloturerContrat(Long idcontrat);
+    List<Object> cloturerContrat(String idc);
 
     List<Object> ajouterPersonneProduitCollectif(Long idproduit,Object[] pers,List<Object[]>listeinfos);
 
@@ -81,8 +81,10 @@ public interface GestionnaireSessionLocal {
     
     List<Contrat> AfficherContratValide(Domaine dom);
 
-    List<Object> validerContrat(Long idcontrat);
+    List<Object> validerContrat(String idcontrat);
 
-    List<Object> refuserContrat(Long idcontrat);
+    List<Object> refuserContrat(String idc);
+    
+    List<PersonnePhysique> AfficherPersonnesPhysiques();
         
 }

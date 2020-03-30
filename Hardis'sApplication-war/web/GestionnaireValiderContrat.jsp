@@ -20,7 +20,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <p><%=liste.size()%></p>
+        <p><%=message%></p>
         <table>
             <tr>
                 <td>Nom Produit</td>
@@ -29,9 +29,13 @@
             </tr>
         <%for(Contrat cont : liste){%>
             <tr>
-                <td><%=cont.getLeProduit().getNomProduit()%></td>
-                <td><%=cont.getPrixMensuel()%></td>
-                <td><input type="button" value="Valider" onclick="location.href='Page?action=GestionnaireValiderContrat'"></td>
+                <form method="post" action="Page">
+                    <td><%=cont.getLeProduit().getNomProduit()%></td>
+                    <td><%=cont.getPrixMensuel()%></td>
+                    <input type="hidden" name="idc" value="<%=cont.getId().toString()%>"/>
+                    <input type="hidden" name="action" value="ValiderContrat"/>
+                    <td><input type ="submit" value="Valider" /></td>
+                </form>
             </tr>
         <%}%>
     </body>

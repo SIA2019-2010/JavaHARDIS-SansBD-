@@ -96,7 +96,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     @Override
     public List<Contrat> rechercheContratsAffilie(PersonnePhysique persphy) {
         List<Contrat> listcontrats; 
-        String tx = "SELECT stb.leContrat FROM StatutBeneficiaire AS stb where stb.laPersonnePhysique=:pers and stb.statutBeneficiare.LibelleBeneficiaire='Affilie'"; 
+        String tx = "SELECT stb.leContrat FROM StatutBeneficiaire AS stb where stb.laPersonnePhysique=:pers and stb.laBeneficiaire.LibelleBeneficiaire='Affilie'"; 
         Query req = getEntityManager().createQuery(tx); 
         req.setParameter("pers", persphy);
         listcontrats= req.getResultList (); 
@@ -129,7 +129,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     public StatutBeneficiaire rechercheAffilieDomaine(PersonnePhysique persph, Domaine domaine) {
         StatutBeneficiaire statut = null;
         String txt = "SELECT s FROM StatutBeneficiaire AS s WHERE s.laPersonnePhysique=:pp "
-                + "and s.leContrat.leProduit.leDomaine=:dom and s.statutBeneficiare.LibelleBeneficiaire='Affilie'";
+                + "and s.leContrat.leProduit.leDomaine=:dom and s.laBeneficiaire.LibelleBeneficiaire='Affilie'";
         Query req = getEntityManager().createQuery(txt); 
         req = req.setParameter("pp",persph);
         req = req.setParameter("dom", domaine);

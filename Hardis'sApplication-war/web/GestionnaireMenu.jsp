@@ -44,8 +44,12 @@
         <input type="button" value="Creer une nouvelle personne Morale (Entreprise)" onclick="location.href='Page?action=CreationMoraleInformations'">
         <input type="button" value="Creer une nouvelle personne Morale (Entreprise)" onclick="location.href='Page?action=CreationResponsableInformations'">
         <input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=PageModifierMdp'">
-        
+        <br/>
+        <input type="button" value="CreationResponsableInformations" onclick="location.href='Page?action=CreationResponsableInformations'">
+        <input type="button" value="CreationMoraleInformations" onclick="location.href='Page?action=CreationMoraleInformations'">
         <input type="button" value="GestionnaireCreationRemboursement" onclick="location.href='Page?action=GestionnaireActesNonRembourse'">
+        <br/>
+        <input type="button" value="GestionnaireAfficherAffilie" onclick="location.href='Page?action=GestionnaireAfficherAffilie'">
         <input type="button" value="GestionnaireValiderContrat" onclick="location.href='Page?action=GestionnaireValiderContrat'">
         <input type="button" value="GestionnaireCloturerContrat" onclick="location.href='Page?action=GestionnaireCloturerContrat'">
         <input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=GestionnairePageModifierMdp'">

@@ -216,8 +216,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        
        if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()){
              Response.add("Merci de remplir la totalité des champs");//1
-             Response.add("/CreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             //Response.add(pers);//3 les infos deja données
+             Response.add("/GestionnaireCreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             Response.add(null);//3 les infos deja données
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
@@ -226,8 +226,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Activite act = activiteFacade.rechercheActiviteExistantID(idact);
        if(act==null){
              Response.add("Probleme sur l'activite");//1
-             Response.add("/CreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             //Response.add(pers);//3 les infos deja données
+             Response.add("/GestionnaireCreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             Response.add(null);//3 les infos deja données
              
             return Response; //Population introuvable
        }
@@ -238,9 +238,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         persmo=creerMorale(pers.get(0),pers.get(1),pers.get(2),act);
         
         Response.add("Personne Morale créée");//1
-        Response.add("/MenuGestionnaire.jsp"); //2 
+        Response.add("/GestionnaireCreationMorale.jsp"); //2 
         Response.add(persmo);//3 la personne morale créée
-       
         
         return Response;
     }
@@ -255,9 +254,10 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         List<Object> Response=new ArrayList();
        //Objet pers : 1 nom, 2 prenom, 3 mail, 4 tel,5 PersonneMorale (String de ID)
         
-        if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()||pers.get(4).isEmpty()){
-             Response.add("Merci de remplir la totalité des champs");//1
-             Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+        if(pers.get(0).equals("")||pers.get(1).equals("")||pers.get(2).equals("")||pers.get(3).equals("")||pers.get(4).equals("")){
+            System.out.println("vide");
+            Response.add("Merci de remplir la totalité des champs");//1
+             Response.add("/GestionnaireCreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             // Response.add(pers);//3 les infos deja données
              
             return Response; //manque des champs donc renvoi de toutes les informations
@@ -268,7 +268,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
        if(persmo==null){
              Response.add("Probleme sur la personneMorale");//1
-             Response.add("/CreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+             Response.add("/GestionnaireCreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              //Response.add(pers);//3 les infos deja données
              
             return Response; //PersonneMorale introuvable
@@ -277,12 +277,14 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        //generation login + mdp
                 //login = Nom+2lettres du prenom, si pas disponible ajout d'un chiffre en 1 et 9 aléatoire et check a nouveau la dispo
                 boolean dispologin=false;
-                String login=((String)Array.get(pers, 0))+(((String)Array.get(pers, 1)).substring(0, 2));
+                String login;
+                if((pers.get(1)).length()==1) login=(pers.get(0))+((pers.get(1)).substring(0, 1))+"*";
+                else login=(pers.get(0))+((pers.get(1)).substring(0, 2));
                 
                 
                 while(dispologin==false){
                
-                  if(personneMoraleFacade.rechercheDispoLogin(login)==false){
+                  if(responsableFacade.rechercheDispoLogin(login)==false){
                       Random rand = new Random(); int nombreAleatoire = rand.nextInt(9 - 1 + 1) + 1;
                     login=login+String.valueOf(nombreAleatoire);                   
                    } else {
@@ -295,10 +297,16 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        
                 
        Responsable resp;
-       resp=creerResponsable(pers.get(0),pers.get(1),pers.get(2),pers.get(3),login,mdp,persmo);
-       
-        Response.add("Personne Morale créée");//1
-        Response.add("/MenuGestionnaire.jsp"); //2 
+        System.out.println(pers.get(0));
+        System.out.println(pers.get(1));
+        System.out.println(pers.get(2));
+        System.out.println(pers.get(3));
+        System.out.println(pers.get(4));
+       resp=creerResponsable(pers.get(0),pers.get(1),login,mdp,pers.get(2),pers.get(3),persmo);
+       //String nom, String prenom, String login, String mdp, String mail, String tel, PersonneMorale personneMorale
+       //1 nom, 2 prenom, 3 mail, 4 tel,5 PersonneMorale (String de ID)
+        Response.add("Responsable créé");//1
+        Response.add("/GestionnaireCreationResponsable.jsp"); //2 
         Response.add(resp);//3 le gestionnaire créé
         
         return Response;
@@ -591,16 +599,28 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
     
        @Override
-    public List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,Long idpers) {
+    public List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,String idp) {
+        long idpers;
         List<Object> Response=new ArrayList();
-        Object[] pers = null;
+        try{
+            idpers=(long)Integer.parseInt(idp);
+        }catch(NumberFormatException e){
+            Response.add("Erreur de personne choisie");//1
+            Response.add("/GestionnaireAfficherAffilie.jsp"); //2 JSP creation de devis avec liste object Ayants droits + infos personne (nom, prenom, mail,numero SS population)
+            Response.add(null);
+            Response.add(new ArrayList());
+            return Response;
+        }
+        
+        //Object[] pers = null;
         List<Object[]>listeinfos = new ArrayList();
         //cette methode consiste a creer les object pour envoyer dans la JSP creation de devis
         
         //on recuperer la personne
         PersonnePhysique personne=personnePhysiqueFacade.recherchePersonneID(idpers);
         List<PersonnePhysique>Ayantsdroit=new ArrayList();
-        
+        Format formatter = new SimpleDateFormat("dd/MM/yyyy"); //j'ai trouver que ca pour Date To String
+        Object[] pers={personne.getNom(), personne.getPrenom(), formatter.format(personne.getDateNaiss()), personne.getNumeroSS(), personne.getMail(), personne.getLaPopulation().getId()};
         Domaine dom = gest.getLeDomaine();
         
         //on recupere les ayants droits de son contrat du domaine concerné
@@ -608,7 +628,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
         List<StatutBeneficiaire>lespers = lestatutaffilie.getLeContrat().getLesStatutsBeneficiaire();
         
-        List<StatutBeneficiaire>statutsayants=new ArrayList();
+        /*List<StatutBeneficiaire>statutsayants=new ArrayList();
         
         for (StatutBeneficiaire st : lespers){
             if(st.getLaBeneficiaire().getLibelleBeneficiaire().equals("Concubin")){
@@ -625,24 +645,31 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         for (StatutBeneficiaire stpers : statutsayants){
             Ayantsdroit.add(stpers.getLaPersonnePhysique());
+        }*/
+        
+        for (StatutBeneficiaire stpers : lespers){
+            if(stpers.getLaBeneficiaire().getLibelleBeneficiaire().equals("Affilie")){
+                PersonnePhysique ayt=stpers.getLaPersonnePhysique();
+                Object[] a={ayt.getNom(),ayt.getPrenom(),formatter.format(ayt.getDateNaiss()),ayt.getNumeroSS()};
+                listeinfos.add(a);
+            }
         }
         
         //Objet pers : 1 nom, 2 prenom, 3 datenaiss, 4 numero SS ,5 mail,6 Population (String de ID)
-        Array.set(pers, 0, personne.getNom());
+        /*Array.set(pers, 0, personne.getNom());
         Array.set(pers, 1, personne.getPrenom());
         
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //j'ai trouver que ca pour Date To String
         String datenaiss  = formatter.format(personne.getDateNaiss());
 
         Array.set(pers, 2, datenaiss); 
         Array.set(pers, 3, personne.getNumeroSS());
         Array.set(pers, 4, personne.getMail());
-        Array.set(pers, 4, personne.getLaPopulation().getId());
+        Array.set(pers, 4, personne.getLaPopulation().getId());*/
         
        //ayants droits  : List Object listeinfos
        //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ;
        
-        for (PersonnePhysique ayt : Ayantsdroit) {
+        /*for (PersonnePhysique ayt : Ayantsdroit) {
              Object[]Ayantdroitobj=null;
              Array.set(Ayantdroitobj, 0, ayt.getNom());
              Array.set(Ayantdroitobj, 1, ayt.getPrenom());
@@ -650,10 +677,10 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
              Array.set(Ayantdroitobj, 0, ayt.getNumeroSS());
            
              listeinfos.add(Ayantdroitobj);
-        }       
+        }  */     
        
         Response.add("Recherche terminée");//1
-        Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object Ayants droits + infos personne (nom, prenom, mail,numero SS population)
+        Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object Ayants droits + infos personne (nom, prenom, mail,numero SS population)
         Response.add(pers);//3 la personne qui crée le devis
         Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
         
@@ -743,12 +770,11 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        
        //on recupere le contrat
        List<Contrat> contrats=statutBeneficiaireFacade.rechercheContratsAffilie(pp);
-       
        //filtre les contrats sur Domaine de la sante
        List<Contrat>contratssante=new ArrayList();
        
       for (Contrat ct : contrats){
-          if(ct.getLeProduit().getLeDomaine().getLibelleDomaine().equalsIgnoreCase("Sante")){
+          if(ct.getLeProduit().getLeDomaine().getLibelleDomaine().equalsIgnoreCase("Santé")){
               contratssante.add(ct);
           }
           
@@ -763,23 +789,24 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
           for (Contrat ct : contratssante){
           Produit leprod = ct.getLeProduit();
           TypeProduit letype=leprod.getLeTypeProduit();
-           
-            if(letype.getLibelleTypeProduit().equalsIgnoreCase("Surcomplementaire")){
+           System.out.println(letype.getLibelleTypeProduit());
+            if(letype.getLibelleTypeProduit().equalsIgnoreCase("Surementaire")){
                 lecontrat=ct;
             }    
           }             
        }
-      
-           
+      if(lecontrat==null){
+          Response.add("Pas possible de créer remboursement");
+          return Response;
+      }
        //on compare les garanties couvertes par le produit, et dans quel module se trouve l'acte pour
        // savoir si on rembourse ou non 
-       
-      List<TypeGarantie>typeglicouverte=lecontrat.getLeProduit().getLesTypesGarantie();
+       Produit prod=lecontrat.getLeProduit();
+      List<TypeGarantie>typeglicouverte=prod.getLesTypesGarantie();
       //typegli list typegarantie = les garanties couverte par le produit
       
        boolean couvert=false;
        String lenom;
- 
         for(TypeGarantie typ : typegli){
          
             lenom=typ.getTypeGarantie();
@@ -873,9 +900,16 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public List<Object> cloturerContrat(Long idcontrat) {
+    public List<Object> cloturerContrat(String idc) {
         List<Object> Response=new ArrayList();
-        
+        long idcontrat;
+        try{
+            idcontrat=(long)Integer.parseInt(idc);
+        }catch(NumberFormatException e){
+            Response.add("Prodblème de contrat choisi");
+            Response.add(null);
+            return Response;
+        }
         Contrat ct = contratFacade.rechercheExistantID(idcontrat);
         
         ct=contratFacade.cloturerContrat(ct);
@@ -890,32 +924,45 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
 
     
     @Override
-    public List<Object> validerContrat(Long idcontrat) {
-        List<Object> Response=new ArrayList();
+    public List<Object> validerContrat(String idc) {
         
+        List<Object> Response=new ArrayList();
+        long idcontrat;
+        try{
+            idcontrat=(long)Integer.parseInt(idc);
+        }catch(NumberFormatException e){
+            Response.add("Prodblème de contrat choisi");
+            Response.add(null);
+            return Response;
+        }
         Contrat ct = contratFacade.rechercheExistantID(idcontrat);
         
         ct = contratFacade.ValiderContrat(ct);
         
         
         Response.add("Contrat validé "); // 1
-        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
         Response.add(ct);
         
         return Response;
     }
 
     @Override
-    public List<Object> refuserContrat(Long idcontrat) {
+    public List<Object> refuserContrat(String idc) {
         List<Object> Response=new ArrayList();
-        
+        long idcontrat;
+        try{
+            idcontrat=(long)Integer.parseInt(idc);
+        }catch(NumberFormatException e){
+            Response.add("Prodblème de contrat choisi");
+            Response.add(null);
+            return Response;
+        }
         Contrat ct = contratFacade.rechercheExistantID(idcontrat);
         
         ct=contratFacade.RefuserContrat(ct);
         
         
         Response.add("Contrat refusé "); // 1
-        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
         Response.add(ct);
         
         return Response;
@@ -1147,7 +1194,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
     @Override
     public List<Contrat> AfficherContratValide(Domaine dom){
-        return contratFacade.AfficherContratCree(dom);
+        return contratFacade.AfficherContratValide(dom);
     }
     
     
@@ -1190,5 +1237,8 @@ Transport transport = null;
         }
     }
 }    
-    
+    @Override
+    public List<PersonnePhysique> AfficherPersonnesPhysiques(){
+        return personnePhysiqueFacade.findAll();
+    }
 }

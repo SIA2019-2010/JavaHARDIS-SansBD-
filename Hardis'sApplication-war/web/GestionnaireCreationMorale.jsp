@@ -16,37 +16,35 @@
     <body>
         <h1>Rentrer les informations </h1>
     </body>
-     <form method="get" action="Servlet">
-        <%List<Activite>lesActi=listeact;%>
-                <fieldset>
-                    <legend>Informations nouvelle Entreprise</legend>
-                    <label for="idact">Activité de l'entreprise (Code NAF)<span class="requis">*</span></label>
-                    <select name="idact">
-                        <% for (Activite ac: lesActi){%>
-                        <option value ="<%=ac.getCodeNAF()%>"><%=ac.getId()%></option>
-                        <%}%>
-                    </select>
-                    </fieldset>
-                    <br/>
-                   <label for ="Siret">Siret<span class ="requis">*</span></label>
+        <form method="post" action="Page">
+            <%List<Activite>lesActi=listeact;%>
+            <fieldset>
+                <legend>Informations nouvelle Entreprise</legend>
+                <label for="idact">Activité de l'entreprise (Code NAF)<span class="requis">*</span></label>
+                <select name="idact">
+                    <% for (Activite ac: lesActi){%>
+                        <option value ="<%=ac.getCodeNAF()%>"><%=ac.getId()%><%=ac.getDescription()%></option>
+                    <%}%>
+                </select>
+                <br/>
+                <label for ="Siret">Siret<span class ="requis">*</span></label>
                 <input type="text" name ="Siret" value ="" size="20" maxlength ="20"/>
                 <br/>
                 <br/>
-                   <label for ="RaisonSociale">Raison Sociale<span class ="requis">*</span></label>
+                <label for ="RaisonSociale">Raison Sociale<span class ="requis">*</span></label>
                 <input type="text" name ="RaisonSociale" value ="" size="20" maxlength ="20"/>
                 <br/>
-                 <br/>
-                   <label for ="Adresse">Adresse<span class ="requis">*</span></label>
+                <br/>
+                <label for ="Adresse">Adresse<span class ="requis">*</span></label>
                 <input type="text" name ="Adresse" value ="" size="20" maxlength ="20"/>
                 <br/>
-                
-               <input type="hidden" name="action" value="InsererMorale"
+            </fieldset>
+            
+            <input type="hidden" name="action" value="InsererMorale"/>
             <input type ="submit" value="Valider" />
             <input type ="reset" value="Remettre à zero" /> <br/>
         </form>
-        
-        </div>
-      <td Width=25%><A href="ServMenu?action=retourAgent"> Retour au menu</a></td>              
+        <td Width=25%><A href="ServMenu?action=retourAgent"> Retour au menu</a></td>              
  </body>
     
 </html>
