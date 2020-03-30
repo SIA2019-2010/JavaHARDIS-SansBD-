@@ -471,13 +471,13 @@ public class Page extends HttpServlet {
                 System.out.println(numpack+"numpack");
                 Object[] pack=lesPacks.get(numpack);
                 Response=publiqueSession.creerDevisComplet(pers, pack, listeinfos);
-                if((Devis)Response.get(3)==null){
+                if((Devis)Response.get(2)==null){
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
                 jspClient=(String)Response.get(1);
                 message=(String)Response.get(0); 
                 } else {
-                    doActionCreerPdfDevis(request,response,(Devis)Response.get(3));
+                    doActionCreerPdfDevis(request,response,(Devis)Response.get(2));
                     jspClient=(String)Response.get(1);
                 }
                 
