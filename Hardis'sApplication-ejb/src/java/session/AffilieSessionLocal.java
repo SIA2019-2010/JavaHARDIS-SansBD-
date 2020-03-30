@@ -9,6 +9,7 @@ import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.Devis;
 import entitee.Domaine;
+import entitee.Garantie;
 import entitee.Genre;
 import entitee.PersonnePhysique;
 import entitee.Population;
@@ -59,6 +60,8 @@ public interface AffilieSessionLocal {
     List<StatutBeneficiaire> rechercherStatutBeneficiaire(PersonnePhysique persph);
 
     List<Object> afficherGarantie(Long idcont);
+
+    Garantie recupererGarantieChoisie(Long idgar);
     
     
     

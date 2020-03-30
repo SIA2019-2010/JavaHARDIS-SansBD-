@@ -36,5 +36,7 @@ public interface GarantieFacadeLocal {
     Garantie creerGarantie(String libellegarantie, BaseRemboursementSecu labase, List<TypeGarantie> lestypes);
     
     Garantie modifierLibelleGarantie(Garantie garantie, String libellegarantie);
+
+    Garantie recupererGarantieID(Long idgar);
     
 }

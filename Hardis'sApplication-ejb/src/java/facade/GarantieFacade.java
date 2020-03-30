@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -46,5 +47,24 @@ public class GarantieFacade extends AbstractFacade<Garantie> implements Garantie
         em.persist(garantie);
         return garantie;
     }
+
+    @Override
+    public Garantie recupererGarantieID(Long idgar) {
+        Garantie pers;
+        String txt="SELECT gar FROM Garantie AS gar WHERE gar.id=:idd";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("idd",idgar);
+        pers=null;
+        List <Garantie> result = req.getResultList();
+        if (result.size()==1)
+            {pers=(Garantie)result.get(0);};
+        return pers;
+    }
+ 
+    
+    
+    
+    
+    
     
 }
