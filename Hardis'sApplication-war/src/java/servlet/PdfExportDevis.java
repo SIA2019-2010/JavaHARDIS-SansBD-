@@ -51,27 +51,27 @@ public class PdfExportDevis extends HttpServlet{
             canvas.showText("Origine");
             
             //iddevis
-            canvas.setTextMatrix(470, 790);
+            canvas.setTextMatrix(510, 760);
             canvas.showText("222222");
             
             //info client
              
-            canvas.setTextMatrix(0, 550);
+            canvas.setTextMatrix(110, 567);
             canvas.showText("Alexis");
             
-            canvas.setTextMatrix(0, 530);
+            canvas.setTextMatrix(120, 551);
             canvas.showText("Baillieu");
             
-            canvas.setTextMatrix(0, 510);
+            canvas.setTextMatrix(210, 537);
             canvas.showText("3131342342213");
             
             //info produit
             
-            canvas.setTextMatrix(0, 460);
+            canvas.setTextMatrix(155, 464);
             canvas.showText("Crystal Premium");
             
             //liste garantie choisies dans le produit
-            int top=380;
+            int top=410;
             List<String> lestr=new ArrayList();
             lestr.add("zizi");
             lestr.add("pipi");
@@ -82,19 +82,21 @@ public class PdfExportDevis extends HttpServlet{
             lestr.add("joue de la guitare c'est vachement cool");
             
             for(String str : lestr){
-                canvas.setTextMatrix(0, top);
+                canvas.setTextMatrix(80, top);
                 canvas.showText(""+str);
                  
                 top-=20;
             }
             
             //le prix
-            canvas.setTextMatrix(300, 200);
+            canvas.setTextMatrix(300, 150);
             canvas.showText("121 euros TTC");
             
             
+            canvas.setFontAndSize(font, 10);
+            
             //Le lien : 
-            canvas.setTextMatrix(0, 150);
+            canvas.setTextMatrix(50, 60);
             canvas.showText("localhost:8080/Hardis_sApplication-war/Page?action=PageDevisInformationsSupplementaire&iddevis=3");
             
             

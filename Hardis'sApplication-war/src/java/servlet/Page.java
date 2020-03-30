@@ -643,48 +643,48 @@ public class Page extends HttpServlet {
             
             canvas.beginText();
             
-            canvas.setTextMatrix(0, 0);
-            canvas.showText("Origine");
             
             //iddevis
-            canvas.setTextMatrix(470, 760);
+            canvas.setTextMatrix(510, 760);
             canvas.showText(""+dev.getId());
             
             //info client
             PersonnePhysique pers = dev.getLaPersonne();
              
-            canvas.setTextMatrix(0, 750);
+            canvas.setTextMatrix(110, 567);
             canvas.showText(""+pers.getNom());
             
-            canvas.setTextMatrix(0, 730);
+            canvas.setTextMatrix(120, 551);
             canvas.showText(""+pers.getPrenom());
             
-            canvas.setTextMatrix(0, 700);
+            canvas.setTextMatrix(210, 537);
             canvas.showText(""+pers.getNumeroSS());
             
             //info produit
             Produit pro = dev.getLeProduit();
             
-            canvas.setTextMatrix(0, 400);
+            canvas.setTextMatrix(155, 464);
             canvas.showText(""+pro.getNomProduit());
             
             //liste garantie choisies dans le produit
-            int top=350;
+             int top=410;
             
             for(TypeGarantie choisie : pro.getLesTypesGarantie()){
-                canvas.setTextMatrix(0, top);
+                 canvas.setTextMatrix(80, top);
                 canvas.showText(""+choisie.getTypeGarantie());
                  
                 top-=20;
             }
             
             //le prix
-            canvas.setTextMatrix(300, 200);
+            canvas.setTextMatrix(300, 150);
             canvas.showText(""+Double.toString(dev.getPrix()));
             
             
+             canvas.setFontAndSize(font, 10);
+             
             //Le lien : 
-            canvas.setTextMatrix(300, 200);
+            canvas.setTextMatrix(50, 60);
             canvas.showText("localhost:8080/Hardis_sApplication-war/Page?action=PageDevisInformationsSupplementaire&iddevis="+dev.getId());
             
             
