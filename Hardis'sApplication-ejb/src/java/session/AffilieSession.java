@@ -20,6 +20,7 @@ import entitee.TypeGarantie;
 import facade.ActeFacadeLocal;
 import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
+import facade.GarantieFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.ProduitFacadeLocal;
 import facade.RemboursementFacadeLocal;
@@ -40,6 +41,9 @@ import javax.servlet.http.HttpSession;
  */
 @Stateless
 public class AffilieSession implements AffilieSessionLocal {
+
+    @EJB
+    private GarantieFacadeLocal garantieFacade;
 
     @EJB
     private ProduitFacadeLocal produitFacade;
@@ -307,6 +311,11 @@ public class AffilieSession implements AffilieSessionLocal {
         Response.add(gar);//3 les garanties du contrat
         
         return Response;
+    }
+
+    @Override
+    public Garantie recupererGarantieChoisie(Long idgar) {
+        return garantieFacade.recupererGarantieID(idgar);
     }
     
 

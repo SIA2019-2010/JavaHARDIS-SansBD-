@@ -11,6 +11,8 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import entitee.*;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -445,9 +447,15 @@ public class Page extends HttpServlet {
             
             case "genererPDFPriseEnCharge" : 
                 jspClient="/Acceuil";
-                doActionCreerPdfPriseEnCharge(request,response);
+                String idgarst=request.getParameter("idgar");
+                Long idgar = Long.valueOf(idgarst);
+                
+                Garantie g = affilieSession.recupererGarantieChoisie(idgar);
+                
+                doActionCreerPdfPriseEnCharge(request,response,sessionaffilie,g);
                 
                 break;
+                
                 
             case "GestionnaireCreerRemboursement" :
                 String idacte=request.getParameter("idacte");
@@ -695,7 +703,7 @@ public class Page extends HttpServlet {
         }
     }
     
-        protected void doActionCreerPdfPriseEnCharge(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        protected void doActionCreerPdfPriseEnCharge(HttpServletRequest request, HttpServletResponse response,PersonnePhysique affi,Garantie gar) throws ServletException, IOException {
         String masterPath= request.getServletContext().getRealPath("/WEB-INF/PriseEnChargeMaster.pdf");
         response.setContentType("application/pdf");
         
@@ -713,8 +721,47 @@ public class Page extends HttpServlet {
             
             canvas.beginText();
             
-            canvas.setTextMatrix(0, 0);
-            canvas.showText("Origine");
+            //info client
+             
+            canvas.setTextMatrix(110, 760);
+            canvas.showText(""+affi.getNom());
+            
+            canvas.setTextMatrix(120, 745);
+            canvas.showText(""+affi.getPrenom());
+            
+            canvas.setTextMatrix(213, 730);
+            canvas.showText(""+affi.getNumeroSS());
+            
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String datestr = formatter.format(affi.getDateNaiss());
+            String datej = formatter.format(new Date());
+            
+            canvas.setTextMatrix(170, 715);
+            canvas.showText(""+datestr);
+            
+            //Date : 
+            canvas.setTextMatrix(115, 570);
+            canvas.showText(""+datej);
+            
+            //texte
+            canvas.setTextMatrix(340, 541);
+            canvas.showText(""+affi.getNom()+" "+affi.getPrenom());
+            
+            //texte
+            canvas.setTextMatrix(390, 527);
+            canvas.showText(""+affi.getLesStatutsBeneficiaire().get(0).getLeContrat().getId());
+            
+           
+            //Garantie choisie
+            canvas.setTextMatrix(180, 472);
+            canvas.showText(""+gar.getLibelleGarantie());
+            
+            
+           
+            //Signature
+            canvas.setTextMatrix(385, 310);
+            canvas.showText("..SIGNATURE/TAMPON..");
+            
             
             
             canvas.endText();
@@ -723,6 +770,75 @@ public class Page extends HttpServlet {
         }
     }
     
+    protected void doActionCreerPdfDemandePriseEnCharge(HttpServletRequest request, HttpServletResponse response,PersonnePhysique affi,Garantie gar) throws ServletException, IOException {
+        String masterPath= request.getServletContext().getRealPath("/WEB-INF/PriseEnChargeMaster.pdf");
+        response.setContentType("application/pdf");
+        
+        try( PdfReader reader = new PdfReader(masterPath);
+             PdfWriter writer = new PdfWriter(response.getOutputStream());
+             PdfDocument document = new PdfDocument(reader, writer)) {
+            
+            PdfPage page = document.getPage(1);
+            
+            PdfCanvas canvas = new PdfCanvas(page);
+            
+            FontProgram fontProgram = FontProgramFactory.createFont();
+            PdfFont font = PdfFontFactory.createFont(fontProgram, "utf-8", true);
+            canvas.setFontAndSize(font, 12);
+            
+            canvas.beginText();
+            
+            //info client
+             
+            canvas.setTextMatrix(110, 760);
+            canvas.showText(""+affi.getNom());
+            
+            canvas.setTextMatrix(120, 745);
+            canvas.showText(""+affi.getPrenom());
+            
+            canvas.setTextMatrix(213, 730);
+            canvas.showText(""+affi.getNumeroSS());
+            
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String datestr = formatter.format(affi.getDateNaiss());
+            String datej = formatter.format(new Date());
+            
+            canvas.setTextMatrix(170, 715);
+            canvas.showText(""+datestr);
+            
+            //Date : 
+            canvas.setTextMatrix(115, 570);
+            canvas.showText(""+datej);
+            
+            //texte
+            canvas.setTextMatrix(340, 541);
+            canvas.showText(""+affi.getNom()+" "+affi.getPrenom());
+            
+            //texte
+            canvas.setTextMatrix(390, 527);
+            canvas.showText(""+affi.getLesStatutsBeneficiaire().get(0).getLeContrat().getId());
+            
+           
+            //Garantie choisie
+            canvas.setTextMatrix(180, 472);
+            canvas.showText(""+gar.getLibelleGarantie());
+            
+            
+           
+            //Signature
+            canvas.setTextMatrix(385, 310);
+            canvas.showText("..SIGNATURE/TAMPON..");
+            
+            
+            
+            canvas.endText();
+            
+            
+        }
+    }    
+        
+        
+        
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
