@@ -832,14 +832,22 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             //creerRemboursement avec 0
         }
         List<PriseEnCharge> lesprisesench=lecontrat.getLeProduit().getLesPriseEnCharges();
+        
+        List<PriseEnCharge> lesprisesenchgar=new ArrayList();
+        
+        for(PriseEnCharge prise : lesprisesench){
+        if(prise.getLaGarantie()==g){
+            lesprisesenchgar.add(prise);
+        }
+         }
       
         //si le practitien est adherentCAS on recupere la prise en charge adhérent et inversement(qui contient les pourcentages de remboursement)
         PriseEnCharge p=null;
-        System.out.println(lesprisesench.size());
-        for (PriseEnCharge prise : lesprisesench){
+        System.out.println(lesprisesenchgar.size());
+        for (PriseEnCharge priseen : lesprisesenchgar){
             boolean pb;
             try{
-                pb=prise.isAdherentCAS();
+                pb=priseen.isAdherentCAS();
                 //System.out.println("pb"+pb);
             }catch(Exception e){
                 //System.out.println("pbnull");
@@ -847,12 +855,12 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             }
             if (pb==practiCAS){
                 System.out.println("practiCAS"+practiCAS);
-                System.out.println("ok"+prise.getId());
-                p=prise;  
+                System.out.println("ok"+priseen.getId());
+                p=priseen;  
             }
             else{
                 System.out.println("practiCAS"+practiCAS);
-                System.out.println("xx"+prise.getId());
+                System.out.println("xx"+priseen.getId());
             }
         }
         if(p==null){
