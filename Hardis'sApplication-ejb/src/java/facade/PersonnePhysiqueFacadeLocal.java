@@ -51,7 +51,7 @@ public interface PersonnePhysiqueFacadeLocal {
 
     boolean rechercheDispoLogin(String logintest);
 
-    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre);
+    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,int RIB);
 
     boolean rechercheBooleanEmail(String email);
 

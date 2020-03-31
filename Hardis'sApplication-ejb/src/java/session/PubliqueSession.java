@@ -81,8 +81,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre) {
-        return personnePhysiqueFacade.renseignerInfos(pers, adresse, genre);
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,int RIB) {
+        return personnePhysiqueFacade.renseignerInfos(pers, adresse, genre,RIB);
     }
            
     @Override
@@ -317,7 +317,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     public List<Object> validerDevis(Long iddevis,Object[] pers,List<Object[]>listeinfos) {
         List<Object> Response=new ArrayList();   
         //dans cette methode : on recupere : 
-                        // pers : nom,prenom,numero SS,adresse,genre,login,mdp
+                        // pers : nom,prenom,numero SS,adresse,genre,login,mdp,RIB
                         // pour chaque ayant droit : nom,prenom,numeross,adresse,genre,population, STRING (Conjoint, Concubin, Enfant à charge)
                         //potentiellement des fichiers ?
           
@@ -334,7 +334,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
          }
          
          //controle sur les champs remplis : personnephy               
-        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")){
+        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")||((String)Array.get(pers,6)).equals("")){
              Response.add("Merci de remplir les champs obligatoires");//1
              Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
              Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
@@ -353,6 +353,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
             String genre = (String)Array.get(infos,4);
             String idpopst = (String)Array.get(infos,5);
             String statutayt=(String)Array.get(infos,6);
+ 
+            
             
             if(nom==null||prenom==null||adresse==null||numeroSS==null||genre==null||idpopst==null||statutayt==null){
                  Response.add("Merci de remplir les champs obligatoires");//1
@@ -386,7 +388,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             }
         }    
           
-                        
+                      
                         
         PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 2));
         if (persencours==null){
@@ -407,7 +409,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             }else if(genrestr.equalsIgnoreCase("Autre")){
                 genrepers=Genre.Autre;
             }
-            persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers);
+            persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers,Integer.parseInt((String)Array.get(pers,6)));
             persencours=personnePhysiqueFacade.renseignerLoginMdp(persencours, (String)Array.get(pers, 5), (String)Array.get(pers, 6));
         }
          

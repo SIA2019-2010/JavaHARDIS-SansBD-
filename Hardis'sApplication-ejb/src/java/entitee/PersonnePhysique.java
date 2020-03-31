@@ -68,6 +68,16 @@ public class PersonnePhysique implements Serializable {
     
     private String Mdp;
     
+    private int RIB;
+
+    public int getRIB() {
+        return RIB;
+    }
+
+    public void setRIB(int RIB) {
+        this.RIB = RIB;
+    }
+
 
     public String getMdp() {
         return Mdp;

@@ -43,7 +43,7 @@ public interface AffilieSessionLocal {
 
     StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers);
 
-    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre);    
+    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,int RIB);    
 
     Contrat modifierDateFinContrat(Contrat contrat, Date datef);
 

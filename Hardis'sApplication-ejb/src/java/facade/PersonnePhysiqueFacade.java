@@ -142,9 +142,10 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre) {
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,int RIB) {
         pers.setAdresse(adresse);
         pers.setGenre(genre);
+        pers.setRIB(RIB);
         
         em.merge(pers);
         return pers;
