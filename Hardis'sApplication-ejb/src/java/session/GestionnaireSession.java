@@ -772,7 +772,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        List<Contrat> contrats=statutBeneficiaireFacade.rechercheContratsAffilie(pp);
        //filtre les contrats sur Domaine de la sante
        List<Contrat>contratssante=new ArrayList();
-       
+       System.out.println("nombre contrats contres"+contrats.size());
       for (Contrat ct : contrats){
           if(ct.getLeProduit().getLeDomaine().getLibelleDomaine().equalsIgnoreCase("Santé")){
               contratssante.add(ct);
@@ -781,7 +781,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
       }
       //on recuperer contrat individuel ou contrat collectif, si presence de complementaire on recuperer complementaire
       Contrat lecontrat=null;
-      
+        System.out.println("nombre contratssante contres"+contratssante.size());
+
       if(contratssante.size()==1){
         lecontrat=contratssante.get(0);
       }
@@ -789,34 +790,39 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
           for (Contrat ct : contratssante){
           Produit leprod = ct.getLeProduit();
           TypeProduit letype=leprod.getLeTypeProduit();
-           System.out.println(letype.getLibelleTypeProduit());
-            if(letype.getLibelleTypeProduit().equalsIgnoreCase("Surementaire")){
+           System.out.println(letype.getLibelleTypeProduit()+"nanana");
+            if(letype.getLibelleTypeProduit().equalsIgnoreCase("Surcomplémentaire")){
                 lecontrat=ct;
             }    
           }             
        }
-      if(lecontrat==null){
-          Response.add("Pas possible de créer remboursement");
-          return Response;
-      }
+        if(lecontrat==null){
+            Response.add("Pas possible de créer remboursement");
+            return Response;
+        }
        //on compare les garanties couvertes par le produit, et dans quel module se trouve l'acte pour
        // savoir si on rembourse ou non 
-       Produit prod=lecontrat.getLeProduit();
-      List<TypeGarantie>typeglicouverte=prod.getLesTypesGarantie();
-      //typegli list typegarantie = les garanties couverte par le produit
+        Produit prod=lecontrat.getLeProduit();
+        List<TypeGarantie>typeglicouverte=prod.getLesTypesGarantie();
+        //typegli list typegarantie = les garanties couverte par le produit
       
-       boolean couvert=false;
-       String lenom;
+        boolean couvert=false;
+        String lenom;
         for(TypeGarantie typ : typegli){
-         
+            System.out.println("search");
             lenom=typ.getTypeGarantie();
-              
-            for (TypeGarantie typacheck:typeglicouverte){
+            if(typeglicouverte.contains(typ)){
+                couvert=true;
+                System.out.println("good");
+                break;
+            }
+            /*for (TypeGarantie typacheck:typeglicouverte){
                 if(lenom==typacheck.getTypeGarantie()){
                     couvert=true;
+                    break;
                 }
                   
-            }   
+            }   */
               
         }
     
@@ -829,9 +835,24 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
       
         //si le practitien est adherentCAS on recupere la prise en charge adhérent et inversement(qui contient les pourcentages de remboursement)
         PriseEnCharge p=null;
+        System.out.println(lesprisesench.size());
         for (PriseEnCharge prise : lesprisesench){
-            if (prise.isAdherentCAS()==practiCAS){
+            boolean pb;
+            try{
+                pb=prise.isAdherentCAS();
+                //System.out.println("pb"+pb);
+            }catch(Exception e){
+                //System.out.println("pbnull");
+                continue;
+            }
+            if (pb==practiCAS){
+                System.out.println("practiCAS"+practiCAS);
+                System.out.println("ok"+prise.getId());
                 p=prise;  
+            }
+            else{
+                System.out.println("practiCAS"+practiCAS);
+                System.out.println("xx"+prise.getId());
             }
         }
         if(p==null){
@@ -871,29 +892,42 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
 
     @Override
-    public List<Object> validerRemboursement(Long idremb) {
+    public List<Object> validerRemboursement(String idrv) {
+        Long idremb;
         List<Object> Response=new ArrayList();
+        try{
+            idremb=(long)Integer.parseInt(idrv);
+        }catch(Exception e){
+            Response.add("Remboursement non trouvé");
+            return Response;
+        }
         
         Remboursement remb = remboursementFacade.rechercheExistantID(idremb);
         
         remb = remboursementFacade.validerRemboursement(remb);
         
-        Response.add("Remboursement créé "); // 1
+        Response.add("Remboursement validé "); // 1
         Response.add(remb);//le remboursement validé
         
         return Response;
     }
 
     @Override
-    public List<Object> refuserRemboursement(Long idremb) {
+    public List<Object> refuserRemboursement(String idrr) {
+        Long idremb;
         List<Object> Response=new ArrayList();
+        try{
+            idremb=(long)Integer.parseInt(idrr);
+        }catch(Exception e){
+            Response.add("Remboursement non trouvé");
+            return Response;
+        }
         
         Remboursement remb = remboursementFacade.rechercheExistantID(idremb);
         
         remb = remboursementFacade.refuserRemboursement(remb);
         
-        Response.add("Remboursement créé "); // 1
-        Response.add("/MenuGestionnaire.jsp"); // 2 Jsp pour afficher 
+        Response.add("Remboursement refusé "); // 1
         Response.add(remb);//le remboursement refusé
         
         return Response;
@@ -969,7 +1003,10 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
     
     
-    
+    @Override
+    public List<Remboursement> afficherRempoursementEncours() {
+        return remboursementFacade.afficherRempoursementEncours();
+    }
       
     
     
@@ -1241,4 +1278,25 @@ Transport transport = null;
     public List<PersonnePhysique> AfficherPersonnesPhysiques(){
         return personnePhysiqueFacade.findAll();
     }
+    
+    @Override
+    public List<Domaine> AfficherDomaine(){
+        return domaineFacade.findAll();
+    }
+    
+    @Override
+    public List<TypeProduit> AfficherTypeProduit(){
+        return typeProduitFacade.findAll();
+    }
+    
+    @Override
+    public List<Fiscalite> AfficherFiscalite(){
+        return fiscaliteFacade.findAll();
+    }
+    
+    @Override
+    public List<TypeGarantie> AfficherTypeGarantie(){
+        return typeGarantieFacade.findAll();
+    }
+    
 }

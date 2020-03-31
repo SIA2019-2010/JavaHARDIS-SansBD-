@@ -43,4 +43,6 @@ public interface RemboursementFacadeLocal {
 
     Remboursement refuserRemboursement(Remboursement remb);
     
+    List<Remboursement> afficherRempoursementEncours();
+    
 }

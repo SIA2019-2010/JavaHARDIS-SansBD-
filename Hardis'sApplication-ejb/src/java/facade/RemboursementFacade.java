@@ -53,6 +53,15 @@ public class RemboursementFacade extends AbstractFacade<Remboursement> implement
         List <Remboursement> result = req.getResultList();
         return result;
     }
+    
+    @Override
+    public List<Remboursement> afficherRempoursementEncours() {        
+        String txt="SELECT r FROM Remboursement AS r WHERE r.EtatRemboursement=:en";
+        Query req=getEntityManager().createQuery(txt);
+        req=req.setParameter("en",EtatRemboursement.EnCours);
+        List <Remboursement> result = req.getResultList();
+        return result;
+    }
 
     @Override
     public Remboursement rechercheExistantID(Long idremb) {

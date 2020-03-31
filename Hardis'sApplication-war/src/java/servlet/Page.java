@@ -491,6 +491,69 @@ public class Page extends HttpServlet {
                 
                 break;
                 
+            case "GestionnaireRempoursementEncours" :
+                List<Remboursement> lister=gestionnaireSession.afficherRempoursementEncours();
+                request.setAttribute("lister", lister);
+                jspClient="/GestionnaireRempoursementEncours.jsp";
+                message="Liste remboursement";
+                break;
+                
+            case "GestionnaireValiderRemboursement" :
+                jspClient="/GestionnaireRempoursementEncours.jsp";
+                String idrv=request.getParameter("idrv");
+                Response=gestionnaireSession.validerRemboursement(idrv);
+                message=(String)Response.get(0);
+                lister=gestionnaireSession.afficherRempoursementEncours();
+                request.setAttribute("lister", lister);
+                break;
+                
+            case "GestionnaireRefuserRemboursement" :
+                jspClient="/GestionnaireRempoursementEncours.jsp";
+                String idrr=request.getParameter("idrr");
+                Response=gestionnaireSession.refuserRemboursement(idrr);
+                message=(String)Response.get(0);
+                lister=gestionnaireSession.afficherRempoursementEncours();
+                request.setAttribute("lister", lister);
+                break;
+                
+            case "PageCreationProduit" :
+                listben = publiqueSession.rechercheBeneficiaires(); 
+                listepersmo = gestionnaireSession.recupererPersonneMorale();
+                listpop = publiqueSession.recherchePopulations();
+                List<Domaine> listdo=gestionnaireSession.AfficherDomaine();
+                List<TypeProduit> listtp=gestionnaireSession.AfficherTypeProduit();
+                List<Fiscalite> listf=gestionnaireSession.AfficherFiscalite();
+                List<TypeGarantie> listtg=gestionnaireSession.AfficherTypeGarantie();
+                request.setAttribute("listben", listben);
+                request.setAttribute("listepersmo", listepersmo);
+                request.setAttribute("listpop", listpop);
+                request.setAttribute("listdo", listdo);
+                request.setAttribute("listtp", listtp);
+                request.setAttribute("listf", listf);
+                request.setAttribute("listtg", listtg);
+                jspClient="/PageCreationProduit.jsp";
+                message="Création Produit";
+                break;
+                
+            case "GestionnaireCreationProduit" :
+                message="";
+                jspClient="/PageCreationProduit.jsp";
+                listben = publiqueSession.rechercheBeneficiaires(); 
+                listepersmo = gestionnaireSession.recupererPersonneMorale();
+                listpop = publiqueSession.recherchePopulations();
+                listdo=gestionnaireSession.AfficherDomaine();
+                listtp=gestionnaireSession.AfficherTypeProduit();
+                listf=gestionnaireSession.AfficherFiscalite();
+                listtg=gestionnaireSession.AfficherTypeGarantie();
+                request.setAttribute("listben", listben);
+                request.setAttribute("listepersmo", listepersmo);
+                request.setAttribute("listpop", listpop);
+                request.setAttribute("listdo", listdo);
+                request.setAttribute("listtp", listtp);
+                request.setAttribute("listf", listf);
+                request.setAttribute("listtg", listtg);
+                break;
+                
             default:
                 jspClient="/"+act+".jsp";
                 message="";
@@ -525,7 +588,12 @@ public class Page extends HttpServlet {
             "InsererMorale",
             "InsererResponsable",
             "GestionnaireAfficherAffilie",
-            "ContratListePersonnes"
+            "ContratListePersonnes",
+            "GestionnaireRempoursementEncours",
+            "GestionnaireValiderRemboursement",
+            "GestionnaireRefuserRemboursement",
+            "PageCreationProduit",
+            "GestionnaireCreationProduit"
         };
         String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",

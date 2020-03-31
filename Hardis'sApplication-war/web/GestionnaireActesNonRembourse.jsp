@@ -34,6 +34,7 @@
             <%for(Acte acte : liste){%>
                 <tr>
                     <form method="post" action="Page">
+                        <td><%=acte.getId()%></td>
                         <td><%=formatter.format(acte.getDateDebut())%></td>
                         <td><%=formatter.format(acte.getDateFin())%></td>
                         <td><%=acte.getDepense()%></td>

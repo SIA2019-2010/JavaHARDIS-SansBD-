@@ -16,6 +16,7 @@ import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.Population;
 import entitee.Produit;
+import entitee.Remboursement;
 import entitee.Responsable;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
@@ -55,9 +56,9 @@ public interface GestionnaireSessionLocal {
 
     List<Acte> rechercheActesNonRemboursePersonne(Long idpers);
 
-    List<Object> validerRemboursement(Long idremb);
+    List<Object> validerRemboursement(String idrv);
 
-    List<Object> refuserRemboursement(Long idremb);
+    List<Object> refuserRemboursement(String idrv);
 
     List<Object> DevisAvecRecherchePersonne(Gestionnaire gest,String idp);
 
@@ -68,6 +69,8 @@ public interface GestionnaireSessionLocal {
     List<Acte> rechercheListeActesNonRembourse();
 
     List<Produit> rechercheProduitsCollectif();
+    
+    List<Remboursement> afficherRempoursementEncours();
     
     void creerActivite(String n);
 
@@ -86,5 +89,13 @@ public interface GestionnaireSessionLocal {
     List<Object> refuserContrat(String idc);
     
     List<PersonnePhysique> AfficherPersonnesPhysiques();
+    
+    List<Domaine> AfficherDomaine();
+    
+    List<TypeProduit> AfficherTypeProduit();
+    
+    List<Fiscalite> AfficherFiscalite();
+    
+    List<TypeGarantie> AfficherTypeGarantie();
         
 }
