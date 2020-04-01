@@ -27,6 +27,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpSession;
@@ -81,7 +82,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
 
     @Override
-    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,int RIB) {
+    public PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,String RIB) {
         return personnePhysiqueFacade.renseignerInfos(pers, adresse, genre,RIB);
     }
            
@@ -409,7 +410,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             }else if(genrestr.equalsIgnoreCase("Autre")){
                 genrepers=Genre.Autre;
             }
-            persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers,Integer.parseInt((String)Array.get(pers,6)));
+            persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers,(String)Array.get(pers,6));
             persencours=personnePhysiqueFacade.renseignerLoginMdp(persencours, (String)Array.get(pers, 5), (String)Array.get(pers, 6));
         }
          
@@ -535,6 +536,18 @@ public class PubliqueSession implements PubliqueSessionLocal {
             Response.add("/PageDevisInformationsSupplementaire.jsp");
             Response.add(d);
             return Response;
+        }
+    }
+    
+    @Override
+    public void RIB(){
+        List<PersonnePhysique> listep=personnePhysiqueFacade.findAll();
+        for(PersonnePhysique p : listep){
+            String RIB=String.valueOf(1+(new Random()).nextInt(9));
+            for(int i=0;i<22;i++){
+                RIB=RIB+String.valueOf((new Random()).nextInt(10));
+            }
+            personnePhysiqueFacade.SetRIB(p, RIB);
         }
     }
     

@@ -70,6 +70,7 @@ public class Page extends HttpServlet {
         List<Object> Response;
         List<Object[]> listeinfos;
         System.out.println("creation begins");
+        //publiqueSession.RIB();
         //gestionnaireSession.creerActivite("act");
         //publiqueSession.creerDevis(null, null, 0, null, null);
         //List<Beneficiaire> lb=new ArrayList();
@@ -79,9 +80,12 @@ public class Page extends HttpServlet {
         //System.out.println("creation bon");
         //Session
         List<Object> ResultatSession=TraiterSession(request,act);
+        System.out.println("qasw"+ResultatSession.size());
         HttpSession session=(HttpSession)(ResultatSession.get(0));
         Gestionnaire sessiongestionnaire=(Gestionnaire)(ResultatSession.get(1));
+        System.out.println("1");
         PersonnePhysique sessionaffilie=(PersonnePhysique)(ResultatSession.get(2));
+        System.out.println("2");
         Responsable sessionresponsable=(Responsable)(ResultatSession.get(3));
         request.setAttribute("typeConnexion", (String)(ResultatSession.get(5)));
         System.out.println(session==null);
@@ -405,14 +409,16 @@ public class Page extends HttpServlet {
                 break;
                 
             case "PageDevisInformationsSupplementaire" :
-                String iddebis=request.getParameter("iddevis");
+                String iddevis=request.getParameter("iddevis");
                 listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
-                Response=publiqueSession.VerifierDevisID(iddebis);
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                Response=publiqueSession.VerifierDevisID(iddevis);
                 message=(String)Response.get(0);
                 jspClient=(String)Response.get(1);
                 System.out.println((Devis)(Response.get(2))==null);
                 request.setAttribute("devis", (Devis)(Response.get(2)));
                 request.setAttribute("listben",listben);
+                request.setAttribute("listpop",listpop);
                 break;
                 
             case "GestionnaireAfficherAffilie" :
@@ -669,16 +675,15 @@ public class Page extends HttpServlet {
                 }
                 else valide=false;
             }
+        }else{
+            Response.add(null);
+            Response.add(null);
+            Response.add(null);
+            Response.add(null);
         }
         if(valide){
             if (Arrays.asList(MenuPublique).contains(act)){
                 System.out.println("Mission Publique");
-                if(session==null){
-                    Response.add(null);
-                    Response.add(null);
-                    Response.add(null);
-                    Response.add(null);
-                }
                 Response.add(true);
                 Response.add("SansConnexion");
                 return Response;
@@ -771,7 +776,7 @@ public class Page extends HttpServlet {
         }
     }
     
-        protected void doActionCreerPdfPriseEnCharge(HttpServletRequest request, HttpServletResponse response,PersonnePhysique affi,Garantie gar) throws ServletException, IOException {
+    protected void doActionCreerPdfPriseEnCharge(HttpServletRequest request, HttpServletResponse response,PersonnePhysique affi,Garantie gar) throws ServletException, IOException {
         String masterPath= request.getServletContext().getRealPath("/WEB-INF/PriseEnChargeMaster.pdf");
         response.setContentType("application/pdf");
         

@@ -759,7 +759,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             return Response;
         }
         Boolean practiCAS =act.getLePraticien().isAdherentCAS();
-        
+        System.out.println(act.getId()+"practiCAS "+practiCAS);
         PlafondMensuelSecuSociale pmss=act.getLePlafond();
         LibelleActe l = act.getLeLibelleActe();
         Garantie g = l.getLaGarantie();
@@ -800,6 +800,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             Response.add("Pas possible de créer remboursement");
             return Response;
         }
+        System.out.println("contrat id "+lecontrat.getId());
        //on compare les garanties couvertes par le produit, et dans quel module se trouve l'acte pour
        // savoir si on rembourse ou non 
         Produit prod=lecontrat.getLeProduit();
@@ -844,7 +845,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //si le practitien est adherentCAS on recupere la prise en charge adhérent et inversement(qui contient les pourcentages de remboursement)
         PriseEnCharge p=null;
         System.out.println(lesprisesenchgar.size());
-        for (PriseEnCharge priseen : lesprisesenchgar){
+        if(lesprisesenchgar.size()==1) p=lesprisesenchgar.get(0);
+        else for (PriseEnCharge priseen : lesprisesenchgar){
+            System.out.println("pec id "+ priseen.getId());
             boolean pb;
             try{
                 pb=priseen.isAdherentCAS();

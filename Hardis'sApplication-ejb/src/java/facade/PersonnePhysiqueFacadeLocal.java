@@ -51,7 +51,7 @@ public interface PersonnePhysiqueFacadeLocal {
 
     boolean rechercheDispoLogin(String logintest);
 
-    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,int RIB);
+    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,String RIB);
 
     boolean rechercheBooleanEmail(String email);
 
@@ -68,5 +68,7 @@ public interface PersonnePhysiqueFacadeLocal {
     PersonnePhysique renseignerInfosAyantsDroit(PersonnePhysique pers, String adresse, Genre genre, Population population);
 
     PersonnePhysique creerPersonneComplete(String nom, String prenom, Genre genre, Date datenaiss, String numeroSS, String mail, Population popu, String adresse);
+    
+    void SetRIB(PersonnePhysique p, String RIB);
     
 }

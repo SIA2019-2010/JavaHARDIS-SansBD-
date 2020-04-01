@@ -33,7 +33,7 @@ public interface PubliqueSessionLocal {
 
         StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedeb, Beneficiaire statut,PersonnePhysique pers);
 
-    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,int RIB);
+    PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,String RIB);
     
     List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable);
 
@@ -52,5 +52,7 @@ public interface PubliqueSessionLocal {
     List<Object> VerifierDevisID(String iddevis);
     
     List<Beneficiaire> rechercheBeneficiaires();
+    
+    void RIB();
     
 }
