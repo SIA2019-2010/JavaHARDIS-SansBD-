@@ -126,8 +126,9 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     
     
     
-     @Override
+    @Override
     public PersonnePhysique creerPersonnePhysiqueDevis(String nom, String prenom, String mail, String numeroSS, Date datenaiss, Population laPopulation) {
+        em.flush();
         PersonnePhysique pers = new PersonnePhysique();
   
         pers.setLaPopulation(laPopulation);
@@ -136,8 +137,9 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
         pers.setPrenom(prenom);
         pers.setNumeroSS(numeroSS);
         pers.setDateNaiss(datenaiss);
-        
+        System.out.println("bababa"+pers.getId());
         em.persist(pers);
+        System.out.println("bababa"+pers.getId());
         return pers;
     }
 
@@ -198,6 +200,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
 
     @Override
     public PersonnePhysique creerAyantsDroits(String nom, String prenom, Date datenaiss, String numeroSS) {
+        em.flush();
         PersonnePhysique pers = new PersonnePhysique();
          
         pers.setNom(nom);
@@ -205,7 +208,9 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
         pers.setNumeroSS(numeroSS);
         pers.setDateNaiss(datenaiss);
         
-        em.merge(pers);
+        System.out.println("bababa"+pers.getId());
+        em.persist(pers);
+        System.out.println("bababa"+pers.getId());
         return pers;
     }
 

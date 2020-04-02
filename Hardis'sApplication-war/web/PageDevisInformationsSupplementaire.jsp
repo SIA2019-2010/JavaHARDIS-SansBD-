@@ -111,7 +111,7 @@
                             <input type="text" name="Adresse" />
                         </td>
                         <td>
-                            <select name="idben" style="width: 100%">
+                            <select name="idgen" style="width: 100%">
                                 <%for(Genre g : Genre.values()){%>
                                     <option value ="<%=g.name()%>" ><%=g.name()%></option>
                                 <%}%>
@@ -144,9 +144,6 @@
                             <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
                         </td>
                         <td width="9%">
-                            <label for="Mail">Mail<span class="requis">*</span></label>
-                        </td>
-                        <td width="9%">
                             <label for="Population">Population<span class="requis">*</span></label>
                         </td>
                         <td width="9%">
@@ -174,9 +171,6 @@
                                 <input type="text" name="NumeroSSAD" value="<%=p.getNumeroSS()%>" STYLE="background-color:#CCCCCC;" disabled/>
                             </td>
                             <td>
-                                <input type="text" name="MailAD"/>
-                            </td>
-                            <td>
                                 <select name="idpopAD" style="width: 100%">
                                     <% for (Population pop : lesp){%>
                                         <option value ="<%=pop.getId()%>">
@@ -195,10 +189,10 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="text" name="Adresse" />
+                                <input type="text" name="AdresseAD" />
                             </td>
                             <td>
-                                <select name="idbenAD" style="width: 100%">
+                                <select name="idgenAD" style="width: 100%">
                                     <%for(Genre g : Genre.values()){%>
                                         <option value ="<%=g.name()%>" ><%=g.name()%></option>
                                     <%}%>
@@ -208,7 +202,8 @@
                     <%}%>
                 </table>
             </fieldset>
-            <input type="hidden" name="action" value="CalculPrixDevis"/>
+                <input type="hidden" name="iddevis" value="<%=devis.getId().toString()%>"/>
+            <input type="hidden" name="action" value="CompleterInformations"/>
             <button type="submit" value="Valider">Envoyer</button>
             <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>
         </form>

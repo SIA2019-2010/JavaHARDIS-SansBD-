@@ -36,12 +36,22 @@
                     yearRange:'c-100:c'
                 });
             });
+            function sup(m){
+                //console.log(m);
+                supprligne = document.getElementById(m);
+                console.log(supprligne);
+                if(supprligne.parentNode){
+                    supprligne.parentNode.removeChild(supprligne);
+                }
+            }
             function add(){
                 /*ayantdrois = document.getElementById("b");
                 copieligne=ligne.cloneNode(true);
                 ayantdrois.appendChild(copieligne);
                 console.log("copy");*/
-                ayantdrois = document.getElementById("b")
+                ayantdrois = document.getElementById("b");
+                n=parseInt(ayantdrois.tBodies[0].lastElementChild.id);
+                n=n+1;
                 copieligne = document.createElement("TR");
                 copieligne.innerHTML = `<tr>
                                             <td>
@@ -56,7 +66,11 @@
                                             <td>
                                                 <input type="text" name="NumeroSSAD"/>
                                             </td>
+                                            <td>
+                                                <input type="button" value="sup" onclick="sup(`+n+`)"/>
+                                            </td>
                                         </tr>`
+                copieligne.id=n;
     
                 ayantdrois.tBodies[0].appendChild(copieligne);
                 $(".datepicker").datepicker({
@@ -175,7 +189,7 @@
                 </table>
                 <h2>Ayants droits</h2>
                 <table width="80%" id="b">
-                    <tr>
+                    <tr id="0">
                         <td width="15%">
                             <label for="Nom">Nom<span class="requis">*</span></label>
                         </td>
@@ -188,9 +202,13 @@
                         <td width="15%">
                             <label for="NumeroSS">Numéro SS<span class="requis">*</span></label>
                         </td>
+                        <td width="15%">
+                            <label for="Supprimer">Supprimer</label>
+                        </td>
                     </tr>
-                    <%for(Object[] infos:listep){%>
-                        <tr>
+                    <%for(int j=0;j<listep.size();j++){
+                        Object[] infos=listep.get(j);%>
+                        <tr id="<%=j+1%>">
                             <td>
                                 <input type="text" name="NomAD" value="<%=Array.get(infos,0)%>"/>
                             </td>
@@ -208,6 +226,9 @@
                             <%}%>
                             <td>
                                 <input type="text" name="NumeroSSAD" value="<%=Array.get(infos,3)%>"/>
+                            </td>
+                            <td>
+                                <input type="button" value="sup" onclick="sup(<%=j+1%>)"/>
                             </td>
                         </tr>
                     <%}%>

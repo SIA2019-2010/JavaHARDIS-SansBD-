@@ -45,7 +45,7 @@ public interface PubliqueSessionLocal {
 
     PersonnePhysique renseignerLoginMDP(PersonnePhysique pers, String login, String mdp);
 
-    List<Object> validerDevis(Long iddevis,Object[] pack,List<Object[]>listeinfos);
+    List<Object> validerDevis(String iddev,Object[] pack,List<Object[]>listeinfos);
 
     List<Object> recupererInfosDevis(Long iddev);
     

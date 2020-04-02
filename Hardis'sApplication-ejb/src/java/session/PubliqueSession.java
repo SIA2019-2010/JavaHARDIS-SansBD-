@@ -124,7 +124,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
        //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ;
        
        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
-             Response.add("Il manque des champs");//1
+            System.out.println("null champs");
+            Response.add("Il manque des champs");//1
              Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(null); //5 pas de devis
              
@@ -243,6 +244,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 System.out.println(idpop+"idpop");
                 
             }
+            System.out.println("nanananana");
+            if(persencours==null)System.out.println("personne null");
+            else System.out.println(persencours);
             System.out.println(listeinfos.size());
             // Ayant droit : juste nom prenom date numeroSS
            for(Object[] infos: listeinfos){
@@ -259,15 +263,19 @@ public class PubliqueSession implements PubliqueSessionLocal {
             
             //si la personne n'existe pas
             if (ayantdroitencours==null){
-
-               ayantdroitencours=personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS); 
+                System.out.println("avant création");
+                ayantdroitencours=personnePhysiqueFacade.creerAyantsDroits(nom, prenom, datenaiss,numeroSS);
+                System.out.println("après création id "+ayantdroitencours.getId());
+            }
+            else{
+                System.out.println("personne trouvée");
             }
             
             
                     
             LesAyantdroit.add(ayantdroitencours);                                            
         }       
-            System.out.println("complet"); 
+        System.out.println("complet"); 
            
          //creation du devis ; pers,produit,prix,datedujour,listayantdroits       
          Devis devcree; 
@@ -315,8 +323,22 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
 
     @Override
-    public List<Object> validerDevis(Long iddevis,Object[] pers,List<Object[]>listeinfos) {
-        List<Object> Response=new ArrayList();   
+    public List<Object> validerDevis(String iddev, Object[] pers,List<Object[]>listeinfos) {
+        List<Object> Response=new ArrayList(); 
+        
+        long iddevis;
+        try{
+            iddevis=(long)Integer.parseInt(iddev);
+        }catch(NumberFormatException e){
+            Response.add("Probleme sur le devis, contacter une agence");//1
+            Response.add("/Acceuil.jsp");
+            Response.add(null);
+            Response.add(null);
+            Response.add(null);
+            //Response.add(null); 
+             
+            return Response;
+        }
         //dans cette methode : on recupere : 
                         // pers : nom,prenom,numero SS,adresse,genre,login,mdp,RIB
                         // pour chaque ayant droit : nom,prenom,numeross,adresse,genre,population, STRING (Conjoint, Concubin, Enfant à charge)
@@ -326,21 +348,22 @@ public class PubliqueSession implements PubliqueSessionLocal {
          Devis dev=devisFacade.rechercheExistantID(iddevis); 
          if (dev==null){
              Response.add("Probleme sur le devis, contacter une agence");//1
-             Response.add("/homepage.jsp"); 
+             Response.add("/Acceuil.jsp");
              Response.add(null);
              Response.add(null);
+             Response.add(dev);
              //Response.add(null); 
              
             return Response; //probleme transition ID DEVIS
          }
          
          //controle sur les champs remplis : personnephy               
-        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")||((String)Array.get(pers,6)).equals("")){
+        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")||((String)Array.get(pers,7)).equals("")){
              Response.add("Merci de remplir les champs obligatoires");//1
              Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
              Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
              Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population, STRING (Conjoint, Concubin, Enfant à charge), 
-             //Response.add(null); //5 effectuer la connexion avec login et mdp ?
+             Response.add(dev);//Response.add(null); //5 effectuer la connexion avec login et mdp ?
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
@@ -362,19 +385,31 @@ public class PubliqueSession implements PubliqueSessionLocal {
                  Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
                  Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
                  Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)) ne pas re remplir les RADIO (ID POP)
-                 //Response.add(null); //5 effectuer la connexion avec login et mdp ?
+                 Response.add(dev);
+                //Response.add(null); //5 effectuer la connexion avec login et mdp ?
              
-            return Response; //manque des champs donc renvoi de toutes les informations
+                return Response; //manque des champs donc renvoi de toutes les informations
             
             } else{ // on rempli les renseignements
                 Genre genreayt=null;
-            if(genre.equalsIgnoreCase("Homme")){
+                try{
+                    genreayt=Genre.valueOf(genre);
+                }catch(Exception e){
+                    Response.add("Erreur du champs genre");
+                    Response.add("/RenseignementInformationsSupplementaire.jsp"); 
+                    Response.add(pers);
+                    Response.add(listeinfos);
+                    Response.add(dev);
+                    return Response;
+                }
+                
+            /*if(genre.equalsIgnoreCase("Homme")){
                 genreayt=Genre.Homme;
             }else if(genre.equalsIgnoreCase("Femme")){
                 genreayt=Genre.Femme;
             }else if(genre.equalsIgnoreCase("Autre")){
                 genreayt=Genre.Autre;
-            }
+            }*/
             
             PersonnePhysique ayantdroitencours;
             ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
@@ -397,23 +432,35 @@ public class PubliqueSession implements PubliqueSessionLocal {
              Response.add("/homepage.jsp"); 
              Response.add(null);
              Response.add(null);
+             Response.add(dev);
              //Response.add(null); 
              
             return Response; //probleme numeroSS de la personne
          }else{ //on renseigne les infos car pas de probleme
             Genre genrepers=null;
             String genrestr=(String)Array.get(pers, 4);
-            if(genrestr.equalsIgnoreCase("Homme")){
+            
+            try{
+                genrepers=Genre.valueOf(genrestr);
+            }catch(Exception e){
+                Response.add("Erreur du champs genre");
+                Response.add("/RenseignementInformationsSupplementaire.jsp"); 
+                Response.add(pers);
+                Response.add(listeinfos);
+                Response.add(dev);
+                return Response;
+            }
+            /*if(genrestr.equalsIgnoreCase("Homme")){
                 genrepers=Genre.Homme;
             }else if(genrestr.equalsIgnoreCase("Femme")){
                 genrepers=Genre.Femme;
             }else if(genrestr.equalsIgnoreCase("Autre")){
                 genrepers=Genre.Autre;
-            }
+            }*/
             persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers,(String)Array.get(pers,6));
             persencours=personnePhysiqueFacade.renseignerLoginMdp(persencours, (String)Array.get(pers, 5), (String)Array.get(pers, 6));
         }
-         
+         ///////login
         //on crée le contrat sans les beneficiaires
         Contrat ct=contratFacade.creerContrat(null,dev.getPrix() ,dev.getLeProduit());
         List<StatutBeneficiaire> liststatutct=new ArrayList();
@@ -458,6 +505,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
         
         Response.add("Contrat créé");//1
         Response.add("/homepage.jsp"); 
+        Response.add(null);
+        Response.add(null);
+        Response.add(dev);
         //Response.add(ct);       On envoit le contrat ?
         
         return Response;

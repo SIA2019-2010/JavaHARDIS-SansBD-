@@ -159,11 +159,13 @@ public class Page extends HttpServlet {
             case "CreationDevisInformations" :
                 List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 List<Beneficiaire> listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
-                listeinfos=(List<Object[]>)request.getAttribute("listeinfos");
+                Object[] perss;
+                perss=(Object[])session.getAttribute("pers");
+                listeinfos=(List<Object[]>)session.getAttribute("listeinfos");
                 if(listeinfos==null) listeinfos=new ArrayList();
                 request.setAttribute("listben",listben);
                 request.setAttribute("listepopulation",listpop);
-                session.setAttribute("pers",(Object[])request.getAttribute("pers"));
+                session.setAttribute("pers",perss);
                 session.setAttribute("listeinfos",listeinfos);
                 jspClient="/PageCreationDevis.jsp";
                 break;
@@ -402,7 +404,7 @@ public class Page extends HttpServlet {
                 
                 listepersmo = gestionnaireSession.recupererPersonneMorale();
                 request.setAttribute("listepersmo",listepersmo);
-                 
+                
                 Response=gestionnaireSession.creerResponsableComplet(listeinfosresp);
                 message=(String)(Response.get(0));
                 jspClient=(String)(Response.get(1));
@@ -419,6 +421,38 @@ public class Page extends HttpServlet {
                 request.setAttribute("devis", (Devis)(Response.get(2)));
                 request.setAttribute("listben",listben);
                 request.setAttribute("listpop",listpop);
+                break;
+                
+            case "CompleterInformations" :
+                String Nom=request.getParameter("Nom");
+                String Prenom=request.getParameter("Prenom");
+                String NumeroSS=request.getParameter("NumeroSS");
+                String Adresse=request.getParameter("Adresse");
+                String idgen=request.getParameter("idgen");
+                Login=request.getParameter("Login");
+                MDP=request.getParameter("MDP");
+                String RIB=request.getParameter("RIB");
+                iddevis=request.getParameter("iddevis");
+                Object[] persa={Nom, Prenom, NumeroSS, Adresse, idgen, Login, MDP, RIB};
+                List<Object[]> listinfos=new ArrayList();
+                NomAD=request.getParameterValues("NomAD");
+                PrenomAD=request.getParameterValues("PrenomAD");
+                NumeroSSAD=request.getParameterValues("NumeroSSAD");
+                String[] AdresseAD=request.getParameterValues("NumeroSSAD");
+                String[] idgenAD=request.getParameterValues("NumeroSSAD");
+                String[] idpopAD=request.getParameterValues("NumeroSSAD");
+                String[] idbenAD=request.getParameterValues("NumeroSSAD");
+                try{
+                    for(int i=0; i<NomAD.length; i++){
+                        Object[] infos={NomAD[i],PrenomAD[i],NumeroSSAD[i],AdresseAD[i],idgenAD[i],idpopAD[i],idbenAD[i]};
+                        listinfos.add(infos);
+                        System.out.println("null");
+                    }
+                }catch(Exception e){}
+                Response=publiqueSession.validerDevis(iddevis,persa,listinfos);
+                jspClient=(String)(Response.get(1));
+                message=(String)(Response.get(0));
+                request.setAttribute("devis", (Devis)(Response.get(5)));
                 break;
                 
             case "GestionnaireAfficherAffilie" :
@@ -485,15 +519,11 @@ public class Page extends HttpServlet {
                 System.out.println(numpack+"numpack");
                 Object[] pack=lesPacks.get(numpack);
                 Response=publiqueSession.creerDevisComplet(pers, pack, listeinfos);
-                if((Devis)Response.get(2)==null){
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
                 jspClient=(String)Response.get(1);
                 message=(String)Response.get(0); 
-                } else {
-                    doActionCreerPdfDevis(request,response,(Devis)Response.get(2));
-                    jspClient=(String)Response.get(1);
-                }
+                
                 
                 break;
                 
@@ -576,7 +606,7 @@ public class Page extends HttpServlet {
     protected List<Object> TraiterSession(HttpServletRequest request, String act)
             throws ServletException, IOException {
         List<Object> Response=new ArrayList();
-        HttpSession session=request.getSession(false);   
+        HttpSession session=request.getSession(true);   
         System.out.println("A");
         boolean valide=true;
         if(act==null)act="null";
@@ -633,53 +663,47 @@ public class Page extends HttpServlet {
             "PageDevisInformationsSupplementaire",
             "ChoixPack",
             "genererPDFDevis",
-            "genererPDFPriseEnCharge"
+            "genererPDFPriseEnCharge",
+            "CompleterInformations"
         };
         System.out.println("B");
-        if(session!=null){
-            System.out.println("C");
+        System.out.println("C");
 
-            System.out.println("Session est pas null");
-            Gestionnaire sessiongestionnaire=(Gestionnaire)session.getAttribute("sessiongestionnaire");
-            PersonnePhysique sessionaffilie=(PersonnePhysique)session.getAttribute("sessionaffilie");
-            Responsable sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
-            System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
-            Response.add(session);
-            Response.add(sessiongestionnaire);
-            Response.add(sessionaffilie);
-            Response.add(sessionresponsable);
-            if(sessiongestionnaire!=null){
-                if ((Arrays.asList(MenuGestionnaire).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionaffilie==null&&sessionresponsable==null){
-                    System.out.println("Mission Gestionnaire");
-                    Response.add(true);
-                    Response.add("GestionnaireConnexion");
-                    return Response;
-                }
-                else valide=false;
+        System.out.println("Session est pas null");
+        Gestionnaire sessiongestionnaire=(Gestionnaire)session.getAttribute("sessiongestionnaire");
+        PersonnePhysique sessionaffilie=(PersonnePhysique)session.getAttribute("sessionaffilie");
+        Responsable sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
+        System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
+        Response.add(session);
+        Response.add(sessiongestionnaire);
+        Response.add(sessionaffilie);
+        Response.add(sessionresponsable);
+        if(sessiongestionnaire!=null){
+            if ((Arrays.asList(MenuGestionnaire).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionaffilie==null&&sessionresponsable==null){
+                System.out.println("Mission Gestionnaire");
+                Response.add(true);
+                Response.add("GestionnaireConnexion");
+                return Response;
             }
-            else if(sessionaffilie!=null){
-                if ((Arrays.asList(MenuAffilie).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionresponsable==null){
-                    System.out.println("Mission Affilié");
-                    Response.add(true);
-                    Response.add("AffilieConnexion");
-                    return Response;
-                }
-                else valide=false;
+            else valide=false;
+        }
+        else if(sessionaffilie!=null){
+            if ((Arrays.asList(MenuAffilie).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionresponsable==null){
+                System.out.println("Mission Affilié");
+                Response.add(true);
+                Response.add("AffilieConnexion");
+                return Response;
             }
-            else if(sessionresponsable!=null){
-                if (Arrays.asList(MenuResponsable).contains(act)||Arrays.asList(MenuPublique).contains(act)){
-                    System.out.println("Mission Responsable");
-                    Response.add(true);
-                    Response.add("ResponsableConnexion");
-                    return Response;
-                }
-                else valide=false;
+            else valide=false;
+        }
+        else if(sessionresponsable!=null){
+            if (Arrays.asList(MenuResponsable).contains(act)||Arrays.asList(MenuPublique).contains(act)){
+                System.out.println("Mission Responsable");
+                Response.add(true);
+                Response.add("ResponsableConnexion");
+                return Response;
             }
-        }else{
-            Response.add(null);
-            Response.add(null);
-            Response.add(null);
-            Response.add(null);
+            else valide=false;
         }
         if(valide){
             if (Arrays.asList(MenuPublique).contains(act)){
