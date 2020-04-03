@@ -42,6 +42,7 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
 
     @Override
     public Contrat creerContrat(Date dateCrea, double prixMensuel, Produit leProduit) {
+        em.flush();
         
         Contrat con = new Contrat();
         con.setDateCreation(dateCrea);

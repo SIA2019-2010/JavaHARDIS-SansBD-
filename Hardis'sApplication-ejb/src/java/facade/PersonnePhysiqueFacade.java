@@ -37,6 +37,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
 
     @Override
     public PersonnePhysique creerPersonnePhysique(String nom, String prenom, Date dateNaiss, String numeroSS, String adresse, String mail, Genre genre,Population laPopulation) {
+        em.flush();
         PersonnePhysique pers = new PersonnePhysique();
         pers.setAdresse(adresse);
         pers.setDateNaiss(dateNaiss);

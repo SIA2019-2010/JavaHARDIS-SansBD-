@@ -33,6 +33,7 @@ public class BeneficiaireFacade extends AbstractFacade<Beneficiaire> implements 
     
     @Override
     public Beneficiaire creerBeneficiaire(String libelle) {
+        em.flush();
         Beneficiaire ben=new Beneficiaire();
         ben.setLibelleBeneficiaire(libelle);
         em.persist(ben);

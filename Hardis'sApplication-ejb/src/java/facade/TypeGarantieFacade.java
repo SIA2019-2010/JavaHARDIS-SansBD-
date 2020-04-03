@@ -33,6 +33,7 @@ public class TypeGarantieFacade extends AbstractFacade<TypeGarantie> implements 
     
     @Override
     public TypeGarantie creerTypeGarantie(String libelle) {
+        em.flush();
         TypeGarantie typeproduit=new TypeGarantie();
         typeproduit.setTypeGarantie(libelle);
         em.persist(typeproduit);

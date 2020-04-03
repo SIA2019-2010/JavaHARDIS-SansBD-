@@ -186,8 +186,9 @@ public class Page extends HttpServlet {
                 String[] DateNaiAD=request.getParameterValues("DateNaiAD");
                 String[] NumeroSSAD=request.getParameterValues("NumeroSSAD");
                 
-                if(NomAD!=null)
-                    for(int i=0; i<NomAD.length; i++){
+                int number=0;
+                try{number=NomAD.length;}catch(Exception e){}
+                    for(int i=0; i<number; i++){
                         Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i]};
                         listeinfos.add(infos);
                         System.out.println("null");
@@ -411,6 +412,14 @@ public class Page extends HttpServlet {
                 break;
                 
             case "PageDevisInformationsSupplementaire" :
+                /*Object[] persc=(Object[])session.getAttribute("persc");
+                List<Object[]>listeinfosc=(List<Object[]>)session.getAttribute("listeinfosc");
+                //if(listeinfos==null) listeinfos=new ArrayList();
+                try{//teste : si listeinfos récuperée est null
+                    listeinfosc.size();
+                }catch(Exception e){
+                    listeinfosc=new ArrayList();
+                }*/
                 String iddevis=request.getParameter("iddevis");
                 listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
@@ -421,6 +430,8 @@ public class Page extends HttpServlet {
                 request.setAttribute("devis", (Devis)(Response.get(2)));
                 request.setAttribute("listben",listben);
                 request.setAttribute("listpop",listpop);
+                request.setAttribute("persa",null);
+                request.setAttribute("listinfos",new ArrayList());
                 break;
                 
             case "CompleterInformations" :
@@ -438,21 +449,30 @@ public class Page extends HttpServlet {
                 NomAD=request.getParameterValues("NomAD");
                 PrenomAD=request.getParameterValues("PrenomAD");
                 NumeroSSAD=request.getParameterValues("NumeroSSAD");
-                String[] AdresseAD=request.getParameterValues("NumeroSSAD");
-                String[] idgenAD=request.getParameterValues("NumeroSSAD");
-                String[] idpopAD=request.getParameterValues("NumeroSSAD");
-                String[] idbenAD=request.getParameterValues("NumeroSSAD");
-                try{
-                    for(int i=0; i<NomAD.length; i++){
-                        Object[] infos={NomAD[i],PrenomAD[i],NumeroSSAD[i],AdresseAD[i],idgenAD[i],idpopAD[i],idbenAD[i]};
-                        listinfos.add(infos);
-                        System.out.println("null");
-                    }
-                }catch(Exception e){}
+                String[] AdresseAD=request.getParameterValues("AdresseAD");
+                String[] idgenAD=request.getParameterValues("idgenAD");
+                String[] idpopAD=request.getParameterValues("idpopAD");
+                String[] idbenAD=request.getParameterValues("idbenAD");
+                number=0;
+                try{number=NomAD.length;}catch(Exception e){}
+                for(int i=0; i<number; i++){
+                    System.out.println(idbenAD[i]+"ben");
+                    Object[] infos={NomAD[i],PrenomAD[i],NumeroSSAD[i],AdresseAD[i],idgenAD[i],idpopAD[i],idbenAD[i]};
+                    listinfos.add(infos);
+                }
+                System.out.println("before validerDevis");
                 Response=publiqueSession.validerDevis(iddevis,persa,listinfos);
+                System.out.println("after validerDevis");
                 jspClient=(String)(Response.get(1));
+                System.out.println("jspClient "+jspClient);
                 message=(String)(Response.get(0));
-                request.setAttribute("devis", (Devis)(Response.get(5)));
+                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("devis", (Devis)(Response.get(4)));
+                request.setAttribute("persa", persa);
+                request.setAttribute("listinfos", listinfos);
+                request.setAttribute("listben",listben);
+                request.setAttribute("listpop",listpop);
                 break;
                 
             case "GestionnaireAfficherAffilie" :
@@ -513,7 +533,12 @@ public class Page extends HttpServlet {
                 pers=(Object[])session.getAttribute("pers");
                 System.out.println(pers==null);
                 listeinfos=(List<Object[]>)session.getAttribute("listeinfos");
-                if(listeinfos==null) listeinfos=new ArrayList();
+                //if(listeinfos==null) listeinfos=new ArrayList();
+                try{//teste : si listeinfos récuperée est null
+                    listeinfos.size();
+                }catch(Exception e){
+                    listeinfos=new ArrayList();
+                }
                 List<Object[]> lesPacks=(List<Object[]>)session.getAttribute("lesPacks");
                 int numpack=Integer.parseInt(request.getParameter("numpack"));
                 System.out.println(numpack+"numpack");

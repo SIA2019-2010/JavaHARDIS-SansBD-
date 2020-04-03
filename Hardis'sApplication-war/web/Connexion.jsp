@@ -14,12 +14,13 @@
         <script type="text/javascript" src="js.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
+                $('#AffilieConnexion').prop("checked", true);
                 $('#<%=typeConnexion%>').prop("checked", true);
             });
         </script>
     </head>
     <body>
-        <h1>Connexion</h1>
+        <h1><%=typeConnexion%></h1>
         <form method="post" action="Page">
             <fieldset>
                 <legend>Informations </legend>

@@ -40,6 +40,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     
     @Override
     public StatutBeneficiaire creerStatutBeneficiaire(Date datedubut, Beneficiaire statut, Contrat lecontrat, PersonnePhysique lapersonne) {
+        em.flush();
         StatutBeneficiaire statutbeneficiaire = new StatutBeneficiaire();
         statutbeneficiaire.setDateDebutValidite(datedubut);
         statutbeneficiaire.setLaBeneficiaire(statut);
@@ -52,6 +53,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     
         @Override
     public StatutBeneficiaire creerStatutBeneficiaireDevis(Date datedubut, Beneficiaire statut, PersonnePhysique lapersonne) {
+        em.flush();
         StatutBeneficiaire statutbeneficiaire = new StatutBeneficiaire();
         statutbeneficiaire.setDateDebutValidite(datedubut);
         statutbeneficiaire.setLaBeneficiaire(statut);
@@ -64,7 +66,7 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
     @Override
     public StatutBeneficiaire modifierDateFinValide(StatutBeneficiaire statutbeneficiaire, Date datefin) {
         statutbeneficiaire.setDateFinValidite(datefin);
-        em.persist(statutbeneficiaire);
+        em.merge(statutbeneficiaire);
         return statutbeneficiaire;
     }
     

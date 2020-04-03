@@ -34,6 +34,7 @@ public class ResponsableFacade extends AbstractFacade<Responsable> implements Re
     
     @Override
     public Responsable creerResponsable(String nom, String prenom, String mail, String telephone, String login, String mdp, PersonneMorale personne) {
+        em.flush();
         Responsable resp = new Responsable();
         resp.setNom(nom);
         resp.setPrenom(prenom);

@@ -35,6 +35,7 @@ public class GestionnaireFacade extends AbstractFacade<Gestionnaire> implements 
 
     @Override
     public Gestionnaire creerGestionnaire(String nom, String prenom, String adresse, String telephone, String login, String mdp, Domaine domaine) {
+        em.flush();
         Gestionnaire gest=new Gestionnaire();
         gest.setNom(nom);
         gest.setPrenom(prenom);

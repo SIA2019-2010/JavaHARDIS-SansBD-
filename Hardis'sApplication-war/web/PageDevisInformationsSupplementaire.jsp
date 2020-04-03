@@ -4,6 +4,7 @@
     Author     : lixin
 --%>
 
+<%@page import="java.lang.reflect.Array"%>
 <%@page import="entitee.Population"%>
 <%@page import="entitee.Beneficiaire"%>
 <%@page import="entitee.Genre"%>
@@ -20,6 +21,7 @@
         <title>JSP Page</title>
         <jsp:useBean id="message" scope="request" class="String"></jsp:useBean>
         <jsp:useBean id="devis" scope="request" class="Devis"></jsp:useBean>
+        <jsp:useBean id="listinfos" scope="request" class="java.util.List"></jsp:useBean>
         <jsp:useBean id="listben" scope="request" class="java.util.List"></jsp:useBean>
         <jsp:useBean id="listpop" scope="request" class="java.util.List"></jsp:useBean>
     </head>
@@ -31,6 +33,9 @@
             PersonnePhysique pers=devis.getLaPersonne();
             List<PersonnePhysique> listepers=devis.getLesAyantsDroit();
             DateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+            List<Object[]>listep=listinfos;
+            Object[] persa=(Object[])request.getAttribute("persa");
+            System.out.println("entree jsp");
         %>
         <form method="post" action="Page">
             <p><%=message%></p>
@@ -79,53 +84,93 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="Nom" value="<%=pers.getNom()%>" STYLE="background-color:#CCCCCC;" disabled/>
+                            <input type="text" name="Nom" value="<%=pers.getNom()%>" STYLE="background-color:#CCCCCC;" readonly/>
                         </td>
                         <td>
-                            <input type="text" name="Prenom" value="<%=pers.getPrenom()%>" STYLE="background-color:#CCCCCC;" disabled/>
+                            <input type="text" name="Prenom" value="<%=pers.getPrenom()%>" STYLE="background-color:#CCCCCC;" readonly/>
                         </td>
                         <td>
-                            <input type="text" name="DateN" value="<%=formatter.format(pers.getDateNaiss())%>" STYLE="background-color:#CCCCCC;" disabled>
+                            <input type="text" name="DateN" value="<%=formatter.format(pers.getDateNaiss())%>" STYLE="background-color:#CCCCCC;" readonly>
                         </td>
                         <td>
-                            <input type="text" name="NumeroSS" value="<%=pers.getNumeroSS()%>" STYLE="background-color:#CCCCCC;" disabled/>
+                            <input type="text" name="NumeroSS" value="<%=pers.getNumeroSS()%>" STYLE="background-color:#CCCCCC;" readonly/>
                         </td>
                         <td>
-                            <input type="text" name="Mail" value="<%=pers.getMail()%>" STYLE="background-color:#CCCCCC;" disabled/>
+                            <input type="text" name="Mail" value="<%=pers.getMail()%>" STYLE="background-color:#CCCCCC;" readonly/>
                         </td>
                         <td>
-                            <select name="idpop" style="width: 100%" STYLE="background-color:#CCCCCC;" disabled>
+                            <select style="width: 100%" STYLE="background-color:#CCCCCC;" disabled>
                                 <option value ="<%=pers.getLaPopulation().getLibellePopulation()%>" selected="true" STYLE="background-color:#CCCCCC;">
                                     <%=pers.getLaPopulation().getLibellePopulation()%>
                                 </option>
                             </select>
+                            <input type="hidden" name="idpop" value="<%=pers.getLaPopulation().getLibellePopulation()%>"/>
                         </td>
                         <td>
-                            <select name="idben" style="width: 100%" STYLE="background-color:#CCCCCC;" disabled>
+                            <select style="width: 100%" STYLE="background-color:#CCCCCC;" disabled>
                                 <option value ="Affilié" selected="true" STYLE="background-color:#CCCCCC;">
                                     Affilié
                                 </option>
                             </select>
+                            <input type="hidden" name="idben" value="Affilié"/>
                         </td>
-                        <td>
-                            <input type="text" name="Adresse" />
-                        </td>
-                        <td>
-                            <select name="idgen" style="width: 100%">
-                                <%for(Genre g : Genre.values()){%>
-                                    <option value ="<%=g.name()%>" ><%=g.name()%></option>
-                                <%}%>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" name="Login" />
-                        </td>
-                        <td>
-                            <input type="text" name="MDP" />
-                        </td>
-                        <td>
-                            <input type="text" name="RIB" />
-                        </td>
+                        <%if(persa==null){%>
+                            <td>
+                                <input type="text" name="Adresse" />
+                            </td>
+                            <td>
+                                <select name="idgen" style="width: 100%">
+                                    <option value ="" >
+                                        À choisir
+                                    </option>
+                                    <%for(Genre g : Genre.values()){%>
+                                        <option value ="<%=g.name()%>" ><%=g.name()%></option>
+                                    <%}%>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="Login" />
+                            </td>
+                            <td>
+                                <input type="text" name="MDP" />
+                            </td>
+                            <td>
+                                <input type="text" name="RIB" />
+                            </td>
+                        <%}else{%>
+                            <td>
+                                <input type="text" name="Adresse" value="<%=Array.get(persa,3)%>" />
+                            </td>
+                            <td>
+                            <%System.out.println("aaa");%>
+                                <select name="idgen" style="width: 100%">
+                                    <option value ="" >
+                                        À choisir
+                                    </option>
+                                    <%for(Genre g : Genre.values()){
+                                        if(g.name().equals((String)(Array.get(persa,4)))){%>
+                                            <option value ="<%=g.name()%>" selected="true">
+                                                <%=g.name()%>
+                                            </option>
+                                        <%}else{%>
+                                            <option value ="<%=g.name()%>" >
+                                                <%=g.name()%>
+                                            </option>
+                                        <%}%>
+                                    <%}%>
+                                </select>
+                            </td>
+                            <%System.out.println("OKKKK");%>
+                            <td>
+                                <input type="text" name="Login" value="<%=Array.get(persa,5)%>" />
+                            </td>
+                            <td>
+                                <input type="text" name="MDP" value="<%=Array.get(persa,6)%>" />
+                            </td>
+                            <td>
+                                <input type="text" name="RIB" value="<%=Array.get(persa,7)%>" />
+                            </td>
+                        <%}%>
                     </tr>                        
                 </table>
                 <h2>Ayants droits</h2>
@@ -156,53 +201,123 @@
                             <label for="Genre">Genre<span class="requis">*</span></label>
                         </td>
                     </tr>
-                    <%for(PersonnePhysique p : listepers){%>
+                    <%for(int i=0;i<listepers.size();i++){
+                        PersonnePhysique p=listepers.get(i);%>
                         <tr>
                             <td>
-                                <input type="text" name="NomAD" value="<%=p.getNom()%>"STYLE="background-color:#CCCCCC;" disabled/>
+                                <input type="text" name="NomAD" value="<%=p.getNom()%>"STYLE="background-color:#CCCCCC;" readonly/>
                             </td>
                             <td>
-                                <input type="text" name="PrenomAD" value="<%=p.getPrenom()%>"STYLE="background-color:#CCCCCC;" disabled/>
+                                <input type="text" name="PrenomAD" value="<%=p.getPrenom()%>"STYLE="background-color:#CCCCCC;" readonly/>
                             </td>
                             <td>
-                                <input type="text" name="DateNaiAD" value="<%=formatter.format(p.getDateNaiss())%>" STYLE="background-color:#CCCCCC;" disabled/>
+                                <input type="text" name="DateNaiAD" value="<%=formatter.format(p.getDateNaiss())%>" STYLE="background-color:#CCCCCC;" readonly/>
                             </td>
                             <td>
-                                <input type="text" name="NumeroSSAD" value="<%=p.getNumeroSS()%>" STYLE="background-color:#CCCCCC;" disabled/>
+                                <input type="text" name="NumeroSSAD" value="<%=p.getNumeroSS()%>" STYLE="background-color:#CCCCCC;" readonly/>
                             </td>
-                            <td>
-                                <select name="idpopAD" style="width: 100%">
-                                    <% for (Population pop : lesp){%>
-                                        <option value ="<%=pop.getId()%>">
-                                            <%=pop.getLibellePopulation()%>
+                            <%if(listep.size()==0){%>
+                                <td>
+                                    <select name="idpopAD" style="width: 100%">
+                                        <option value ="" >
+                                            À choisir
                                         </option>
-                                    <%}%>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="idbenAD" style="width: 100%">
-                                    <% for (Beneficiaire ben : lesb) if(!ben.getLibelleBeneficiaire().equalsIgnoreCase("Affilie")){%>
-                                        <option value ="<%=ben.getId()%>">
-                                            <%=ben.getLibelleBeneficiaire()%>
+                                        <% for (Population pop : lesp){%>
+                                            <option value ="<%=pop.getId()%>">
+                                                <%=pop.getLibellePopulation()%>
+                                            </option>
+                                        <%}%>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="idbenAD" style="width: 100%">
+                                        <option value ="" >
+                                            À choisir
                                         </option>
-                                    <%}%>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="text" name="AdresseAD" />
-                            </td>
-                            <td>
-                                <select name="idgenAD" style="width: 100%">
-                                    <%for(Genre g : Genre.values()){%>
-                                        <option value ="<%=g.name()%>" ><%=g.name()%></option>
-                                    <%}%>
-                                </select>
-                            </td>
+                                        <% for (Beneficiaire ben : lesb) if(!ben.getLibelleBeneficiaire().equalsIgnoreCase("Affilie")){%>
+                                            <option value ="<%=ben.getId()%>">
+                                                <%=ben.getLibelleBeneficiaire()%>
+                                            </option>
+                                        <%}%>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="AdresseAD" />
+                                </td>
+                                <td>
+                                    <select name="idgenAD" style="width: 100%">
+                                        <option value ="" >
+                                            À choisir
+                                        </option>
+                                        <%for(Genre g : Genre.values()){%>
+                                            <option value ="<%=g.name()%>" ><%=g.name()%></option>
+                                        <%}%>
+                                    </select>
+                                </td>
+                            <%}else{%>
+                                <td>
+                                    <select name="idpopAD" style="width: 100%">
+                                        <option value ="" >
+                                            À choisir
+                                        </option>
+                                        <% for (Population pop : lesp){
+                                            if(pop.getId().toString().equals(Array.get(listep.get(i),5))){%>
+                                                <option value ="<%=pop.getId()%>" selected="true">
+                                                    <%=pop.getLibellePopulation()%>
+                                                </option>
+                                            <%}else{%>
+                                                <option value ="<%=pop.getId()%>">
+                                                    <%=pop.getLibellePopulation()%>
+                                                </option>
+                                            <%}%>
+                                        <%}%>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="idbenAD" style="width: 100%">
+                                        <option value ="" >
+                                            À choisir
+                                        </option>
+                                        <% for (Beneficiaire ben : lesb) if(!ben.getLibelleBeneficiaire().equalsIgnoreCase("Affilie")){
+                                            if(ben.getId().toString().equals(Array.get(listep.get(i),6))){%>
+                                                <option value ="<%=ben.getId()%>" selected="true">
+                                                    <%=ben.getLibelleBeneficiaire()%>
+                                                </option>
+                                            <%}else{%>
+                                                <option value ="<%=ben.getId()%>">
+                                                    <%=ben.getLibelleBeneficiaire()%>
+                                                </option>
+                                            <%}%>
+                                        <%}%>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="AdresseAD" value="<%=Array.get(listep.get(i),3)%>"/>
+                                </td>
+                                <td>
+                                    <select name="idgenAD" style="width: 100%">
+                                        <option value ="" >
+                                            À choisir
+                                        </option>
+                                        <%for(Genre g : Genre.values()){
+                                            if(g.name().equals((String)(Array.get(listep.get(i),4)))){%>
+                                                <option value ="<%=g.name()%>" selected="true">
+                                                    <%=g.name()%>
+                                                </option>
+                                            <%}else{%>
+                                                <option value ="<%=g.name()%>" >
+                                                    <%=g.name()%>
+                                                </option>
+                                            <%}%>
+                                        <%}%>
+                                    </select>
+                                </td>
+                            <%}%>
                         </tr>
                     <%}%>
                 </table>
             </fieldset>
-                <input type="hidden" name="iddevis" value="<%=devis.getId().toString()%>"/>
+            <input type="hidden" name="iddevis" value="<%=devis.getId().toString()%>"/>
             <input type="hidden" name="action" value="CompleterInformations"/>
             <button type="submit" value="Valider">Envoyer</button>
             <input type="button" value="Revenir à l'accueil" onclick="location.href='Page?action=vide'"/>

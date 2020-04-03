@@ -33,6 +33,7 @@ public class FiscaliteFacade extends AbstractFacade<Fiscalite> implements Fiscal
 
     @Override
     public Fiscalite creerFiscalite(double taxe, double CMU, double TCA) {
+        em.flush();
         Fiscalite fisca = new Fiscalite();
         fisca.setCMU(CMU);
         fisca.setTCA(TCA);

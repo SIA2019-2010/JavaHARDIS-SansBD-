@@ -33,6 +33,7 @@ public class DomaineFacade extends AbstractFacade<Domaine> implements DomaineFac
     
     @Override
     public Domaine creerDomaine(String libelleDomaine) {
+        em.flush();
         Domaine domaine = new Domaine();
         domaine.setLibelleDomaine(libelleDomaine);
         em.persist(domaine);

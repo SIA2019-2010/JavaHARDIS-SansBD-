@@ -137,6 +137,9 @@
                             </td>
                             <td>
                                 <select name="idpop" style="width: 100%">
+                                    <option value ="" >
+                                        À choisir
+                                    </option>
                                     <% for (Population pop:lesPops){%>
                                         <option value ="<%=pop.getId()%>">
                                             <%=pop.getLibellePopulation()%>
@@ -170,6 +173,9 @@
                             </td>
                             <td>
                                 <select name="idpop" style="width: 100%">
+                                    <option value ="" >
+                                        À choisir
+                                    </option>
                                     <% for (Population pop:lesPops){
                                         if(pop.getId().toString().equals(Array.get(pers,5))){%>
                                             <option value ="<%=pop.getId()%>" selected="true">

@@ -33,6 +33,7 @@ public class PopulationFacade extends AbstractFacade<Population> implements Popu
     
     @Override
     public Population creerPopulation(String libelle) {
+        em.flush();
         Population popu=new Population();
         popu.setLibellePopulation(libelle);
         em.persist(popu);

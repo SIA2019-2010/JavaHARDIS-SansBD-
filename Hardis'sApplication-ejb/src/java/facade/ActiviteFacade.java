@@ -46,6 +46,7 @@ public class ActiviteFacade extends AbstractFacade<Activite> implements Activite
     
     @Override
     public void creerActivite(String n){
+        em.flush();
         Activite a=new Activite();
         a.setCodeNAF(n);
         a.setDescription(n);

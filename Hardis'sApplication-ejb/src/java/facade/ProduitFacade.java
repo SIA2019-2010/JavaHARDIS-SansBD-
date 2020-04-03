@@ -41,6 +41,7 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
 
     @Override
     public Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire assiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
+        em.flush();
         Produit prod = new Produit();
         
         prod.setNomProduit(nom);

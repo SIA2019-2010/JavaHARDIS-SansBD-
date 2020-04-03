@@ -33,6 +33,7 @@ public class TypeProduitFacade extends AbstractFacade<TypeProduit> implements Ty
     
     @Override
     public TypeProduit creerTypeProduit(String libelle) {
+        em.flush();
         TypeProduit typeproduit=new TypeProduit();
         typeproduit.setLibelleTypeProduit(libelle);
         em.persist(typeproduit);

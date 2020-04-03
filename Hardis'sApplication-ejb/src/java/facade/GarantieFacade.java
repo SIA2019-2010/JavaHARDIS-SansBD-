@@ -35,6 +35,7 @@ public class GarantieFacade extends AbstractFacade<Garantie> implements Garantie
     
     @Override
     public Garantie creerGarantie(String libellegarantie, BaseRemboursementSecu labase, List<TypeGarantie> lestypes) {
+        em.flush();
         Garantie garantie=new Garantie();
         garantie.setLibelleGarantie(libellegarantie);
         em.persist(garantie);
@@ -44,7 +45,7 @@ public class GarantieFacade extends AbstractFacade<Garantie> implements Garantie
     @Override
     public Garantie modifierLibelleGarantie(Garantie garantie, String libellegarantie) {
         garantie.setLibelleGarantie(libellegarantie);
-        em.persist(garantie);
+        em.merge(garantie);
         return garantie;
     }
 

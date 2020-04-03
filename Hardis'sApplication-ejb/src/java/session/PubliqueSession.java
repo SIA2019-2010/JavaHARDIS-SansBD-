@@ -126,8 +126,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
             System.out.println("null champs");
             Response.add("Il manque des champs");//1
-             Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-             Response.add(null); //5 pas de devis
+            Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+            Response.add(null); //5 pas de devis
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }else {
@@ -172,6 +172,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
              return Response; //Population introuvable
         }
         //controle sur les ayants droits
+        List<String> verifi=new ArrayList();
         for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
             String prenom=(String)Array.get(infos, 1);
@@ -185,7 +186,16 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 Response.add(null); //5 pas de packs (produit+prix)
              
                 return Response; //tout ce qu'on a donné
+            }else if(numeroSS.equalsIgnoreCase((String)Array.get(pers, 3))||verifi.contains(numeroSS.toUpperCase())){
+                Response.add("Numéro SS répété");//1
+                Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                Response.add(null); //5 pas de packs (produit+prix)
+             
+                return Response; //tout ce qu'on a donné
+            }else{
+                verifi.add(numeroSS.toUpperCase());
             }
+            
             
             DateN=java.sql.Date.valueOf(datenaiss);
             if(DateN==null||DateN.after(new Date())){
@@ -360,14 +370,47 @@ public class PubliqueSession implements PubliqueSessionLocal {
          //controle sur les champs remplis : personnephy               
         if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")||((String)Array.get(pers,7)).equals("")){
              Response.add("Merci de remplir les champs obligatoires");//1
-             Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
+             Response.add("/PageDevisInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
              Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
              Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population, STRING (Conjoint, Concubin, Enfant à charge), 
              Response.add(dev);//Response.add(null); //5 effectuer la connexion avec login et mdp ?
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
-        
+        Genre genrepers;
+        PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 2));
+        if (persencours==null){
+             Response.add("Probleme sur le devis, contacter une agence");//1
+             Response.add("/Acceuil.jsp"); 
+             Response.add(null);
+             Response.add(null);
+             Response.add(dev);
+             //Response.add(null); 
+             
+            return Response; //probleme numeroSS de la personne
+         }else{ //on renseigne les infos car pas de probleme
+            
+            String genrestr=(String)Array.get(pers, 4);
+            
+            try{
+                genrepers=Genre.valueOf(genrestr);
+            }catch(Exception e){
+                Response.add("Erreur du champs genre");
+                Response.add("/PageDevisInformationsSupplementaire.jsp"); 
+                Response.add(pers);
+                Response.add(listeinfos);
+                Response.add(dev);
+                return Response;
+            }
+            if(!personnePhysiqueFacade.rechercheDispoLogin((String)Array.get(pers, 5))&&!persencours.getLogin().equals((String)Array.get(pers, 5))){
+                Response.add("Login existe déja");
+                Response.add("/PageDevisInformationsSupplementaire.jsp"); 
+                Response.add(pers);
+                Response.add(listeinfos);
+                Response.add(dev);
+                return Response;
+            }
+        }
         //controle les champs remplis : ayants droits
         for(Object[] infos: listeinfos){
             String nom=(String)Array.get(infos, 0);
@@ -382,7 +425,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             
             if(nom==null||prenom==null||adresse==null||numeroSS==null||genre==null||idpopst==null||statutayt==null){
                  Response.add("Merci de remplir les champs obligatoires");//1
-                 Response.add("/RenseignementInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
+                 Response.add("/PageDevisInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
                  Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
                  Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)) ne pas re remplir les RADIO (ID POP)
                  Response.add(dev);
@@ -396,7 +439,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
                     genreayt=Genre.valueOf(genre);
                 }catch(Exception e){
                     Response.add("Erreur du champs genre");
-                    Response.add("/RenseignementInformationsSupplementaire.jsp"); 
+                    Response.add("/PageDevisInformationsSupplementaire.jsp"); 
                     Response.add(pers);
                     Response.add(listeinfos);
                     Response.add(dev);
@@ -426,30 +469,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
           
                       
                         
-        PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 2));
-        if (persencours==null){
-             Response.add("Probleme sur le devis, contacter une agence");//1
-             Response.add("/homepage.jsp"); 
-             Response.add(null);
-             Response.add(null);
-             Response.add(dev);
-             //Response.add(null); 
-             
-            return Response; //probleme numeroSS de la personne
-         }else{ //on renseigne les infos car pas de probleme
-            Genre genrepers=null;
-            String genrestr=(String)Array.get(pers, 4);
-            
-            try{
-                genrepers=Genre.valueOf(genrestr);
-            }catch(Exception e){
-                Response.add("Erreur du champs genre");
-                Response.add("/RenseignementInformationsSupplementaire.jsp"); 
-                Response.add(pers);
-                Response.add(listeinfos);
-                Response.add(dev);
-                return Response;
-            }
+        
             /*if(genrestr.equalsIgnoreCase("Homme")){
                 genrepers=Genre.Homme;
             }else if(genrestr.equalsIgnoreCase("Femme")){
@@ -457,9 +477,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
             }else if(genrestr.equalsIgnoreCase("Autre")){
                 genrepers=Genre.Autre;
             }*/
-            persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers,(String)Array.get(pers,6));
-            persencours=personnePhysiqueFacade.renseignerLoginMdp(persencours, (String)Array.get(pers, 5), (String)Array.get(pers, 6));
-        }
+        persencours=personnePhysiqueFacade.renseignerInfos(persencours,(String)Array.get(pers, 3), genrepers,(String)Array.get(pers,6));
+        persencours=personnePhysiqueFacade.renseignerLoginMdp(persencours, (String)Array.get(pers, 5), (String)Array.get(pers, 6));
+        
          ///////login
         //on crée le contrat sans les beneficiaires
         Contrat ct=contratFacade.creerContrat(null,dev.getPrix() ,dev.getLeProduit());
@@ -482,13 +502,25 @@ public class PubliqueSession implements PubliqueSessionLocal {
             
             String statutayd=(String)Array.get(infos,6);
             Beneficiaire benefayd=null;
-            if(statutayd.equalsIgnoreCase("Concubin")){
+            long idb;
+            try{
+                idb=(long)Integer.parseInt(statutayd);
+            }catch(Exception e){
+                Response.add("Erreur du champs beneficiaire");
+                Response.add("/PageDevisInformationsSupplementaire.jsp"); 
+                Response.add(pers);
+                Response.add(listeinfos);
+                Response.add(dev);
+                return Response;
+            }
+            benefayd=beneficiaireFacade.rechercheExistantBeneficiaireID(idb);
+            /*if(statutayd.equalsIgnoreCase("Concubin")){
                 benefayd=beneficiaireFacade.rechercheExistantBeneficiaireLibelle("Concubin");
             }else if(statutayd.equalsIgnoreCase("Conjoint")){
                 benefayd=beneficiaireFacade.rechercheExistantBeneficiaireLibelle("Conjoint");
             }else if(statutayd.equalsIgnoreCase("EnfantACharge")){
                 benefayd=beneficiaireFacade.rechercheExistantBeneficiaireLibelle("EnfantACharge");
-            }
+            }*/
             
              StatutBeneficiaire statutAyant=null;
              statutAyant=statutBeneficiaireFacade.creerStatutBeneficiaire(new Date(), benefayd, ct, ayantdroitencours);
@@ -498,13 +530,13 @@ public class PubliqueSession implements PubliqueSessionLocal {
         }
        
         //on enregistre toute les personnes au contrat (set la liste)
-       ct.SetLesStatutsBeneficiaires(liststatutct);
+        ct.SetLesStatutsBeneficiaires(liststatutct);
         
         
         
         
-        Response.add("Contrat créé");//1
-        Response.add("/homepage.jsp"); 
+        Response.add("Contrat créé, veuillez conecter avec votre login et mdp");//1
+        Response.add("/Connexion.jsp"); 
         Response.add(null);
         Response.add(null);
         Response.add(dev);

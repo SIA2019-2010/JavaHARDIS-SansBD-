@@ -34,6 +34,7 @@ public class PersonneMoraleFacade extends AbstractFacade<PersonneMorale> impleme
     
     @Override
     public PersonneMorale creerPersonneMorale(String siret, String raison, String adresse, Activite activite){
+        em.flush();
         PersonneMorale personne = new PersonneMorale();
         personne.setSIRET(siret);
         personne.setRaisonSociale(raison);
