@@ -734,8 +734,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     
                     //on affiche la liste des actes non remboursé et le gestionnaire en choisi un
        @Override
-    public List<Acte> rechercheListeActesNonRembourse() {
-        List<Acte> listact = acteFacade.rechercheActesNonRembourse();
+    public List<Acte> rechercheListeActesNonRembourse(int Page, String ReSS) {
+        List<Acte> listact = acteFacade.rechercheActesNonRembourse(Page, ReSS);
          
         return listact;
     }
@@ -1308,6 +1308,11 @@ Transport transport = null;
     @Override
     public List<TypeGarantie> AfficherTypeGarantie(){
         return typeGarantieFacade.findAll();
+    }
+    
+    @Override
+    public long CompterActesNonRembourse(String ReSS){
+        return acteFacade.CompterActesNonRembourse(ReSS);
     }
     
 }

@@ -81,17 +81,34 @@ public class ActeFacade extends AbstractFacade<Acte> implements ActeFacadeLocal 
     }
 
     @Override
-    public List<Acte> rechercheActesNonRembourse() {
+    public List<Acte> rechercheActesNonRembourse(int Page, String ReSS) {
         List<Acte> listact; 
-        String tx = "SELECT act FROM Acte AS act where act not in "
-                + "(SELECT r.leActe from Remboursement as r)"; //==null 
+        if(ReSS.equals(""))ReSS="%";
+        String tx = "SELECT act FROM Acte AS act "
+                + "left join act.leRemboursement rem "
+                + "where rem is null "
+                + "and act.laPersonnePhysique.NumeroSS like :ReSS "; //==null 
         Query req = getEntityManager().createQuery(tx); 
-        //req.setParameter("vide", null); 
+        req.setParameter("ReSS", ReSS); 
+        req.setFirstResult(50*(Page-1));
+        req.setMaxResults(50);
         listact= req.getResultList (); 
         return listact;
     }
     
-    
+    @Override
+    public long CompterActesNonRembourse(String ReSS) {
+        long taille;
+        if(ReSS.equals(""))ReSS="%";
+        String tx = "SELECT count(act) FROM Acte AS act "
+                + "left join act.leRemboursement rem "
+                + "where rem is null "
+                + "and act.laPersonnePhysique.NumeroSS like :ReSS "; //==null 
+        Query req = getEntityManager().createQuery(tx);
+        req.setParameter("ReSS", ReSS); 
+        taille= (long)req.getResultList().get(0);
+        return taille;
+    }
     
     
     

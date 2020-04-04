@@ -366,13 +366,6 @@ public class Page extends HttpServlet {
                 jspClient="/GestionnaireCreationResponsable.jsp";
                 break;
                 
-            case "GestionnaireActesNonRembourse" :
-                System.out.println("entrer");
-                List<Acte> listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
-                request.setAttribute("listeacte",listeacte);
-                request.setAttribute("message",listeacte);
-                jspClient="/GestionnaireActesNonRembourse.jsp";
-                break;
                 
             //case "GestionnaireCreationRemboursement" :
             //    System.out.println("entrer");
@@ -515,17 +508,37 @@ public class Page extends HttpServlet {
                 doActionCreerPdfPriseEnCharge(request,response,sessionaffilie,g);
                 
                 break;
-                
+            
+            case "GestionnaireActesNonRembourse" :
+                int page=1;
+                try{page=Integer.parseInt(request.getParameter("SPage"));}catch(NumberFormatException e){}
+                String ReSS=(request.getParameter("ReSS")==null?(session.getAttribute("ReSS")==null?"":(String)session.getAttribute("ReSS")):request.getParameter("ReSS"));
+                List<Acte> listeacte = gestionnaireSession.rechercheListeActesNonRembourse(page,ReSS);
+                long taille=gestionnaireSession.CompterActesNonRembourse(ReSS);
+                int total=(int)Math.ceil((double)(taille/50.0));
+                request.setAttribute("taille", taille);
+                request.setAttribute("Npage", page);
+                request.setAttribute("total",total);
+                request.setAttribute("listeacte",listeacte);
+                session.setAttribute("ReSS",ReSS);
+                message="listeacte";
+                jspClient="/GestionnaireActesNonRembourse.jsp";
+                break;
+            
                 
             case "GestionnaireCreerRemboursement" :
                 String idacte=request.getParameter("idacte");
-                System.out.println("idacte"+idacte);
                 Response=gestionnaireSession.creerRemboursement(idacte);
-                System.out.println(act+"~~~~"+idacte);
-                listeacte = gestionnaireSession.rechercheListeActesNonRembourse();
+                ReSS=(session.getAttribute("ReSS")==null?"":(String)session.getAttribute("ReSS"));
+                listeacte = gestionnaireSession.rechercheListeActesNonRembourse(1,ReSS);
+                taille=gestionnaireSession.CompterActesNonRembourse(ReSS);
+                total=(int)Math.ceil((double)(taille/50.0));
+                request.setAttribute("taille", taille);
+                request.setAttribute("Npage", 1);
+                request.setAttribute("total",total);
                 request.setAttribute("listeacte",listeacte);
-                request.setAttribute("message",(String)Response.get(0));
-                System.out.println((String)Response.get(0)+"123123123");
+                session.setAttribute("ReSS",ReSS);
+                message=(String)Response.get(0);
                 jspClient="/GestionnaireActesNonRembourse.jsp";
                 break;
                 

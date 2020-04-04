@@ -40,6 +40,8 @@ public interface ActeFacadeLocal {
 
     Acte rechercheActeID(Long idact);
 
-    List<Acte> rechercheActesNonRembourse();
+    List<Acte> rechercheActesNonRembourse(int Page, String ReSS);
+    
+    long CompterActesNonRembourse(String ReSS);
     
 }
