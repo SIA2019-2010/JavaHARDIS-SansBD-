@@ -159,15 +159,32 @@ public class Page extends HttpServlet {
             case "CreationDevisInformations" :
                 List<Population> listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 List<Beneficiaire> listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
-                Object[] perss;
-                perss=(Object[])session.getAttribute("pers");
-                listeinfos=(List<Object[]>)session.getAttribute("listeinfos");
-                if(listeinfos==null) listeinfos=new ArrayList();
+                //Object[] perss;
+                //perss=(Object[])session.getAttribute("pers");
+                //listeinfos=(List<Object[]>)session.getAttribute("listeinfos");
+                //if(listeinfos==null) listeinfos=new ArrayList();
                 request.setAttribute("listben",listben);
                 request.setAttribute("listepopulation",listpop);
+                session.setAttribute("pers",null);
+                session.setAttribute("listeinfos",new ArrayList());
+                jspClient="/PageCreationDevis.jsp";
+                break;
+                
+            case "RechercherAffilieDevis" :
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
+                request.setAttribute("listben",listben);
+                request.setAttribute("listepopulation",listpop);
+                String NumeroSeSo=request.getParameter("NumeroSS");
+                Response = gestionnaireSession.DevisAvecRecherchePersonne(sessiongestionnaire,NumeroSeSo);
+                System.out.println("meiti");
+                Object[] perss=(Object[])Response.get(2);
+                listeinfos=(List<Object[]>)Response.get(3);
                 session.setAttribute("pers",perss);
                 session.setAttribute("listeinfos",listeinfos);
-                jspClient="/PageCreationDevis.jsp";
+                jspClient=(String)Response.get(1);
+                System.out.println(jspClient);
+                System.out.println((String)Response.get(0));
                 break;
                 
             case "CalculPrixDevis" :
@@ -179,7 +196,6 @@ public class Page extends HttpServlet {
                 String SSCreateur=request.getParameter("NumeroSS");
                 String MailCreateur=request.getParameter("Mail");
                 String Papulation=request.getParameter("idpop");
-                System.out.println("p");
                 Object[] pers={NomCreateur,PrenomCreateur,DateNaiCreateur,SSCreateur,MailCreateur,Papulation};
                 String[] NomAD=request.getParameterValues("NomAD");
                 String[] PrenomAD=request.getParameterValues("PrenomAD");
@@ -509,13 +525,100 @@ public class Page extends HttpServlet {
                 
                 break;
             
-            case "GestionnaireActesNonRembourse" :
+            case "GestionnaireProduitCollectif" :
                 int page=1;
+                try{page=Integer.parseInt(request.getParameter("SPage"));}catch(NumberFormatException e){}
+                String RePr=(request.getParameter("RePr")==null?(session.getAttribute("RePr")==null?"":(String)session.getAttribute("RePr")):request.getParameter("RePr"));
+                List<Produit> listepro = gestionnaireSession.rechercheProduitsCollectif(page,RePr);
+                long taille=gestionnaireSession.CompterProduitCollectif(RePr);
+                int total=(int)Math.ceil((double)(taille/50.0));
+                request.setAttribute("taille", taille);
+                request.setAttribute("Npage", page);
+                request.setAttribute("total",total);
+                request.setAttribute("listepro",listepro);
+                request.setAttribute("idprod",request.getParameter("idprod"));
+                session.setAttribute("RePr",RePr);
+                message="listeproduit";
+                jspClient="/GestionnaireProduitCollectif.jsp";
+                break;
+                
+            case "GestionnaireChoixProduitCollectif" :
+                String idprod=request.getParameter("idprod");
+                Response=gestionnaireSession.rechercheProduitsCollectifID(idprod);
+                page=1;
+                try{page=Integer.parseInt(request.getParameter("SPage"));}catch(NumberFormatException e){}
+                RePr=(request.getParameter("RePr")==null?(session.getAttribute("RePr")==null?"":(String)session.getAttribute("RePr")):request.getParameter("RePr"));
+                listepro = gestionnaireSession.rechercheProduitsCollectif(page,RePr);
+                taille=gestionnaireSession.CompterProduitCollectif(RePr);
+                total=(int)Math.ceil((double)(taille/50.0));
+                request.setAttribute("taille", taille);
+                request.setAttribute("Npage", page);
+                request.setAttribute("total",total);
+                request.setAttribute("listepro",listepro);
+                session.setAttribute("RePr",RePr);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
+                request.setAttribute("idprod", (String)Response.get(2));
+                request.setAttribute("persa", null);
+                request.setAttribute("listinfos", new ArrayList());
+                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("listben",listben);
+                request.setAttribute("listpop",listpop);
+                request.setAttribute("persa",null);
+                request.setAttribute("listinfos",new ArrayList());
+                break;
+                
+            case "GestionnaireCreerContratCollectif" :
+                idprod=request.getParameter("idprod");
+                idgen=request.getParameter("idgen");
+                Nom=request.getParameter("Nom");
+                PrenomCreateur=request.getParameter("Prenom");
+                DateNaiCreateur=request.getParameter("DateN");
+                SSCreateur=request.getParameter("NumeroSS");
+                Adresse=request.getParameter("Adresse");
+                MailCreateur=request.getParameter("Mail");
+                Papulation=request.getParameter("idpop");
+                Object[] persb={idgen,Nom,PrenomCreateur,DateNaiCreateur,SSCreateur,Adresse,MailCreateur,Papulation};
+                idgenAD=request.getParameterValues("idgenAD");
+                NomAD=request.getParameterValues("NomAD");
+                try{System.out.println(NomAD.length);}catch(Exception e){System.out.println("NomAD==null");}
+                PrenomAD=request.getParameterValues("PrenomAD");
+                DateNaiAD=request.getParameterValues("DateNaiAD");
+                NumeroSSAD=request.getParameterValues("NumeroSSAD");
+                AdresseAD=request.getParameterValues("AdresseAD");
+                idpopAD=request.getParameterValues("idpopAD");
+                idbenAD=request.getParameterValues("idbenAD");
+                number=(NomAD==null?0:NomAD.length);
+                listeinfos=new ArrayList();
+                for(int i=0; i<number; i++){
+                    Object[] infos={idgenAD[i],NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i],AdresseAD[i],idpopAD[i],idbenAD[i]};
+                    listeinfos.add(infos);
+                }
+                System.out.println("bp");
+                
+                
+                Response=gestionnaireSession.ajouterPersonneProduitCollectif(idprod, persb, listeinfos);
+                System.out.println("sortie");
+                request.setAttribute("idprod",idprod);//supri
+                request.setAttribute("persa",persb);//supri
+                request.setAttribute("listinfos",listeinfos);//supri
+                listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
+                listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                request.setAttribute("listben",listben);
+                request.setAttribute("listpop",listpop);
+                message=(String)Response.get(0);
+                jspClient=(String)Response.get(1);
+                System.out.println(jspClient+"jspCalculPacks");
+                break;
+                
+            case "GestionnaireActesNonRembourse" :
+                page=1;
                 try{page=Integer.parseInt(request.getParameter("SPage"));}catch(NumberFormatException e){}
                 String ReSS=(request.getParameter("ReSS")==null?(session.getAttribute("ReSS")==null?"":(String)session.getAttribute("ReSS")):request.getParameter("ReSS"));
                 List<Acte> listeacte = gestionnaireSession.rechercheListeActesNonRembourse(page,ReSS);
-                long taille=gestionnaireSession.CompterActesNonRembourse(ReSS);
-                int total=(int)Math.ceil((double)(taille/50.0));
+                taille=gestionnaireSession.CompterActesNonRembourse(ReSS);
+                total=(int)Math.ceil((double)(taille/50.0));
                 request.setAttribute("taille", taille);
                 request.setAttribute("Npage", page);
                 request.setAttribute("total",total);
@@ -524,7 +627,6 @@ public class Page extends HttpServlet {
                 message="listeacte";
                 jspClient="/GestionnaireActesNonRembourse.jsp";
                 break;
-            
                 
             case "GestionnaireCreerRemboursement" :
                 String idacte=request.getParameter("idacte");
@@ -647,7 +749,7 @@ public class Page extends HttpServlet {
         HttpSession session=request.getSession(true);   
         System.out.println("A");
         boolean valide=true;
-        if(act==null)act="null";
+        act=(act==null?"null":act);
         String[] MenuGestionnaire={
             "GestionnairePageModifierMdp",
             "GestionnaireModifierMdp",
@@ -667,7 +769,12 @@ public class Page extends HttpServlet {
             "GestionnaireValiderRemboursement",
             "GestionnaireRefuserRemboursement",
             "PageCreationProduit",
-            "GestionnaireCreationProduit"
+            "GestionnaireCreationProduit",
+            "RechercherAffilieDevis",
+            "GestionnaireProduitCollectif",
+            "GestionnaireChoixProduitCollectif",
+            "GestionnaireActesNonRembourse",
+            "GestionnaireCreerContratCollectif"
         };
         String[] MenuAffilie={
             "AffilieAfficherRempoursementPers",

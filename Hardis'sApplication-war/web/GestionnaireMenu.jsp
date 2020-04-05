@@ -55,7 +55,16 @@
         <input type="button" value="GestionnaireAfficherAffilie" onclick="location.href='Page?action=GestionnaireAfficherAffilie'">
         <input type="button" value="GestionnaireValiderContrat" onclick="location.href='Page?action=GestionnaireValiderContrat'">
         <input type="button" value="GestionnaireCloturerContrat" onclick="location.href='Page?action=GestionnaireCloturerContrat'">
-        <br/><input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=GestionnairePageModifierMdp'">
-        <input type="button" value="Déconnexion" onclick="location.href='Page?action=Deconnexion&typeConnexion=GestionnaireConnexion'">
+        <br/>
+        <input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=GestionnairePageModifierMdp'">
+        <input type="button" value="Créer un devis" onclick="location.href='Page?action=CreationDevisInformations'"/>
+        <form method="post" action="Page">
+            <input type="hidden" name="action" value="RechercherAffilieDevis"/>
+            <input type="text" name="NumeroSS"/>
+            <button type="submit" value="Rechercher">Connexion</button>
+        </form>
+        <br/>
+        <input type="button" value="GestionnaireProduitCollectif" onclick="location.href='Page?action=GestionnaireProduitCollectif'">
+        
     </body>
 </html>

@@ -189,13 +189,15 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
     @Override
     public PersonnePhysique recherchePersNumeroSS(String numeroSS) {
         PersonnePhysique pers;
+        System.out.println("before recherche");
         String txt="SELECT pers FROM PersonnePhysique AS pers WHERE pers.NumeroSS=:numSS";
         Query req=getEntityManager().createQuery(txt);
         req=req.setParameter("numSS",numeroSS);
         pers=null;
         List <PersonnePhysique> result = req.getResultList();
+                System.out.println("insede recherche");
         if (result.size()==1)
-            {pers=(PersonnePhysique)result.get(0);};
+            {pers=result.get(0);}
         return pers;
     }
 
@@ -240,6 +242,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
 
     @Override
     public PersonnePhysique creerPersonneComplete(String nom, String prenom, Genre genre, Date datenaiss, String numeroSS, String mail, Population popu, String adresse) {
+        em.flush();
         PersonnePhysique pers = new PersonnePhysique();
          
         pers.setNom(nom);
@@ -251,7 +254,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
         pers.setGenre(genre);
         pers.setLaPopulation(popu);
         
-        em.merge(pers);
+        em.persist(pers);
         return pers;
     }
 

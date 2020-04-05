@@ -69,9 +69,11 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     }
 
     @Override
-    public Produit rechercheProduitID(long idp) {
+    public Produit rechercheProduitCollectifID(long idp) {
         Produit prod;
-        String txt="SELECT pr FROM Produit AS pr WHERE pr.Id=:id";
+        String txt="SELECT pr FROM Produit AS pr "
+                + "WHERE pr.id=:id "
+                + "and pr.laPersonneMorale IS NOT NULL ";
         Query req=getEntityManager().createQuery(txt);
         req=req.setParameter("id",idp);
         prod=null;
@@ -93,13 +95,30 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     }
 
     @Override
-    public List<Produit> afficherProduitCollectif() {
-        Produit prod;
-        String txt="SELECT pr FROM Produit AS pr where pr.laPersonneMorale IS NOT NULL";
+    public List<Produit> afficherProduitCollectif(int page, String RePr) {
+        RePr="%"+RePr+"%";
+        String txt="SELECT pr FROM Produit AS pr "
+                + "where pr.laPersonneMorale IS NOT NULL "
+                + "and pr.NomProduit like :RePr ";
         Query req=getEntityManager().createQuery(txt);
-        prod=null;
+        req.setParameter("RePr", RePr); 
+        req.setFirstResult(50*(page-1));
+        req.setMaxResults(50);
         List <Produit> result = req.getResultList();
         return result;
+    }
+    
+    @Override
+    public long CompterProduitCollectif(String RePr) {
+        long taille;
+        RePr="%"+RePr+"%";
+        String txt="SELECT count(pr) FROM Produit AS pr "
+                + "where pr.laPersonneMorale IS NOT NULL "
+                + "and pr.NomProduit like :RePr ";
+        Query req=getEntityManager().createQuery(txt);
+        req.setParameter("RePr", RePr); 
+        taille= (long)req.getResultList().get(0);
+        return taille;
     }
     
     @Override

@@ -64,11 +64,13 @@ public interface GestionnaireSessionLocal {
 
     List<Object> cloturerContrat(String idc);
 
-    List<Object> ajouterPersonneProduitCollectif(Long idproduit,Object[] pers,List<Object[]>listeinfos);
+    List<Object> ajouterPersonneProduitCollectif(String idp,Object[] pers,List<Object[]>listeinfos);
 
     List<Acte> rechercheListeActesNonRembourse(int Page, String ReSS);
 
-    List<Produit> rechercheProduitsCollectif();
+    List<Produit> rechercheProduitsCollectif(int page, String RePr);
+    
+    long CompterProduitCollectif(String RePr);
     
     List<Remboursement> afficherRempoursementEncours();
     
@@ -99,5 +101,7 @@ public interface GestionnaireSessionLocal {
     List<TypeGarantie> AfficherTypeGarantie();
     
     long CompterActesNonRembourse(String ReSS);
+    
+    List<Object> rechercheProduitsCollectifID(String idprod);
         
 }

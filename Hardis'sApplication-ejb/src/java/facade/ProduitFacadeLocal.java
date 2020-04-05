@@ -43,11 +43,13 @@ public interface ProduitFacadeLocal {
     
     List<Produit> afficherPersonneMoraleProduit(PersonneMorale personne);
 
-    Produit rechercheProduitID(long parameter);
+    Produit rechercheProduitCollectifID(long parameter);
     
     List<Produit> afficherProduit();
 
-    List<Produit> afficherProduitCollectif();
+    List<Produit> afficherProduitCollectif(int page, String RePr);
+    
+    long CompterProduitCollectif(String RePr);
     
     List<Produit> afficherProduitIndividuel();
     
