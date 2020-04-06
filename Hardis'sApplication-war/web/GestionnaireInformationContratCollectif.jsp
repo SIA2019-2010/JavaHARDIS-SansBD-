@@ -145,7 +145,7 @@
                 <h2>Personne créateur</h2>
                 <p><%=message%></p>
                 <p><%=idprod%></p>
-                <p><%=(String)(Array.get(persa,7))%></p>
+                <p><%=(persa==null?"null":(String)(Array.get(persa,7)))%></p>
                 <table width="80%">
                     <tr>
                         <td width="10%">

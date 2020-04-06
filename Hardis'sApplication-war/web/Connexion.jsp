@@ -21,7 +21,7 @@
     </head>
     <body>
         <h1><%=typeConnexion%></h1>
-        <form method="post" action="Page">
+        <form method="post" action="Page" target="_blank">
             <fieldset>
                 <legend>Informations </legend>
                 <div class="ensembleBooutonsRadio">

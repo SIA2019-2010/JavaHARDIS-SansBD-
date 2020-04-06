@@ -15,5 +15,6 @@
         <h1>Hello World!</h1>
         <input type="button" value="Connexion" onclick="location.href='Page?action=AffilieConnexion'"/>
         <input type="button" value="Créer un devis" onclick="location.href='Page?action=CreationDevisInformations'"/>
+        <input type="button" value="Créer un devis" onclick="window.open('Page?action=CreationDevisInformations')"/>
     </body>
 </html>

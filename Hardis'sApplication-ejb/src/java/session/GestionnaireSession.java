@@ -1119,8 +1119,8 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
           //6 population, 7 STRING (Conjoint, Concubin, Enfant à charge)
         
           
-          
-          
+        List<String> verifi=new ArrayList();
+        verifi.add(((String)Array.get(pers, 4)).toUpperCase());
         List<PersonnePhysique> LesAyantdroit=new ArrayList();
         
            
@@ -1143,28 +1143,36 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
              
                 return Response; //manque des champs donc renvoi de toutes les informations
         
-           } else{ //on créer les ayants droits si ils existent
+           } else{
+                if(numeroSS.equalsIgnoreCase((String)Array.get(pers, 4))||verifi.contains(numeroSS.toUpperCase())){
+                    Response.add("Numéro SS répété");//1
+                    Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                    Response.add(null); //5 pas de packs (produit+prix)
+
+                    return Response; //tout ce qu'on a donné
+                }else{
+                    verifi.add(numeroSS.toUpperCase());
+                }//on créer les ayants droits si ils existent
                 Date daten;
                 try{
                     daten=java.sql.Date.valueOf((String)Array.get(infos, 3));
-                }catch(Exception e){
+                }catch(ArrayIndexOutOfBoundsException | IllegalArgumentException e){
                     Response.add("Date Naissance Erreur");//1
                     Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP renseignements complementaire
                     Response.add(pers);
                     Response.add(listeinfos);
                 }
-                     PersonnePhysique ayantdroitencours;
-                     ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
-                    if (ayantdroitencours==null){
-                            Long idpop=Long.valueOf(idpopst);
-                            Population pop = populationFacade.rechercheExistantPopulationID(idpop);  
-                        
-                            Genre genreayt=Genre.valueOf(genre);
-                            ayantdroitencours=personnePhysiqueFacade.creerPersonneComplete(nom, prenom, genreayt, java.sql.Date.valueOf((String)Array.get(pers, 3)), numeroSS, null, pop, adresse); 
-                       }
+                PersonnePhysique ayantdroitencours;
+                ayantdroitencours=personnePhysiqueFacade.recherchePersNumeroSS(numeroSS);
+                if (ayantdroitencours==null){
+                        Long idpop=Long.valueOf(idpopst);
+                        Population pop = populationFacade.rechercheExistantPopulationID(idpop);
+                        Genre genreayt=Genre.valueOf(genre);
+                        ayantdroitencours=personnePhysiqueFacade.creerPersonneComplete(nom, prenom, genreayt, java.sql.Date.valueOf((String)Array.get(infos, 3)), numeroSS, null, pop, adresse); 
+                }
                     
         
-            LesAyantdroit.add(ayantdroitencours);  
+                LesAyantdroit.add(ayantdroitencours);  
                 
             }
         }

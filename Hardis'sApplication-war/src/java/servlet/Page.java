@@ -561,12 +561,14 @@ public class Page extends HttpServlet {
                 request.setAttribute("idprod", (String)Response.get(2));
                 request.setAttribute("persa", null);
                 request.setAttribute("listinfos", new ArrayList());
+                System.out.println("aa");
                 listben = publiqueSession.rechercheBeneficiaires(); //je vais faire la methode
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listben",listben);
                 request.setAttribute("listpop",listpop);
                 request.setAttribute("persa",null);
                 request.setAttribute("listinfos",new ArrayList());
+                System.out.println("bb");
                 break;
                 
             case "GestionnaireCreerContratCollectif" :
@@ -736,7 +738,7 @@ public class Page extends HttpServlet {
         }
         }
             
-            
+        System.out.println("jsp : "+jspClient+" message : "+message);
         RequestDispatcher Rd;
         Rd=getServletContext().getRequestDispatcher(jspClient);
         request.setAttribute("message",message);
