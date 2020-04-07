@@ -87,27 +87,43 @@ public class PubliqueSession implements PubliqueSessionLocal {
     }
            
     @Override
-    public List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable){
+    public List<Object> rechercherConnexion(String act, HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable){
         List<Object> Response=new ArrayList();
-        if (sessiongestionnaire!=null){
+        System.out.println(act);
+        System.out.println((sessiongestionnaire==null?"gest0":"g"+sessiongestionnaire.getId()));
+        System.out.println((sessionaffilie==null?"affi0":"a"+sessionaffilie.getId()));
+        System.out.println((sessionresponsable==null?"resp0":"r"+sessionresponsable.getId()));
+        if (sessiongestionnaire!=null&&"GestionnaireConnexion".equals(act)){
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
             Response.add("/GestionnaireMenu.jsp");
             Response.add("GestionnaireConnexion");
+            Response.add(sessiongestionnaire);
+            Response.add(null);
+            Response.add(null);
         }
-        else if(sessionaffilie!=null){
+        else if(sessionaffilie!=null&&"AffilieConnexion".equals(act)){
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
             Response.add("/AffilieMenu.jsp");
             Response.add("AffilieConnexion");
+            Response.add(null);
+            Response.add(sessionaffilie);
+            Response.add(null);
         }
-        else if(sessionresponsable!=null){
+        else if(sessionresponsable!=null&&"ResponsableConnexion".equals(act)){
             Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
             Response.add("/ResponsableMenu.jsp");
             Response.add("ResponsableConnexion");
+            Response.add(null);
+            Response.add(null);
+            Response.add(sessionresponsable);
         }
         else{
             Response.add("Affichage page connexion");
             Response.add("/Connexion.jsp");
-            Response.add("GestionnaireConnexion");
+            Response.add(act);
+            Response.add(null);
+            Response.add(null);
+            Response.add(null);
         }
         return Response;
     }

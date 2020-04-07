@@ -9,8 +9,9 @@
 <html>
     <head>
         <jsp:useBean id="typeConnexion" scope="request" class="String"></jsp:useBean>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <%--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"--%>
+        <title>Connexion</title>
         <script type="text/javascript" src="js.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
@@ -18,10 +19,14 @@
                 $('#<%=typeConnexion%>').prop("checked", true);
             });
         </script>
-    </head>
+        <%session.setAttribute("titre", "Acceuil");%>
+        <%@ include file="Style.jsp"%>
+    
     <body>
+        <%@ include file="Header.jsp"%>
+        
         <h1><%=typeConnexion%></h1>
-        <form method="post" action="Page" target="_blank">
+        <form method="post" action="Page"><%--// target="_blank"--%>
             <fieldset>
                 <legend>Informations </legend>
                 <div class="ensembleBooutonsRadio">

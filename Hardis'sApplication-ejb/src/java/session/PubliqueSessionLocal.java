@@ -35,7 +35,7 @@ public interface PubliqueSessionLocal {
 
     PersonnePhysique renseignerInfos(PersonnePhysique pers, String adresse, Genre genre,String RIB);
     
-    List<Object> rechercherConnexion(HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable);
+    List<Object> rechercherConnexion(String act, HttpSession session, Gestionnaire sessiongestionnaire, PersonnePhysique sessionaffilie, Responsable sessionresponsable);
 
     List<Object> calculPacks(Object[] pers,List<Object[]>listeinfos);
     

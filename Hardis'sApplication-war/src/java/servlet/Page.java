@@ -88,6 +88,7 @@ public class Page extends HttpServlet {
         System.out.println("2");
         Responsable sessionresponsable=(Responsable)(ResultatSession.get(3));
         request.setAttribute("typeConnexion", (String)(ResultatSession.get(5)));
+        System.out.println("set "+(String)(ResultatSession.get(5)));
         System.out.println(session==null);
         System.out.println(sessiongestionnaire==null);
         System.out.println(sessionaffilie==null);
@@ -114,14 +115,16 @@ public class Page extends HttpServlet {
             case "GestionnaireConnexion" :
             case "AffilieConnexion" :
             case "ResponsableConnexion" :
-                System.out.println("before");
-                Response=publiqueSession.rechercherConnexion(session, sessiongestionnaire, sessionaffilie, sessionresponsable);
-                System.out.println("after");
+                Response=publiqueSession.rechercherConnexion(act, session, sessiongestionnaire, sessionaffilie, sessionresponsable);
                 message=(String)Response.get(0);
                 System.out.println(message);
                 jspClient=(String)Response.get(1);
                 System.out.println(jspClient);
+                System.out.println("typeConnexion"+(String)Response.get(2));
                 request.setAttribute("typeConnexion",(String)Response.get(2));
+                session.setAttribute("sessiongestionnaire", (Gestionnaire)Response.get(3));
+                session.setAttribute("sessionaffilie", (PersonnePhysique)Response.get(4));
+                session.setAttribute("sessionresponsable", (Responsable)Response.get(5));
                 break;
             
             case "Deconnexion" :
@@ -821,13 +824,13 @@ public class Page extends HttpServlet {
         PersonnePhysique sessionaffilie=(PersonnePhysique)session.getAttribute("sessionaffilie");
         Responsable sessionresponsable=(Responsable)session.getAttribute("sessionresponsable");
         System.out.println((sessiongestionnaire==null?0:1)+" "+(sessionaffilie==null?0:1)+" "+(sessionresponsable==null?0:1));
-        Response.add(session);
-        Response.add(sessiongestionnaire);
-        Response.add(sessionaffilie);
-        Response.add(sessionresponsable);
         if(sessiongestionnaire!=null){
             if ((Arrays.asList(MenuGestionnaire).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionaffilie==null&&sessionresponsable==null){
                 System.out.println("Mission Gestionnaire");
+                Response.add(session);
+                Response.add(sessiongestionnaire);
+                Response.add(sessionaffilie);
+                Response.add(sessionresponsable);
                 Response.add(true);
                 Response.add("GestionnaireConnexion");
                 return Response;
@@ -837,6 +840,10 @@ public class Page extends HttpServlet {
         else if(sessionaffilie!=null){
             if ((Arrays.asList(MenuAffilie).contains(act)||Arrays.asList(MenuPublique).contains(act))&&sessionresponsable==null){
                 System.out.println("Mission Affilié");
+                Response.add(session);
+                Response.add(sessiongestionnaire);
+                Response.add(sessionaffilie);
+                Response.add(sessionresponsable);
                 Response.add(true);
                 Response.add("AffilieConnexion");
                 return Response;
@@ -846,34 +853,56 @@ public class Page extends HttpServlet {
         else if(sessionresponsable!=null){
             if (Arrays.asList(MenuResponsable).contains(act)||Arrays.asList(MenuPublique).contains(act)){
                 System.out.println("Mission Responsable");
+                Response.add(session);
+                Response.add(sessiongestionnaire);
+                Response.add(sessionaffilie);
+                Response.add(sessionresponsable);
                 Response.add(true);
                 Response.add("ResponsableConnexion");
                 return Response;
             }
             else valide=false;
         }
-        if(valide){
-            if (Arrays.asList(MenuPublique).contains(act)){
-                System.out.println("Mission Publique");
-                Response.add(true);
-                Response.add("SansConnexion");
-                return Response;
-            }
+        if(valide&&Arrays.asList(MenuPublique).contains(act)){
+            System.out.println("Mission Publique");
+            Response.add(session);
+            Response.add(sessiongestionnaire);
+            Response.add(sessionaffilie);
+            Response.add(sessionresponsable);
+            Response.add(true);
+            if(act.equals("ResponsableAuthen")||act.equals("ResponsableConnexion")) Response.add("ResponsableConnexion");
+            else if(act.equals("AffilieAuthen")||act.equals("AffilieConnexion")) Response.add("AffilieConnexion");
+            else if(act.equals("GestionnaireAuthen")||act.equals("GestionnaireConnexion")) Response.add("GestionnaireConnexion");
+            else Response.add("SansConnexion");
+            return Response;
+        }else{
+            System.out.println("Session erreur");
+            session.setAttribute("sessiongestionnaire", null);
+            session.setAttribute("sessionaffilie", null);
+            session.setAttribute("sessionresponsable", null); 
+            Response.add(session);
+            Response.add(null);
+            Response.add(null);
+            Response.add(null);
+            Response.add(false);
+            if(Arrays.asList(MenuGestionnaire).contains(act)) Response.add("GestionnaireConnexion");
+            if(Arrays.asList(MenuAffilie).contains(act)) Response.add("AffilieConnexion");
+            if(Arrays.asList(MenuResponsable).contains(act)) Response.add("ResponsableConnexion");
+            else Response.add("SansConnexion");
+            return Response;
         }
-        System.out.println("Fin traitement");
         //if(count>1||(count==0&&act!=null&&!act.equals("")&&!act.equals("vide")&&!act.equals("ResponsableAuthen")&&!act.equals("AffilieAuthen")&&!act.equals("GestionnaireAuthen")&&!act.equals("GestionnaireConnexion")&&!act.equals("ResponsableConnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CalculPrixDevis")&&!act.equals("Deconnexion")&&!act.equals("AffilieConnexion")&&!act.equals("CreationDevisInformations"))){
             
         /*if(act.substring(0, 5).equals("Affil")) request.setAttribute("typeConnexion","AffilieConnexion");
         else if(act.substring(0, 5).equals("Respo")) request.setAttribute("typeConnexion","ResponsableConnexion");
         else request.setAttribute("typeConnexion","GestionnaireConnexion");*/
-        System.out.println("Session erreur");
-        Response.add(false);
-        String t=(String)request.getAttribute("typeConnexion");
+        
+        /*String t=(String)request.getAttribute("typeConnexion");
         if (t==null) Response.add("GestionnaireConnexion");
         else if(t.equals("ResponsableAuthen")||t.equals("AffilieConnexion")||t.equals("ResponsableConnexion")) Response.add(t);
         else Response.add("GestionnaireConnexion");
         System.out.println("avant return case");
-        return Response;
+        return Response;*/
     }
     
  
