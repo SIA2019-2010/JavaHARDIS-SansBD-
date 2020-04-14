@@ -43,8 +43,6 @@ public interface ContratFacadeLocal {
 
     Contrat modifierDateFin(Date datef, Contrat cont);
     
-    List<Contrat> AfficherContratGestionnaire(Domaine dom);
-    
     Contrat ValiderContrat(Contrat cnt);
 
     Contrat rechercheExistantID(Long idcnt);
@@ -53,10 +51,6 @@ public interface ContratFacadeLocal {
 
     List<TypeGarantie> recupererTypeGaranties(Long idct);
     
-    List<Contrat> AfficherContratCree(Domaine dom);
-    
-    List<Contrat> AfficherContratValide(Domaine dom);
-
     Contrat RefuserContrat(Contrat cnt);
     
 }

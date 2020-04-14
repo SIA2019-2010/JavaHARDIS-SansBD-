@@ -11,6 +11,7 @@ import entitee.Domaine;
 import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.StatutBeneficiaire;
+import entitee.StatutContrat;
 import java.util.List;
 import java.util.Date;
 import java.util.List;
@@ -143,6 +144,149 @@ public class StatutBeneficiaireFacade extends AbstractFacade<StatutBeneficiaire>
         return statut;
     }
     
+    @Override
+    public List<Contrat> AfficherContratGestionnaire(Domaine dom, String ReSS, int page) {
+        List<Contrat> listcontrats; 
+        ReSS="%"+ReSS+"%";
+        String tx = "SELECT distinct (sb.leContrat) FROM StatutBeneficiaire AS sb "
+                + "where sb.leContrat.leProduit.leDomaine=:dom "
+                + "and sb.leContrat.DateDebut IS NULL "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire=Affilie "
+                + "and sb.laPersonnePhysique.NumeroSS like :ReSS"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("ReSS", ReSS);
+        req.setFirstResult(20*(page-1));
+        req.setMaxResults(20);
+        listcontrats= req.getResultList (); 
+        return listcontrats;
+    }
+//    @Override
+//    public long CompterActesNonRembourse(String ReSS) {
+//        long taille;
+//        ReSS="%"+ReSS+"%";
+//        String tx = "SELECT count(act) FROM Acte AS act "
+//                + "left join act.leRemboursement rem "
+//                + "where rem is null "
+//                + "and act.laPersonnePhysique.NumeroSS like :ReSS "; //==null 
+//        Query req = getEntityManager().createQuery(tx);
+//        req.setParameter("ReSS", ReSS); 
+//        taille= (long)req.getResultList().get(0);
+//        return taille;
+//    }
+    @Override
+    public long CompterContratGestionnaire(Domaine dom, String ReSS) {
+        ReSS="%"+ReSS+"%";
+        String tx = "SELECT count(distinct (sb.leContrat)) FROM StatutBeneficiaire AS sb "
+                + "where sb.leContrat.leProduit.leDomaine=:dom "
+                + "and sb.leContrat.DateDebut IS NULL "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire=Affilie "
+                + "and sb.laPersonnePhysique.NumeroSS like :ReSS"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("ReSS", ReSS);
+//        listcontrats= req.getResultList (); 
+        long taille= (long)req.getResultList().get(0);
+        return taille;
+    }
     
+    @Override
+    public List<Contrat> AfficherContratCree(Domaine dom, String ReSS, int page) {
+        List<Contrat> listcontrats; 
+        ReSS="%"+ReSS+"%";
+        System.out.println("ss : "+ReSS);
+        String tx = "SELECT distinct (sb.leContrat) FROM StatutBeneficiaire AS sb "
+                + "where sb.leContrat.leProduit.leDomaine=:dom "
+                + "and sb.leContrat.leStatut=:cr "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire='Affilie' "
+                + "and sb.laPersonnePhysique.NumeroSS like :ReSS";
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("cr", StatutContrat.Créé); 
+        req.setParameter("ReSS", ReSS);
+        req.setFirstResult(20*(page-1));
+        req.setMaxResults(20);
+        listcontrats= req.getResultList (); 
+        return listcontrats;
+    }
+    
+    @Override
+    public long CompterContratCree(Domaine dom, String ReSS) {
+        ReSS="%"+ReSS+"%";
+        String tx = "SELECT count(distinct (sb.leContrat)) FROM StatutBeneficiaire AS sb "
+                + "where sb.leContrat.leProduit.leDomaine=:dom "
+                + "and sb.leContrat.leStatut=:cr "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire='Affilie' "
+                + "and sb.laPersonnePhysique.NumeroSS like :ReSS";
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("cr", StatutContrat.Créé); 
+        req.setParameter("ReSS", ReSS);
+        long taille= (long)req.getResultList().get(0);
+        return taille;
+    }
+    
+    @Override
+    public long CompterContratValide(Domaine dom, String ReSS) {
+        ReSS="%"+ReSS+"%";
+        String tx = "SELECT count(distinct (sb.leContrat)) FROM StatutBeneficiaire AS sb "
+                + "where sb.leContrat.leProduit.leDomaine=:dom "
+                + "and sb.leContrat.leStatut=:va "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire='Affilie' "
+                + "and sb.laPersonnePhysique.NumeroSS like :ReSS"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("va", StatutContrat.Validé); 
+        req.setParameter("ReSS", ReSS);
+        long taille= (long)req.getResultList().get(0);
+        return taille;
+    }
+    
+    @Override
+    public List<Contrat> AfficherContratValide(Domaine dom, String ReSS, int page) {
+        List<Contrat> listcontrats; 
+        ReSS="%"+ReSS+"%";
+        String tx = "SELECT distinct (sb.leContrat) FROM StatutBeneficiaire AS sb "
+                + "where sb.leContrat.leProduit.leDomaine=:dom "
+                + "and sb.leContrat.leStatut=:va "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire='Affilie' "
+                + "and sb.laPersonnePhysique.NumeroSS like :ReSS"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("dom", dom); 
+        req.setParameter("va", StatutContrat.Validé); 
+        req.setParameter("ReSS", ReSS);
+        req.setFirstResult(20*(page-1));
+        req.setMaxResults(20);
+        listcontrats= req.getResultList (); 
+        return listcontrats;
+    }
+    
+    @Override
+    public List<PersonnePhysique> AfficherPersonnesPhysiques(String ReSS, int page){
+        List<PersonnePhysique> listpers; 
+        ReSS="%"+ReSS+"%";
+        String tx = "SELECT sb.laPersonnePhysique FROM StatutBeneficiaire AS sb "
+                + "where sb.laPersonnePhysique.NumeroSS like :ReSS "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire='Affilie'"; //==null 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("ReSS", ReSS); 
+        req.setFirstResult(20*(page-1));
+        req.setMaxResults(20);
+        listpers= req.getResultList (); 
+        return listpers;
+    }
+    
+    @Override
+    public long CompterPersonnesPhysiques(String ReSS) {
+        long taille;
+        ReSS="%"+ReSS+"%";
+        String tx = "SELECT count(sb.laPersonnePhysique) FROM StatutBeneficiaire AS sb "
+                + "where sb.laPersonnePhysique.NumeroSS like :ReSS "
+                + "and sb.laBeneficiaire.LibelleBeneficiaire='Affilie'"; //==null 
+        Query req = getEntityManager().createQuery(tx);
+        req.setParameter("ReSS", ReSS); 
+        taille= (long)req.getResultList().get(0);
+        return taille;
+    }
     
 }

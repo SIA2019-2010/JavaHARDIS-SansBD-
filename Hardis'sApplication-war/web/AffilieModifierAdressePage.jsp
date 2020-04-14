@@ -4,32 +4,69 @@
     Author     : alexisbaillieu
 --%>
 
+<%@page import="entitee.PersonnePhysique"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP ModificationAdresse</title>
-   </head>
+        <%@ include file="Style.jsp"%>
+        <%session.setAttribute("titre", "Modifier Adresse");%>
+        
     <body>
-        <h1>Changement d'adresse</h1>
-        <p>
-            <%
-                String attribut = (String) request.getAttribute("message");
-                out.println(attribut);
-            %>
-        </p>
+        <%@ include file="Header.jsp"%>
+        <%session.setAttribute("t1", "Changement d'adresse");%>
+        <%session.setAttribute("t2", "Changez votre adresse.");%>
+        <%@ include file="Header1.jsp"%>
+        
         <form method="post" action="Page">
             <fieldset>
-                <legend>Nouvelle adresse : </legend>
-                <label for="NvAdresseAffilie">Adresse<span class="requis">*</span></label>
-                <input type="text" name="NvAdresseAffilie" value="" size="20" maxlength="20"/><br/>
-                <input type="hidden" name="action" value="ChangementAdresse"/>
+                <blockquote class="generic-blockquote">
+                    <div class="section-top-border">
+                        <div class="rec-xin" id="b">
+                            <div class="row">
+                                <div class="col-xl-4" style="margin-right: 60px">
+                                </div>
+                                <h3 class="mb-30">Changer votre adresse</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-3">
+                                </div>
+                                <div class="col-xl-3" style="padding-left: 100px; padding-top: 15px;">
+                                    <label for="adresse">Votre adresse actuelle</label>
+                                </div>
+                                <div class="col-xl-2">
+                                    <input type="text" class="input-xin" STYLE="background-color:#CCCCCC;" name="adresse" value="<%=((PersonnePhysique)(session.getAttribute("sessionaffilie"))).getAdresse()%>" readonly/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-3">
+                                </div>
+                                <div class="col-xl-3" style="padding-left: 100px; padding-top: 15px;">
+                                    <label for="NvAdresseAffilie">Votre nouvelle adresse<span class="requis">*</span></label>
+                                </div>
+                                <div class="col-xl-2">
+                                    <input type="test" class="input-xin" name="NvAdresseAffilie" placeholder="Nouvelle adresse"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4" style="margin-right: 35px;">
+                                </div>
+                                <div class="col-xl-4">
+                                    <input type="submit" class="info-xin" value="Valider"/>
+                                    <input type="reset" class="info-xin" value="Remettre"/>
+                                    <input type="button" class="info-xin" value="Menu" onclick="location.href='Page?action=AffilieConnexion'"/>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </blockquote>
             </fieldset>
-            <input type="submit" value="Valider"/>
+<!--            <input type="submit" value="Valider"/>
             <input type="reset" value="Remettre à zéro"/>
-            <input type="button" value="Revenir au Menu" onclick="location.href='Menu?action=vide'"/>
+            <input type="button" value="Revenir au Menu" onclick="location.href='Menu?action=vide'"/>-->
             <%--input type="button" value="test" onclick="location.href='Page?action=AffilieAuthen&LoginAffilie=login&MDPAffilie=mdp'"/--%>
+            <input type="hidden" name="action" value="AffilieModifierAdresse"/>
         </form>
+        <%@ include file="Footer.jsp"%>
     </body>
 </html>

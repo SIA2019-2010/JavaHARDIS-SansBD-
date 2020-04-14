@@ -1,35 +1,71 @@
 <%-- 
-    Document   : AffilieModifierMailPage
-    Created on : 23 mars 2020, 15:05:23
+    Document   : AffilieModifierAdressePage
+    Created on : 23 mars 2020, 15:05:10
     Author     : alexisbaillieu
 --%>
 
+<%@page import="entitee.PersonnePhysique"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP ModificationMail</title>
-   </head>
+        <%session.setAttribute("titre", "Modifier Mail");%>
+        <%@ include file="Style.jsp"%>        
     <body>
-        <h1>Changement de Mail</h1>
-        <p>
-            <%
-                String attribut = (String) request.getAttribute("message");
-                out.println(attribut);
-            %>
-        </p>
+        <%@ include file="Header.jsp"%>
+        <%session.setAttribute("t1", "Changement du mail");%>
+        <%session.setAttribute("t2", "Changez votre mail.");%>
+        <%@ include file="Header1.jsp"%>
+        
         <form method="post" action="Page">
             <fieldset>
-                <legend>Nouvelle adresse mail  : </legend>
-                <label for="NvMailAffilie">eMail<span class="requis">*</span></label>
-                <input type="text" name="NvMailAffilie" value="" size="20" maxlength="20"/><br/>
-                <input type="hidden" name="action" value="ChangementMail"/>
+                <blockquote class="generic-blockquote">
+                    <div class="section-top-border">
+                        <div class="rec-xin" id="b">
+                            <div class="row">
+                                <div class="col-xl-4" style="margin-right: 60px">
+                                </div>
+                                <h3 class="mb-30">Changer votre mail</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-3">
+                                </div>
+                                <div class="col-xl-3" style="padding-left: 100px; padding-top: 15px;">
+                                    <label for="mail">Votre mail actuel</label>
+                                </div>
+                                <div class="col-xl-2">
+                                    <input type="text" class="input-xin" STYLE="background-color:#CCCCCC;" name="mail" value="<%=((PersonnePhysique)(session.getAttribute("sessionaffilie"))).getMail()%>" readonly/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-3">
+                                </div>
+                                <div class="col-xl-3" style="padding-left: 100px; padding-top: 15px;">
+                                    <label for="NvMailAffilie">Votre nouvelle mail<span class="requis">*</span></label>
+                                </div>
+                                <div class="col-xl-2">
+                                    <input type="test" class="input-xin" name="NvMailAffilie" placeholder="Nouvelle mail"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4" style="margin-right: 35px;">
+                                </div>
+                                <div class="col-xl-4">
+                                    <input type="submit" class="info-xin" value="Valider"/>
+                                    <input type="reset" class="info-xin" value="Remettre"/>
+                                    <input type="button" class="info-xin" value="Menu" onclick="location.href='Page?action=AffilieConnexion'"/>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </blockquote>
             </fieldset>
-            <input type="submit" value="Valider"/>
+<!--            <input type="submit" value="Valider"/>
             <input type="reset" value="Remettre à zéro"/>
-            <input type="button" value="Revenir au Menu" onclick="location.href='Menu?action=vide'"/>
+            <input type="button" value="Revenir au Menu" onclick="location.href='Menu?action=vide'"/>-->
             <%--input type="button" value="test" onclick="location.href='Page?action=AffilieAuthen&LoginAffilie=login&MDPAffilie=mdp'"/--%>
+            <input type="hidden" name="action" value="AffilieModifierMail"/>
         </form>
+        <%@ include file="Footer.jsp"%>
     </body>
 </html>

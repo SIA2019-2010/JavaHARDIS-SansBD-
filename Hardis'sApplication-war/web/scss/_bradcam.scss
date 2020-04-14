@@ -157,6 +157,24 @@
         }
     }
 }
+.xinproduit {
+    display: inline-block;
+    margin: auto;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    @include transform (translate(-50%,-50%));
+    .mfp-close-btn-in .mfp-close {
+        color: #333;
+        display: none !important;
+    }
+    button{
+        &.mfp-close{
+            display: none !important;
+        }
+    }
+}
 .mfp-bg {
     top: 0;
     left: 0;

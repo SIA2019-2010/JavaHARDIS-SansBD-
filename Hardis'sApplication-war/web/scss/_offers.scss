@@ -376,6 +376,22 @@
   }
 }
 
+.xinproduit{
+  .white-popup-block{
+    .popup_inner{
+      .gj-datepicker{
+        span{
+          color: red;
+        }
+      }
+    }
+    input{
+      width: 100%;
+      height: 50px;
+    }
+  }
+}
+
 .gj-datepicker input {
   width: 100%;
   height: 50px;

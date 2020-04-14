@@ -40,6 +40,7 @@ import facade.GestionnaireFacadeLocal;
 import facade.PersonneMoraleFacadeLocal;
 import facade.PersonnePhysiqueFacadeLocal;
 import facade.PopulationFacadeLocal;
+import facade.PriseEnChargeFacadeLocal;
 import facade.ProduitFacadeLocal;
 import facade.RemboursementFacadeLocal;
 import facade.ResponsableFacadeLocal;
@@ -92,6 +93,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
 
     @EJB
     private DevisFacadeLocal devisFacade;
+    
+    @EJB
+    private PriseEnChargeFacadeLocal priseEnChargeFacade;
 
     @EJB
     private PersonnePhysiqueFacadeLocal personnePhysiqueFacade;
@@ -143,10 +147,10 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     public List<Object> authentificationGestionnaire(String login, String mdp, HttpServletRequest request) {
         System.out.println("authenRespon"+login+"   "+mdp);
         List<Object> Response=new ArrayList();
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         session.invalidate();
         if(login.trim().isEmpty()||mdp.trim().isEmpty()){
-            Response.add("Il manque de champs");
+            Response.add("Erreur : Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
             request.setAttribute("typeConnexion ","GestionnaireConnexion");
@@ -154,7 +158,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         else{
             Gestionnaire sessiongestionnaire=gestionnaireFacade.authentificationGestionnaire(login, mdp);
             if(sessiongestionnaire==null){
-                Response.add("Erreur :login ou mdp");
+                Response.add("Erreur : login ou mdp incorrect");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
                 request.setAttribute("typeConnexion","GestionnaireConnexion");
@@ -175,23 +179,23 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     public List<Object> modifiermdp(Gestionnaire gest, String OMDP, String NMDP, String RMDP){
         List<Object> Response=new ArrayList();
         if(gest==null||OMDP==null||NMDP==null||RMDP==null){
-            Response.add("Erreur Session");
+            Response.add("Erreur : Erreur Session");
             Response.add("/ErreurSession.jsp");
         }
         else if(OMDP.equals("")||NMDP.equals("")||RMDP.equals("")){
-            Response.add("Remplisez tous les champs");
+            Response.add("Erreur : Remplisez tous les champs");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(!NMDP.equals(RMDP)){
-            Response.add("répéter mot de pas incorrecte");
+            Response.add("Erreur : Répétition mot de pas incorrecte");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(!gest.getMdp().equals(OMDP)){
-            Response.add("Ancien mot de passe incorrecte");
+            Response.add("Erreur : Ancien mot de passe incorrecte");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(OMDP.equals(NMDP)){
-            Response.add("faur choisir un mot de pas différent");
+            Response.add("Erreur : Il faut choisir un mot de pas différent");
             Response.add("/PageModifierMdp.jsp");
         }
         else{
@@ -214,18 +218,19 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        //Objet pers : 1 SIRET, 2 raisonSociale, 3 adresse, 4 activite (String de ID)
    
        
-       if(pers.get(0).isEmpty()||pers.get(1).isEmpty()||pers.get(2).isEmpty()||pers.get(3).isEmpty()){
-             Response.add("Merci de remplir la totalité des champs");//1
+       if(pers.get(0).equals("")||pers.get(1).equals("")||pers.get(2).equals("")||pers.get(3).equals("")){
+             Response.add("Erreur : Merci de remplir la totalité des champs");//1
              Response.add("/GestionnaireCreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(null);//3 les infos deja données
              
             return Response; //manque des champs donc renvoi de toutes les informations
        }
+       for(int i=0;i<3;i++)System.out.println(pers.get(i)+"  No "+i);
        //controle sur l'activite
        Long idact=Long.valueOf(pers.get(3));
        Activite act = activiteFacade.rechercheActiviteExistantID(idact);
        if(act==null){
-             Response.add("Probleme sur l'activite");//1
+             Response.add("Erreur : Probleme sur l'activite");//1
              Response.add("/GestionnaireCreationMorale.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(null);//3 les infos deja données
              
@@ -237,7 +242,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         PersonneMorale persmo;
         persmo=creerMorale(pers.get(0),pers.get(1),pers.get(2),act);
         
-        Response.add("Personne Morale créée");//1
+        Response.add("Erreur : Personne Morale créée");//1
         Response.add("/GestionnaireCreationMorale.jsp"); //2 
         Response.add(persmo);//3 la personne morale créée
         
@@ -256,7 +261,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         if(pers.get(0).equals("")||pers.get(1).equals("")||pers.get(2).equals("")||pers.get(3).equals("")||pers.get(4).equals("")){
             System.out.println("vide");
-            Response.add("Merci de remplir la totalité des champs");//1
+            Response.add("Erreur : Merci de remplir la totalité des champs");//1
              Response.add("/GestionnaireCreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             // Response.add(pers);//3 les infos deja données
              
@@ -267,7 +272,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Long idpersmo=Long.valueOf(pers.get(4));
        PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
        if(persmo==null){
-             Response.add("Probleme sur la personneMorale");//1
+             Response.add("Erreur : Probleme sur la personneMorale");//1
              Response.add("/GestionnaireCreationResponsable.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              //Response.add(pers);//3 les infos deja données
              
@@ -333,7 +338,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         //Controle sur les 4 champs individuel : nom, ID Typeprod, ID Personnemorale, ID fisca
         if(infos.get(0).isEmpty()||infos.get(1).isEmpty()||infos.get(2).isEmpty()||infos.get(3).isEmpty()||infos.get(4).isEmpty()){
-             Response.add("Merci de remplir la totalité des champs");//1
+             Response.add("Erreur : Merci de remplir la totalité des champs");//1
              Response.add("/CreationProduit.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             
             //Trop d'info pour renvoyer toute les listes
@@ -346,7 +351,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Long idpersmo=Long.valueOf((String)Array.get(infos, 1));
        PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
        if(persmo==null){
-             Response.add("Probleme sur la personne Morale");//1
+             Response.add("Erreur : Probleme sur la personne Morale");//1
              Response.add("/CreationResponsable.jsp"); //2 JSP creation 
              
             return Response; //PersonneMorale introuvable, pas de renvoi d'informations
@@ -356,7 +361,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Long idprod=Long.valueOf((String)Array.get(infos, 2));
        TypeProduit typep = typeProduitFacade.rechercheExistantID(idprod);
        if(typep==null){
-             Response.add("Probleme sur le Type de produit");//1
+             Response.add("Erreur : Probleme sur le Type de produit");//1
              Response.add("/CreationResponsable.jsp"); //2 JSP creation
              
             return Response; //TypeProduit introuvable,pas de renvoi d'informations
@@ -366,7 +371,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Long iddom=Long.valueOf((String)Array.get(infos, 3));
        Domaine dom = domaineFacade.rechercheExistantID(iddom);
        if(dom==null){
-             Response.add("Probleme sur le Domaine");//1
+             Response.add("Erreur : Probleme sur le Domaine");//1
              Response.add("/CreationResponsable.jsp"); //2 JSP creation 
              
             return Response; //Domaine introuvable,pas de renvoi d'informations
@@ -444,7 +449,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        //1 Nom ; 2Prenom ; 3datenaiss ; 4numeroSS ;
        
        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((Date)Array.get(pers, 2))==null||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
-             Response.add("Il manque des champs");//1
+             Response.add("Erreur : Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
              Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
@@ -456,7 +461,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Date DateN=java.sql.Date.valueOf((String)Array.get(pers, 2));
        double coef;
        if(DateN==null||DateN.after(new Date())){
-            Response.add("Effeur Date");//1
+            Response.add("Erreur : Erreur Date");//1
             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             Response.add(pers);//3 la personne qui crée le devis
             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
@@ -470,7 +475,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
        Long idpop=Long.valueOf((String)Array.get(pers, 5));
        Population pop = populationFacade.rechercheExistantPopulationID(idpop);
        if(pop==null){
-            Response.add("Probleme sur la population");//1
+            Response.add("Erreur : Probleme sur la population");//1
             Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             Response.add(pers);//3 la personne qui crée le devis
             Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
@@ -487,7 +492,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             
             
             if(nom==null||prenom==null||datenaiss==null||numeroSS==null){
-                Response.add("Il manque des champs");//1
+                Response.add("Erreur : Il manque des champs");//1
                 Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                 Response.add(pers);//3 la personne qui crée le devis
                 Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
@@ -498,7 +503,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             
             DateN=java.sql.Date.valueOf((String)(Array.get(infos, 2)));
             if(DateN==null||DateN.after(new Date())){
-                 Response.add("Effeur Date");//1
+                 Response.add("Erreur : Erreur Date");//1
                  Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                  Response.add(pers);//3 la personne qui crée le devis
                  Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population)
@@ -526,7 +531,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //lesPacks ==== algo CLAIRE
         
         
-        Response.add("Packs calculés"); // 1
+        Response.add(""); // 1
         Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
         Response.add(pers);//3 la pers
         Response.add(listeinfos); // 4 les ayant droits
@@ -618,8 +623,9 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
         //on recuperer la personne
         PersonnePhysique personne=personnePhysiqueFacade.recherchePersNumeroSS(SS);
+        System.out.println(personne==null);
         List<PersonnePhysique>Ayantsdroit=new ArrayList();
-        Format formatter = new SimpleDateFormat("dd/MM/yyyy"); //j'ai trouver que ca pour Date To String
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd"); //j'ai trouver que ca pour Date To String
         Object[] pers={personne.getNom(), personne.getPrenom(), formatter.format(personne.getDateNaiss()), personne.getNumeroSS(), personne.getMail(), personne.getLaPopulation().getId()};
         Domaine dom = gest.getLeDomaine();
         
@@ -627,6 +633,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         StatutBeneficiaire lestatutaffilie = statutBeneficiaireFacade.rechercheAffilieDomaine(personne, dom);
     
         List<StatutBeneficiaire>lespers = lestatutaffilie.getLeContrat().getLesStatutsBeneficiaire();
+        System.out.println("mark");
         
         /*List<StatutBeneficiaire>statutsayants=new ArrayList();
         
@@ -797,7 +804,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
           }             
        }
         if(lecontrat==null){
-            Response.add("Pas possible de créer remboursement");
+            Response.add("Erreur : Pas possible de créer remboursement");
             return Response;
         }
         System.out.println("contrat id "+lecontrat.getId());
@@ -909,7 +916,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         try{
             idremb=(long)Integer.parseInt(idrv);
         }catch(Exception e){
-            Response.add("Remboursement non trouvé");
+            Response.add("Erreur : Remboursement non trouvé");
             return Response;
         }
         
@@ -930,7 +937,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         try{
             idremb=(long)Integer.parseInt(idrr);
         }catch(Exception e){
-            Response.add("Remboursement non trouvé");
+            Response.add("Erreur : Remboursement non trouvé");
             return Response;
         }
         
@@ -951,7 +958,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         try{
             idcontrat=(long)Integer.parseInt(idc);
         }catch(NumberFormatException e){
-            Response.add("Prodblème de contrat choisi");
+            Response.add("Erreur : Prodblème de contrat choisi");
             Response.add(null);
             return Response;
         }
@@ -976,7 +983,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         try{
             idcontrat=(long)Integer.parseInt(idc);
         }catch(NumberFormatException e){
-            Response.add("Prodblème de contrat choisi");
+            Response.add("Erreur : Prodblème de contrat choisi");
             Response.add(null);
             return Response;
         }
@@ -998,7 +1005,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         try{
             idcontrat=(long)Integer.parseInt(idc);
         }catch(NumberFormatException e){
-            Response.add("Prodblème de contrat choisi");
+            Response.add("Erreur : Prodblème de contrat choisi");
             Response.add(null);
             return Response;
         }
@@ -1045,15 +1052,16 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     public List<Object> rechercheProduitsCollectifID(String idprod){
         List<Object> Response=new ArrayList();
         long idp;
+        System.out.println(idprod+"idprodddd");
         try{idp=(long)Integer.parseInt(idprod);}catch(NumberFormatException e){
-            Response.add("id produit erreur");
+            Response.add("Erreur : id produit erreur");
             Response.add("/GestionnaireProduitCollectif.jsp");
             Response.add("");
             return Response;
         }
         Produit prod=produitFacade.rechercheProduitCollectifID(idp);
         if(prod==null){
-            Response.add("Produit n'existe pas");
+            Response.add("Erreur : Produit n'existe pas");
             Response.add("/GestionnaireProduitCollectif.jsp");
             Response.add("");
             return Response;
@@ -1085,7 +1093,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         try{
             idproduit=(long)Integer.parseInt(idp);
         }catch(Exception e){
-            Response.add("Probleme sur la creation (id du produit)");//1
+            Response.add("Erreur : Probleme sur la creation (id du produit)");//1
             Response.add("/menuGestionnaire.jsp"); 
             Response.add(null);
             Response.add(null);
@@ -1095,7 +1103,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         Produit prod=produitFacade.rechercheProduitCollectifID(idproduit);
         
          if (prod==null){
-             Response.add("Probleme sur la creation (choix du produit)");//1
+             Response.add("Erreur : Probleme sur la creation (choix du produit)");//1
              Response.add("/GestionnaireInformationContratCollectif.jsp"); 
              Response.add(null);
              Response.add(null);
@@ -1106,7 +1114,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //controle sur les champs remplis : personnephy    
        // 0 genre (String) 1 nom, 2 prenom, 3 datenaiss, 4 numero SS , 5adresse, 6 mail,7 Population (String de ID)
         if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")||((String)Array.get(pers, 7)).equals("")){
-             Response.add("Merci de remplir les champs obligatoires");//1
+             Response.add("Erreur : Merci de remplir les champs obligatoires");//1
              Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP AjouterPersonneProduit
              Response.add(pers);//3 la personne qui crée le devis (0genre (String) 1 nom, 2 prenom, 3 datenaiss, 4 numero SS , 5adresse, 6 mail,7 Population (String de ID))
              Response.add(listeinfos);//4 les ayant droits
@@ -1136,7 +1144,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
             String statutayt=(String)Array.get(infos,7);
             
             if(genre.trim().equals("")||nom.trim().equals("")||prenom.trim().equals("")||adresse.trim().equals("")||numeroSS.trim().equals("")||datenaiss.trim().equals("")||idpopst.trim().equals("")||statutayt.trim().equals("")){
-                 Response.add("Merci de remplir les champs obligatoires");//1
+                 Response.add("Erreur : Merci de remplir les champs obligatoires");//1
                  Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP renseignements complementaire
                  Response.add(pers);
                  Response.add(listeinfos);
@@ -1145,7 +1153,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         
            } else{
                 if(numeroSS.equalsIgnoreCase((String)Array.get(pers, 4))||verifi.contains(numeroSS.toUpperCase())){
-                    Response.add("Numéro SS répété");//1
+                    Response.add("Erreur : Numéro SS répété");//1
                     Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                     Response.add(null); //5 pas de packs (produit+prix)
 
@@ -1157,7 +1165,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
                 try{
                     daten=java.sql.Date.valueOf((String)Array.get(infos, 3));
                 }catch(ArrayIndexOutOfBoundsException | IllegalArgumentException e){
-                    Response.add("Date Naissance Erreur");//1
+                    Response.add("Erreur : Date Naissance Erreur");//1
                     Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP renseignements complementaire
                     Response.add(pers);
                     Response.add(listeinfos);
@@ -1260,7 +1268,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         ct.SetLesStatutsBeneficiaires(liststatutct);
         
    
-        Response.add("Personne ajoutée,contrat créé");//1
+        Response.add("Personne ajoutée, contrat créé");//1
         Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP 
         return Response;
     
@@ -1281,18 +1289,33 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
     }
     
     @Override
-    public List<Contrat> AfficherContratGestionnaire(Domaine dom){
-        return contratFacade.AfficherContratGestionnaire(dom);
+    public List<Contrat> AfficherContratGestionnaire(Domaine dom, String ReSS, int page){
+        return statutBeneficiaireFacade.AfficherContratGestionnaire(dom, ReSS, page);
     }
     
     @Override
-    public List<Contrat> AfficherContratCree(Domaine dom){
-        return contratFacade.AfficherContratCree(dom);
+    public List<Contrat> AfficherContratCree(Domaine dom, String ReSS, int page){
+        return statutBeneficiaireFacade.AfficherContratCree(dom, ReSS, page);
     }
     
     @Override
-    public List<Contrat> AfficherContratValide(Domaine dom){
-        return contratFacade.AfficherContratValide(dom);
+    public List<Contrat> AfficherContratValide(Domaine dom, String ReSS, int page){
+        return statutBeneficiaireFacade.AfficherContratValide(dom, ReSS, page);
+    }
+    
+    @Override
+    public long CompterContratGestionnaire(Domaine dom, String ReSS){
+        return statutBeneficiaireFacade.CompterContratGestionnaire(dom, ReSS);
+    }
+    
+    @Override
+    public long CompterContratCree(Domaine dom, String Ress){
+        return statutBeneficiaireFacade.CompterContratCree(dom, Ress);
+    }
+    
+    @Override
+    public long CompterContratValide(Domaine dom, String ReSS){
+        return statutBeneficiaireFacade.CompterContratValide(dom, ReSS);
     }
     
     
@@ -1336,8 +1359,13 @@ Transport transport = null;
     }
 }    
     @Override
-    public List<PersonnePhysique> AfficherPersonnesPhysiques(){
-        return personnePhysiqueFacade.findAll();
+    public List<PersonnePhysique> AfficherPersonnesPhysiques(String SS, int page){
+        return statutBeneficiaireFacade.AfficherPersonnesPhysiques(SS, page);
+    }
+    
+    @Override
+    public long CompterPersonnesPhysiques(String ReSS){
+        return statutBeneficiaireFacade.CompterPersonnesPhysiques(ReSS);
     }
     
     @Override
@@ -1363,6 +1391,11 @@ Transport transport = null;
     @Override
     public long CompterActesNonRembourse(String ReSS){
         return acteFacade.CompterActesNonRembourse(ReSS);
+    }
+    
+    @Override
+    public List<Garantie> AfficherGarantie(){
+        return garantieFacade.findAll();
     }
     
 }

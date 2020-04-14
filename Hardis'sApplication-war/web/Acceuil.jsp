@@ -44,6 +44,7 @@
                                         For Hole Family </h3>
                                     <p>In healthcare sector, service excellence is the facility of <br> the hospital as
                                         healthcare service provider to consistently.</p>
+                                    <a href="Page?action=CreationDevisInformations" class="xin-blue-white">Créer un devis</a>
                                 </div>
                             </div>
                         </div>
@@ -58,6 +59,7 @@
                                         For Hole Family </h3>
                                     <p>In healthcare sector, service excellence is the facility of <br> the hospital as
                                         healthcare service provider to consistently.</p>
+                                    <a href="Page?action=CreationDevisInformations" class="xin-blue-white">Créer un devis</a>
                                 </div>
                             </div>
                         </div>
@@ -74,11 +76,11 @@
                     <div class="col-xl-4 col-md-4">
                         <div class="single_service">
                             <div class="icon">
-                                <i class="flaticon-electrocardiogram"></i>
+                                <i class="flaticon-first-aid-kit"></i>
                             </div>
-                            <h3>Responsable</h3>
-                            <p>Clinical excellence must be the priority for any health care service provider.</p>
-                            <a href="Page?action=ResponsableConnexion" class="boxed-btn3-white">Connexion</a>
+                            <br/><h3>Gestionnaire</h3>
+                            <br/><br/>
+                            <a href="Page?action=GestionnaireConnexion" class="boxed-btn3-white">Connexion</a>
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-4">
@@ -86,19 +88,19 @@
                             <div class="icon">
                                 <i class="flaticon-emergency-call"></i>
                             </div>
-                            <h3>Affilié</h3>
-                            <p>Clinical excellence must be the priority for any health care service provider.</p>
+                            <br/><h3>Affilié</h3>
+                            <br/><br/>
                             <a href="Page?action=AffilieConnexion" class="boxed-btn3-white">Connexion</a>
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-4">
                         <div class="single_service">
                             <div class="icon">
-                                <i class="flaticon-first-aid-kit"></i>
+                                <i class="flaticon-electrocardiogram"></i>
                             </div>
-                            <h3>Gestionnaire</h3>
-                            <p>Clinical excellence must be the priority for any health care service provider.</p>
-                            <a href="Page?action=GestionnaireConnexion" class="boxed-btn3-white">Connexion</a>
+                            <br/><h3>Responsable</h3>
+                            <br/><br/>
+                            <a href="Page?action=ResponsableConnexion" class="boxed-btn3-white">Connexion</a>
                         </div>
                     </div>
                 </div>
@@ -273,26 +275,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="single-testmonial testmonial_bg_1 overlay2">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-10 offset-xl-1">
-                                <div class="testmonial_info text-center">
-                                    <div class="quote">
-                                        <i class="flaticon-straight-quotes"></i>
-                                    </div>
-                                    <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
-                                        sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
-                                        <br>
-                                        Fusce ac mattis nulla. Morbi eget ornare dui. </p>
-                                    <div class="testmonial_author">
-                                        <h4>Asana Korim</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- testmonial_area_end -->
@@ -405,7 +387,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="doctors_title mb-55">
-                            <h3>Expert Doctors</h3>
+                            <h3>Experts Techniques</h3>
                         </div>
                     </div>
                 </div>
@@ -414,56 +396,47 @@
                         <div class="expert_active owl-carousel">
                             <div class="single_expert">
                                 <div class="expert_thumb">
-                                    <img src="img/experts/1.png" alt="">
+                                    <img src="img/experts/1.jpg" alt="">
                                 </div>
                                 <div class="experts_name text-center">
-                                    <h3>Mirazul Alom</h3>
-                                    <span>Neurologist</span>
+                                    <h3>Loubna Tahri</h3>
+                                    <span>Directeuse</span>
                                 </div>
                             </div>
                             <div class="single_expert">
                                 <div class="expert_thumb">
-                                    <img src="img/experts/2.png" alt="">
+                                    <img src="img/experts/2.jpg" alt="">
                                 </div>
                                 <div class="experts_name text-center">
-                                    <h3>Mirazul Alom</h3>
-                                    <span>Neurologist</span>
+                                    <h3>Suzanna Chelian</h3>
+                                    <span>Fonctionnel</span>
                                 </div>
                             </div>
                             <div class="single_expert">
                                 <div class="expert_thumb">
-                                    <img src="img/experts/3.png" alt="">
+                                    <img src="img/experts/3.jpg" alt="">
                                 </div>
                                 <div class="experts_name text-center">
-                                    <h3>Mirazul Alom</h3>
-                                    <span>Neurologist</span>
+                                    <h3>Alexis Baillieu</h3>
+                                    <span>Back</span>
                                 </div>
                             </div>
                             <div class="single_expert">
                                 <div class="expert_thumb">
-                                    <img src="img/experts/4.png" alt="">
+                                    <img src="img/experts/4.jpg" alt="">
                                 </div>
                                 <div class="experts_name text-center">
-                                    <h3>Mirazul Alom</h3>
-                                    <span>Neurologist</span>
+                                    <h3>Claire Lawniczak</h3>
+                                    <span>BI</span>
                                 </div>
                             </div>
                             <div class="single_expert">
                                 <div class="expert_thumb">
-                                    <img src="img/experts/1.png" alt="">
+                                    <img src="img/experts/5.jpg" alt="">
                                 </div>
                                 <div class="experts_name text-center">
-                                    <h3>Mirazul Alom</h3>
-                                    <span>Neurologist</span>
-                                </div>
-                            </div>
-                            <div class="single_expert">
-                                <div class="expert_thumb">
-                                    <img src="img/experts/2.png" alt="">
-                                </div>
-                                <div class="experts_name text-center">
-                                    <h3>Mirazul Alom</h3>
-                                    <span>Neurologist</span>
+                                    <h3>Xin Li</h3>
+                                    <span>Front</span>
                                 </div>
                             </div>
                         </div>

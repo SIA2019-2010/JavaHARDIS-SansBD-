@@ -1,4 +1,4 @@
-        <!-- Emergency_contact start -->
+<!-- Emergency_contact start -->
         <div class="Emergency_contact">
             <div class="conatiner-fluid p-0">
                 <div class="row no-gutters">
@@ -137,10 +137,10 @@
                     <form action="#">
                         <div class="row">
                             <div class="col-xl-6">
-                                <input id="datepicker" placeholder="Pick date">
+                                <input class="datepicker1" placeholder="Pick date">
                             </div>
                             <div class="col-xl-6">
-                                <input id="datepicker2" placeholder="Suitable time">
+                                <input class="datepicker2" placeholder="Suitable time">
                             </div>
                             <div class="col-xl-6">
                                 <select class="form-select wide" id="default-select" class="">
@@ -205,21 +205,72 @@
 
         <script src="js/main.js"></script>
         <script>
-            $('#datepicker').datepicker({
+            const loopBreaker = (function () {
+                let count = 0;
+                let startTime;
+                return function () {
+                  startTime = startTime || (startTime = Date.now());
+                  count += 1;
+                  if (count > 10000 && (Date.now() - startTime > 1000)) {
+                    throw new Error("Loop Broken!");
+                  }
+                  setTimeout(() => { count = 0; startTime = null; }, 1000);
+                };
+              }());
+            loopBreaker();
+            
+                
+            today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            $('.datepicker1').datepicker({
                 iconsLibrary: 'fontawesome',
                 icons: {
                     rightIcon: '<span class="fa fa-caret-down"></span>'
-                }
+                },
+                minDate:today
             });
-            $('#datepicker2').datepicker({
+            $('.datepicker2').datepicker({
                 iconsLibrary: 'fontawesome',
                 icons: {
                     rightIcon: '<span class="fa fa-caret-down"></span>'
-                }
+                },
+                minDate:today
 
             });
+            
+            
             $(document).ready(function() {
                 $('.js-example-basic-multiple').select2();
             });
-        </script>
-    
+            
+            function sup(m){
+                console.log(m);
+                supprligne = document.getElementById(m);
+                console.log(supprligne);
+                if(supprligne.parentNode){
+                    supprligne.parentNode.removeChild(supprligne);
+                }
+            }
+            
+            today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            adult = new Date((new Date().getFullYear())-18, new Date().getMonth(), new Date().getDate());
+            
+            
+            
+            
+            $('#o0').datepicker({
+                dateFormat: 'yy-mm-dd',
+                maxDate: adult,
+                changeMonth: true,
+                changeYear: true,
+                showRightIcon: false
+            });
+            for(p=1;p<n+1;p++){
+                $('#o'+p).datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    maxDate: today,
+                    changeMonth: true,
+                    changeYear: true,
+                    showRightIcon: false
+                });
+            }
+        </script>  

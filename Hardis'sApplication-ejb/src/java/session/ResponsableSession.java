@@ -33,14 +33,14 @@ public class ResponsableSession implements ResponsableSessionLocal {
     @Override
     public List<Object> authentificationResponsable(String login, String mdp, HttpServletRequest request) {
         System.out.println("authenRespon"+login+"   "+mdp);
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         session.invalidate();
         System.out.println("0000");
         List<Object> Response=new ArrayList();
         System.out.println("1111");
         if(login.trim().isEmpty()||mdp.trim().isEmpty()){
             System.out.println("aaaa");
-            Response.add("Il manque de champs");
+            Response.add("Erreur : Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
             request.setAttribute("typeConnexion","ResponsableConnexion");
@@ -49,7 +49,7 @@ public class ResponsableSession implements ResponsableSessionLocal {
             Responsable sessionresponsable=responsableFacade.authentificationResponsable(login, mdp);
             if(sessionresponsable==null){
                 System.out.println("bbbb");
-                Response.add("Erreur :login ou mdp");
+                Response.add("Erreur :login ou mdp incorrect.");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
                 request.setAttribute("typeConnexion","ResponsableConnexion");
@@ -75,19 +75,19 @@ public class ResponsableSession implements ResponsableSessionLocal {
             Response.add("/ErreurSession.jsp");
         }
         else if(OMDP.equals("")||NMDP.equals("")||RMDP.equals("")){
-            Response.add("Remplisez tous les champs");
+            Response.add("Erreur : Remplisez tous les champs");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(!NMDP.equals(RMDP)){
-            Response.add("répéter mot de pas incorrecte");
+            Response.add("Erreur : Répétition mot de pas incorrecte");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(!resp.getMdp().equals(OMDP)){
-            Response.add("Ancien mot de passe incorrecte");
+            Response.add("Erreur : Ancien mot de passe incorrecte");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(OMDP.equals(NMDP)){
-            Response.add("faur choisir un mot de pas différent");
+            Response.add("Erreur : Il faut choisir un mot de pas différent");
             Response.add("/PageModifierMdp.jsp");
         }
         else{

@@ -78,7 +78,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
 
     @Override
     public PersonnePhysique modifierMail(PersonnePhysique pers, String mail) {
-        pers.setAdresse(mail);
+        pers.setMail(mail);
         em.merge(pers);
         
         return pers;
@@ -229,6 +229,8 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
             {pers=(PersonnePhysique)result.get(0);};
         return pers;
     }
+    
+    
 
     @Override
     public PersonnePhysique renseignerInfosAyantsDroit(PersonnePhysique pers, String adresse, Genre genre, Population population) {
@@ -260,7 +262,7 @@ public class PersonnePhysiqueFacade extends AbstractFacade<PersonnePhysique> imp
 
     @Override
     public void SetRIB(PersonnePhysique p, String RIB){
-        p.setRIB(RIB);
+        p.setNumeroSS(RIB);
         em.merge(p);
     }
     

@@ -8,22 +8,30 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Espace Agent</title>
-    
-    <jsp:useBean id="sessiongestionnaire" scope="session" class="Gestionnaire"></jsp:useBean>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Menu Gestionnaire</title>
-</head>
+    <%session.setAttribute("titre", "Menu Gestionnaire");%>
+    <head>
+        <jsp:useBean id="sessiongestionnaire" scope="session" class="Gestionnaire"></jsp:useBean>
+        <%@ include file="Style.jsp"%>        
 
     <body>
-        <header >
-        </header>
+        <%@ include file="Header.jsp"%>
+        <section id="page-title-area" class="section-padding overlay">
+            <div class="container">
+                <div class="row">
+                    <!-- Page Title Start -->
+                    <div class="col-lg-12">
+                        <div class="section-title  text-center">
+                            <h2>Votre espace Gestionnaire</h2>
+                            <span class="title-line"><i class="fa fa-heartbeat"></i></span>
+                            <p>Bienvenue <span style="color: #FFFFFF; font-weight: bold"><%out.println(sessiongestionnaire.getPrenom()+" "+sessiongestionnaire.getNom());%></span> sur votre espace personnel</p>
+                        </div>
+                    </div>
+                    <!-- Page Title End -->
+                </div>
+            </div>
+        </section>
+        <!--== Page Title Area End ==-->
+
         <p class="message-attribut">
             <%String attribut=(String)request.getAttribute("message");
             boolean b = attribut.toLowerCase().contains("erreur");
@@ -38,33 +46,164 @@
             <%}%>
                     
         </p>
-        <p>
-            Bienvenue <%out.println(sessiongestionnaire.getPrenom()+" "+sessiongestionnaire.getNom());%> sur votre espace personnel</p>
         
-        <input type="button" value="Creer une nouvelle personne Morale (Entreprise)" onclick="location.href='Page?action=CreationMoraleInformations'">
-        <input type="button" value="Creer une nouvelle personne Morale (Entreprise)" onclick="location.href='Page?action=CreationResponsableInformations'">
-        <input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=PageModifierMdp'">
-        <input type="button" value="PageCreationProduit" onclick="location.href='Page?action=PageCreationProduit'">
-        
-        <br/>
-        <input type="button" value="CreationResponsableInformations" onclick="location.href='Page?action=CreationResponsableInformations'">
-        <input type="button" value="CreationMoraleInformations" onclick="location.href='Page?action=CreationMoraleInformations'">
-        <input type="button" value="GestionnaireCreationRemboursement" onclick="location.href='Page?action=GestionnaireActesNonRembourse'">
-        <input type="button" value="GestionnaireRempoursementEncours" onclick="location.href='Page?action=GestionnaireRempoursementEncours'">
-        <br/>
-        <input type="button" value="GestionnaireAfficherAffilie" onclick="location.href='Page?action=GestionnaireAfficherAffilie'">
-        <input type="button" value="GestionnaireValiderContrat" onclick="location.href='Page?action=GestionnaireValiderContrat'">
-        <input type="button" value="GestionnaireCloturerContrat" onclick="location.href='Page?action=GestionnaireCloturerContrat'">
-        <br/>
-        <input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=GestionnairePageModifierMdp'">
-        <input type="button" value="Créer un devis" onclick="location.href='Page?action=CreationDevisInformations'"/>
-        <form method="post" action="Page">
-            <input type="hidden" name="action" value="RechercherAffilieDevis"/>
-            <input type="text" name="NumeroSS"/>
-            <button type="submit" value="Rechercher">Connexion</button>
-        </form>
-        <br/>
-        <input type="button" value="GestionnaireProduitCollectif" onclick="location.href='Page?action=GestionnaireProduitCollectif'">
+        <!--== About Page Content Start ==-->
+        <section id="about-area" class="section-padding-menu">
+        <div class="container">
+            <!-- About Fretutes Start -->
+            <div class="about-feature-area">
+                <div class="row">
+                    <%--
+                        <input type="button" value="CreationResponsableInformations" onclick="location.href='Page?action=CreationResponsableInformations'">
+                        <input type="button" value="CreationMoraleInformations" onclick="location.href='Page?action=CreationMoraleInformations'">
+                        <input type="button" value="GestionnaireAfficherAffilie" onclick="location.href='Page?action=GestionnaireAfficherAffilie'">
+                    --%>
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=CreationMoraleInformations'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-medkit"></i>
+                            <h3>CREER PERSONNE MORALE</h3>
+                            <p>Vous permet d'enregistrer un nouveau véhicule dans la base de données.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Single Fretutes End -->
+
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=CreationResponsableInformations'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-user-md"></i>
+                            <h3>CREER RESPONSABLE</h3>
+                            <p>Vous permet d'enregistrer un nouveau type de véhicule dans la base de données.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                    
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=GestionnaireAfficherAffilie'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-heartbeat"></i>
+                            <h3>AFFICHER LES AFFILIES</h3>
+                            <p>Vous permet de créer un nouveau devis devis à partir de un contrat qui existe déjà.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                </div>
+                <div class="row">
+                    <%--
+                        <input type="button" value="GestionnaireCreationRemboursement" onclick="location.href='Page?action=GestionnaireActesNonRembourse'">
+                        <input type="button" value="GestionnaireValiderContrat" onclick="location.href='Page?action=GestionnaireValiderContrat'">
+                        <input type="button" value="Créer un devis" onclick="location.href='Page?action=CreationDevisInformations'"/>
+                    --%>
+                    <!-- Single Fretutes End -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=GestionnaireActesNonRembourse'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-medkit"></i>
+                            <h3>CREER REMBOURSEMENT</h3>
+                            <p>Vous permet de relancer les clients.</p>
+                        </div>    
+                    </div>
+                    <!-- Single Fretutes End -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=GestionnaireValiderContrat'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-user-md"></i>
+                            <h3>VALIDER CONTRATS</h3>
+                            <p>Vous permet de chercher les informations d'un client pour débuter une location</p>
+                        </div>    
+                    </div>
+                    <!-- Single Fretutes End -->
+                    
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=CreationDevisInformations'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-heartbeat"></i>
+                            <h3>CREER NOUVEAU DEVIS</h3>
+                            <p>Envoyer les véhicules en panne en réparation</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                </div>
+                <div class="row">
+                    <%--
+                        <input type="button" value="GestionnaireRempoursementEncours" onclick="location.href='Page?action=GestionnaireRempoursementEncours'">
+                        <input type="button" value="GestionnaireCloturerContrat" onclick="location.href='Page?action=GestionnaireCloturerContrat'">
+                        <form method="post" action="Page">
+                            <input type="hidden" name="action" value="RechercherAffilieDevis"/>
+                            <input type="text" name="NumeroSS"/>
+                            <button type="submit" value="Rechercher">Connexion</button>
+                        </form>
+                    --%>
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=GestionnaireRempoursementEncours'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-medkit"></i>
+                            <h3>TRAITER UN REMBOURSEMENT</h3>
+                            <p>Vous permet de voir la liste des véhicules en réparation.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=GestionnaireCloturerContrat'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-user-md"></i>
+                            <h3>CLOTURER CONTRATS</h3>
+                            <p>Vous permet de déclarer un véhicule comme étant volé.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                    
+                    <!-- Single Fretutes End -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=PageCreationProduit'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-heartbeat"></i>
+                            <h3>CREER UN PRODUIT</h3>
+                            <p>Vous permet de créer un produit.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                </div>
+                
+                <div class="row" style="margin-bottom: 50px">
+                    <%--
+                        <input type="button" value="GestionnaireProduitCollectif" onclick="location.href='Page?action=GestionnaireProduitCollectif'">
+                        <input type="button" value="Changer le mot de passe" onclick="location.href='Page?action=GestionnairePageModifierMdp'">
+                        <input type="button" value="Deconnexion" onclick="location.href='Page?action=Deconnexion'">
+                    --%>
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=GestionnaireProduitCollectif'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-medkit"></i>
+                            <h3>CREER PRODUIT COLLECTIF</h3>
+                            <p>Vous permet de voir le chiffre d'affaire réalisé sur une période.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                    <!-- Single Fretutes Start -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=GestionnairePageModifierMdp'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-user-md"></i>
+                            <h3>MODIFIER MOT DE PASSE</h3>
+                            <p>Vous permet de modifier le mot de passe d'un gestionnaire.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                    
+                    <!-- Single Fretutes End -->
+                    <div class="col-lg-4" onclick="location.href='Page?action=Deconnexion&typeConnexion=GestionnaireConnexion'">
+                        <div class="about-feature-item" style="width:100%; height: 100%">
+                            <i class="fa fa-heartbeat"></i>
+                            <h3>DECONNEXION</h3>
+                            <p style="margin-bottom: 25px">Merci de votre visite, A bientôt.</p>
+                        </div>
+                    </div>
+                    <!-- Single Fretutes End -->
+                </div>
+            </div>
+            <!-- About Fretutes End -->
+        </div>
+    </section>
+            
+    <%@ include file="Footer.jsp"%>
         
     </body>
 </html>

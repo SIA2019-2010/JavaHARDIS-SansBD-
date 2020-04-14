@@ -33,9 +33,9 @@ public interface AffilieSessionLocal {
 
     List<Object> modifiermdp(PersonnePhysique affilie, String OMDP, String NMDP, String RMDP);
 
-    PersonnePhysique modifierMail(String nvMail, PersonnePhysique pers);
+    String modifierMail(String nvMail, PersonnePhysique pers);
 
-    PersonnePhysique modifierAdresse(String nvAdresse, PersonnePhysique pers);
+    String modifierAdresse(String nvAdresse, PersonnePhysique pers);
 
     Devis creerDevis(PersonnePhysique pers,double prix, Produit prod,Date date, List<PersonnePhysique> listpers );
 

@@ -18,7 +18,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface PersonnePhysiqueFacadeLocal {
-
+    
     void create(PersonnePhysique personnePhysique);
 
     void edit(PersonnePhysique personnePhysique);

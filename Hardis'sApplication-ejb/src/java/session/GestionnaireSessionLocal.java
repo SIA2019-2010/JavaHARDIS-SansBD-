@@ -11,10 +11,12 @@ import entitee.Beneficiaire;
 import entitee.Contrat;
 import entitee.Domaine;
 import entitee.Fiscalite;
+import entitee.Garantie;
 import entitee.Gestionnaire;
 import entitee.PersonneMorale;
 import entitee.PersonnePhysique;
 import entitee.Population;
+import entitee.PriseEnCharge;
 import entitee.Produit;
 import entitee.Remboursement;
 import entitee.Responsable;
@@ -33,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 public interface GestionnaireSessionLocal {
     
     List<Object> authentificationGestionnaire(String login, String mdp, HttpServletRequest request);
+    
+    long CompterPersonnesPhysiques(String ReSS);
     
     List<Object> modifiermdp(Gestionnaire gest, String OMDP, String NMDP, String RMDP);
 
@@ -80,17 +84,17 @@ public interface GestionnaireSessionLocal {
 
     List<PersonneMorale> recupererPersonneMorale();
     
-    List<Contrat> AfficherContratGestionnaire(Domaine dom);
+    List<Contrat> AfficherContratGestionnaire(Domaine dom, String ReSS, int page);
     
-    List<Contrat> AfficherContratCree(Domaine dom);
+    List<Contrat> AfficherContratCree(Domaine dom, String ReSS, int page);
     
-    List<Contrat> AfficherContratValide(Domaine dom);
+    List<Contrat> AfficherContratValide(Domaine dom, String ReSS, int page);
 
     List<Object> validerContrat(String idcontrat);
 
     List<Object> refuserContrat(String idc);
     
-    List<PersonnePhysique> AfficherPersonnesPhysiques();
+    List<PersonnePhysique> AfficherPersonnesPhysiques(String SS, int page);
     
     List<Domaine> AfficherDomaine();
     
@@ -103,5 +107,13 @@ public interface GestionnaireSessionLocal {
     long CompterActesNonRembourse(String ReSS);
     
     List<Object> rechercheProduitsCollectifID(String idprod);
+    
+    long CompterContratGestionnaire(Domaine dom, String ReSS);
+    
+    long CompterContratCree(Domaine dom, String Ress);
+    
+    long CompterContratValide(Domaine dom, String ReSS);
+    
+    List<Garantie> AfficherGarantie();
         
 }

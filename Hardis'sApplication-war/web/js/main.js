@@ -109,8 +109,9 @@ autoplay:true,
 navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
   nav:true,
 dots:false,
-autoplayHoverPause: true,
-autoplaySpeed: 800,
+autoplayHoverPause: false,
+autoplayTimeout: 2700,
+smartSpeed: 2200,
   responsive:{
       0:{
           items:1,

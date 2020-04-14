@@ -94,7 +94,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         System.out.println((sessionaffilie==null?"affi0":"a"+sessionaffilie.getId()));
         System.out.println((sessionresponsable==null?"resp0":"r"+sessionresponsable.getId()));
         if (sessiongestionnaire!=null&&"GestionnaireConnexion".equals(act)){
-            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+            Response.add("Vous êtes déjà connecté à "+new Date(session.getCreationTime()).toLocaleString());
             Response.add("/GestionnaireMenu.jsp");
             Response.add("GestionnaireConnexion");
             Response.add(sessiongestionnaire);
@@ -102,7 +102,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             Response.add(null);
         }
         else if(sessionaffilie!=null&&"AffilieConnexion".equals(act)){
-            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+            Response.add("Vous êtes déjà connecté à "+new Date(session.getCreationTime()).toLocaleString());
             Response.add("/AffilieMenu.jsp");
             Response.add("AffilieConnexion");
             Response.add(null);
@@ -110,7 +110,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
             Response.add(null);
         }
         else if(sessionresponsable!=null&&"ResponsableConnexion".equals(act)){
-            Response.add("Connecté à "+new Date(session.getCreationTime()).toLocaleString());
+            Response.add("Vous êtes déjà connecté à "+new Date(session.getCreationTime()).toLocaleString());
             Response.add("/ResponsableMenu.jsp");
             Response.add("ResponsableConnexion");
             Response.add(null);
@@ -141,7 +141,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
        
        if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")){
             System.out.println("null champs");
-            Response.add("Il manque des champs");//1
+            Response.add("Erreur : Il manque des champs");//1
             Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             Response.add(null); //5 pas de devis
              
@@ -153,7 +153,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 
                 for (StatutBeneficiaire statut : statutbenefs){
                     if (statut.getLaBeneficiaire().getLibelleBeneficiaire().equalsIgnoreCase("Affilie")){
-                        Response.add("Vous avez deja un contrat merci de contacter votre gestionnaire");//1
+                        Response.add("Erreur : Vous avez deja un contrat merci de contacter votre gestionnaire");//1
                         Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                         Response.add(null); //5 pas de devis
              
@@ -165,11 +165,16 @@ public class PubliqueSession implements PubliqueSessionLocal {
         //Date de naissance
         Date DateN=null;
         try{
+            System.out.println((String)Array.get(pers, 2)+"date1");
+            System.out.println("test");
+            String b="2000-01-01";
+            System.out.println(java.sql.Date.valueOf(b));
             DateN=java.sql.Date.valueOf((String)Array.get(pers, 2));
+            System.out.println(DateN);
         }catch(ArrayIndexOutOfBoundsException | IllegalArgumentException e){}
         double coef;
         if(DateN==null||DateN.after(new Date())){
-            Response.add("Effeur Date");//1
+            Response.add("Erreur : Effeur Date");//1
             Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
             Response.add(null); //5 pas de devis
             return Response; //manque des champs donc renvoi de toutes les informations
@@ -181,7 +186,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         Long idpop=Long.valueOf((String)Array.get(pers, 5));
         Population pop = populationFacade.rechercheExistantPopulationID(idpop);
         if(pop==null){
-             Response.add("Probleme sur la population");//1
+             Response.add("Erreur : Probleme sur la population");//1
              Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(null); //5 pas de devis
              
@@ -197,13 +202,13 @@ public class PubliqueSession implements PubliqueSessionLocal {
             
             
             if(nom.equals("")||prenom.equals("")||datenaiss.equals("")||numeroSS.equals("")){
-                Response.add("Il manque des champs");//1
+                Response.add("Erreur : Il manque des champs");//1
                 Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                 Response.add(null); //5 pas de packs (produit+prix)
              
                 return Response; //tout ce qu'on a donné
             }else if(numeroSS.equalsIgnoreCase((String)Array.get(pers, 3))||verifi.contains(numeroSS.toUpperCase())){
-                Response.add("Numéro SS répété");//1
+                Response.add("Erreur : Numéro SS répété");//1
                 Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                 Response.add(null); //5 pas de packs (produit+prix)
              
@@ -212,10 +217,10 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 verifi.add(numeroSS.toUpperCase());
             }
             
-            
+            System.out.println(datenaiss+"dateay");            
             DateN=java.sql.Date.valueOf(datenaiss);
             if(DateN==null||DateN.after(new Date())){
-                 Response.add("Effeur Date");//1
+                 Response.add("Erreur : Effeur Date");//1
                  Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                  Response.add(null); //5 pas de devis
                  return Response; //manque des champs donc renvoi de toutes les informations
@@ -240,7 +245,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         //lesPacks ==== algo CLAIRE
         
         
-        Response.add("Packs calculés"); // 1
+        Response.add(""); // 1
         Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
         Response.add(lesPacks); // 5 les "pack" (avec produit) : objet avec prix 1 et 2 produit
     
@@ -310,7 +315,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         devcree=devisFacade.creerDevis(persencours,(Produit)Array.get(pack, 0),(Double)Array.get(pack, 1),dateDevis,LesAyantdroit);  
         
         
-        Response.add("Devis créée "); // 1
+        Response.add("Devis créé"); // 1
         Response.add("/PageCreationDevis.jsp"); // 2 Jsp pour afficher 
         Response.add(devcree);//3 le devis
         
@@ -356,7 +361,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         try{
             iddevis=(long)Integer.parseInt(iddev);
         }catch(NumberFormatException e){
-            Response.add("Probleme sur le devis, contacter une agence");//1
+            Response.add("Erreur : Probleme sur le devis, contacter une agence");//1
             Response.add("/Acceuil.jsp");
             Response.add(null);
             Response.add(null);
@@ -373,7 +378,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
          //controle sur le devis               
          Devis dev=devisFacade.rechercheExistantID(iddevis); 
          if (dev==null){
-             Response.add("Probleme sur le devis, contacter une agence");//1
+             Response.add("Erreur : Probleme sur le devis, contacter une agence");//1
              Response.add("/Acceuil.jsp");
              Response.add(null);
              Response.add(null);
@@ -385,7 +390,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
          
          //controle sur les champs remplis : personnephy               
         if(((String)Array.get(pers, 0)).equals("")||((String)Array.get(pers, 1)).equals("")||((String)Array.get(pers, 2)).equals("")||((String)Array.get(pers, 3)).equals("")||((String)Array.get(pers, 4)).equals("")||((String)Array.get(pers, 5)).equals("")||((String)Array.get(pers, 6)).equals("")||((String)Array.get(pers,7)).equals("")){
-             Response.add("Merci de remplir les champs obligatoires");//1
+             Response.add("Erreur : Merci de remplir les champs obligatoires");//1
              Response.add("/PageDevisInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
              Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
              Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population, STRING (Conjoint, Concubin, Enfant à charge), 
@@ -396,7 +401,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         Genre genrepers;
         PersonnePhysique persencours=personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 2));
         if (persencours==null){
-             Response.add("Probleme sur le devis, contacter une agence");//1
+             Response.add("Erreur : Probleme sur le devis, contacter une agence");//1
              Response.add("/Acceuil.jsp"); 
              Response.add(null);
              Response.add(null);
@@ -419,7 +424,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 return Response;
             }
             if(!personnePhysiqueFacade.rechercheDispoLogin((String)Array.get(pers, 5))&&!persencours.getLogin().equals((String)Array.get(pers, 5))){
-                Response.add("Login existe déja");
+                Response.add("Erreur : Login existe déja");
                 Response.add("/PageDevisInformationsSupplementaire.jsp"); 
                 Response.add(pers);
                 Response.add(listeinfos);
@@ -439,8 +444,8 @@ public class PubliqueSession implements PubliqueSessionLocal {
  
             
             
-            if(nom==null||prenom==null||adresse==null||numeroSS==null||genre==null||idpopst==null||statutayt==null){
-                 Response.add("Merci de remplir les champs obligatoires");//1
+            if(nom.equals("")||prenom.equals("")||adresse.equals("")||numeroSS.equals("")||genre.equals("")||idpopst.equals("")||statutayt.equals("")){
+                 Response.add("Erreur : Merci de remplir les champs obligatoires");//1
                  Response.add("/PageDevisInformationsSupplementaire.jsp"); //2 JSP renseignements complementaire
                  Response.add(pers);//3 la personne qui crée le devis (nom,prenom,numero SS,adresse,genre,login,mdp)
                  Response.add(listeinfos);//4 les ayant droits (nom,prenom,numeross,adresse,genre,population,(mail mais peut etre null)) ne pas re remplir les RADIO (ID POP)
@@ -450,6 +455,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
                 return Response; //manque des champs donc renvoi de toutes les informations
             
             } else{ // on rempli les renseignements
+                System.out.println("TOUT COMPLET");
                 Genre genreayt=null;
                 try{
                     genreayt=Genre.valueOf(genre);
@@ -570,7 +576,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
          
         if(dev==null){
              
-        Response.add("Devis introuvable "); // 1
+        Response.add("Erreur : Devis introuvable "); // 1
         Response.add("/Homepage.jsp"); // 2 Jsp pour afficher 
         //Response.add(devcree);//3 le devis   
         
@@ -592,13 +598,13 @@ public class PubliqueSession implements PubliqueSessionLocal {
         Array.set(pers, 3, personne.getNumeroSS());
         
         
-          for (PersonnePhysique ayt : AyantsDroits) {
-             Object[]Ayantdroitobj=null;
-             Array.set(Ayantdroitobj, 0, ayt.getNom());
-             Array.set(Ayantdroitobj, 1, ayt.getPrenom());
-             Array.set(Ayantdroitobj, 0, ayt.getNumeroSS());
+        for (PersonnePhysique ayt : AyantsDroits) {
+            Object[]Ayantdroitobj=null;
+            Array.set(Ayantdroitobj, 0, ayt.getNom());
+            Array.set(Ayantdroitobj, 1, ayt.getPrenom());
+            Array.set(Ayantdroitobj, 0, ayt.getNumeroSS());
            
-             listeinfos.add(Ayantdroitobj);
+            listeinfos.add(Ayantdroitobj);
         }       
         
         Response.add("Recuperation des infos OK");//1
@@ -618,34 +624,44 @@ public class PubliqueSession implements PubliqueSessionLocal {
             idd=Integer.parseInt(iddevis);
         }catch(NumberFormatException e){
             Response.add("Erreur ID Devis");
-            Response.add("/Message.jsp");
+            Response.add("/ErreurSession.jsp");
             Response.add(null);
             return Response;
         }
         Devis d=devisFacade.rechercheExistantID(idd);
         if(d==null){
             Response.add("Erreur ID Devis");
-            Response.add("/Message.jsp");
+            Response.add("/ErreurSession.jsp");
             Response.add(null);
             return Response;
         }
         else{
-            Response.add("PageDevisInformationsSupplementaire");
+            Response.add("");
             Response.add("/PageDevisInformationsSupplementaire.jsp");
             Response.add(d);
             return Response;
         }
     }
     
+//    @Override
+//    public void RIB(){
+//        List<PersonnePhysique> listep=personnePhysiqueFacade.findAll();
+//        for(PersonnePhysique p : listep){
+//            String RIB=String.valueOf(1+(new Random()).nextInt(9));
+//            for(int i=0;i<22;i++){
+//                RIB=RIB+String.valueOf((new Random()).nextInt(10));
+//            }
+//            personnePhysiqueFacade.SetRIB(p, RIB);
+//        }
+//    }
+    
     @Override
     public void RIB(){
         List<PersonnePhysique> listep=personnePhysiqueFacade.findAll();
         for(PersonnePhysique p : listep){
-            String RIB=String.valueOf(1+(new Random()).nextInt(9));
-            for(int i=0;i<22;i++){
-                RIB=RIB+String.valueOf((new Random()).nextInt(10));
-            }
-            personnePhysiqueFacade.SetRIB(p, RIB);
+            String SS=p.getNumeroSS();
+                SS=SS.replace(" ", "");
+                personnePhysiqueFacade.SetRIB(p, SS);
         }
     }
     

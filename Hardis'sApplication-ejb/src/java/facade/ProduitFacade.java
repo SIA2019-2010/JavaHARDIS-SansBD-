@@ -102,8 +102,8 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
                 + "and pr.NomProduit like :RePr ";
         Query req=getEntityManager().createQuery(txt);
         req.setParameter("RePr", RePr); 
-        req.setFirstResult(50*(page-1));
-        req.setMaxResults(50);
+        req.setFirstResult(20*(page-1));
+        req.setMaxResults(20);
         List <Produit> result = req.getResultList();
         return result;
     }

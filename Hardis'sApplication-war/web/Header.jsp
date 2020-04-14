@@ -37,7 +37,7 @@
                         <div class="row align-items-center">
                             <div class="col-xl-3 col-lg-2">
                                 <div class="logo">
-                                    <a href="index.html">
+                                    <a href="Page?action=vide">
                                         <img src="img/logo.png" alt="">
                                     </a>
                                 </div>
@@ -46,22 +46,22 @@
                                 <div class="main-menu  d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                            <li><a class="active" href="index.html">home</a></li>
-                                            <li><a href="Department.html">Department</a></li>
+                                            <li><a class="active" href="Page?action=vide">home</a></li>
+                                            <li><a >Department</a></li>
                                             <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.html">blog</a></li>
-                                                    <li><a href="single-blog.html">single-blog</a></li>
+                                                    <li><a >blog</a></li>
+                                                    <li><a >single-blog</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="elements.html">elements</a></li>
-                                                    <li><a href="about.html">about</a></li>
+                                                    <li><a >elements</a></li>
+                                                    <li><a >about</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="Doctors.html">Doctors</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a >Doctors</a></li>
+                                            <li><a >Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>

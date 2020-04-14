@@ -77,11 +77,11 @@ public class AffilieSession implements AffilieSessionLocal {
     @Override
     public List<Object> authentificationAffilie(String login, String mdp, HttpServletRequest request) {
         System.out.println("authenRespon"+login+"   "+mdp);
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         session.invalidate();
         List<Object> Response=new ArrayList();
         if(login.trim().isEmpty()||mdp.trim().isEmpty()){
-            Response.add("Il manque de champs");
+            Response.add("Erreur :Il manque de champs");
             Response.add("/Connexion.jsp");
             System.out.println("champs null");
             request.setAttribute("typeConnexion","AffilieConnexion");
@@ -89,7 +89,7 @@ public class AffilieSession implements AffilieSessionLocal {
         else{
             PersonnePhysique sessionaffilie=personnePhysiqueFacade.authentificationAffilie(login, mdp);
             if(sessionaffilie==null){
-                Response.add("Erreur :login ou mdp");
+                Response.add("Erreur : login ou mdp incorrect");
                 Response.add("/Connexion.jsp");
                 System.out.println("erreur mdp");
                 request.setAttribute("typeConnexion","AffilieConnexion");
@@ -114,19 +114,19 @@ public class AffilieSession implements AffilieSessionLocal {
             Response.add("/ErreurSession.jsp");
         }
         else if(OMDP.equals("")||NMDP.equals("")||RMDP.equals("")){
-            Response.add("Remplisez tous les champs");
+            Response.add("Erreur :Remplisez tous les champs");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(!NMDP.equals(RMDP)){
-            Response.add("répéter mot de pas incorrecte");
+            Response.add("Erreur : Répétition mot de pas incorrecte");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(!affilie.getMdp().equals(OMDP)){
-            Response.add("Ancien mot de passe incorrecte");
+            Response.add("Erreur : Ancien mot de passe incorrecte");
             Response.add("/PageModifierMdp.jsp");
         }
         else if(OMDP.equals(NMDP)){
-            Response.add("faur choisir un mot de pas différent");
+            Response.add("Erreur : Il faut choisir un mot de pas différent");
             Response.add("/PageModifierMdp.jsp");
         }
         else{
@@ -139,13 +139,23 @@ public class AffilieSession implements AffilieSessionLocal {
     }
 
     @Override
-    public PersonnePhysique modifierMail(String nvMail, PersonnePhysique pers) {
-        return personnePhysiqueFacade.modifierMail(pers, nvMail);
+    public String modifierMail(String nvMail, PersonnePhysique pers) {
+        if("".equals(nvMail)){
+            return("Erreur : Il faut remplir le champs.");
+        }else{
+            personnePhysiqueFacade.modifierMail(pers, nvMail);
+            return("Votre mail est modifié");
+        }
     }
 
     @Override
-    public PersonnePhysique modifierAdresse(String nvAdresse, PersonnePhysique pers) {
-        return personnePhysiqueFacade.modifierAdresse(pers, nvAdresse);
+    public String modifierAdresse(String nvAdresse, PersonnePhysique pers) {
+        if("".equals(nvAdresse)){
+            return("Erreur : Il faut remplir le champs.");
+        }else{
+            personnePhysiqueFacade.modifierAdresse(pers, nvAdresse);
+            return("Votre adresse est modifiée");
+        }
     }
 
     @Override
@@ -204,7 +214,7 @@ public class AffilieSession implements AffilieSessionLocal {
             
             
             if(nom==null||prenom==null||datenaiss==null||numeroSS==null){
-             Response.add("Il manque des champs");//1
+             Response.add("Erreur : Il manque des champs");//1
              Response.add("/CreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
              Response.add(pers);//3 la personne qui crée le devis
              Response.add(listeinfos);//4 les ayant drois (nom, prenom, datenaiss, population, statut)
@@ -224,7 +234,7 @@ public class AffilieSession implements AffilieSessionLocal {
         //lesPacks ==== algo CLAIRE
         
         
-        Response.add("Packs calculés"); // 1
+        Response.add(""); // 1
         Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
         Response.add(pers);//3 la pers
         Response.add(listeinfos); // 4 les ayant droits
