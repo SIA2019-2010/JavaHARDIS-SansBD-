@@ -53,7 +53,7 @@
                                         <button class="info-xin" type="submit" style="width:100%;" value="Valider">Rechercher</button>
                                     </div>
                                     <div class="col-6">   
-                                        <input class="info-xin" type="button" style="width:100%;" value="Supprimer la filtré" onclick="location.href='Page?action=GestionnaireCloturerContrat&ReSS='">
+                                        <input class="info-xin" type="button" style="width:100%;" value="Supprimer le filtre" onclick="location.href='Page?action=GestionnaireCloturerContrat&ReSS='">
                                     </div>
                                 </div>
                             </form>

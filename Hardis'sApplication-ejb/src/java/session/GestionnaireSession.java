@@ -28,6 +28,7 @@ import entitee.Responsable;
 import entitee.StatutBeneficiaire;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
+import entitee.Unite;
 import facade.ActeFacadeLocal;
 import facade.ActiviteFacadeLocal;
 import facade.BeneficiaireFacadeLocal;
@@ -319,113 +320,262 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //envoyer login+mdp
     }
 
-    @Override
-    public Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire lesAssiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
-        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiette, lesTypesGaranties, leTypeProduit, laFiscalite, lesPopulations, laPersonneMorale,leDomaine);
-    }
+//    @Override
+//    public Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire lesAssiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
+//        return produitFacade.creerProduit(nom, lesBeneficiaires, lesAssiette, lesTypesGaranties, leTypeProduit, laFiscalite, lesPopulations, laPersonneMorale,leDomaine);
+//    }
 
     @Override
-    public List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,String leassiette,List<Long> lestypes,List<Long> lespops) {
+    public List<Object> creerProduitComplet(String NomProduit, String PrixProduit, String[] idbs, String[] idpops, String[] idtgs, List<String[]> listepec, String idp, String idd, String idb, String idf, String idtp) {
         List<Object> Response=new ArrayList();
         //infos : 1 String nom, 2 ID leTypeProduit, 3 ID laPersonneMorale,4 ID leDomaine,5 ID laFiscalite
         //liste :  ENUMSET : lesBeneficiaires, 3 ENUMSET : lesAssiettes, 4 LIST lesTypesGaranties,
         //liste :  6 lesFiscalites, 7 lesPopulations, 
-        List<Beneficiaire> lesBeneficiaires = new ArrayList();
         Beneficiaire leAssiette;
+        List<Beneficiaire> lesBeneficiaires = new ArrayList();
         List<TypeGarantie> lesTypes=new ArrayList();
         List<Population> lesPopulations=new ArrayList();
-        
+        List<PriseEnCharge> lesPEC=new ArrayList();
+        TypeProduit typep;
+        Fiscalite fisca;
+        PersonneMorale persmo;
+        Domaine dom;
+        Double prix;
         
         //Controle sur les 4 champs individuel : nom, ID Typeprod, ID Personnemorale, ID fisca
-        if(infos.get(0).isEmpty()||infos.get(1).isEmpty()||infos.get(2).isEmpty()||infos.get(3).isEmpty()||infos.get(4).isEmpty()){
-             Response.add("Erreur : Merci de remplir la totalité des champs");//1
-             Response.add("/CreationProduit.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+        if(NomProduit.equals("")||PrixProduit.equals("")||idbs==null||idpops==null||idtgs==null||idp.equals("")||idd.equals("")||idb.equals("")||idf.equals("")||idtp.equals("")){
+            Response.add("Erreur : Merci de remplir la totalité des champs");//1
             
             //Trop d'info pour renvoyer toute les listes
              
             return Response; //manque des champs, pas de renvoi d'informations car trop d'object
-       }
-        
-        
-         //controle sur la personne morale
-       Long idpersmo=Long.valueOf((String)Array.get(infos, 1));
-       PersonneMorale persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
-       if(persmo==null){
-             Response.add("Erreur : Probleme sur la personne Morale");//1
-             Response.add("/CreationResponsable.jsp"); //2 JSP creation 
-             
-            return Response; //PersonneMorale introuvable, pas de renvoi d'informations
-       }
-       
-          //controle sur le type produit
-       Long idprod=Long.valueOf((String)Array.get(infos, 2));
-       TypeProduit typep = typeProduitFacade.rechercheExistantID(idprod);
-       if(typep==null){
-             Response.add("Erreur : Probleme sur le Type de produit");//1
-             Response.add("/CreationResponsable.jsp"); //2 JSP creation
-             
-            return Response; //TypeProduit introuvable,pas de renvoi d'informations
-       }
-       
-              //controle sur le domaine
-       Long iddom=Long.valueOf((String)Array.get(infos, 3));
-       Domaine dom = domaineFacade.rechercheExistantID(iddom);
-       if(dom==null){
-             Response.add("Erreur : Probleme sur le Domaine");//1
-             Response.add("/CreationResponsable.jsp"); //2 JSP creation 
-             
-            return Response; //Domaine introuvable,pas de renvoi d'informations
-       }
-       
-       
-             //controle sur la fisca
-         Long idficsa=Long.valueOf((String)Array.get(infos, 4));
-          Fiscalite fisca=fiscaliteFacade.rechercheExistantID(idficsa);
-          
-        
-       
-       
-       //Transformation des listes en liste d'objet appropriée:
-       
-       //EnumSet beneficiaire
-        for(String beneficiaire: lesbenefs){
+        }
+        prix=Double.valueOf(PrixProduit);
+        if(produitFacade.rechererProduitNom(NomProduit)){
+            Response.add("Erreur : Produuit avec même nom existe déja");//1
+            return Response; 
+        }
+        String ee="Avant varification";
+        try{
+            ee="Probleme de idpersmo";
+            //controle sur la personne morale
+            if(!idp.equals("0")){
+                Long idpersmo=Long.valueOf(idp);
+                persmo = personneMoraleFacade.rechercheExistantID(idpersmo);
+                if(persmo==null){
+                    Response.add("Erreur : Probleme sur la personne Morale");//1
+
+                    return Response; //PersonneMorale introuvable, pas de renvoi d'informations
+                }
+            }
+            else{
+                persmo=null;
+            }
             
-            lesBeneficiaires.add(beneficiaireFacade.rechercheExistantBeneficiaireLibelle(beneficiaire));
-                   
-        }
-       //enumSet Assiette
-        //for(String assiette: lesassiettes){
+            ee="Probleme de idtpprodu";
+             //controle sur le type produit
+            Long idtpprod=Long.valueOf(idtp);
+            typep = typeProduitFacade.rechercheExistantID(idtpprod);
+            if(typep==null){
+                Response.add("Erreur : Probleme sur le Type de produit");//1
+
+                return Response; //TypeProduit introuvable,pas de renvoi d'informations
+            }else if(typep.getLibelleTypeProduit().equals("Individuel")&&persmo!=null){
+                Response.add("Erreur : Produit Individuel ne peut pas avoir une entrepries");
+                return Response;
+            }else if(!typep.getLibelleTypeProduit().equals("Individuel")&&persmo==null){
+                Response.add("Erreur : Produit "+ typep.getLibelleTypeProduit() +" doit forément avoir une entrepries");
+                return Response;
+            }
+
+                 //controle sur le domaine
+            ee="Probleme de iddom";
+            Long iddom=Long.valueOf(idd);
+            dom = domaineFacade.rechercheExistantID(iddom);
+            if(dom==null){
+                Response.add("Erreur : Probleme sur le Domaine");//1
+
+                return Response; //Domaine introuvable,pas de renvoi d'informations
+            }
+
+            ee="Probleme de idfisca";
+                //controle sur la fisca
+           Long idficsa=Long.valueOf(idf);
+           fisca=fiscaliteFacade.rechercheExistantID(idficsa);
+
+
+           ee="Probleme de idb";
+           //Transformation des listes en liste d'objet appropriée:
+           //EnumSet beneficiaire
+           for (int i=0;i<idbs.length;i++) {
+               String idb1=idbs[1];
+               Beneficiaire b=beneficiaireFacade.rechercheExistantBeneficiaireID(Long.valueOf(idb1));
+               if(b==null){
+                   Response.add("Erreur : Probleme sur la beneficiaire");//1
+
+                   return Response; //Domaine introuvable,pas de renvoi d'informations
+               }
+               lesBeneficiaires.add(b);
+           }
+           //enumSet Assiette
+
+           leAssiette=beneficiaireFacade.rechercheExistantBeneficiaireID(Long.valueOf(idb));
+           if(leAssiette==null){
+               Response.add("Erreur : Probleme sur l'assiete");//1
+
+               return Response; //Domaine introuvable,pas de renvoi d'informations
+           }
+           ee="Probleme de idtgs";
+
+          //liste type
+           for(int i=0;i<idtgs.length;i++){
+               String idtgs1=idtgs[i];
+               TypeGarantie typegar;
+               
+               typegar= typeGarantieFacade.find(Long.valueOf(idtgs1));
+               if(typegar==null){
+                   Response.add("Erreur : Probleme sur la type garantie");//1
+
+                   return Response; //PersonneMorale introuvable, pas de renvoi d'informations
+               }
+
+               lesTypes.add(typegar);
+
+           }
+
+           ee="Probleme de idpops";
+            //liste popo
+           for(int i=0;i<idpops.length;i++){
+               String idpops1=idpops[i];
+               Population population;
+               population=populationFacade.rechercheExistantPopulationID(Long.valueOf(idpops1));
+               if(population==null){
+                   Response.add("Erreur : Probleme sur la population");//1
+
+                   return Response; //Domaine introuvable,pas de renvoi d'informations
+               }
+               lesPopulations.add(population);
+           }
            
-            leAssiette=beneficiaireFacade.rechercheExistantBeneficiaireLibelle(leassiette);
-                   
-        //}
-        
-       //liste type
-        for(Long type: lestypes){
-          TypeGarantie typegar;
-           typegar= typeGarantieFacade.rechercheExistantID(type);
-            
-          lesTypes.add(typegar);
-          
-        }
            
-         //liste popo
-        for(Long popu: lespops){
-          Population population;
-           population=populationFacade.rechercheExistantPopulationID(popu);
-     
-           lesPopulations.add(population);
-          
+//            ee="Probleme de listepec";
+//            for(String[] pec:listepec){
+//                if(pec[1].equals("")||pec[2].equals("")||pec[3].equals("")){
+//                    Response.add("Erreur : Merci de remplir la totalité des champs");//1
+//                    return Response; //manque des champs, pas de renvoi d'informations car trop d'object
+//                }
+//                Garantie g=garantieFacade.find(Long.valueOf(pec[0]));
+//                if(g==null){
+//                   Response.add("Erreur : Probleme sur la garantie id "+pec[0]);//1
+//
+//                   return Response; //Domaine introuvable,pas de renvoi d'informations
+//               }
+//                double taux1=Double.valueOf(pec[2]);
+//                double taux2=Double.valueOf(pec[3]);
+//                if(taux2<0){
+//                    Response.add("Erreur : Probleme sur la garantie");//1
+//                    return Response;
+//                }
+//                if(taux1<taux2){
+//                    Response.add("Erreur : Taux Rempousement ne peut pas être moins grand quand il est AdherentCAS<br/>"
+//                            +"Garantie : "+ pec[0]+"  "+Double.valueOf(pec[2]).toString()+" "+Double.valueOf(pec[3]).toString());//1
+//                    return Response;
+//                }
+//                
+//                PriseEnCharge PEC=new PriseEnCharge();
+//                PEC.setLaGarantie(g);
+//                PEC.setUnite(Unite.pourcent);
+//                switch (pec[1]){
+//                    case "0":{
+//                        PEC.setBaseRemboursement("BR");
+//                        taux1/=100;
+//                        taux2/=100;
+//                        break;
+//                    }
+//                    case "1":{
+//                        PEC.setBaseRemboursement("TM");
+//                        taux1/=100;
+//                        taux2/=100;
+//                        break;
+//                    }
+//                    case "2":{
+//                        PEC.setBaseRemboursement("FR");
+//                        taux1/=100;
+//                        taux2/=100;
+//                        break;
+//                    }
+//                    case "3":{
+//                        PEC.setBaseRemboursement("BR-RSS");
+//                        taux1/=100;
+//                        taux2/=100;
+//                        break;
+//                    }
+//                    case "4":{
+//                        PEC.setBaseRemboursement("PMSS");
+//                        taux1/=100;
+//                        taux2/=100;
+//                        break;
+//                    }
+//                    case "5":{
+//                        PEC.setBaseRemboursement(null);
+//                        PEC.setUnite(Unite.euro);
+//                        break;
+//                    }
+//                    default :{
+//                        Response.add("Erreur : Probleme sur le type base remboursement");//1
+//                        return Response; //Domaine introuvable,pas de renvoi d'informations
+//                    }
+//                }
+//                System.out.println(taux1+"   "+taux2);
+//                if((taux1>1000||taux2>1000)&&pec[1].equals("5")){
+//                    Response.add("Erreur : Le taux remboursement de garantie "+g.getLibelleGarantie()+" est trop grand, max : 1000€");//1
+//                    return Response; //Domaine introuvable,pas de renvoi d'informations
+//                }else if((taux1>10||taux2>10)&&!pec[1].equals("5")){
+//                    Response.add("Erreur : Le taux remboursement de garantie "+g.getLibelleGarantie()+" est trop grand, max : 1000%");//1
+//                    return Response; //Domaine introuvable,pas de renvoi d'informations
+//                }
+//                if(taux1==taux2){
+//                    PEC.setTauxRempoursement(taux1);
+//                    lesPEC.add(PEC);
+//                }
+//                else{
+//                    PEC.setAdherentCAS(true);
+//                    PEC.setTauxRempoursement(taux1);
+//                    PriseEnCharge PEC2=new PriseEnCharge();
+//                    PEC2.setAdherentCAS(false);
+//                    PEC2.setBaseRemboursement(PEC.getBaseRemboursement());
+//                    PEC2.setUnite(PEC.getUnite());
+//                    PEC2.setTauxRempoursement(taux2);
+//                    PEC2.setLaGarantie(g);
+//                    lesPEC.add(PEC);
+//                    lesPEC.add(PEC2);
+//                }
+//                System.out.println(PEC.getLaGarantie().getId());
+//            }
+        }catch(Exception e){
+            Response.add("Erreur : Probleme sur les ids de la page.<br/>"
+                    + "Veuillez contacter notre technicien : tec@PFE.fr "+ee);//1
+            return Response;
         }
-           
         //si tout c'est bien passé : (ajouter les controles)
+        //Vefification jusqu'à ici
         
-        Produit prod;
-        prod=produitFacade.creerProduit(infos.get(0), lesBeneficiaires, leAssiette, lesTypes, typep, fisca, lesPopulations, persmo,dom);
         
+        
+        
+        Produit prod=produitFacade.creerProduit(NomProduit, prix, lesBeneficiaires, leAssiette, lesTypes, typep, fisca, lesPopulations, persmo,dom);
+        System.out.println("ici");
+//        for(PriseEnCharge Pec : lesPEC){
+//            Pec.setLeProduit(prod);
+//            System.out.println("prodsorti");
+//            System.out.println(Pec.getLeProduit().getNomProduit());
+////            System.out.println(Pec.getLeProduit().getId().toString()+" .  "+Pec.getLaGarantie().getId().toString());
+//            //priseEnChargeFacade.Enregistrer(Pec);
+//            System.out.println("good");
+//        }
         Response.add("Produit créée");//1
         Response.add("/MenuGestionnaire.jsp"); //2 
-        Response.add(prod);//3 le produit créé
+//        Response.add(prod);//3 le produit créé
         
         return Response;
         
@@ -1266,7 +1416,7 @@ public class GestionnaireSession implements GestionnaireSessionLocal {
         //on a toutes les personnes et tout les statuts
         //on enregistre toute les personnes au contrat (set la liste)
         ct.SetLesStatutsBeneficiaires(liststatutct);
-        
+        contratFacade.Enregistrer(ct);
    
         Response.add("Personne ajoutée, contrat créé");//1
         Response.add("/GestionnaireInformationContratCollectif.jsp"); //2 JSP 

@@ -41,7 +41,7 @@
                                 <div class="col-xl-3">
                                 </div>
                                 <div class="col-xl-3" style="padding-left: 100px; padding-top: 15px;">
-                                    <label for="NvMailAffilie">Votre nouvelle mail<span class="requis">*</span></label>
+                                    <label for="NvMailAffilie">Votre nouveau mail<span class="requis">*</span></label>
                                 </div>
                                 <div class="col-xl-2">
                                     <input type="test" class="input-xin" name="NvMailAffilie" placeholder="Nouvelle mail"/>
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <input type="submit" class="info-xin" value="Valider"/>
-                                    <input type="reset" class="info-xin" value="Remettre"/>
+                                    <input type="reset" class="info-xin" value="Effacer"/>
                                     <input type="button" class="info-xin" value="Menu" onclick="location.href='Page?action=AffilieConnexion'"/>   
                                 </div>
                             </div>

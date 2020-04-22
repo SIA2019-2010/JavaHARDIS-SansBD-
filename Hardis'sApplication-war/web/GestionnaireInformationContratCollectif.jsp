@@ -46,7 +46,7 @@
                             <div class="col-xl-1"></div>
                             <div class="col-xl-12" id="b">
                                 <div class="row">
-                                    <h3 class="mb-30">Personne créateur</h3>
+                                    <h3 class="mb-30">Affilié principal</h3>
                                     <p>18 ans minimum</p>
                                 </div>
                                 <div class="row">

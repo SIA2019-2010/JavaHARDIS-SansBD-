@@ -47,7 +47,7 @@
                 <blockquote class="generic-blockquote">    
                     <div class="section-top-border">
                         <div class="col-xl-12" id="b">
-                            <h3 class="mb-30">Personne créateur</h3>
+                            <h3 class="mb-30">Affilié principal</h3>
                             <div class="row">
                                 <div class="col-xl-1">
                                     <label for="Nom">Nom<span class="requis">*</span></label>

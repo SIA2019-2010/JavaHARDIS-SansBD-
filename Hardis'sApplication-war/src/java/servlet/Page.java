@@ -9,6 +9,7 @@ import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import entitee.*;
+import facade.ProduitFacadeLocal;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.text.Format;
@@ -63,7 +64,7 @@ public class Page extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String jspClient;
         String message="";
-        //try{
+        try{
         String act=request.getParameter("action");
         System.out.print(act==null);
         System.out.println(new Date().toLocaleString()+"  "+act+"========");//Supp
@@ -213,18 +214,20 @@ public class Page extends HttpServlet {
                 
                 int number=0;
                 try{number=NomAD.length;}catch(Exception e){}
-                    for(int i=0; i<number; i++){
-                        Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i]};
-                        listeinfos.add(infos);
-                        System.out.println("null");
-                    }
+                for(int i=0; i<number; i++){
+                    Object[] infos={NomAD[i],PrenomAD[i],DateNaiAD[i],NumeroSSAD[i]};
+                    listeinfos.add(infos);
+                    System.out.println("null");
+                }
                 System.out.println("bp");
-                
+                System.out.println(session==null);
                 
                 Response=publiqueSession.calculPacks(pers, listeinfos);
                 session.setAttribute("pers",pers);//supri
                 session.setAttribute("listeinfos",listeinfos);//supri
+                System.out.println("here1");
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
+                System.out.println("here2");
                 request.setAttribute("listepopulation",listpop);
                 System.out.println("ap");
                 session.setAttribute("lesPacks",(List<Object[]>)Response.get(2));
@@ -737,7 +740,9 @@ public class Page extends HttpServlet {
                 int numpack=Integer.parseInt(request.getParameter("numpack"));
                 System.out.println(numpack+"numpack");
                 Object[] pack=lesPacks.get(numpack);
+                System.out.println("avant choix");
                 Response=publiqueSession.creerDevisComplet(pers, pack, listeinfos);
+                System.out.println("apres choix");
                 listpop = publiqueSession.recherchePopulations(); //je vais faire la methode
                 request.setAttribute("listepopulation",listpop);
                 jspClient=(String)Response.get(1);
@@ -814,11 +819,93 @@ public class Page extends HttpServlet {
                 request.setAttribute("listf", listf);
                 request.setAttribute("listtg", listtg);
                 request.setAttribute("listg",listg);
+                
+                String[] vide={};
+                request.setAttribute("NomProduit", "");
+                request.setAttribute("PrixProduit", "");
+                request.setAttribute("idbs", vide);
+                request.setAttribute("idpops", vide);
+                request.setAttribute("idtgs", vide);
+                request.setAttribute("idbrs", vide);
+                request.setAttribute("p1", vide);
+                request.setAttribute("p2", vide);
+                request.setAttribute("idp", "");
+                request.setAttribute("idd", "");
+                request.setAttribute("idb", "");
+                request.setAttribute("idf", "");
+                request.setAttribute("idtp", "");
+                request.setAttribute("v",false);
+                
                 jspClient="/PageCreationProduit.jsp";
                 message="Création Produit";
                 break;
             
             case "CreerProduit" :
+                String[] vide1={};
+                
+                String NomProduit=request.getParameter("NomProduit");
+                String PrixProduit=request.getParameter("PrixProduit");
+                request.setAttribute("NomProduit", NomProduit);
+                request.setAttribute("PrixProduit", PrixProduit);
+
+                String[] idbs=request.getParameterValues("idbs");
+                String[] idpops=request.getParameterValues("idpops");
+                String[] idtgs=request.getParameterValues("idtgs");
+                request.setAttribute("idbs", (idbs==null?vide1:idbs));
+                request.setAttribute("idpops", (idpops==null?vide1:idpops));
+                request.setAttribute("idtgs", (idtgs==null?vide1:idtgs));
+                
+                String[] idgs=request.getParameterValues("idg");
+                String[] idbrs=request.getParameterValues("idbrs");
+                String[] p1=request.getParameterValues("p1");
+                String[] p2=request.getParameterValues("p2");
+                request.setAttribute("idbrs", (idbrs==null?vide1:idbrs));
+                request.setAttribute("p1", (p1==null?vide1:p1));
+                request.setAttribute("p2", (p2==null?vide1:p2));
+                
+                idp=request.getParameter("idp");
+                String idd=request.getParameter("idd");
+                String idb=request.getParameter("idb");
+                String idf=request.getParameter("idf");
+                String idtp=request.getParameter("idtp");
+                request.setAttribute("idp", idp);
+                request.setAttribute("idd", idd);
+                request.setAttribute("idb", idb);
+                request.setAttribute("idf", idf);
+                request.setAttribute("idtp", idtp);
+                
+                number=0;
+                List<String[]> listepec=new ArrayList();
+                try{number=idbrs.length;}catch(Exception e){}
+                for(int i=0; i<number; i++){
+                    String[] pec={idgs[i],idbrs[i],p1[i],p2[i]};
+                    listepec.add(pec);
+                }
+                Response=gestionnaireSession.creerProduitComplet(NomProduit, PrixProduit, idbs, idpops, idtgs, listepec, idp, idd, idb, idf, idtp);
+                
+                listben = publiqueSession.rechercheBeneficiaires(); 
+                listepersmo = gestionnaireSession.recupererPersonneMorale();
+                listpop = publiqueSession.recherchePopulations();
+                listdo=gestionnaireSession.AfficherDomaine();
+                listtp=gestionnaireSession.AfficherTypeProduit();
+                listf=gestionnaireSession.AfficherFiscalite();
+                listtg=gestionnaireSession.AfficherTypeGarantie();
+                listg=gestionnaireSession.AfficherGarantie();
+                request.setAttribute("listben", listben);
+                request.setAttribute("listepersmo", listepersmo);
+                request.setAttribute("listpop", listpop);
+                request.setAttribute("listdo", listdo);
+                request.setAttribute("listtp", listtp);
+                request.setAttribute("listf", listf);
+                request.setAttribute("listtg", listtg);
+                request.setAttribute("listg",listg);
+                request.setAttribute("v",true);
+                
+                System.out.println("page");
+                jspClient="/PageCreationProduit.jsp";
+                message=(String)Response.get(0);;
+                break;
+                
                 
                 
             default:
@@ -826,12 +913,12 @@ public class Page extends HttpServlet {
                 message="";
         }
         }
-//        }catch(Exception all){
-//            jspClient="/ErreurSession.jsp";
-//            message="Erreur : Illégale action réalisée<br/>"
-//                    + "Contactez avec nous afin de résoudre le problème.<br/>"
-//                    + "Adresse de Mail : exemple@pfe.fr";
-//        }
+        }catch(Exception all){
+            jspClient="/ErreurSession.jsp";
+            message="Erreur : Illégale action réalisée<br/>"
+                    + "Contactez avec nous afin de résoudre le problème.<br/>"
+                    + "Adresse de Mail : exemple@pfe.fr";
+        }
         System.out.println("jsp : "+jspClient+" message : "+message);
         RequestDispatcher Rd;
         Rd=getServletContext().getRequestDispatcher(jspClient);

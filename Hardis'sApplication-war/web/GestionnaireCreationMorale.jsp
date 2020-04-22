@@ -12,8 +12,8 @@
     <head>
         <jsp:useBean id="listeact" scope="request" class="java.util.List"></jsp:useBean>
         <%List<Activite>lesActi=listeact;%>
-        <%@ include file="Style.jsp"%>
         <%session.setAttribute("titre", "Renseigner Personne Morale");%>
+        <%@ include file="Style.jsp"%>
     
     <body>
         <%@ include file="Header.jsp"%>

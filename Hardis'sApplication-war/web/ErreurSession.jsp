@@ -23,10 +23,10 @@
             session.setAttribute("t2", "Connectez avec nous afin de résoudre le problème.");
         }else if(message.equals("Erreur de session ! Veuillez vous reconnecter !")){
             session.setAttribute("t1", "Erreur de droits");
-            session.setAttribute("t2", "Vous n'avez pas de droits à réaliser cet action.");
+            session.setAttribute("t2", "Vous n'avez pas de droits à réaliser cette action.");
         }else if(message.equals("Erreur de session ! Veuillez vous reconnecter !")){
             session.setAttribute("t1", "Erreur de droits");
-            session.setAttribute("t2", "Vous n'avez pas de droits à réaliser cet action.");
+            session.setAttribute("t2", "Vous n'avez pas de droits à réaliser cette action.");
         }else{ 
             session.setAttribute("t1", "Erreur ID Devis");
             session.setAttribute("t2", "Impossible de trouver le devis que vous cherchez.");

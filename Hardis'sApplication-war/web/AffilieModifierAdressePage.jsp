@@ -9,8 +9,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@ include file="Style.jsp"%>
         <%session.setAttribute("titre", "Modifier Adresse");%>
+        <%@ include file="Style.jsp"%>
         
     <body>
         <%@ include file="Header.jsp"%>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <input type="submit" class="info-xin" value="Valider"/>
-                                    <input type="reset" class="info-xin" value="Remettre"/>
+                                    <input type="reset" class="info-xin" value="Effacer"/>
                                     <input type="button" class="info-xin" value="Menu" onclick="location.href='Page?action=AffilieConnexion'"/>   
                                 </div>
                             </div>

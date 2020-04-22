@@ -42,8 +42,8 @@
                     supprligne.parentNode.removeChild(supprligne);
                 }
             }--%>
-        <%@ include file="Style.jsp"%>
         <%session.setAttribute("titre", "Renseigner Devis");%>
+        <%@ include file="Style.jsp"%>
     <body>
         <%@ include file="Header.jsp"%>
         <%session.setAttribute("t1", "Renseigner informations");%>
@@ -61,7 +61,7 @@
                     <div class="section-top-border">
                         <div class="rec-xin" id="b">
                             <div class="row">
-                                <h3 class="mb-30">Personne créateur </h3>
+                                <h3 class="mb-30">Affilié principal </h3>
                                 <p>18 ans minimum</p>
                             </div>
                             <div class="row">

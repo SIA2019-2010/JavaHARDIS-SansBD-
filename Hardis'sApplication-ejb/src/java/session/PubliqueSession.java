@@ -15,6 +15,7 @@ import entitee.Population;
 import entitee.Produit;
 import entitee.Responsable;
 import entitee.StatutBeneficiaire;
+import entitee.StatutContrat;
 import facade.BeneficiaireFacadeLocal;
 import facade.ContratFacadeLocal;
 import facade.DevisFacadeLocal;
@@ -150,9 +151,9 @@ public class PubliqueSession implements PubliqueSessionLocal {
             PersonnePhysique persencours= personnePhysiqueFacade.recherchePersNumeroSS((String)Array.get(pers, 3));
             if (persencours!=null){
                 List<StatutBeneficiaire> statutbenefs=persencours.getLesStatutsBeneficiaire();
-                
+                System.out.println("mark");
                 for (StatutBeneficiaire statut : statutbenefs){
-                    if (statut.getLaBeneficiaire().getLibelleBeneficiaire().equalsIgnoreCase("Affilie")){
+                    if (statut.getLaBeneficiaire().getLibelleBeneficiaire().equalsIgnoreCase("Affilie")&&statut.getLeContrat().getLeStatut().equals(StatutContrat.Validé)){
                         Response.add("Erreur : Vous avez deja un contrat merci de contacter votre gestionnaire");//1
                         Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
                         Response.add(null); //5 pas de devis
@@ -167,10 +168,10 @@ public class PubliqueSession implements PubliqueSessionLocal {
         try{
             System.out.println((String)Array.get(pers, 2)+"date1");
             System.out.println("test");
-            String b="2000-01-01";
-            System.out.println(java.sql.Date.valueOf(b));
+//            String b="2000-01-01";
+//            System.out.println(java.sql.Date.valueOf(b));
             DateN=java.sql.Date.valueOf((String)Array.get(pers, 2));
-            System.out.println(DateN);
+            System.out.println((String)Array.get(pers, 2)+"dateay");            
         }catch(ArrayIndexOutOfBoundsException | IllegalArgumentException e){}
         double coef;
         if(DateN==null||DateN.after(new Date())){
@@ -194,42 +195,47 @@ public class PubliqueSession implements PubliqueSessionLocal {
         }
         //controle sur les ayants droits
         List<String> verifi=new ArrayList();
-        for(Object[] infos: listeinfos){
-            String nom=(String)Array.get(infos, 0);
-            String prenom=(String)Array.get(infos, 1);
-            String datenaiss=(String)Array.get(infos, 2);
-            String numeroSS = (String)Array.get(infos,3);
-            
-            
-            if(nom.equals("")||prenom.equals("")||datenaiss.equals("")||numeroSS.equals("")){
-                Response.add("Erreur : Il manque des champs");//1
-                Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-                Response.add(null); //5 pas de packs (produit+prix)
-             
-                return Response; //tout ce qu'on a donné
-            }else if(numeroSS.equalsIgnoreCase((String)Array.get(pers, 3))||verifi.contains(numeroSS.toUpperCase())){
-                Response.add("Erreur : Numéro SS répété");//1
-                Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-                Response.add(null); //5 pas de packs (produit+prix)
-             
-                return Response; //tout ce qu'on a donné
-            }else{
-                verifi.add(numeroSS.toUpperCase());
+        System.out.println("aa");
+        System.out.println(listeinfos==null);
+        System.out.println(listeinfos.size());
+        if(listeinfos.size()>1){
+            for(Object[] infos: listeinfos){
+                String nom=(String)Array.get(infos, 0);
+                String prenom=(String)Array.get(infos, 1);
+                String datenaiss=(String)Array.get(infos, 2);
+                String numeroSS = (String)Array.get(infos,3);
+
+
+                if(nom.equals("")||prenom.equals("")||datenaiss.equals("")||numeroSS.equals("")){
+                    Response.add("Erreur : Il manque des champs");//1
+                    Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                    Response.add(null); //5 pas de packs (produit+prix)
+
+                    return Response; //tout ce qu'on a donné
+                }else if(numeroSS.equalsIgnoreCase((String)Array.get(pers, 3))||verifi.contains(numeroSS.toUpperCase())){
+                    Response.add("Erreur : Numéro SS répété");//1
+                    Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                    Response.add(null); //5 pas de packs (produit+prix)
+
+                    return Response; //tout ce qu'on a donné
+                }else{
+                    verifi.add(numeroSS.toUpperCase());
+                }
+
+                System.out.println(datenaiss+"dateay");            
+                DateN=java.sql.Date.valueOf(datenaiss);
+                if(DateN==null||DateN.after(new Date())){
+                     Response.add("Erreur : Effeur Date");//1
+                     Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
+                     Response.add(null); //5 pas de devis
+                     return Response; //manque des champs donc renvoi de toutes les informations
+                }
+                else{
+                    coef+=DateToCoef(DateN);
+                }
+
+
             }
-            
-            System.out.println(datenaiss+"dateay");            
-            DateN=java.sql.Date.valueOf(datenaiss);
-            if(DateN==null||DateN.after(new Date())){
-                 Response.add("Erreur : Effeur Date");//1
-                 Response.add("/PageCreationDevis.jsp"); //2 JSP creation de devis avec liste object + infos personne (nom, prenom, mail, population)
-                 Response.add(null); //5 pas de devis
-                 return Response; //manque des champs donc renvoi de toutes les informations
-            }
-            else{
-                coef+=DateToCoef(DateN);
-            }
-            
-            
         }
         
          // si tout les champs sont bien remplis : Algo pour prix+produit dans un objet 
@@ -239,6 +245,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         List<Object[]> lesPacks=new ArrayList();
         for(Produit pr:listproduit){
             Object[] packproduit={pr,(double)(round(pr.getPrixBase()*coef*100)/100)};
+        System.out.println("here");
             lesPacks.add(packproduit);
         }
         // prix +produit = objet 
@@ -248,6 +255,7 @@ public class PubliqueSession implements PubliqueSessionLocal {
         Response.add(""); // 1
         Response.add("/AfficherPacks.jsp"); // 2 Jsp pour afficher les devis avec une liste de DEVIS
         Response.add(lesPacks); // 5 les "pack" (avec produit) : objet avec prix 1 et 2 produit
+        System.out.println("here");
     
         return Response;
     }

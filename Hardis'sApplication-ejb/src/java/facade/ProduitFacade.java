@@ -13,8 +13,12 @@ import entitee.PersonneMorale;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import entitee.Population;
+import entitee.PriseEnCharge;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.EnumSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,24 +42,48 @@ public class ProduitFacade extends AbstractFacade<Produit> implements ProduitFac
     public ProduitFacade() {
         super(Produit.class);
     }
-
+    
     @Override
-    public Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire assiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
+    public Produit creerProduit(String nom, double prix, List<Beneficiaire> lesBeneficiaires, Beneficiaire assiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine) {
         em.flush();
         Produit prod = new Produit();
-        
+
         prod.setNomProduit(nom);
-        prod.setLesBeneficiaires(lesBeneficiaires);
         prod.setLeTypeProduit(leTypeProduit);
         prod.setLaBeneficiaire(assiette);
         prod.setLaFiscalite(laFiscalite);
-        prod.setLesPopulations(lesPopulations);
-        prod.setLesTypesGarantie(lesTypesGaranties);        
         prod.setLaPersonneMorale(laPersonneMorale);
         prod.setLeDomaine(leDomaine);
+        System.out.println((prod==null) +"null prod");
+        System.out.println((prod.getId()==null) +"null prod");
+//        prod.setLesBeneficiaires(new ArrayList());
         
+        prod.setLesPopulations(new ArrayList());
+        for(Population p:lesPopulations){
+            prod.getLesPopulations().add(p);
+        }
+        prod.setLesTypesGarantie(new ArrayList());
+        for(TypeGarantie tg:lesTypesGaranties){
+            prod.getLesTypesGarantie().add(tg);
+        }
         em.persist(prod);
+        System.out.println((prod.getId()==null) +"null iddddd");
+        for(Beneficiaire b:lesBeneficiaires){
+//            prod.getLesBeneficiaires().add(b);
+            System.out.println("add");
+            
+        }
         return prod;
+    }
+    
+    @Override
+    public boolean rechererProduitNom(String Nom){
+        List<Produit> listesProduits;
+        String tx = "SELECT p FROM Produit AS p where p.NomProduit=:nom"; 
+        Query req = getEntityManager().createQuery(tx); 
+        req.setParameter("nom", Nom); 
+        listesProduits= req.getResultList ();
+        return !listesProduits.isEmpty();
     }
     
     @Override

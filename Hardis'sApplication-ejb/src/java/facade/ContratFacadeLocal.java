@@ -53,4 +53,6 @@ public interface ContratFacadeLocal {
     
     Contrat RefuserContrat(Contrat cnt);
     
+    void Enregistrer(Contrat ct);
+    
 }

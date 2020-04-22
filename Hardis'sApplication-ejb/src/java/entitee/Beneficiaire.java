@@ -28,7 +28,7 @@ public class Beneficiaire implements Serializable {
     private List<Produit> lesProduitsAss;
 
     @ManyToMany(mappedBy = "lesBeneficiaires")
-    private List<Produit> lesProduitsBene;
+    private List<Produit> lesProduits;
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,11 +62,11 @@ public class Beneficiaire implements Serializable {
     }
 
     public List<Produit> getLesProduitsBene() {
-        return lesProduitsBene;
+        return lesProduits;
     }
 
     public void setLesProduitsBene(List<Produit> lesProduitsBene) {
-        this.lesProduitsBene = lesProduitsBene;
+        this.lesProduits = lesProduitsBene;
     }
 
     public String getLibelleBeneficiaire() {

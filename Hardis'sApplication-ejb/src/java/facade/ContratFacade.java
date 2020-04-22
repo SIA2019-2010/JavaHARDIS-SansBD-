@@ -124,4 +124,8 @@ public class ContratFacade extends AbstractFacade<Contrat> implements ContratFac
         return listtypegar;
     }
  
+    @Override
+    public void Enregistrer(Contrat ct){
+        em.merge(ct);
+    }
 }

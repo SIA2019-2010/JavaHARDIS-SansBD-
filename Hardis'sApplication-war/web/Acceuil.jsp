@@ -124,7 +124,7 @@
                     </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="welcome_docmed_info">
-                            <h2>Welcome to Docmed</h2>
+                            <h2>Welcomeeu to Docmed</h2>
                             <h3>Best Care For Your <br>
                                     Good Health</h3>
                             <p>Esteem spirit temper too say adieus who direct esteem.
@@ -400,7 +400,7 @@
                                 </div>
                                 <div class="experts_name text-center">
                                     <h3>Loubna Tahri</h3>
-                                    <span>Directeuse</span>
+                                    <span>Directrice</span>
                                 </div>
                             </div>
                             <div class="single_expert">

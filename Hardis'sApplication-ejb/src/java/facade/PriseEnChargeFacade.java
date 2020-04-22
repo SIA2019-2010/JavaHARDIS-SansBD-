@@ -32,6 +32,11 @@ public class PriseEnChargeFacade extends AbstractFacade<PriseEnCharge> implement
         super(PriseEnCharge.class);
     }
     
+    public void Enregistrer(PriseEnCharge p){
+        em.flush();
+        em.persist(p);
+    }
+    
     @Override
     public PriseEnCharge creerPriseEnCharge(double tauxremboursement, String baseremboursement, Unite unite, Produit produit, Garantie garantie) {
         em.flush();

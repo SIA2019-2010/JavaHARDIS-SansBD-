@@ -6,12 +6,14 @@
 package entitee;
 
 import java.io.Serializable;
-import java.util.EnumSet;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -62,7 +64,12 @@ public class Produit implements Serializable {
     @ManyToOne
     private PersonneMorale laPersonneMorale;
     
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.ALL })
+//    @JoinTable(
+//        name = "Produit_Beneficiaire",
+//        joinColumns = {@JoinColumn(name="lesProduitsBene_id")}, 
+//        inverseJoinColumns = {@JoinColumn(name="lesBeneficiaires_id")}
+//    )
     private List<Beneficiaire> lesBeneficiaires;
     
     @ManyToOne

@@ -10,12 +10,12 @@
     <head>
         <jsp:useBean id="typeConnexion" scope="request" class="String"></jsp:useBean>
         <jsp:useBean id="message" scope="request" class="String"></jsp:useBean>
-        <%@ include file="Style.jsp"%>
         <%session.setAttribute("titre", "Modifier Mot de Passe");%>
+        <%@ include file="Style.jsp"%>
     <body>
         <%@ include file="Header.jsp"%>
         <%session.setAttribute("t1", "Changement de mot de passe");%>
-        <%session.setAttribute("t2", "Remplisez les informations");%>
+        <%session.setAttribute("t2", "Renseigner les informations");%>
         <%@ include file="Header1.jsp"%>
         
         
@@ -65,8 +65,9 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <input type="submit" class="info-xin" value="Valider"/>
-                                    <input type="reset" class="info-xin" value="Remettre"/>
-                                    <input type="button" class="info-xin" value="Menu" onclick="location.href='Page?action=vide'"/>   
+                                    <input type="reset" class="info-xin" value="Effacer"/>
+                                    <%String n=(typeConnexion.equals("AffilieConnexion")||typeConnexion.equals("ResponsableConnexion")||typeConnexion.equals("GestionnaireConnexion")?typeConnexion:"vide");%>
+                                    <input type="button" class="info-xin" value="Menu" onclick="location.href='Page?action=<%=(n)%>'"/>   
                                 </div>
                             </div>
                         </div>

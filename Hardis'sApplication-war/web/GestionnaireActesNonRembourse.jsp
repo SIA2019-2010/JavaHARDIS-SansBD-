@@ -26,8 +26,8 @@
         <%@ include file="Style.jsp"%>
     <body>
         <%@ include file="Header.jsp"%>
-        <%session.setAttribute("t1", "Liste des contrats");%>
-        <%session.setAttribute("t2", "Choisisez un contrat à cloturer");%>
+        <%session.setAttribute("t1", "Liste de demandes de remboursements");%>
+        <%session.setAttribute("t2", "Choisisez un contrat à traiter");%>
         <%@ include file="Header1.jsp"%>
         <fieldset>
             <section id="about-area" class="section-padding-menu">
@@ -47,7 +47,7 @@
                                         <button class="info-xin" type="submit" style="width:100%;" value="Valider">Rechercher</button>
                                     </div>
                                     <div class="col-6">   
-                                        <input class="info-xin" type="button" style="width:100%;" value="Supprimer la filtré" onclick="location.href='Page?action=GestionnaireActesNonRembourse&ReSS='">
+                                        <input class="info-xin" type="button" style="width:100%;" value="Supprimer le filtre" onclick="location.href='Page?action=GestionnaireActesNonRembourse&ReSS='">
                                     </div>
                                 </div>
                             </form>

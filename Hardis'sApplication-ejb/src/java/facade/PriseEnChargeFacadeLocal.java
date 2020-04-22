@@ -33,6 +33,8 @@ public interface PriseEnChargeFacadeLocal {
 
     int count();
     
+    void Enregistrer(PriseEnCharge p);
+    
     PriseEnCharge creerPriseEnCharge(double tauxremboursement, String baseremboursement, Unite unite, Produit produit, Garantie garantie);
     
     PriseEnCharge modifierTauxRempoursement(PriseEnCharge prisnenchareg, double tauxremboursement);

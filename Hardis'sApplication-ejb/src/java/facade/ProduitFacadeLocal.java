@@ -13,6 +13,7 @@ import entitee.Produit;
 import entitee.TypeGarantie;
 import entitee.TypeProduit;
 import entitee.Population;
+import entitee.PriseEnCharge;
 import java.util.List;
 import java.util.EnumSet;
 import java.util.List;
@@ -39,7 +40,9 @@ public interface ProduitFacadeLocal {
 
     int count();
 
-    Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire lesAssiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine);
+    Produit creerProduit(String nom, double prix, List<Beneficiaire> lesBeneficiaires, Beneficiaire assiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine);
+    
+    boolean rechererProduitNom(String Nom);
     
     List<Produit> afficherPersonneMoraleProduit(PersonneMorale personne);
 

@@ -22,13 +22,13 @@
             Produit p0=c0.getLeProduit();
             DateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
         %>
-        <%session.setAttribute("titre", "Liste Personne");%>
+        <%session.setAttribute("titre", "Liste contrats");%>
         <%@ include file="Style.jsp"%>
     <body>
         <p><%=listestatut.size()%><p>
          <%@ include file="Header.jsp"%>
-        <%session.setAttribute("t1", "Liste des remboursements");%>
-        <%session.setAttribute("t2", "Choisisez un remboursement à traiter");%>
+        <%session.setAttribute("t1", "Tous vos contrats collectifs");%>
+        <%session.setAttribute("t2", "Visualisez les contrats");%>
         <%@ include file="Header1.jsp"%>
         <fieldset>
             <section id="about-area" class="section-padding-menu">
@@ -44,19 +44,19 @@
                             <table class="tableauListe" style="margin-bottom: 30px;">
                                 <thead>
                                     <tr>
-                                        <th Width="25%">
+                                        <th Width="15%">
                                             Nom
                                         </th>
                                         <th Width="15%">
                                             Prénom
                                         </th>
-                                        <th Width="15%">
-                                            Numéro Sécurité
+                                        <th Width="40%">
+                                            Numéro Sécurité Sociale
                                         </th>
-                                        <th Width="25%">
+                                        <th Width="15%">
                                             Date de Naissance
                                         </th>
-                                        <th Width="10%">
+                                        <th Width="15%">
                                             Bénéficiaire
                                         </th>
                                     </tr>
@@ -79,19 +79,19 @@
                                             <table class="tableauListe" style="margin-bottom: 30px;">
                                                 <thead>
                                                     <tr>
-                                                        <th Width="25%">
+                                                        <th Width="15%">
                                                             Nom
                                                         </th>
                                                         <th Width="15%">
                                                             Prénom
                                                         </th>
-                                                        <th Width="15%">
-                                                            Numéro Sécurité
+                                                        <th Width="40%">
+                                                            Numéro Sécurité Sociale
                                                         </th>
-                                                        <th Width="25%">
+                                                        <th Width="15%">
                                                             Date de Naissance
                                                         </th>
-                                                        <th Width="10%">
+                                                        <th Width="15%">
                                                             Bénéficiaire
                                                         </th>
                                                     </tr>

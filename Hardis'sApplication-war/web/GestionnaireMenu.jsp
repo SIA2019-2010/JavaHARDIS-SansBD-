@@ -63,7 +63,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-medkit"></i>
                             <h3>CREER PERSONNE MORALE</h3>
-                            <p>Vous permet d'enregistrer un nouveau véhicule dans la base de données.</p>
+                            <p>Vous permet d'enregistrer une personne morale.</p>
                         </div>
                     </div>
                     
@@ -74,7 +74,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-user-md"></i>
                             <h3>CREER RESPONSABLE</h3>
-                            <p>Vous permet d'enregistrer un nouveau type de véhicule dans la base de données.</p>
+                            <p>Vous permet d'enregistrer un responsable.</p>
                         </div>
                     </div>
                     <!-- Single Fretutes End -->
@@ -84,7 +84,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-heartbeat"></i>
                             <h3>AFFICHER LES AFFILIES</h3>
-                            <p>Vous permet de créer un nouveau devis devis à partir de un contrat qui existe déjà.</p>
+                            <p>Vous permet d'afficher tous les affiliés.</p>
                         </div>
                     </div>
                     <!-- Single Fretutes End -->
@@ -100,7 +100,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-medkit"></i>
                             <h3>CREER REMBOURSEMENT</h3>
-                            <p>Vous permet de relancer les clients.</p>
+                            <p>Vous permet de créer un remboursement.</p>
                         </div>    
                     </div>
                     <!-- Single Fretutes End -->
@@ -108,7 +108,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-user-md"></i>
                             <h3>VALIDER CONTRATS</h3>
-                            <p>Vous permet de chercher les informations d'un client pour débuter une location</p>
+                            <p>Vous permet de valider les demandes de contrats.</p>
                         </div>    
                     </div>
                     <!-- Single Fretutes End -->
@@ -118,7 +118,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-heartbeat"></i>
                             <h3>CREER NOUVEAU DEVIS</h3>
-                            <p>Envoyer les véhicules en panne en réparation</p>
+                            <p>Vous permet de créer un nouveau devis.</p>
                         </div>
                     </div>
                     <!-- Single Fretutes End -->
@@ -138,7 +138,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-medkit"></i>
                             <h3>TRAITER UN REMBOURSEMENT</h3>
-                            <p>Vous permet de voir la liste des véhicules en réparation.</p>
+                            <p>Vous permet de valider ou refuser un remboursement.</p>
                         </div>
                     </div>
                     <!-- Single Fretutes End -->
@@ -147,7 +147,7 @@
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-user-md"></i>
                             <h3>CLOTURER CONTRATS</h3>
-                            <p>Vous permet de déclarer un véhicule comme étant volé.</p>
+                            <p>Vous permet de clôturer un contrat en cours.</p>
                         </div>
                     </div>
                     <!-- Single Fretutes End -->
@@ -173,8 +173,8 @@
                     <div class="col-lg-4" onclick="location.href='Page?action=GestionnaireProduitCollectif'">
                         <div class="about-feature-item" style="width:100%; height: 100%">
                             <i class="fa fa-medkit"></i>
-                            <h3>CREER PRODUIT COLLECTIF</h3>
-                            <p>Vous permet de voir le chiffre d'affaire réalisé sur une période.</p>
+                            <h3>CREER CONTRAT COLLECTIF</h3>
+                            <p>Vous permet de créer un contrat collectif.</p>
                         </div>
                     </div>
                     <!-- Single Fretutes End -->

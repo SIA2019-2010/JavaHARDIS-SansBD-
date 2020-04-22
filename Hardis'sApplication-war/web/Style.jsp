@@ -27,7 +27,7 @@
         
         
         <!--=== Favicon ===-->
-        <%--<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />--%>
+        <link rel="shortcut icon" href="hospital.png" type="image/x-icon" />
 
         <!--=== Bootstrap CSS ===-->
         <!--=== Slicknav CSS ===-->

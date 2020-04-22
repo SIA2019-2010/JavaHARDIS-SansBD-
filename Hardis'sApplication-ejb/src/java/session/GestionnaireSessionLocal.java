@@ -48,9 +48,12 @@ public interface GestionnaireSessionLocal {
 
     List<Object> creerResponsableComplet(List<String> pers);
 
-    Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire lesAssiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine);
+//    Produit creerProduit(String nom, List<Beneficiaire> lesBeneficiaires, Beneficiaire lesAssiette, List<TypeGarantie> lesTypesGaranties, TypeProduit leTypeProduit, Fiscalite laFiscalite,List<Population> lesPopulations, PersonneMorale laPersonneMorale,Domaine leDomaine);
 
-    List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,String leassiette,List<Long> lestypes,List<Long> lespops);
+//    List<Object> creerProduitComplet(List<String> infos,List<String> lesbenefs,String leassiette,List<Long> lestypes,List<Long> lespops);
+    
+    
+    List<Object> creerProduitComplet(String NomProduit, String PrixProduit,String[] idbs,String[] idpops, String[] idtgs, List<String[]> listepec, String idp, String idd, String idb, String idf, String idtp);
     
     List<Object> calculPacksGestionnaire(Object[] pers,List<Object[]>listeinfos);
     
